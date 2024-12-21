@@ -1,0 +1,16 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Petstore API:
+        inputs:
+            - location: ./webhooks-custom-security-ts.openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-webhooks-custom-security
+targets:
+    petstore:
+        target: typescript
+        source: Petstore API
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-webhooks-custom-security-typescript-code-samples
+            blocking: false

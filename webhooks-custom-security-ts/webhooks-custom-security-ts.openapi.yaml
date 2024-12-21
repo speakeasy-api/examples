@@ -1,0 +1,80 @@
+openapi: 3.1.0 # Note: You must use OpenAPI 3.1.0 or higher
+info:
+  title: Petstore API
+  version: 1.0.0
+servers:
+  - url: https://petstore.swagger.io/v2
+paths:
+  /pets:
+    post:
+      operationId: addPet
+      requestBody:
+        required: true
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: Okay
+x-speakeasy-webhooks:
+  security:
+    type: custom
+webhooks:
+  pet.created:
+    post:
+      operationId: sendPetCreated
+      requestBody:
+        required: true
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/PetCreated'
+      responses:
+        '200':
+          description: Okay
+  pet.deleted:
+    post:
+      operationId: sendPetDeleted
+      requestBody:
+        required: true
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/PetDeleted'
+      responses:
+        '200':
+          description: Okay
+components:
+  schemas:
+    PetCreated:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - pet.created # Note: this is the discrimnator
+        pet:
+          $ref: '#/components/schemas/Pet'
+      required:
+        - type
+        - pet
+    PetDeleted:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - pet.deleted # Note: this is the discrimnator
+        id:
+          type: string
+      required:
+        - type
+        - id
+    Pet:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id
