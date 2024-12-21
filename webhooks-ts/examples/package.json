@@ -1,0 +1,23 @@
+{
+  "type": "module",
+  "name": "examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "script": "tsx",
+    "validateWebhook": "npm run script -- ./src/validateWebhook.example.ts",
+    "sendWebhook": "npm run script -- ./src/sendWebhook.example.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "petstore": "file:../",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.4",
+    "tsx": "^4.7.0"
+  }
+}
