@@ -56,7 +56,7 @@ components:
         type:
           type: string
           enum:
-            - pet.created
+            - pet.created # Note: this is the discrimnator
         pet:
           $ref: '#/components/schemas/Pet'
       required:
@@ -68,7 +68,7 @@ components:
         type:
           type: string
           enum:
-            - pet.deleted
+            - pet.deleted # Note: this is the discrimnator
         id:
           type: string
       required:
