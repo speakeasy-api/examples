@@ -1,8 +1,22 @@
-import dotenv from "dotenv";
-dotenv.config();
+import { config } from "dotenv";
+config();
 import { Petstore } from "petstore";
+import { SDKHooks } from "../../hooks/hooks.js";
 
-const sdk = new Petstore();
+const hooks = new SDKHooks();
+hooks.registerBeforeRequestHook({
+  beforeRequest: async (_, request) => {
+    console.log(
+      "Before request hook",
+      request.url.toString(),
+      Object.fromEntries(request.headers.entries()),
+      request.body
+    );
+    return request;
+  },
+});
+
+const sdk = new Petstore({ hooks });
 
 const data = await sdk.sendPetCreated(
   {

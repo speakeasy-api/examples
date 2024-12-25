@@ -1,16 +1,19 @@
-import dotenv from "dotenv";
-dotenv.config();
+import { config } from "dotenv";
+config();
 import { Petstore } from "petstore";
 import { petCreatedToJSON } from "../../models/components/petcreated.js";
 
 const sdk = new Petstore();
 
-// This is a fake request, it's not actually valid because it's not signed but it's just for example purposes
+// This is faked for example purposes
 const exampleFakeRequest = new Request(
   "https://example.com/my-webhook-handler",
   {
     body: petCreatedToJSON({ type: "pet.created", pet: { id: "dog" } }),
     method: "POST",
+    headers: {
+      "x-webhook-signature": "Fe7FF9thSC1SiIYsVRfCM8GGL5oPpOu+QYbvRvQ+/9o=",
+    },
   }
 );
 
