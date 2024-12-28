@@ -97,7 +97,7 @@ export interface AfterErrorHook {
 export interface WebhookVerificationHook {
   verifyWebhook: (
     hookCtx: WebhookVerificationContext,
-    { request, secret }: { request: Request; secret: string },
+    { request }: { request: Request },
   ) => Awaitable<Result<true, WebhookAuthenticationError>>;
 }
 
