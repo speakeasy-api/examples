@@ -1,0 +1,34 @@
+speakeasyVersion: 1.459.2
+sources:
+    Petstore API:
+        sourceNamespace: petstore-api-webhooks-custom-security
+        sourceRevisionDigest: sha256:2fc985741972aedcf57b13283e6bf0cbb811525eb86e9bcf495f952ac4778bf8
+        sourceBlobDigest: sha256:aafd5c4c0ba659ed801ffb5ccaa1176d2c8f5b1e7634029b6aa3b0e3e4d2125f
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    petstore:
+        source: Petstore API
+        sourceNamespace: petstore-api-webhooks-custom-security
+        sourceRevisionDigest: sha256:2fc985741972aedcf57b13283e6bf0cbb811525eb86e9bcf495f952ac4778bf8
+        sourceBlobDigest: sha256:aafd5c4c0ba659ed801ffb5ccaa1176d2c8f5b1e7634029b6aa3b0e3e4d2125f
+        codeSamplesNamespace: petstore-api-webhooks-custom-security-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:ebf433cbbdcd28fb0fba91c3817537fe45fe3efcfb68f311309c634733552db1
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Petstore API:
+            inputs:
+                - location: ./webhooks-custom-security-asymmetric-signature-ts.openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-webhooks-custom-security
+    targets:
+        petstore:
+            target: typescript
+            source: Petstore API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-webhooks-custom-security-typescript-code-samples
+                blocking: false

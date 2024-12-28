@@ -5,12 +5,12 @@ sources:
         inputs:
             - location: ./webhooks-custom-security-asymmetric-signature-ts.openapi.yaml
         registry:
-            location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-webhooks-custom-security-asymmetric-signature
+            location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-webhooks-custom-security
 targets:
     petstore:
         target: typescript
         source: Petstore API
         codeSamples:
             registry:
-                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-webhooks-custom-security-asymmetric-signature-typescript-code-samples
+                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-webhooks-custom-security-typescript-code-samples
             blocking: false

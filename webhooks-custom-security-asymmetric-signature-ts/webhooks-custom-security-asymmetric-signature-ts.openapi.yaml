@@ -19,10 +19,7 @@ paths:
           description: Okay
 x-speakeasy-webhooks:
   security:
-    type: signature
-    headerName: x-signature
-    signatureTextEncoding: base64
-    algorithm: HS256
+    type: custom
 webhooks:
   pet.created:
     post:
