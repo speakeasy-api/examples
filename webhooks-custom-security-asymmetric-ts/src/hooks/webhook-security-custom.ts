@@ -13,13 +13,13 @@ import {
   WebhookVerificationContext,
   WebhookVerificationHook,
 } from "./types.js";
-import { publicKeys } from "./webhook-public-keys.js";
+// import { publicKeys } from "./webhook-public-keys.js";
+import { publicKeysUrl } from "./webhook-public-keys.js";
 
 const headerName = "X-Signature";
-const algorithm = "ES256";
-const jwksURL =
-  "https://gist.githubusercontent.com/mfbx9da4/96889e4f7e1f2b0cf80e2b6f6f754775/raw/fab361c1c2158b09adbd2c1569976a3703bda76b/jwks.example.json";
-const embeddedJWKs = publicKeys;
+const algorithm = "EdDSA";
+const jwksURL = publicKeysUrl;
+const embeddedJWKs = { keys: [] };
 
 export class WebhookSecurityHook
   implements BeforeRequestHook, WebhookVerificationHook
