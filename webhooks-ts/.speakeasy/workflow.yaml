@@ -3,14 +3,14 @@ speakeasyVersion: latest
 sources:
     Petstore API:
         inputs:
-            - location: ./webhooks-ts.openapi.yaml
+            - location: ./openapi.yaml
         registry:
-            location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api
+            location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/examples-webhooks-ts
 targets:
     petstore:
         target: typescript
         source: Petstore API
         codeSamples:
             registry:
-                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-typescript-code-samples
+                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/examples-webhooks-ts-code-samples
             blocking: false
