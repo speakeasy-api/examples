@@ -10,7 +10,6 @@ import { WebhookAuthenticationError } from "../types/webhooks.js";
 
 export async function validateWebhook(client: PetstoreCore, {
   request: rawRequest,
-  secret,
 }: {
   request: {
     body: BodyInit;
@@ -18,7 +17,6 @@ export async function validateWebhook(client: PetstoreCore, {
     url: string;
     headers: Record<string, string> | Headers;
   } | Request;
-  secret: string;
 }): Promise<
   Result<
     components.PetCreated | components.PetDeleted,
@@ -26,7 +24,7 @@ export async function validateWebhook(client: PetstoreCore, {
   >
 > {
   const request = normalizeRequest(rawRequest);
-  const verifyResult = await client._verifyWebhook({ request, secret });
+  const verifyResult = await client._verifyWebhook({ request });
   if (!verifyResult.ok) {
     return verifyResult;
   }

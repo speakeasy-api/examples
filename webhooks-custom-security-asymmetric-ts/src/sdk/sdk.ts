@@ -51,7 +51,6 @@ export class Petstore extends ClientSDK {
 
   async validateWebhook({
     request,
-    secret,
   }: {
     request: {
       body: string;
@@ -59,11 +58,10 @@ export class Petstore extends ClientSDK {
       url: string;
       method: string;
     } | Request;
-    secret: string;
   }): Promise<components.PetCreated | components.PetDeleted> {
     return unwrapAsync(validateWebhook(
       this,
-      { request, secret },
+      { request },
     ));
   }
 }

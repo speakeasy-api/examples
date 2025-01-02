@@ -1,5 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
 import { Petstore } from "petstore";
 import { petCreatedToJSON } from "../../models/components/petcreated.js";
 
@@ -16,7 +14,6 @@ const exampleFakeRequest = new Request(
 
 const data = await sdk.validateWebhook({
   request: exampleFakeRequest,
-  secret: "<secret>",
 });
 
 console.log(data);

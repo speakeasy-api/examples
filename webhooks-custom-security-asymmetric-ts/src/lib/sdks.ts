@@ -305,9 +305,9 @@ export class ClientSDK {
   }
 
   async _verifyWebhook(
-    { request, secret }: { request: Request; secret: string },
+    { request }: { request: Request },
   ): Promise<Result<true, WebhookAuthenticationError>> {
-    return this.#hooks.verifyWebhook({}, { request, secret });
+    return this.#hooks.verifyWebhook({}, { request });
   }
 }
 

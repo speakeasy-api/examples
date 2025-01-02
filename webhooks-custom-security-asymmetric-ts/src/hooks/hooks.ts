@@ -147,13 +147,13 @@ export class SDKHooks implements Hooks {
 
   async verifyWebhook(
     hookCtx: WebhookVerificationContext,
-    { request, secret }: { request: Request; secret: string },
+    { request }: { request: Request },
   ): Promise<Result<true, WebhookAuthenticationError>> {
     let result: Result<true, WebhookAuthenticationError> = ERR(
       new WebhookAuthenticationError("No hooks registered to verify webhooks"),
     );
     for (const hook of this.webhookVerificationHooks) {
-      result = await hook.verifyWebhook(hookCtx, { request, secret });
+      result = await hook.verifyWebhook(hookCtx, { request });
       if (!result.ok) {
         return result;
       }
