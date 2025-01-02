@@ -2,7 +2,7 @@ configVersion: 2.0.0
 generation:
   devContainers:
     enabled: true
-    schemaPath: ./webhooks-ts.openapi.yaml
+    schemaPath: ./openapi.yaml
   sdkClassName: Petstore
   maintainOpenAPIOrder: true
   usageSnippets:
