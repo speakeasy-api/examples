@@ -89,9 +89,7 @@ export class WebhookSecurity {
         if (!error) return true;
       }
 
-      if (error) throw error;
-
-      throw new WebhookAuthenticationError("Logical impossibility");
+      throw error || new WebhookAuthenticationError("Logical impossibility");
     } catch (e: any) {
       throw this._wrap(e);
     }
