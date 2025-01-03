@@ -1,0 +1,11 @@
+/models
+/models/errors
+/types
+/lib
+/sdk
+/index.*
+/.tsbuildinfo
+dist/
+node_modules/
+/cjs
+/node_modules

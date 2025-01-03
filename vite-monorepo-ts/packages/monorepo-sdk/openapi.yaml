@@ -1,0 +1,42 @@
+openapi: 3.1.0
+info:
+  title: File API example
+  version: 1.0.0
+servers:
+  - url: https://httpbin.org
+
+paths:
+  /uuid:
+    get:
+      operationId: generateUUID
+      responses:
+        "200":
+          description: A random UUID
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [uuid]
+                properties:
+                  uuid:
+                    type: string
+  /anything/fileUpload:
+    post:
+      operationId: upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
