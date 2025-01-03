@@ -73,59 +73,46 @@ export class WebhookSecurity {
     const signature = request.headers.get(headerName);
     this._assert(signature, "Unable to verify webhook: missing signature");
 
-    let error: Error | null = null;
-    let isValid = false;
+    let error: Error | undefined = this._wrap(new Error("No valid key found"));
 
     try {
       const bodyBytes = await request.arrayBuffer();
-      const contentDigest = await this._digestBody(bodyBytes);
+      const digest = await this._digestBody(bodyBytes);
       // First try to verify against the cached keys
       for (const key of publicKeys.keys) {
-        [error, isValid] = await this._verify({
-          key,
-          signature,
-          contentDigest,
-        });
-        if (isValid) return true;
+        error = await this._verify({ key, signature, digest });
+        if (!error) return true;
       }
       // If that fails, fetch the latest keys and try again
       await this._fetchIfNeeded();
       for (const key of this._publicKeys) {
-        [error, isValid] = await this._verify({
-          key,
-          signature,
-          contentDigest,
-        });
-        if (isValid) return true;
+        error = await this._verify({ key, signature, digest });
+        if (!error) return true;
       }
     } catch (e: any) {
       throw this._wrap(e);
     }
 
     if (error) throw error;
-
     return false;
   }
 
   private async _verify({
     key,
     signature,
-    contentDigest,
+    digest,
   }: {
     key: string;
     signature: string;
-    contentDigest: string;
-  }): Promise<[Error | null, boolean]> {
+    digest: string;
+  }): Promise<Error | undefined> {
     const { verify } = await import("paseto-ts/v4");
     try {
       const { payload } = verify<{ contentDigest: string }>(key, signature);
-      this._assert(
-        payload.contentDigest === contentDigest,
-        "Invalid signature"
-      );
-      return [null, true];
+      this._assert(payload.contentDigest === digest, "Invalid signature");
+      return undefined;
     } catch (e: any) {
-      return [this._wrap(e), false];
+      return this._wrap(e);
     }
   }
 
