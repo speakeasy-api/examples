@@ -55,8 +55,8 @@ export class WebhookSecurity {
     const newRequest = request.clone();
 
     // Clone the request to avoid mutating the original request
-    const clonedRequest = request.clone();
-    const bodyBytes = await clonedRequest.arrayBuffer();
+    request = request.clone();
+    const bodyBytes = await request.arrayBuffer();
     const contentDigest = await this._digestBody(bodyBytes);
 
     const { sign } = await import("paseto-ts/v4");
