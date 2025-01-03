@@ -67,15 +67,14 @@ export class WebhookSecurity {
   }
 
   async verify({ request }: { request: Request }): Promise<boolean> {
-    // Clone the request to avoid mutating the original request
-    request = request.clone();
-
-    const signature = request.headers.get(headerName);
-    this._assert(signature, "Unable to verify webhook: missing signature");
-
     let error: Error | undefined = this._wrap(new Error("No valid key found"));
-
     try {
+      // Clone the request to avoid mutating the original request
+      request = request.clone();
+
+      const signature = request.headers.get(headerName);
+      this._assert(signature, "Unable to verify webhook: missing signature");
+
       const bodyBytes = await request.arrayBuffer();
       const digest = await this._digestBody(bodyBytes);
       // First try to verify against the cached keys
@@ -89,13 +88,13 @@ export class WebhookSecurity {
         error = await this._verify({ key, signature, digest });
         if (!error) return true;
       }
+
+      if (error) throw error;
+
+      throw new WebhookAuthenticationError("Logical impossibility");
     } catch (e: any) {
       throw this._wrap(e);
     }
-
-    if (error) throw error;
-
-    throw new WebhookAuthenticationError("Logical impossibility");
   }
 
   private async _verify({
