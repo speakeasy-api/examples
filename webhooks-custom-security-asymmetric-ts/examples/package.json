@@ -7,7 +7,8 @@
   "scripts": {
     "script": "tsx",
     "validateWebhook": "npm run script -- ./src/validateWebhook.example.ts",
-    "sendWebhook": "npm run script -- ./src/sendWebhook.example.ts"
+    "sendWebhook": "npm run script -- ./src/sendWebhook.example.ts",
+    "sendAndConsumeWebhook": "npm run script -- ./src/sendAndConsumeWebhook.example.ts"
   },
   "keywords": [],
   "author": "",

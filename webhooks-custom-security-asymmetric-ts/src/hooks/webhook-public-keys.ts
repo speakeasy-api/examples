@@ -3,15 +3,7 @@
  */
 
 export const publicKeysUrl =
-  "https://gist.githubusercontent.com/mfbx9da4/96889e4f7e1f2b0cf80e2b6f6f754775/raw/976d28140a95e4d797293af644d1dfe7e62b3751/jwks.example.json";
+  "https://gist.githubusercontent.com/mfbx9da4/24479b719a7732c2515319f5a77e0039/raw/bc34b622c30ac81eab9dfc3dfc1d31fd7c96e12e/paseto-public-keys.json";
 export const publicKeys = {
-  "keys": [
-    {
-      "crv": "Ed25519",
-      "x": "qD7X8DrHfg0UuYstKt3FPBGqGBqY3N4lGwn9xX-nnXE",
-      "kty": "OKP",
-      "kid": "4b901935-5a56-4891-be18-a0a29cc9d35e",
-      "alg": "EdDSA",
-    },
-  ],
+  "keys": ["k4.public.9KzD6ag94xlrBpUf1tAs6MAoevCLfHLa530TimMW6lg"],
 };
