@@ -7,8 +7,7 @@ import {
   WebhookVerificationContext,
   WebhookVerificationHook,
 } from "./types.js";
-import { publicKeys } from "./webhook-public-keys.js";
-import { publicKeysUrl } from "./webhook-public-keys.js";
+import { publicKeys, publicKeysUrl } from "./webhook-public-keys.js";
 
 const headerName = "X-Signature";
 const jwksURL = publicKeysUrl;
@@ -74,28 +73,60 @@ export class WebhookSecurity {
     const signature = request.headers.get(headerName);
     this._assert(signature, "Unable to verify webhook: missing signature");
 
+    let error: Error | null = null;
+    let isValid = false;
+
     try {
       const bodyBytes = await request.arrayBuffer();
       const contentDigest = await this._digestBody(bodyBytes);
-      const { verify } = await import("paseto-ts/v4");
+      // First try to verify against the cached keys
       for (const key of publicKeys.keys) {
-        const { payload } = verify<{ contentDigest: string }>(key, signature);
-        if (payload.contentDigest === contentDigest) {
-          return true;
-        }
+        [error, isValid] = await this._verify({
+          key,
+          signature,
+          contentDigest,
+        });
+        if (isValid) return true;
       }
+      // If that fails, fetch the latest keys and try again
       await this._fetchIfNeeded();
       for (const key of this._publicKeys) {
-        const { payload } = verify<{ contentDigest: string }>(key, signature);
-        if (payload.contentDigest === contentDigest) {
-          return true;
-        }
+        [error, isValid] = await this._verify({
+          key,
+          signature,
+          contentDigest,
+        });
+        if (isValid) return true;
       }
     } catch (e: any) {
       throw this._wrap(e);
     }
 
+    if (error) throw error;
+
     return false;
+  }
+
+  private async _verify({
+    key,
+    signature,
+    contentDigest,
+  }: {
+    key: string;
+    signature: string;
+    contentDigest: string;
+  }): Promise<[Error | null, boolean]> {
+    const { verify } = await import("paseto-ts/v4");
+    try {
+      const { payload } = verify<{ contentDigest: string }>(key, signature);
+      this._assert(
+        payload.contentDigest === contentDigest,
+        "Invalid signature"
+      );
+      return [null, true];
+    } catch (e: any) {
+      return [this._wrap(e), false];
+    }
   }
 
   private async _digestBody(bodyBytes: ArrayBuffer | Uint8Array) {
