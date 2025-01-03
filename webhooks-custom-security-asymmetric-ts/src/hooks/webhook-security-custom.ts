@@ -94,7 +94,8 @@ export class WebhookSecurity {
     }
 
     if (error) throw error;
-    return false;
+
+    throw new WebhookAuthenticationError("Logical impossibility");
   }
 
   private async _verify({
