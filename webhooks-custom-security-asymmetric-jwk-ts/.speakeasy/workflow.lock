@@ -1,34 +1,34 @@
-speakeasyVersion: 1.459.2
+speakeasyVersion: 1.467.1
 sources:
     Petstore API:
-        sourceNamespace: petstore-api-webhooks-custom-security
-        sourceRevisionDigest: sha256:da00f8b1808ce616da675fe14c6ab9d93fca3939ac3f39a2de11c1a1cbff3fce
-        sourceBlobDigest: sha256:aafd5c4c0ba659ed801ffb5ccaa1176d2c8f5b1e7634029b6aa3b0e3e4d2125f
+        sourceNamespace: examples-webhooks-custom-security-ts
+        sourceRevisionDigest: sha256:8e791892120245781062963cef897cb79a131fa107a94b14491d5761deefa71f
+        sourceBlobDigest: sha256:e09e83e8e707a6b5189226e001c1dd336b5718bc24650d1c80bbea1893d7df47
         tags:
             - latest
             - 1.0.0
 targets:
     petstore:
         source: Petstore API
-        sourceNamespace: petstore-api-webhooks-custom-security
-        sourceRevisionDigest: sha256:da00f8b1808ce616da675fe14c6ab9d93fca3939ac3f39a2de11c1a1cbff3fce
-        sourceBlobDigest: sha256:aafd5c4c0ba659ed801ffb5ccaa1176d2c8f5b1e7634029b6aa3b0e3e4d2125f
-        codeSamplesNamespace: petstore-api-webhooks-custom-security-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:96e4f2e7c720e9a21c811f1cace2898cf67f55523cf234a2813ec8e46f76f118
+        sourceNamespace: examples-webhooks-custom-security-ts
+        sourceRevisionDigest: sha256:8e791892120245781062963cef897cb79a131fa107a94b14491d5761deefa71f
+        sourceBlobDigest: sha256:e09e83e8e707a6b5189226e001c1dd336b5718bc24650d1c80bbea1893d7df47
+        codeSamplesNamespace: examples-webhooks-custom-security-ts-code-samples
+        codeSamplesRevisionDigest: sha256:517e968435a11c6065832f88fcf58ed314c87e2e09d28a5821c9eb8c84e5c93e
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
     sources:
         Petstore API:
             inputs:
-                - location: ./webhooks-custom-security-ts.openapi.yaml
+                - location: ./openapi.yaml
             registry:
-                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-webhooks-custom-security
+                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/examples-webhooks-custom-security-ts
     targets:
         petstore:
             target: typescript
             source: Petstore API
             codeSamples:
                 registry:
-                    location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-api-webhooks-custom-security-typescript-code-samples
+                    location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/examples-webhooks-custom-security-ts-code-samples
                 blocking: false

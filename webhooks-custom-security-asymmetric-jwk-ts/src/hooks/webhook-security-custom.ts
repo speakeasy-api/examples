@@ -1,5 +1,4 @@
-import { createRemoteJWKSet, JWK, JWTVerifyResult } from "jose";
-import { createLocalJWKSet } from "jose/jwks/local";
+import { createRemoteJWKSet, JWK } from "jose";
 import { SignJWT } from "jose/jwt/sign";
 import { jwtVerify } from "jose/jwt/verify";
 import { importJWK } from "jose/key/import";
@@ -13,13 +12,11 @@ import {
   WebhookVerificationContext,
   WebhookVerificationHook,
 } from "./types.js";
-import { publicKeys } from "./webhook-public-keys.js";
-import { publicKeysUrl } from "./webhook-public-keys.js";
 
 const headerName = "X-Signature";
 const algorithm = "EdDSA";
-const jwksURL = publicKeysUrl;
-const embeddedJWKs = publicKeys;
+const jwksURL =
+  "https://gist.githubusercontent.com/mfbx9da4/96889e4f7e1f2b0cf80e2b6f6f754775/raw/976d28140a95e4d797293af644d1dfe7e62b3751/jwks.example.json";
 
 export class WebhookSecurityHook
   implements BeforeRequestHook, WebhookVerificationHook
@@ -49,8 +46,7 @@ export class WebhookSecurityHook
 }
 
 export class WebhookSecurity {
-  private _jwks = createLocalJWKSet(embeddedJWKs);
-  private _isRemoteJwks = false;
+  private _jwks = createRemoteJWKSet(new URL(jwksURL));
 
   async sign({
     request,
@@ -85,7 +81,7 @@ export class WebhookSecurity {
 
     const signature = request.headers.get(headerName);
     this._assert(signature, "Unable to verify webhook: missing signature");
-    const jwt = await this._jwtVerify(signature);
+    const jwt = await jwtVerify(signature, this._jwks);
 
     const timestampSeconds = jwt.payload.iat;
     this._assert(
@@ -114,19 +110,6 @@ export class WebhookSecurity {
     const digestBytes = await crypto.digest("SHA-256", bodyBytes);
     const digestBase64 = bytesToBase64(new Uint8Array(digestBytes));
     return `sha-256=:${digestBase64}:`;
-  }
-
-  private async _jwtVerify(jwt: string): Promise<JWTVerifyResult> {
-    try {
-      return await jwtVerify(jwt, this._jwks);
-    } catch (e) {
-      if (!this._isRemoteJwks) {
-        this._isRemoteJwks = true;
-        this._jwks = createRemoteJWKSet(new URL(jwksURL));
-        return await this._jwtVerify(jwt);
-      }
-      throw e;
-    }
   }
 
   private async _parsePrivateKey(secret: string) {
