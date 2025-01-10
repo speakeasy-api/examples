@@ -7,10 +7,10 @@ import {
   WebhookVerificationContext,
   WebhookVerificationHook,
 } from "./types.js";
-import { publicKeys, publicKeysUrl } from "./webhook-public-keys.js";
 
 const headerName = "X-Signature";
-const jwksURL = publicKeysUrl;
+const publicKeysUrl =
+  "https://gist.githubusercontent.com/mfbx9da4/24479b719a7732c2515319f5a77e0039/raw/bc34b622c30ac81eab9dfc3dfc1d31fd7c96e12e/paseto-public-keys.json";
 
 export class WebhookSecurityHook
   implements BeforeRequestHook, WebhookVerificationHook
@@ -40,7 +40,7 @@ export class WebhookSecurityHook
 }
 
 export class WebhookSecurity {
-  private _publicKeys: Set<string> = new Set(publicKeys.keys);
+  private _publicKeys: Set<string> = new Set();
   private _cacheExpiration: number = 0;
 
   async sign({
@@ -78,7 +78,7 @@ export class WebhookSecurity {
       const bodyBytes = await request.arrayBuffer();
       const digest = await this._digestBody(bodyBytes);
       // First try to verify against the cached keys
-      for (const key of publicKeys.keys) {
+      for (const key of this._publicKeys) {
         error = await this._verify({ key, signature, digest });
         if (!error) return true;
       }
@@ -126,8 +126,11 @@ export class WebhookSecurity {
       return this._publicKeys;
     }
 
-    const response = await fetch(jwksURL);
-    this._assert(response.ok, "Failed to fetch public keys from " + jwksURL);
+    const response = await fetch(publicKeysUrl);
+    this._assert(
+      response.ok,
+      "Failed to fetch public keys from " + publicKeysUrl
+    );
 
     const keys: unknown = await response.json();
     this._assert(

@@ -21,7 +21,6 @@ x-speakeasy-webhooks:
   security:
     type: custom
     consumerShouldProvideSecret: false
-    publicKeysUrl: https://gist.githubusercontent.com/mfbx9da4/24479b719a7732c2515319f5a77e0039/raw/bc34b622c30ac81eab9dfc3dfc1d31fd7c96e12e/paseto-public-keys.json
 webhooks:
   pet.created:
     post:
