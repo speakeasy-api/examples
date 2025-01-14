@@ -1,0 +1,111 @@
+lockVersion: 2.0.0
+id: 51652deb-b0e6-4e9e-9024-bd2801db639a
+management:
+  docChecksum: 71af0b7a42bad12f239ff825688d87e9
+  docVersion: 1.0.0
+  speakeasyVersion: 1.468.5
+  generationVersion: 2.493.11
+  releaseVersion: 1.0.0
+  configChecksum: 2e27659fa9d27d40b0234addcac2b4cf
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    core: 3.18.14
+    customCodeRegions: 0.1.0
+    defaultEnabledRetries: 0.1.0
+    devContainers: 2.90.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.4
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.2.0
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .eslintrc.cjs
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/components/pet.md
+  - docs/models/components/petavian.md
+  - docs/models/components/petcanine.md
+  - docs/sdks/petstore/README.md
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/createPetAvian.ts
+  - src/funcs/createPetCanine.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/env.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/models/components/index.ts
+  - src/models/components/pet.ts
+  - src/models/components/petavian.ts
+  - src/models/components/petcanine.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/index.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/sdk/index.ts
+  - src/sdk/sdk.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  installWiseConnector:
+    speakeasy-default-install-wise-connector:
+      requestBody:
+        application/json: {"name": "My Wise Account", "apiKey": "XXX", "pollingPeriod": "60s"}
+      responses:
+        "200":
+          application/json: {"data": {"connectorID": "<id>"}}
+  installMangoPayConnector:
+    speakeasy-default-install-mango-pay-connector:
+      requestBody:
+        application/json: {"name": "My MangoPay Account", "pollingPeriod": "60s", "clientID": "XXX", "apiKey": "XXX", "endpoint": "XXX"}
+      responses:
+        "200":
+          application/json: {"data": {"connectorID": "<id>"}}
+  createPetCanine:
+    speakeasy-default-create-pet-canine:
+      requestBody:
+        application/json: {"id": "<id>", "breed": "<value>", "length": 5115.23}
+      responses:
+        "200":
+          application/json: {"id": "<id>"}
+  createPetAvian:
+    speakeasy-default-create-pet-avian:
+      requestBody:
+        application/json: {"id": "<id>", "species": "<value>", "wingspan": 3046.72}
+      responses:
+        "200":
+          application/json: {"id": "<id>"}
+generatedTests: {}

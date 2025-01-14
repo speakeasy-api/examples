@@ -1,0 +1,18 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+  petstore:
+    inputs:
+      - location: openapi.yaml
+    registry:
+      location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-discriminating-params
+targets:
+  petstore:
+    target: typescript
+    source: petstore
+    codeSamples:
+      registry:
+        location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-discriminating-params
+      labelOverride:
+        fixedValue: Typescript (SDK)
+      blocking: false
