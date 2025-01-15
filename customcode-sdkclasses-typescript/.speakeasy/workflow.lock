@@ -1,0 +1,36 @@
+speakeasyVersion: 1.468.2
+sources:
+    Todo API:
+        sourceNamespace: todo-api
+        sourceRevisionDigest: sha256:8360fb96bd15bd302359fc7422d2b1266b4a1e9bbdf710b9d7af48ce15ac79b7
+        sourceBlobDigest: sha256:236bc102d9863d50984183afa331575404e79b22ea077e73a1e08dd30a5f37cb
+        tags:
+            - latest
+            - 0.0.1
+targets:
+    gtd:
+        source: Todo API
+        sourceNamespace: todo-api
+        sourceRevisionDigest: sha256:8360fb96bd15bd302359fc7422d2b1266b4a1e9bbdf710b9d7af48ce15ac79b7
+        sourceBlobDigest: sha256:236bc102d9863d50984183afa331575404e79b22ea077e73a1e08dd30a5f37cb
+        codeSamplesNamespace: todo-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:15bbb1d9082e473a7532cf77b9176078bf722b6900cfc3160ffa2f5eace359d0
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Todo API:
+            inputs:
+                - location: ./openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/todo-api
+    targets:
+        gtd:
+            target: typescript
+            source: Todo API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/todo-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false

@@ -1,0 +1,36 @@
+speakeasyVersion: 1.468.2
+sources:
+    Todo API:
+        sourceNamespace: todo-api
+        sourceRevisionDigest: sha256:313174da7e1c5ad9670dcca8cde1768862e6874c78dc847e00885e6c4a050985
+        sourceBlobDigest: sha256:236bc102d9863d50984183afa331575404e79b22ea077e73a1e08dd30a5f37cb
+        tags:
+            - latest
+            - 0.0.1
+targets:
+    gtd:
+        source: Todo API
+        sourceNamespace: todo-api
+        sourceRevisionDigest: sha256:313174da7e1c5ad9670dcca8cde1768862e6874c78dc847e00885e6c4a050985
+        sourceBlobDigest: sha256:236bc102d9863d50984183afa331575404e79b22ea077e73a1e08dd30a5f37cb
+        codeSamplesNamespace: todo-api-python-code-samples
+        codeSamplesRevisionDigest: sha256:75da0d0b1c8a2a03418a1c4a31a51e6377fb7d1cce1fa2ce6fda800f4d21cfbc
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Todo API:
+            inputs:
+                - location: ./openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/todo-api
+    targets:
+        gtd:
+            target: python
+            source: Todo API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/todo-api-python-code-samples
+                labelOverride:
+                    fixedValue: Python (SDK)
+                blocking: false

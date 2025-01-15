@@ -1,0 +1,95 @@
+lockVersion: 2.0.0
+id: 1838ff7e-8288-4311-bd8a-7b26f19610ab
+management:
+  docChecksum: 44a669e0122aef3b0f6a5a4dd6d385c3
+  docVersion: 0.0.1
+  speakeasyVersion: 1.468.2
+  generationVersion: 2.493.4
+  releaseVersion: 0.1.4
+  configChecksum: 64a7090e25e4fe1c13af2f71f419d73b
+features:
+  python:
+    additionalDependencies: 1.0.0
+    constsAndDefaults: 1.0.5
+    core: 5.10.1
+    customCodeRegions: 0.1.0
+    defaultEnabledRetries: 0.2.0
+    devContainers: 3.0.0
+    envVarSecurityUsage: 0.3.2
+    flattening: 3.1.0
+    globalSecurityCallbacks: 1.0.0
+    globalServerURLs: 3.1.0
+    methodArguments: 1.0.2
+    responseFormat: 1.0.1
+    retries: 3.0.2
+    sdkHooks: 1.0.0
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .gitattributes
+  - .python-version
+  - .vscode/settings.json
+  - USAGE.md
+  - docs/models/getonerequest.md
+  - docs/models/todo.md
+  - docs/models/todoform.md
+  - docs/models/utils/retryconfig.md
+  - docs/sdks/gtd/README.md
+  - docs/sdks/todos/README.md
+  - poetry.toml
+  - py.typed
+  - pylintrc
+  - pyproject.toml
+  - scripts/prepare-readme.py
+  - scripts/publish.sh
+  - src/speakeasy_gtd/__init__.py
+  - src/speakeasy_gtd/_hooks/__init__.py
+  - src/speakeasy_gtd/_hooks/sdkhooks.py
+  - src/speakeasy_gtd/_hooks/types.py
+  - src/speakeasy_gtd/_version.py
+  - src/speakeasy_gtd/basesdk.py
+  - src/speakeasy_gtd/httpclient.py
+  - src/speakeasy_gtd/models/__init__.py
+  - src/speakeasy_gtd/models/apierror.py
+  - src/speakeasy_gtd/models/getoneop.py
+  - src/speakeasy_gtd/models/todo.py
+  - src/speakeasy_gtd/models/todoform.py
+  - src/speakeasy_gtd/py.typed
+  - src/speakeasy_gtd/sdk.py
+  - src/speakeasy_gtd/sdkconfiguration.py
+  - src/speakeasy_gtd/todos.py
+  - src/speakeasy_gtd/types/__init__.py
+  - src/speakeasy_gtd/types/basemodel.py
+  - src/speakeasy_gtd/utils/__init__.py
+  - src/speakeasy_gtd/utils/annotations.py
+  - src/speakeasy_gtd/utils/enums.py
+  - src/speakeasy_gtd/utils/eventstreaming.py
+  - src/speakeasy_gtd/utils/forms.py
+  - src/speakeasy_gtd/utils/headers.py
+  - src/speakeasy_gtd/utils/logger.py
+  - src/speakeasy_gtd/utils/metadata.py
+  - src/speakeasy_gtd/utils/queryparams.py
+  - src/speakeasy_gtd/utils/requestbodies.py
+  - src/speakeasy_gtd/utils/retries.py
+  - src/speakeasy_gtd/utils/security.py
+  - src/speakeasy_gtd/utils/serializers.py
+  - src/speakeasy_gtd/utils/url.py
+  - src/speakeasy_gtd/utils/values.py
+examples:
+  create:
+    speakeasy-default-create:
+      requestBody:
+        application/json: {"title": "Buy cat food", "description": "Finn is running low on tuna and chicken cans.", "completed": false}
+      responses:
+        "201":
+          application/json: {"id": "q7vqspzbu", "title": "Buy conference ticket", "description": "Deadline is in 2 months but don't leave it until then.", "completed": false}
+  getOne:
+    speakeasy-default-get-one:
+      parameters:
+        path:
+          id: "q7vqspzbu"
+      responses:
+        "200":
+          application/json: {"id": "q7vqspzbu", "title": "Buy conference ticket", "description": "Deadline is in 2 months but don't leave it until then.", "completed": false}
+generatedTests: {}

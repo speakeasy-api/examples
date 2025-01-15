@@ -1,0 +1,102 @@
+lockVersion: 2.0.0
+id: 745965db-33f3-4e68-af0e-17d1a5500752
+management:
+  docChecksum: 44a669e0122aef3b0f6a5a4dd6d385c3
+  docVersion: 0.0.1
+  speakeasyVersion: 1.468.2
+  generationVersion: 2.493.4
+  releaseVersion: 0.2.5
+  configChecksum: 3592c9b2b2482d0b26db34d674653a42
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    constsAndDefaults: 0.1.11
+    core: 3.18.12
+    customCodeRegions: 0.1.0
+    defaultEnabledRetries: 0.1.0
+    devContainers: 2.90.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.4
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.2.0
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .eslintrc.cjs
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/components/todo.md
+  - docs/models/components/todoform.md
+  - docs/models/operations/getonerequest.md
+  - docs/sdks/gtd/README.md
+  - docs/sdks/todos/README.md
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/todosCreate.ts
+  - src/funcs/todosGetOne.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/env.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/models/components/index.ts
+  - src/models/components/todo.ts
+  - src/models/components/todoform.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/index.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/operations/getone.ts
+  - src/models/operations/index.ts
+  - src/sdk/index.ts
+  - src/sdk/sdk.ts
+  - src/sdk/todos.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  create:
+    speakeasy-default-create:
+      requestBody:
+        application/json: {"title": "Buy cat food", "description": "Finn is running low on tuna and chicken cans.", "completed": false}
+      responses:
+        "201":
+          application/json: {}
+  getOne:
+    speakeasy-default-get-one:
+      parameters:
+        path:
+          id: "q7vqspzbu"
+      responses:
+        "200":
+          application/json: {}
+generatedTests: {}
