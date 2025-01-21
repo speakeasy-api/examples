@@ -21,7 +21,7 @@ x-speakeasy-webhooks:
   security:
     type: signature
     headerName: x-signature
-    signatureTextEncoding: base64
+    signatureFormat: base64
     algorithm: hmac-sha256
 webhooks:
   pet.created:
