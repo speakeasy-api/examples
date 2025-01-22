@@ -1,0 +1,238 @@
+openapi: 3.1.0
+info:
+  description: An API to manage a list of holiday destinations, including their details
+    and ratings.
+  title: Holiday Destinations API
+  version: 1.1.0
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+paths:
+  /:
+    get:
+      description: Root endpoint, returns a friendly greeting.
+      operationId: read_root__get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+      summary: Read Root
+      tags:
+      - General
+  /destinations:
+    get:
+      description: Retrieve a list of all holiday destinations in the database, optionally
+        filtered by minimum rating.
+      operationId: get_destinations_destinations_get
+      parameters:
+      - description: Filter destinations by minimum rating (0 to 5).
+        in: query
+        name: min_rating
+        required: false
+        schema:
+          default: 0.0
+          description: Filter destinations by minimum rating (0 to 5).
+          maximum: 5.0
+          minimum: 0.0
+          title: Min Rating
+          type: number
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Destination'
+                title: Response Get Destinations Destinations Get
+                type: array
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Destinations
+      tags:
+      - Destinations
+    post:
+      description: Add a new holiday destination to the database.
+      operationId: create_destination_destinations_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Destination'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Destination'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Destination
+      tags:
+      - Destinations
+  /destinations/{destination_id}:
+    delete:
+      description: Remove a holiday destination from the database by its ID.
+      operationId: delete_destination_destinations__destination_id__delete
+      parameters:
+      - description: The ID of the destination to delete.
+        example: 0
+        in: path
+        name: destination_id
+        required: true
+        schema:
+          description: The ID of the destination to delete.
+          title: Destination Id
+          type: integer
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Delete Destination
+      tags:
+      - Destinations
+    get:
+      description: Retrieve details of a specific holiday destination by its ID.
+      operationId: get_destination_by_id_destinations__destination_id__get
+      parameters:
+      - description: The ID of the destination to retrieve.
+        example: 0
+        in: path
+        name: destination_id
+        required: true
+        schema:
+          description: The ID of the destination to retrieve.
+          title: Destination Id
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Destination'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Get Destination By Id
+      tags:
+      - Destinations
+    put:
+      description: Update details of a specific holiday destination by its ID.
+      operationId: update_destination_destinations__destination_id__put
+      parameters:
+      - description: The ID of the destination to update.
+        example: 1
+        in: path
+        name: destination_id
+        required: true
+        schema:
+          description: The ID of the destination to update.
+          title: Destination Id
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Destination'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Destination'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Update Destination
+      tags:
+      - Destinations
+components:
+  schemas:
+    Destination:
+      description: Represents a holiday destination.
+      properties:
+        country:
+          description: The country where the destination is located.
+          example: Indonesia
+          title: Country
+          type: string
+        description:
+          description: A brief description of the destination.
+          example: Beautiful beaches and vibrant culture.
+          title: Description
+          type: string
+        name:
+          description: The name of the holiday destination.
+          example: Bali
+          title: Name
+          type: string
+        rating:
+          description: Rating of the destination (0 to 5).
+          example: 4.8
+          maximum: 5.0
+          minimum: 0.0
+          title: Rating
+          type: number
+      required:
+      - name
+      - country
+      - description
+      - rating
+      title: Destination
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
