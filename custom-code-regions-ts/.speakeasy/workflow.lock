@@ -1,0 +1,36 @@
+speakeasyVersion: 1.468.5
+sources:
+    petstore:
+        sourceNamespace: petstore-discriminating-params
+        sourceRevisionDigest: sha256:46e8fd6fec32d5a8694fde9b71694891b76be156372c929988e5dde3bc66b583
+        sourceBlobDigest: sha256:b0608a230a7eb5b23e7f97428904121b83014389c27e01fb26fd38aa41dbc8b2
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    petstore:
+        source: petstore
+        sourceNamespace: petstore-discriminating-params
+        sourceRevisionDigest: sha256:46e8fd6fec32d5a8694fde9b71694891b76be156372c929988e5dde3bc66b583
+        sourceBlobDigest: sha256:b0608a230a7eb5b23e7f97428904121b83014389c27e01fb26fd38aa41dbc8b2
+        codeSamplesNamespace: petstore-discriminating-params
+        codeSamplesRevisionDigest: sha256:cfaac66fea5e3c513f64dcd5cb732d90f039f0aa484c9da3ce64ec1c726ee815
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        petstore:
+            inputs:
+                - location: openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-discriminating-params
+    targets:
+        petstore:
+            target: typescript
+            source: petstore
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/petstore-discriminating-params
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false

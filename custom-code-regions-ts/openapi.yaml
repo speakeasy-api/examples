@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: Petstore API
+  description: ""
+  version: 1.0.0
+servers:
+  # !NOTE: This spec is just for demonstration purposes and does not actually
+  #    work with the petstore server.
+  - url: https://petstore.swagger.io/v2
+paths:
+  /pets/canine:
+    post:
+      operationId: createPetCanine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PetCanine"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+  /pets/avian:
+    post:
+      operationId: createPetAvian
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PetAvian"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id
+    PetCanine:
+      allOf:
+        - $ref: "#/components/schemas/Pet"
+        - type: object
+          required: [breed, length]
+          properties:
+            breed:
+              type: string
+            length:
+              description: Length from nose to tail, in cm.
+              type: number
+    PetAvian:
+      allOf:
+        - $ref: "#/components/schemas/Pet"
+        - type: object
+          required: [species, wingspan]
+          properties:
+            species:
+              type: string
+            wingspan:
+              description: Length from wingtip to wingtip, in cm.
+              type: number
