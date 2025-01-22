@@ -1,0 +1,354 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Holiday Destinations API",
+        "description": "An API to manage a list of holiday destinations, including their details and ratings.",
+        "version": "1.1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local development server"
+        }
+    ],
+    "paths": {
+        "/destinations": {
+            "get": {
+                "tags": [
+                    "Destinations"
+                ],
+                "summary": "Get Destinations",
+                "description": "Retrieve a list of all holiday destinations in the database, optionally filtered by minimum rating.",
+                "operationId": "get_destinations_destinations_get",
+                "parameters": [
+                    {
+                        "name": "min_rating",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "maximum": 5.0,
+                            "minimum": 0.0,
+                            "description": "Filter destinations by minimum rating (0 to 5).",
+                            "default": 0.0,
+                            "title": "Min Rating"
+                        },
+                        "description": "Filter destinations by minimum rating (0 to 5)."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Destination"
+                                    },
+                                    "title": "Response Get Destinations Destinations Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Destinations"
+                ],
+                "summary": "Create Destination",
+                "description": "Add a new holiday destination to the database.",
+                "operationId": "create_destination_destinations_post",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Destination"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Destination"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/destinations/{destination_id}": {
+            "get": {
+                "tags": [
+                    "Destinations"
+                ],
+                "summary": "Get Destination By Id",
+                "description": "Retrieve details of a specific holiday destination by its ID.",
+                "operationId": "get_destination_by_id_destinations__destination_id__get",
+                "parameters": [
+                    {
+                        "name": "destination_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "description": "The ID of the destination to retrieve.",
+                            "title": "Destination Id"
+                        },
+                        "description": "The ID of the destination to retrieve.",
+                        "example": 0
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Destination"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Destinations"
+                ],
+                "summary": "Update Destination",
+                "description": "Update details of a specific holiday destination by its ID.",
+                "operationId": "update_destination_destinations__destination_id__put",
+                "parameters": [
+                    {
+                        "name": "destination_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "description": "The ID of the destination to update.",
+                            "title": "Destination Id"
+                        },
+                        "description": "The ID of the destination to update.",
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Destination"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Destination"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Destinations"
+                ],
+                "summary": "Delete Destination",
+                "description": "Remove a holiday destination from the database by its ID.",
+                "operationId": "delete_destination_destinations__destination_id__delete",
+                "parameters": [
+                    {
+                        "name": "destination_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "description": "The ID of the destination to delete.",
+                            "title": "Destination Id"
+                        },
+                        "description": "The ID of the destination to delete.",
+                        "example": 0
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful Response"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "tags": [
+                    "General"
+                ],
+                "summary": "Read Root",
+                "description": "Root endpoint, returns a friendly greeting.",
+                "operationId": "read_root__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Destination": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "The name of the holiday destination.",
+                        "example": "Bali"
+                    },
+                    "country": {
+                        "type": "string",
+                        "title": "Country",
+                        "description": "The country where the destination is located.",
+                        "example": "Indonesia"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description",
+                        "description": "A brief description of the destination.",
+                        "example": "Beautiful beaches and vibrant culture."
+                    },
+                    "rating": {
+                        "type": "number",
+                        "maximum": 5.0,
+                        "minimum": 0.0,
+                        "title": "Rating",
+                        "description": "Rating of the destination (0 to 5).",
+                        "example": 4.8
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "country",
+                    "description",
+                    "rating"
+                ],
+                "title": "Destination",
+                "description": "Represents a holiday destination."
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}
