@@ -35,8 +35,10 @@ export async function validateWebhook(client: PetstoreCore, {
     components.petDeletedFromJSON,
   ];
 
+  const jsonString = await request.text();
+
   for (const schema of knownSchemas) {
-    const ret = schema(await request.text());
+    const ret = schema(jsonString);
     if (ret.ok) {
       return ret;
     }
@@ -45,8 +47,8 @@ export async function validateWebhook(client: PetstoreCore, {
   return ERR(
     new SDKValidationError(
       "No matching schema found for the given webhook payload",
-      "",
-      request.body,
+      jsonString,
+      jsonString,
     ),
   );
 }
