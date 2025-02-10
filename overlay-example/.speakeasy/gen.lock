@@ -1,0 +1,97 @@
+lockVersion: 2.0.0
+id: d8cc5adc-2fd9-48cd-b9de-9bff5cb0279e
+management:
+  docChecksum: ff0517eb4f7b61ceb61ab99de8ea06b0
+  docVersion: 1.0.0
+  speakeasyVersion: 1.488.0
+  generationVersion: 2.506.0
+  releaseVersion: 0.0.1
+  configChecksum: fbc9ae50ae1896ecb9ce952781a19dcf
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    core: 3.19.0
+    defaultEnabledRetries: 0.1.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.4
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.2.0
+generatedFiles:
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/components/errort.md
+  - docs/models/components/pet.md
+  - docs/models/operations/listpetsrequest.md
+  - docs/models/operations/listpetsresponse.md
+  - docs/models/operations/listpetsresponseresult.md
+  - docs/sdks/pets/README.md
+  - docs/sdks/sdk/README.md
+  - eslint.config.mjs
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/petsCreatePets.ts
+  - src/funcs/petsListPets.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/models/components/error.ts
+  - src/models/components/index.ts
+  - src/models/components/pet.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/index.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/operations/index.ts
+  - src/models/operations/listpets.ts
+  - src/sdk/index.ts
+  - src/sdk/pets.ts
+  - src/sdk/sdk.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  listPets:
+    speakeasy-default-list-pets:
+      responses:
+        "200":
+          application/json: [{"id": 767425, "name": "<value>"}]
+        default:
+          application/json: {"code": 606271, "message": "<value>"}
+  createPets:
+    speakeasy-default-create-pets:
+      requestBody:
+        application/json: {"id": 596804, "name": "<value>"}
+      responses:
+        default:
+          application/json: {"code": 589113, "message": "<value>"}
+examplesVersion: 1.0.0
+generatedTests: {}

@@ -1,0 +1,28 @@
+overlay: 1.0.0
+info:
+  title: Petstore API Enhancements
+  version: 1.0.0
+actions:
+  - target: $.info
+    update:
+      description: The Petstore API allows users to manage their pets efficiently.
+      contact:
+        name: Petstore Support
+        email: support@petstore.com
+
+  - target: $.servers
+    update:
+      - url: https://staging.petstore.com/v1
+        description: Staging server
+      - url: https://api.petstore.com/v1
+        description: Production server
+
+  - target: "$.tags"
+    description: Add a new tag for pet adoption
+    update:
+      - name: Adoption
+        description: All methods related to pet adoption
+
+  - target: "$.paths['/pets/{petId}']"
+    description: Remove the endpoint for fetching pet details
+    remove: true
