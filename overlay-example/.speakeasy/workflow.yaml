@@ -8,7 +8,7 @@ sources:
             - location: overlay.yaml
         output: combined-spec.yaml
         registry:
-            location: registry.speakeasyapi.dev/ash-testing/ash-testing/openapi
+            location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/openapi
 targets:
     overlay-example:
         target: typescript
