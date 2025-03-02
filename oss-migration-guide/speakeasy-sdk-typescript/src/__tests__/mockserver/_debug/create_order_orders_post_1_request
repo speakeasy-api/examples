@@ -1,0 +1,15 @@
+POST /orders HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 88
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.0 2.533.0 1.0.0 coffee-example-api-sdk
+X-Speakeasy-Test-Instance-Id: ABDC62A9-6CB1-D93D-B63E-349A88AAE862
+X-Speakeasy-Test-Name: create_order_orders_post-simple_order
+
+{"id":3,"customer_name":"Charlie","coffee_type":"Americano","size":"Large","price":3.75}

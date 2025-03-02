@@ -1,0 +1,15 @@
+.gitignore
+.openapi-generator-ignore
+api.ts
+api/apis.ts
+api/defaultApi.ts
+git_push.sh
+model/coffeeOrder.ts
+model/coffeeOrderUpdate.ts
+model/coffeeType.ts
+model/hTTPValidationError.ts
+model/models.ts
+model/validationError.ts
+model/validationErrorLocInner.ts
+package.json
+tsconfig.json

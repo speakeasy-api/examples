@@ -1,0 +1,12 @@
+GET /orders?coffee_type=Latte HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.0 2.533.0 1.0.0 coffee-example-api-sdk
+X-Speakeasy-Test-Instance-Id: 53B0DAD9-F996-CFDA-FCAF-C194A80BF949
+X-Speakeasy-Test-Name: get_orders_orders_get-latte
+
