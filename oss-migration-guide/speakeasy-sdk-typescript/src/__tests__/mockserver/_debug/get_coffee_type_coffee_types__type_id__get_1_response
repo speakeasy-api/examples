@@ -1,5 +1,0 @@
-HTTP/1.1 200 OK
-Connection: close
-Content-Type: application/json
-
-{"id":5,"name":"Flat White","description":"Espresso with steamed whole milk","price_multiplier":1.25}

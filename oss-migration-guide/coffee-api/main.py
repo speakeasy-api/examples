@@ -120,18 +120,27 @@ coffee_types_db = {
 }
 
 # --- Endpoints for Coffee Orders ---
-app.get("/", response_model=str)
-async def read_root():
+@app.get("/", response_model=str)
+async def ReadRoot():
+    """
+    Welcome endpoint for the API.
+    """
     return "Welcome to the Coffee Orders API! 🚀"
 
 
 @app.get("/orders", response_model=List[CoffeeOrder])
-async def get_orders(coffee_type: Optional[str] = Query(
+async def GetOrders(coffee_type: Optional[str] = Query(
     None, description="Optional filter by coffee type (case-insensitive)"
 )):
     """
     Retrieve all coffee orders.
     If 'coffee_type' is provided, returns orders matching that coffee type.
+    
+    Parameters:
+    - **coffee_type**: Optional query parameter to filter orders by coffee type
+    
+    Returns:
+    - List of coffee orders matching the filter criteria or all orders if no filter is applied
     """
     orders = list(orders_db.values())
     if coffee_type:
@@ -139,9 +148,18 @@ async def get_orders(coffee_type: Optional[str] = Query(
     return orders
 
 @app.get("/orders/{order_id}", response_model=CoffeeOrder)
-async def get_order(order_id: int):
+async def GetOrder(order_id: int):
     """
     Retrieve a specific coffee order by its ID.
+    
+    Parameters:
+    - **order_id**: The ID of the order to retrieve
+    
+    Returns:
+    - The coffee order with the specified ID
+    
+    Raises:
+    - **404**: If the order with the specified ID is not found
     """
     order = orders_db.get(order_id)
     if not order:
@@ -149,16 +167,16 @@ async def get_order(order_id: int):
     return order
 
 @app.post("/orders", response_model=CoffeeOrder, status_code=201)
-async def create_order(order: CoffeeOrder):
+async def CreateOrder(order: CoffeeOrder):
     """
     Create a new coffee order.
-
+    
     Parameters:
     - **order**: The coffee order details including customer name, coffee type, size, and optional extras
-
+    
     Returns:
     - The created coffee order
-
+    
     Raises:
     - **400**: If the order ID already exists or if the coffee type is invalid
     """
@@ -179,9 +197,20 @@ async def create_order(order: CoffeeOrder):
     return order
 
 @app.put("/orders/{order_id}", response_model=CoffeeOrder)
-async def update_order(order_id: int, order_update: CoffeeOrderUpdate):
+async def UpdateOrder(order_id: int, order_update: CoffeeOrderUpdate):
     """
     Update an existing coffee order.
+    
+    Parameters:
+    - **order_id**: The ID of the order to update
+    - **order_update**: The updated order information
+    
+    Returns:
+    - The updated coffee order
+    
+    Raises:
+    - **404**: If the order with the specified ID is not found
+    - **400**: If the coffee type provided is invalid
     """
     stored_order = orders_db.get(order_id)
     if not stored_order:
@@ -195,9 +224,15 @@ async def update_order(order_id: int, order_update: CoffeeOrderUpdate):
     return updated_order
 
 @app.delete("/orders/{order_id}", status_code=204)
-async def delete_order(order_id: int):
+async def DeleteOrder(order_id: int):
     """
     Delete a coffee order.
+    
+    Parameters:
+    - **order_id**: The ID of the order to delete
+    
+    Raises:
+    - **404**: If the order with the specified ID is not found
     """
     if order_id not in orders_db:
         raise HTTPException(status_code=404, detail="Order not found")
@@ -206,16 +241,28 @@ async def delete_order(order_id: int):
 # --- Endpoints for Coffee Types ---
 
 @app.get("/coffee-types", response_model=List[CoffeeType])
-async def get_coffee_types():
+async def GetCoffeeTypes():
     """
     Retrieve all available coffee types.
+    
+    Returns:
+    - List of all available coffee types
     """
     return list(coffee_types_db.values())
 
 @app.get("/coffee-types/{type_id}", response_model=CoffeeType)
-async def get_coffee_type(type_id: int):
+async def GetCoffeeType(type_id: int):
     """
     Retrieve a specific coffee type by its ID.
+    
+    Parameters:
+    - **type_id**: The ID of the coffee type to retrieve
+    
+    Returns:
+    - The coffee type with the specified ID
+    
+    Raises:
+    - **404**: If the coffee type with the specified ID is not found
     """
     coffee_type = coffee_types_db.get(type_id)
     if not coffee_type:
@@ -223,9 +270,18 @@ async def get_coffee_type(type_id: int):
     return coffee_type
 
 @app.post("/coffee-types", response_model=CoffeeType, status_code=201)
-async def create_coffee_type(coffee_type: CoffeeType):
+async def CreateCoffeeType(coffee_type: CoffeeType):
     """
     Create a new coffee type.
+    
+    Parameters:
+    - **coffee_type**: The coffee type details including name, description, and price multiplier
+    
+    Returns:
+    - The created coffee type
+    
+    Raises:
+    - **400**: If a coffee type with the specified ID already exists
     """
     if coffee_type.id in coffee_types_db:
         raise HTTPException(status_code=400, detail="Coffee type with this ID already exists")
@@ -233,9 +289,19 @@ async def create_coffee_type(coffee_type: CoffeeType):
     return coffee_type
 
 @app.put("/coffee-types/{type_id}", response_model=CoffeeType)
-async def update_coffee_type(type_id: int, updated_type: CoffeeType):
+async def UpdateCoffeeType(type_id: int, updated_type: CoffeeType):
     """
     Update an existing coffee type.
+    
+    Parameters:
+    - **type_id**: The ID of the coffee type to update
+    - **updated_type**: The updated coffee type information
+    
+    Returns:
+    - The updated coffee type
+    
+    Raises:
+    - **404**: If the coffee type with the specified ID is not found
     """
     if type_id not in coffee_types_db:
         raise HTTPException(status_code=404, detail="Coffee type not found")
@@ -243,9 +309,15 @@ async def update_coffee_type(type_id: int, updated_type: CoffeeType):
     return updated_type
 
 @app.delete("/coffee-types/{type_id}", status_code=204)
-async def delete_coffee_type(type_id: int):
+async def DeleteCoffeeType(type_id: int):
     """
     Delete a coffee type.
+    
+    Parameters:
+    - **type_id**: The ID of the coffee type to delete
+    
+    Raises:
+    - **404**: If the coffee type with the specified ID is not found
     """
     if type_id not in coffee_types_db:
         raise HTTPException(status_code=404, detail="Coffee type not found")

@@ -1,5 +1,0 @@
-HTTP/1.1 200 OK
-Connection: close
-Content-Type: application/json
-
-{"id":1,"customer_name":"Alice","coffee_type":"Latte","size":"Medium","extras":["Extra shot","Soy milk"],"price":4.5}

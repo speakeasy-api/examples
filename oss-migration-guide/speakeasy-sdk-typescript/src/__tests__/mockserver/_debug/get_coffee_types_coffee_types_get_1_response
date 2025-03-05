@@ -1,5 +1,0 @@
-HTTP/1.1 200 OK
-Connection: close
-Content-Type: application/json
-
-[{"id":1,"name":"Espresso","description":"Strong and bold coffee shot","price_multiplier":1},{"id":2,"name":"Latte","description":"Espresso with steamed milk","price_multiplier":1.2},{"id":3,"name":"Mocha","description":"Espresso with chocolate and steamed milk","price_multiplier":1.3}]

@@ -1,0 +1,16 @@
+PUT /coffee-types/1 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 101
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.1.0 2.539.1 1.0.0 speakeasy-coffee-client
+X-Api-Key: your-api-key-here
+X-Speakeasy-Test-Instance-Id: 6C248544-9C04-FE28-256E-B90218659AE4
+X-Speakeasy-Test-Name: UpdateCoffeeType-espresso
+
+{"name":"Flat White","description":"Espresso with steamed whole milk","id":5,"price_multiplier":1.25}

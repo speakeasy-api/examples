@@ -1,0 +1,16 @@
+PUT /coffee-types/2 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 94
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.1.0 2.539.1 1.0.0 speakeasy-coffee-client
+X-Api-Key: your-api-key-here
+X-Speakeasy-Test-Instance-Id: 42511DD4-3A08-63B7-82CD-26C92E1FDF02
+X-Speakeasy-Test-Name: UpdateCoffeeType-latte
+
+{"name":"Cold Brew","description":"Smooth, cold-steeped coffee","id":4,"price_multiplier":1.4}
