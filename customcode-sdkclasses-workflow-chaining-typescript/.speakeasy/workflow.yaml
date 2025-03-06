@@ -1,0 +1,18 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Store Demo API:
+        inputs:
+            - location: ./schemas/store.yaml
+        registry:
+            location: registry.speakeasyapi.dev/speakeasy-onboarding/onboarding/store-demo-api
+targets:
+    store:
+        target: typescript
+        source: Store Demo API
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/speakeasy-onboarding/onboarding/store-demo-api-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false

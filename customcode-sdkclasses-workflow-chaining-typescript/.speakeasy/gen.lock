@@ -1,0 +1,131 @@
+lockVersion: 2.0.0
+id: 3b3aa5a2-98ac-4658-9386-4beba0c102c5
+management:
+  docChecksum: fe6a9e0d81eaf3aef9771c5c53e1b0b0
+  docVersion: 1.0.0
+  speakeasyVersion: 1.510.0
+  generationVersion: 2.541.0
+  releaseVersion: 0.2.2
+  configChecksum: 98034825fecde2b7d7c3b1b8b6c236c3
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    core: 3.21.3
+    customCodeRegions: 0.1.0
+    defaultEnabledRetries: 0.1.0
+    devContainers: 2.90.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.4
+    mcpServer: 0.4.1
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.2.0
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/operations/addpricingrequest.md
+  - docs/models/operations/addpricingrequestbody.md
+  - docs/models/operations/addpricingresponse.md
+  - docs/models/operations/createproductrequest.md
+  - docs/models/operations/createproductresponse.md
+  - docs/models/operations/pricing.md
+  - docs/models/operations/publishproductrequest.md
+  - docs/models/operations/publishproductresponse.md
+  - docs/sdks/store/README.md
+  - eslint.config.mjs
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/addPricing.ts
+  - src/funcs/createProduct.ts
+  - src/funcs/publishProduct.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/env.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/mcp-server/build.mts
+  - src/mcp-server/cli.ts
+  - src/mcp-server/cli/start/command.ts
+  - src/mcp-server/cli/start/impl.ts
+  - src/mcp-server/console-logger.ts
+  - src/mcp-server/mcp-server.ts
+  - src/mcp-server/resources.ts
+  - src/mcp-server/scopes.ts
+  - src/mcp-server/server.ts
+  - src/mcp-server/shared.ts
+  - src/mcp-server/tools.ts
+  - src/mcp-server/tools/addPricing.ts
+  - src/mcp-server/tools/createProduct.ts
+  - src/mcp-server/tools/publishProduct.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/index.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/operations/addpricing.ts
+  - src/models/operations/createproduct.ts
+  - src/models/operations/index.ts
+  - src/models/operations/publishproduct.ts
+  - src/sdk/index.ts
+  - src/sdk/sdk.ts
+  - src/types/async.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  createProduct:
+    speakeasy-default-create-product:
+      requestBody:
+        application/json: {"name": "<value>"}
+      responses:
+        "201":
+          application/json: {}
+  addPricing:
+    speakeasy-default-add-pricing:
+      parameters:
+        path:
+          productId: "<id>"
+      requestBody:
+        application/json: {"amount": 8999.58, "currency": "Saint Helena Pound"}
+      responses:
+        "200":
+          application/json: {}
+  publishProduct:
+    speakeasy-default-publish-product:
+      parameters:
+        path:
+          productId: "<id>"
+      responses:
+        "200":
+          application/json: {}
+examplesVersion: 1.0.0
+generatedTests: {}

@@ -1,0 +1,36 @@
+speakeasyVersion: 1.510.0
+sources:
+    Store Demo API:
+        sourceNamespace: store-demo-api
+        sourceRevisionDigest: sha256:af88a4cb19c82d38760b7217cd77ee3c7bd6141b7cdff4e2cdd9ec1f311bc6d2
+        sourceBlobDigest: sha256:bb71e3ffb48219017baf5662670e377ea3eee6d67366c91034a6a563bcd91f98
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    store:
+        source: Store Demo API
+        sourceNamespace: store-demo-api
+        sourceRevisionDigest: sha256:af88a4cb19c82d38760b7217cd77ee3c7bd6141b7cdff4e2cdd9ec1f311bc6d2
+        sourceBlobDigest: sha256:bb71e3ffb48219017baf5662670e377ea3eee6d67366c91034a6a563bcd91f98
+        codeSamplesNamespace: store-demo-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:352f012a793936d5aae26f0e6e1559db9616c47ce6c715e243643e78302c8dfb
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Store Demo API:
+            inputs:
+                - location: ../schemas/store.yaml
+            registry:
+                location: registry.speakeasyapi.dev/speakeasy-onboarding/onboarding/store-demo-api
+    targets:
+        store:
+            target: typescript
+            source: Store Demo API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/speakeasy-onboarding/onboarding/store-demo-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false
