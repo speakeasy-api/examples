@@ -1,7 +1,7 @@
 <div align="center">
  <a href="https://www.speakeasy.com/" target="_blank">
    <picture>
-       <img width="500px" src="./assets/banner.png" alt="Speakeasy">
+       <img width="500px" src=".assets/banner.png" alt="Speakeasy">
    </picture>
  </a>
   <div>
