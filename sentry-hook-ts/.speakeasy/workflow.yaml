@@ -1,0 +1,18 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Speakeasy API:
+        inputs:
+            - location: https://www.speakeasy.com/openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/sagar-demo/sagar-demo/speakeasy-api
+targets:
+    speakeasy:
+        target: typescript
+        source: Speakeasy API
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/sagar-demo/sagar-demo/speakeasy-api-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false
