@@ -1,0 +1,3797 @@
+openapi: 3.0.3
+info:
+    description: The Subscriptions API manages subscriptions for CLI and registry events
+    title: Speakeasy API
+    version: 0.4.0
+servers:
+    - url: https://api.prod.speakeasyapi.dev
+      x-speakeasy-server-id: prod
+x-speakeasy-globals:
+    parameters:
+        - name: workspace_id
+          in: path
+          schema:
+            type: string
+security:
+    - APIKey: []
+    - WorkspaceIdentifier: []
+    - Bearer: []
+tags:
+    - description: REST APIs for managing Authentication
+      name: Auth
+    - description: REST APIs for managing events captured by a speakeasy binary (CLI, GitHub Action etc)
+      name: Events
+    - description: REST APIs for managing reports (lint reports, change reports, etc)
+      name: Reports
+    - description: REST APIs for managing the github integration
+      name: Github
+    - description: REST APIs for managing LLM OAS suggestions
+      name: Suggest
+    - name: ShortURLs
+      description: REST APIs for managing short URLs
+    - name: Workspaces
+      description: REST APIs for managing Workspaces (speakeasy tenancy)
+    - name: Organizations
+      description: REST APIs for managing Organizations (speakeasy L1 Tenancy construct)
+    - name: CodeSamples
+      description: REST APIs for retrieving Code Samples
+    - description: REST APIs for working with Registry artifacts
+      name: Artifacts
+    - name: Subscriptions
+      description: REST APIs for managing subscriptions
+externalDocs:
+    url: /docs
+    description: The Speakeasy Platform Documentation
+paths:
+    /v1/auth/validate:
+        get:
+            summary: Validate the current api key.
+            operationId: validateApiKey
+            tags:
+                - Auth
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ApiKeyDetails"
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/user:
+        get:
+            summary: Get information about the current user.
+            operationId: getUser
+            tags:
+                - Auth
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/User"
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/auth/access_token:
+        get:
+            summary: Get or refresh an access token for the current workspace.
+            security:
+                - {}
+            operationId: getAccessToken
+            tags:
+                - Auth
+            parameters:
+                - description: The workspace ID
+                  in: query
+                  name: workspace_id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/AccessToken"
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/code_sample:
+        get:
+            summary: Retrieve usage snippets
+            description: >-
+                Retrieve usage snippets from an OpenAPI document stored in the registry. Supports filtering by language and operation ID.
+            operationId: getCodeSamples
+            x-speakeasy-name-override: get
+            tags:
+                - CodeSamples
+            parameters:
+                - name: registry_url
+                  description: The registry URL from which to retrieve the snippets.
+                  in: query
+                  required: true
+                  example: https://spec.speakeasy.com/my-org/my-workspace/my-source
+                  schema:
+                    type: string
+                - name: operation_ids
+                  description: The operation IDs to retrieve snippets for.
+                  in: query
+                  required: false
+                  example: "getPets"
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: method_paths
+                  description: The method paths to retrieve snippets for.
+                  in: query
+                  required: false
+                  example: [{"method": "get", "path": "/pets"}]
+                  schema:
+                    type: array
+                    items:
+                        type: object
+                        required:
+                            - "method"
+                            - "path"
+                        properties:
+                            method:
+                                $ref: "#/components/schemas/HttpMethod"
+                            path:
+                                type: string
+                - name: languages
+                  description: The languages to retrieve snippets for.
+                  in: query
+                  required: false
+                  example: ["python", "javascript"]
+                  schema:
+                    type: array
+                    items:
+                        type: string
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/UsageSnippets"
+                            examples:
+                                default:
+                                    $ref: "#/components/examples/UsageSnippets"
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/code_sample/preview:
+        post:
+            summary: Generate Code Sample previews from a file and configuration parameters.
+            description: This endpoint generates Code Sample previews from a file and configuration parameters.
+            operationId: generateCodeSamplePreview
+            tags:
+                - CodeSamples
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            $ref: "#/components/schemas/CodeSampleSchemaInput"
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/UsageSnippets"
+                            examples:
+                                default:
+                                    $ref: "#/components/examples/UsageSnippets"
+                4XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/code_sample/preview/async:
+        post:
+            summary: Initiate asynchronous Code Sample preview generation from a file and configuration parameters, receiving an async JobID response for polling.
+            description: This endpoint generates Code Sample previews from a file and configuration parameters, receiving an async JobID response for polling.
+            operationId: generateCodeSamplePreviewAsync
+            tags:
+                - CodeSamples
+            requestBody:
+                required: true
+                content:
+                    multipart/form-data:
+                        schema:
+                            $ref: "#/components/schemas/CodeSampleSchemaInput"
+            responses:
+                "202":
+                    description: Job accepted, returns a job ID to poll for status and result
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - job_id
+                                    - status
+                                properties:
+                                    job_id:
+                                        type: string
+                                        description: The job ID for polling
+                                    status:
+                                        $ref: "#/components/schemas/CodeSamplesJobStatus"
+                4XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/code_sample/preview/async/{jobID}:
+        get:
+            summary: Poll for the result of an asynchronous Code Sample preview generation.
+            description: Poll for the result of an asynchronous Code Sample preview generation.
+            operationId: getCodeSamplePreviewAsync
+            tags:
+                - CodeSamples
+            parameters:
+                - in: path
+                  name: jobID
+                  required: true
+                  schema:
+                    type: string
+                  description: The ID of the job to check the status and retrieve results
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/UsageSnippets"
+                            examples:
+                                default:
+                                    $ref: "#/components/examples/UsageSnippets"
+                "202":
+                    description: Job is still in progress
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                required:
+                                    - status
+                                properties:
+                                    status:
+                                        $ref: "#/components/schemas/CodeSamplesJobStatus"
+                4XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/github/setup:
+        get:
+            operationId: getGithubSetupState
+            x-speakeasy-name-override: getSetup
+            tags:
+                - Github
+            parameters:
+                - in: query
+                  name: org
+                  required: true
+                  schema:
+                    type: string
+                - in: query
+                  name: repo
+                  required: true
+                  schema:
+                    type: string
+                - in: query
+                  name: generate_gen_lock_id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GithubSetupStateResponse"
+                    description: github setup state response
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/github/check_access:
+        get:
+            operationId: checkGithubAccess
+            x-speakeasy-name-override: checkAccess
+            tags:
+                - Github
+            parameters:
+                - in: query
+                  name: org
+                  required: true
+                  schema:
+                    type: string
+                - in: query
+                  name: repo
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/github/link:
+        post:
+            operationId: linkGithubAccess
+            x-speakeasy-name-override: linkGithub
+            tags:
+                - Github
+            parameters:
+                - in: query
+                  name: installation_id
+                  required: false
+                  schema:
+                    type: string
+                - in: query
+                  name: github_org
+                  required: false
+                  schema:
+                    type: string
+                - in: query
+                  name: github_oidc_token
+                  required: false
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/github/publishing_prs:
+        get:
+            operationId: githubCheckPublishingPRs
+            x-speakeasy-name-override: checkPublishingPRs
+            x-speakeasy-test: false
+            tags:
+                - Github
+            parameters:
+                - in: query
+                  name: generate_gen_lock_id
+                  required: true
+                  schema:
+                    type: string
+                - in: query
+                  name: org
+                  required: true
+                  schema:
+                    type: string
+                - in: query
+                  name: repo
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GithubPublishingPRResponse"
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/github/publishing_secrets:
+        get:
+            operationId: githubCheckPublishingSecrets
+            x-speakeasy-name-override: checkPublishingSecrets
+            x-speakeasy-test: false
+            tags:
+                - Github
+            parameters:
+                - in: query
+                  name: generate_gen_lock_id
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GithubMissingPublishingSecretsResponse"
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+        post:
+            operationId: githubStorePublishingSecrets
+            x-speakeasy-name-override: storePublishingSecrets
+            tags:
+                - Github
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/GithubStorePublishingSecretsRequest"
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/github/configure_code_samples:
+        post:
+            operationId: githubConfigureCodeSamples
+            x-speakeasy-name-override: configureCodeSamples
+            tags:
+                - Github
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/GithubConfigureCodeSamplesRequest"
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GithubConfigureCodeSamplesResponse"
+                                required: true
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/github/configure_mintlify_repo:
+        post:
+            operationId: githubConfigureMintlifyRepo
+            x-speakeasy-name-override: configureMintlifyRepo
+            tags:
+                - Github
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/GithubConfigureMintlifyRepoRequest"
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/github/configure_target:
+        post:
+            operationId: githubConfigureTarget
+            x-speakeasy-name-override: configureTarget
+            tags:
+                - Github
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/GithubConfigureTargetRequest"
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/github/trigger_action:
+        post:
+            operationId: githubTriggerAction
+            x-speakeasy-name-override: triggerAction
+            tags:
+                - Github
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/GithubTriggerActionRequest"
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/github/action:
+        get:
+            operationId: getGitHubAction
+            x-speakeasy-name-override: getAction
+            x-speakeasy-test: false
+            tags:
+                - Github
+            parameters:
+                - description: The targetName of the workflow target.
+                  in: query
+                  name: targetName
+                  schema:
+                    type: string
+                - in: query
+                  name: org
+                  required: true
+                  schema:
+                    type: string
+                - in: query
+                  name: repo
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/GithubGetActionResponse"
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/organizations:
+        get:
+            summary: Get organizations for a user
+            description: |-
+                Returns a list of organizations a user has access too
+            operationId: getOrganizations
+            x-speakeasy-name-override: getAll
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                title: Organizations
+                                items:
+                                    $ref: "#/components/schemas/Organization"
+                                type: array
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+            tags:
+                - Organizations
+    /v1/organization:
+        post:
+            summary: Create an organization
+            description: |-
+                Creates an organization
+            operationId: createOrganization
+            x-speakeasy-name-override: create
+            requestBody:
+                description: The organization to create
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Organization"
+                required: true
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Organization"
+                4XX:
+                    $ref: "#/components/responses/default"
+            tags:
+                - Organizations
+    /v1/organization/{organizationID}:
+        parameters:
+            - name: organizationID
+              in: path
+              required: true
+              description: Unique identifier of the organization.
+              schema:
+                type: string
+        get:
+            summary: Get organization
+            description: |-
+                Get information about a particular organization.
+            operationId: getOrganization
+            x-speakeasy-name-override: get
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Organization"
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+            tags:
+                - Organizations
+    /v1/organization/free_trial:
+        post:
+            summary: Create a free trial for an organization
+            description: |-
+                Creates a free trial for an organization
+            operationId: createFreeTrial
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+            tags:
+                - Organizations
+    /v1/organization/usage:
+        get:
+            summary: Get billing usage summary for a particular organization
+            description: |-
+                Returns a billing usage summary by target languages for a particular organization
+            operationId: getOrganizationUsage
+            x-speakeasy-name-override: getUsage
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/OrganizationUsageResponse"
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+            tags:
+                - Organizations
+    /v1/organization/add_ons:
+        post:
+            summary: Create billing add ons
+            operationId: createBillingAddOns
+            tags:
+                - Organizations
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/OrganizationBillingAddOnRequest"
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/OrganizationBillingAddOnResponse"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        get:
+            summary: Get billing add ons
+            operationId: getBillingAddOns
+            tags:
+                - Organizations
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/OrganizationBillingAddOnResponse"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/organization/add_ons/{add_on}:
+        parameters:
+            - name: add_on
+              in: path
+              required: true
+              description: The specific add-on to delete.
+              schema:
+                $ref: "#/components/schemas/BillingAddOn"
+        delete:
+            summary: Delete billing add ons
+            operationId: deleteBillingAddOn
+            tags:
+                - Organizations
+            responses:
+                "200":
+                    description: Success
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/workspaces:
+        get:
+            summary: Get workspaces for a user
+            description: |-
+                Returns a list of workspaces a user has access too
+            operationId: getWorkspaces
+            x-speakeasy-name-override: getAll
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                title: Workspaces
+                                items:
+                                    $ref: "#/components/schemas/Workspace"
+                                type: array
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+            tags:
+                - Workspaces
+    /v1/workspace:
+        get:
+            summary: Get workspace by context
+            tags:
+                - Workspaces
+            description: |-
+                Get information about a particular workspace by context.
+            operationId: getWorkspaceByContext
+            x-speakeasy-name-override: get
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/WorkspaceAndOrganization"
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+        post:
+            summary: Create a workspace
+            description: |-
+                Creates a workspace
+            operationId: createWorkspace
+            x-speakeasy-name-override: create
+            tags:
+                - Workspaces
+            requestBody:
+                description: The workspace to create
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Workspace"
+                required: true
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Workspace"
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/workspace/{workspace_id}:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+        get:
+            summary: Get workspace
+            tags:
+                - Workspaces
+            description: |-
+                Get information about a particular workspace.
+            operationId: getWorkspace
+            x-speakeasy-name-override: getByID
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Workspace"
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/workspace/{workspace_id}/details:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+        post:
+            summary: Update workspace details
+            tags:
+                - Workspaces
+            description: |-
+                Update information about a particular workspace.
+            operationId: updateWorkspaceDetails
+            x-speakeasy-name-override: update
+            x-speakeasy-test: false
+            requestBody:
+                description: The workspace details to update.
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Workspace"
+                required: true
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/workspace/{workspace_id}/settings:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+        get:
+            summary: Get workspace settings
+            tags:
+                - Workspaces
+            description: |-
+                Get settings about a particular workspace.
+            operationId: getWorkspaceSettings
+            x-speakeasy-name-override: getSettings
+            responses:
+                "2XX":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/WorkspaceSettings"
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+        put:
+            summary: Update workspace settings
+            tags:
+                - Workspaces
+            description: |-
+                Update settings about a particular workspace.
+            operationId: updateWorkspaceSettings
+            x-speakeasy-name-override: updateSettings
+            requestBody:
+                description: The workspace settings to update.
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/WorkspaceSettings"
+                required: true
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/workspace/{workspace_id}/events:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+        get:
+            description: Search events for a particular workspace by any field
+            operationId: searchWorkspaceEvents
+            x-speakeasy-name-override: search
+            x-speakeasy-test: false
+            parameters:
+                - name: source_revision_digest
+                  in: query
+                  required: false
+                  description: Unique identifier of the source revision digest.
+                  schema:
+                    type: string
+                - name: lint_report_digest
+                  in: query
+                  required: false
+                  description: Unique identifier of the lint report digest.
+                  schema:
+                    type: string
+                - name: openapi_diff_report_digest
+                  in: query
+                  required: false
+                  description: Unique identifier of the openapi diff report digest.
+                  schema:
+                    type: string
+                - name: interaction_type
+                  in: query
+                  required: false
+                  description: Specified interaction type for events.
+                  schema:
+                    $ref: "#/components/schemas/InteractionType"
+                - name: generate_gen_lock_id
+                  in: query
+                  required: false
+                  description: A specific gen lock ID for the events.
+                  schema:
+                    type: string
+                - name: execution_id
+                  in: query
+                  required: false
+                  description: Shared execution ID for cli events across a single action.
+                  schema:
+                    type: string
+                - name: success
+                  in: query
+                  required: false
+                  description: Whether the event was successful or not.
+                  schema:
+                    type: boolean
+                - name: limit
+                  in: query
+                  required: false
+                  description: Number of results to return.
+                  schema:
+                    type: integer
+            tags:
+                - Events
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/CliEventBatch"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        post:
+            summary: Post events for a specific workspace
+            description: Sends an array of events to be stored for a particular workspace.
+            operationId: postWorkspaceEvents
+            x-speakeasy-name-override: post
+            x-speakeasy-retries:
+                strategy: backoff
+                backoff:
+                    initialInterval: 100
+                    maxInterval: 2000
+                    maxElapsedTime: 60000
+                    exponent: 1.5
+                statusCodes:
+                    - 408
+                    - 500
+                    - 502
+                    - 503
+                retryConnectionErrors: true
+            x-speakeasy-test: false
+            tags:
+                - Events
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/CliEventBatch"
+            responses:
+                2XX:
+                    description: Success
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/workspace/{workspace_id}/team:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+        get:
+            summary: Get team members for a particular workspace
+            operationId: getWorkspaceTeam
+            x-speakeasy-name-override: getTeam
+            x-speakeasy-test: false
+            tags:
+                - Workspaces
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/WorkspaceTeamResponse"
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/workspace/{workspace_id}/team/email/{email}:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+            - name: email
+              in: path
+              required: true
+              description: Email of the user to grant access to.
+              schema:
+                type: string
+        put:
+            summary: Grant a user access to a particular workspace
+            operationId: grantUserAccessToWorkspace
+            x-speakeasy-name-override: grantAccess
+            x-speakeasy-test: false
+            tags:
+                - Workspaces
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/WorkspaceInviteResponse"
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/workspace/{workspace_id}/team/{userId}:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+            - name: userId
+              in: path
+              required: true
+              description: Unique identifier of the user.
+              schema:
+                type: string
+        delete:
+            summary: Revoke a user's access to a particular workspace
+            operationId: revokeUserAccessToWorkspace
+            x-speakeasy-name-override: revokeAccess
+            x-speakeasy-test: false
+            tags:
+                - Workspaces
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/workspace/{workspace_id}/tokens:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+        get:
+            summary: Get tokens for a particular workspace
+            operationId: getWorkspaceTokens
+            x-speakeasy-name-override: getTokens
+            x-speakeasy-test: false
+            tags:
+                - Workspaces
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/WorkspaceToken"
+                4XX:
+                    $ref: "#/components/responses/default"
+        post:
+            summary: Create a token for a particular workspace
+            operationId: createWorkspaceToken
+            x-speakeasy-name-override: createToken
+            x-speakeasy-test: false
+            tags:
+                - Workspaces
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/WorkspaceToken"
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/workspace/{workspace_id}/tokens/{tokenID}:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+            - name: tokenID
+              in: path
+              required: true
+              description: Unique identifier of the token.
+              schema:
+                type: string
+        delete:
+            summary: Delete a token for a particular workspace
+            operationId: deleteWorkspaceToken
+            x-speakeasy-name-override: deleteToken
+            x-speakeasy-test: false
+            tags:
+                - Workspaces
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/workspace/feature_flags:
+        post:
+            summary: Set workspace feature flags
+            operationId: setWorkspaceFeatureFlags
+            x-speakeasy-name-override: setFeatureFlags
+            tags:
+                - Workspaces
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/WorkspaceFeatureFlagRequest"
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/WorkspaceFeatureFlagResponse"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/workspace/{workspace_id}/feature_flags:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+        get:
+            summary: Get workspace feature flags
+            operationId: getWorkspaceFeatureFlags
+            x-speakeasy-name-override: getFeatureFlags
+            tags:
+                - Workspaces
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/WorkspaceFeatureFlagResponse"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/workspace/{workspace_id}/events/targets/{target_id}/events:
+        get:
+            description: Load recent events for a particular workspace
+            operationId: getWorkspaceEventsByTarget
+            x-speakeasy-name-override: getEventsByTarget
+            x-speakeasy-test: false
+            tags:
+                - Events
+            parameters:
+                - name: workspace_id
+                  in: path
+                  required: true
+                  description: Unique identifier of the workspace.
+                  schema:
+                    type: string
+                - name: target_id
+                  in: path
+                  description: Filter to only return events corresponding to a particular gen_lock_id (gen_lock_id uniquely identifies a target)
+                  required: true
+                  schema:
+                    type: string
+                - name: after_created_at
+                  in: query
+                  description: Filter to only return events created after this timestamp
+                  required: false
+                  schema:
+                    type: string
+                    format: date-time
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/CliEventBatch"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/workspace/access:
+        get:
+            summary: Get access allowances for a particular workspace
+            description: Checks if generation is permitted for a particular run of the CLI
+            operationId: getWorkspaceAccess
+            x-speakeasy-name-override: getAccess
+            x-speakeasy-retries:
+                strategy: backoff
+                backoff:
+                    initialInterval: 100
+                    maxInterval: 2000
+                    maxElapsedTime: 60000
+                    exponent: 1.5
+                statusCodes:
+                    - 408
+                    - 500
+                    - 502
+                    - 503
+                retryConnectionErrors: true
+            tags:
+                - Auth
+            parameters:
+                - name: genLockId
+                  in: query
+                  description: Unique identifier of the generation target.
+                  schema:
+                    type: string
+                - name: targetType
+                  in: query
+                  description: The type of the generated target.
+                  schema:
+                    type: string
+                - name: passive
+                  in: query
+                  description: Skip side-effects like incrementing metrics.
+                  schema:
+                    type: boolean
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/AccessDetails"
+    /v1/workspace/events/targets:
+        parameters:
+            - name: after_last_event_created_at
+              in: query
+              description: Filter to only return targets with events created after this timestamp
+              required: false
+              schema:
+                type: string
+                format: date-time
+        get:
+            description: Load targets for a particular workspace
+            operationId: getWorkspaceTargets
+            x-speakeasy-name-override: getTargets
+            x-speakeasy-test: false
+            tags:
+                - Events
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/TargetSDKList"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/workspace/{workspace_id}/events/targets:
+        parameters:
+            - name: workspace_id
+              in: path
+              required: true
+              description: Unique identifier of the workspace.
+              schema:
+                type: string
+            - name: after_last_event_created_at
+              in: query
+              description: Filter to only return targets with events created after this timestamp
+              required: false
+              schema:
+                type: string
+                format: date-time
+        get:
+            description: Load targets for a particular workspace
+            operationId: getWorkspaceTargetsDeprecated
+            x-speakeasy-name-override: getTargetsDeprecated
+            x-speakeasy-test: false
+            tags:
+                - Events
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/TargetSDKList"
+                5XX:
+                    description: Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /v1/reports:
+        post:
+            summary: Upload a report.
+            operationId: uploadReport
+            requestBody:
+                description: The report file to upload provided as a multipart/form-data file segment.
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                data:
+                                    $ref: "#/components/schemas/Report"
+                                file:
+                                    format: binary
+                                    type: string
+                            required:
+                                - data
+                                - file
+                required: true
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                title: uploadedReport
+                                properties:
+                                    url:
+                                        type: string
+                                required:
+                                    - url
+            tags:
+                - Reports
+    /v1/reports/linting/{documentChecksum}:
+        get:
+            summary: Get the signed access url for the linting reports for a particular document.
+            operationId: getLintingReportSignedUrl
+            parameters:
+                - description: The checksum of the document to retrieve the signed access url for.
+                  in: path
+                  name: documentChecksum
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                title: signedAccess
+                                properties:
+                                    url:
+                                        type: string
+                                required:
+                                    - url
+            tags:
+                - Reports
+    /v1/reports/changes/{documentChecksum}:
+        get:
+            summary: Get the signed access url for the change reports for a particular document.
+            operationId: getChangesReportSignedUrl
+            parameters:
+                - description: The checksum of the document to retrieve the signed access url for.
+                  in: path
+                  name: documentChecksum
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                title: signedAccess
+                                properties:
+                                    url:
+                                        type: string
+                                required:
+                                    - url
+            tags:
+                - Reports
+    /v1/suggest/openapi:
+        post:
+            summary: (DEPRECATED) Generate suggestions for improving an OpenAPI document.
+            description: |-
+                Get suggestions from an LLM model for improving an OpenAPI document.
+            operationId: suggestOpenAPI
+            x-speakeasy-test: false
+            parameters:
+                - in: header
+                  name: x-session-id
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                description: The schema file to upload provided as a multipart/form-data file segment.
+                content:
+                    multipart/form-data:
+                        schema:
+                            properties:
+                                opts:
+                                    $ref: "#/components/schemas/SuggestOptsOld"
+                                schema:
+                                    format: binary
+                                    type: string
+                            required:
+                                - schema
+                            type: object
+                required: true
+            responses:
+                "2XX":
+                    description: An overlay containing the suggested spec modifications.
+                    content:
+                        application/json:
+                            schema:
+                                format: binary
+                                title: Schema
+                                type: string
+            tags:
+                - Suggest
+    /v1/suggest/openapi_from_summary:
+        post:
+            summary: Generate suggestions for improving an OpenAPI document.
+            description: |-
+                Get suggestions from an LLM model for improving an OpenAPI document.
+            operationId: suggest
+            x-speakeasy-test: false
+            parameters:
+                - in: header
+                  name: x-session-id
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                description: The OAS summary and diagnostics to use for the suggestion.
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/SuggestRequestBody"
+                required: true
+            responses:
+                "2XX":
+                    description: An overlay containing the suggested spec modifications.
+                    content:
+                        application/json:
+                            schema:
+                                format: binary
+                                title: Schema
+                                type: string
+            tags:
+                - Suggest
+    /v1/suggest/items:
+        post:
+            summary: Generate generic suggestions for a list of items.
+            operationId: suggestItems
+            requestBody:
+                description: The OAS summary and diagnostics to use for the suggestion.
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/SuggestItemsRequestBody"
+                required: true
+            responses:
+                "2XX":
+                    description: One suggestion per item. Guaranteed to be the same length as the input items.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+            tags:
+                - Suggest
+    /v1/suggest/openapi/{namespace_name}/{revision_reference}:
+        post:
+            summary: Generate suggestions for improving an OpenAPI document stored in the registry.
+            description: |-
+                Get suggestions from an LLM model for improving an OpenAPI document stored in the registry.
+            operationId: suggestOpenAPIRegistry
+            x-speakeasy-test: false
+            parameters:
+                - in: header
+                  name: x-session-id
+                  required: true
+                  schema:
+                    type: string
+                - in: path
+                  name: namespace_name
+                  required: true
+                  schema:
+                    type: string
+                - in: path
+                  name: revision_reference
+                  required: true
+                  schema:
+                    type: string
+                  description: Tag or digest
+            requestBody:
+                description: Suggest options
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/SuggestRequestBody"
+            responses:
+                "2XX":
+                    description: An overlay containing the suggested spec modifications.
+                    content:
+                        application/json:
+                            schema:
+                                format: binary
+                                title: Schema
+                                type: string
+            tags:
+                - Suggest
+    /v1/schema_store:
+        summary: The schema store is a publicly accessible store of OAS schemas. Used in the Speakeasy Sandbox and CLI.
+        get:
+            summary: Get a OAS schema from the schema store
+            operationId: getSchemaStoreItem
+            tags:
+                - SchemaStore
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                id:
+                                    type: string
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SchemaStoreItem"
+                4XX:
+                    $ref: "#/components/responses/default"
+        post:
+            summary: Create a schema in the schema store
+            operationId: createSchemaStoreItem
+            tags:
+                - SchemaStore
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                spec:
+                                    type: string
+                                format:
+                                    type: string
+                                    enum:
+                                        - json
+                                        - yaml
+                            required:
+                                - spec
+                                - format
+                required: true
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SchemaStoreItem"
+                4XX:
+                    $ref: "#/components/responses/default"
+    /v1/short_urls:
+        post:
+            summary: Shorten a URL.
+            operationId: create
+            tags:
+                - ShortURLs
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                url:
+                                    type: string
+                                    description: "URL to shorten"
+                            required:
+                                - url
+                required: true
+            responses:
+                "2XX":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ShortURL"
+    /v1/artifacts/preflight:
+        post:
+            summary: Get access token for communicating with OCI distribution endpoints
+            operationId: preflight
+            x-speakeasy-test: false
+            tags:
+                - Artifacts
+            requestBody:
+                "$ref": "#/components/requestBodies/PreflightRequest"
+            responses:
+                2XX:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/PreflightToken"
+                4XX:
+                    "$ref": "#/components/responses/default"
+    /v1/artifacts/namespaces:
+        get:
+            summary: Each namespace contains many revisions.
+            operationId: getNamespaces
+            tags:
+                - Artifacts
+            responses:
+                2XX:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/GetNamespacesResponse"
+                4XX:
+                    "$ref": "#/components/responses/default"
+    /v1/artifacts/namespaces/{namespace_name}/archive:
+        post:
+            summary: Set whether a namespace is archived
+            operationId: archiveNamespace
+            x-speakeasy-name-override: setArchived
+            tags:
+                - Artifacts
+            parameters:
+                - in: path
+                  name: namespace_name
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                description: Archived status
+                content:
+                    application/json:
+                        schema:
+                            properties:
+                                archived:
+                                    type: boolean
+                                    default: true
+                            type: object
+            responses:
+                2XX:
+                    description: OK
+                4XX:
+                    "$ref": "#/components/responses/default"
+    /v1/artifacts/namespaces/{namespace_name}/revisions:
+        get:
+            operationId: getRevisions
+            tags:
+                - Artifacts
+            parameters:
+                - in: path
+                  name: namespace_name
+                  required: true
+                  schema:
+                    type: string
+                - in: query
+                  name: next_page_token
+                  schema:
+                    type: string
+                  description: Token to retrieve the next page of results
+            responses:
+                2XX:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/GetRevisionsResponse"
+                4XX:
+                    "$ref": "#/components/responses/default"
+    /v1/artifacts/namespaces/{namespace_name}/tags:
+        get:
+            operationId: getTags
+            tags:
+                - Artifacts
+            parameters:
+                - in: path
+                  name: namespace_name
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                2XX:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/GetTagsResponse"
+                4XX:
+                    "$ref": "#/components/responses/default"
+        post:
+            summary: Add tags to an existing revision
+            operationId: postTags
+            tags:
+                - Artifacts
+            parameters:
+                - in: path
+                  name: namespace_name
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                description: A JSON representation of the tags to add
+                content:
+                    application/json:
+                        schema:
+                            "$ref": "#/components/schemas/AddTags"
+            responses:
+                2XX:
+                    description: OK
+                4XX:
+                    "$ref": "#/components/responses/default"
+    /v1/artifacts/namespaces/{namespace_name}/visibility:
+        post:
+            summary: Set visibility of a namespace with an existing metadata entry
+            operationId: setVisibility
+            tags:
+                - Artifacts
+            parameters:
+                - in: path
+                  name: namespace_name
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                description: Namespace visibility
+                content:
+                    application/json:
+                        schema:
+                            properties:
+                                public:
+                                    type: boolean
+                            required:
+                                - public
+                                - tags
+                            type: object
+            responses:
+                2XX:
+                    description: OK
+                4XX:
+                    "$ref": "#/components/responses/default"
+    /v1/artifacts/remote_sources:
+        get:
+            summary: Get remote sources attached to a particular namespace
+            operationId: listRemoteSources
+            tags:
+                - Artifacts
+            parameters:
+                - in: query
+                  name: namespace_name
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                2XX:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                "$ref": "#/components/schemas/RemoteSource"
+                4XX:
+                    "$ref": "#/components/responses/default"
+        post:
+            summary: Configure a new remote source
+            operationId: createRemoteSource
+            tags:
+                - Artifacts
+            requestBody:
+                description: The configuration for the remote source
+                content:
+                    application/json:
+                        schema:
+                            "$ref": "#/components/schemas/RemoteSource"
+            responses:
+                2XX:
+                    description: OK
+                4XX:
+                    "$ref": "#/components/responses/default"
+    /v1/oci/v2/{organization_slug}/{workspace_slug}/{namespace_name}/manifests/{revision_reference}:
+        get:
+            summary: Get manifest for a particular reference
+            operationId: getManifest
+            tags:
+                - Artifacts
+            parameters:
+                - in: header
+                  name: Accept
+                  required: true
+                  schema:
+                    type: string
+                - in: path
+                  name: organization_slug
+                  required: true
+                  schema:
+                    type: string
+                - in: path
+                  name: workspace_slug
+                  required: true
+                  schema:
+                    type: string
+                - in: path
+                  name: namespace_name
+                  required: true
+                  schema:
+                    type: string
+                - in: path
+                  name: revision_reference
+                  required: true
+                  schema:
+                    type: string
+                  description: Tag or digest
+            responses:
+                2XX:
+                    description: OK
+                    content:
+                        application/vnd.oci.image.manifest.v1+json:
+                            schema:
+                                "$ref": "#/components/schemas/Manifest"
+                4XX:
+                    "$ref": "#/components/responses/default"
+    /v1/oci/v2/{organization_slug}/{workspace_slug}/{namespace_name}/blobs/{digest}:
+        get:
+            summary: Get blob for a particular digest
+            operationId: getBlob
+            tags:
+                - Artifacts
+            parameters:
+                - in: path
+                  name: organization_slug
+                  required: true
+                  schema:
+                    type: string
+                - in: path
+                  name: workspace_slug
+                  required: true
+                  schema:
+                    type: string
+                - in: path
+                  name: namespace_name
+                  required: true
+                  schema:
+                    type: string
+                - in: path
+                  name: digest
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                2XX:
+                    description: OK
+                    content:
+                        application/octet-stream:
+                            schema:
+                                format: binary
+                                title: Blob
+                                type: string
+                4XX:
+                    "$ref": "#/components/responses/default"
+    /v1/subscriptions/{subscriptionID}/{namespaceName}/ignore:
+        post:
+            operationId: ignoreSubscriptionNamespace
+            parameters:
+                - description: The existing subscription ID
+                  in: path
+                  name: subscriptionID
+                  required: true
+                  schema:
+                    type: string
+                - description: The namespace name
+                  in: path
+                  name: namespaceName
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+            summary: Ignored a namespace for a subscription
+            tags:
+                - Subscriptions
+    /v1/subscriptions/{subscriptionID}/{namespaceName}/activate:
+        post:
+            operationId: activateSubscriptionNamespace
+            parameters:
+                - description: The existing subscription ID
+                  in: path
+                  name: subscriptionID
+                  required: true
+                  schema:
+                    type: string
+                - description: The namespace name
+                  in: path
+                  name: namespaceName
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "2XX":
+                    description: OK
+                4XX:
+                    $ref: "#/components/responses/default"
+            summary: Activate an ignored namespace for a subscription
+            tags:
+                - Subscriptions
+components:
+    responses:
+        default:
+            content:
+                application/json:
+                    schema:
+                        "$ref": "#/components/schemas/Error"
+            description: Default error response
+    schemas:
+        GithubConfigureCodeSamplesRequest:
+            description: A request to configure GitHub code samples
+            type: object
+            properties:
+                org:
+                    type: string
+                    description: The GitHub organization name
+                repo:
+                    type: string
+                    description: The GitHub repository name
+                targetName:
+                    type: string
+                    description: The target name for the code samples
+            required:
+                - org
+                - repo
+                - targetName
+        GithubConfigureCodeSamplesResponse:
+            description: A response to configure GitHub code samples
+            type: object
+            properties:
+                source:
+                    $ref: "#/components/schemas/WorkflowDocument"
+                codeSampleOverlayRegistryURL:
+                    type: string
+                    description: The URL of the code sample overlay registry
+                ghActionID:
+                    type: string
+                    description: The ID of the GitHub action that was dispatched
+            required:
+                - source
+                - codeSampleOverlayRegistryURL
+        WorkflowDocument:
+            description: A document referenced by a workflow
+            properties:
+                location:
+                    type: string
+                auth:
+                    type: object
+                    properties:
+                        header:
+                            type: string
+                        secret:
+                            type: string
+                    required:
+                        - header
+                        - secret
+            required:
+                - location
+        GithubConfigureMintlifyRepoRequest:
+            description: A request to configure a GitHub repository for mintlify
+            type: object
+            properties:
+                org:
+                    type: string
+                    description: The GitHub organization name
+                repo:
+                    type: string
+                    description: The GitHub repository name
+                subdirectory:
+                    type: string
+                    description: The subdirectory (location of mint.json)
+                input:
+                    type: string
+                    description: The input OpenAPI document
+                overlays:
+                    type: array
+                    description: The overlays to apply
+                    items:
+                        type: string
+            required:
+                - org
+                - repo
+                - input
+                - overlays
+        GithubConfigureTargetRequest:
+            description: A request to configure a GitHub target
+            type: object
+            properties:
+                org:
+                    type: string
+                    description: The GitHub organization name
+                repo_name:
+                    type: string
+                    description: The GitHub repository name
+            required:
+                - org
+                - repo_name
+        GithubMissingPublishingSecretsResponse:
+            description: A valid response containing MISSING publishing secret keys for a github target
+            type: object
+            properties:
+                missing_secrets:
+                    type: array
+                    items:
+                        type: string
+        GithubSetupStateResponse:
+            description: The state of a particular SDK targets github setup
+            type: object
+            properties:
+                app_installed:
+                    type: boolean
+                actions:
+                    type: object
+                    properties:
+                        generation_action_configured:
+                            type: boolean
+                        publish_action_configured:
+                            type: boolean
+                    required:
+                        - generation_action_configured
+                        - publish_action_configured
+                secrets:
+                    type: object
+                    properties:
+                        api_key_configured:
+                            type: boolean
+                        publishing_secrets_configured:
+                            type: boolean
+                    required:
+                        - api_key_configured
+                        - publishing_secrets_configured
+            required:
+                - app_installed
+                - actions
+                - secrets
+        GithubPublishingPRResponse:
+            description: Open generation PRs pending publishing
+            type: object
+            properties:
+                pull_request:
+                    type: string
+                pending_version:
+                    type: string
+                pull_request_metadata:
+                    description: This can only be populated when the github app is installed for a repo
+                    type: object
+                    properties:
+                        status:
+                            type: string
+                        title:
+                            type: string
+                        created_at:
+                            format: date-time
+                            type: string
+                        description:
+                            description: truncated to first 1000 characters
+                            type: string
+                        head_branch:
+                            type: string
+                        base_branch:
+                            type: string
+                        can_merge:
+                            type: boolean
+                        labels:
+                            description: List of github labels
+                            type: array
+                            items:
+                                type: string
+                        requested_reviewers:
+                            description: List of github handles
+                            type: array
+                            items:
+                                type: string
+        GithubStorePublishingSecretsRequest:
+            description: A request to store publishing secrets for a github target
+            type: object
+            properties:
+                generate_gen_lock_id:
+                    type: string
+                    description: The generation lock ID
+                secrets:
+                    type: object
+                    description: A map of secrets to store in the GitHub target
+                    additionalProperties:
+                        type: string
+            required:
+                - generate_gen_lock_id
+        GithubTriggerActionRequest:
+            description: A request to trigger an action on a GitHub target
+            type: object
+            properties:
+                org:
+                    type: string
+                    description: The GitHub organization name
+                repo_name:
+                    type: string
+                    description: The GitHub repository name
+                target_name:
+                    type: string
+                    description: The target name for the action
+                gen_lock_id:
+                    type: string
+                    description: The generation lock ID
+                set_version:
+                    type: string
+                    description: A version to override the SDK too in workflow dispatch
+                force:
+                    type: boolean
+                    description: Force an SDK generation
+            required:
+                - org
+                - repo_name
+                - gen_lock_id
+        GithubGetActionResponse:
+            description: response to a getting the latest action run on a GitHub request
+            type: object
+            properties:
+                run_url:
+                    type: string
+                    description: The URL for latest action run if available
+                run_status:
+                    type: string
+                    description: The status of the latest action run if available
+        ApiKeyDetails:
+            type: object
+            properties:
+                workspace_id:
+                    type: string
+                workspace_slug:
+                    type: string
+                org_slug:
+                    type: string
+                generation_access_unlimited:
+                    type: boolean
+                account_type_v2:
+                    $ref: "#/components/schemas/AccountType"
+                enabled_features:
+                    type: array
+                    items:
+                        type: string
+                billing_add_ons:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/BillingAddOn"
+                feature_flags:
+                    deprecated: true
+                    type: array
+                    items:
+                        type: string
+                telemetry_disabled:
+                    type: boolean
+                workspace_created_at:
+                    description: Workspace creation timestamp.
+                    format: date-time
+                    type: string
+            required:
+                - workspace_id
+                - account_type_v2
+                - enabled_features
+                - workspace_slug
+                - org_slug
+                - workspace_created_at
+                - telemetry_disabled
+                - billing_add_ons
+        AccessDetails:
+            type: object
+            properties:
+                generation_allowed:
+                    type: boolean
+                message:
+                    type: string
+                level:
+                    type: string
+                    enum:
+                        - allowed
+                        - warning
+                        - blocked
+            required:
+                - generation_allowed
+                - message
+        AccessToken:
+            description: An AccessToken is a token that can be used to authenticate with the Speakeasy API.
+            properties:
+                access_token:
+                    type: string
+                claims:
+                    type: object
+                user:
+                    type: object
+                    properties:
+                        email:
+                            type: string
+                        id:
+                            type: string
+                        display_name:
+                            type: string
+                        admin:
+                            type: boolean
+                        created_at:
+                            type: string
+                            format: date-time
+                        email_verified:
+                            type: boolean
+                workspaces:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            id:
+                                type: string
+                            name:
+                                type: string
+                            updated_at:
+                                type: string
+                                format: date-time
+                            account_type:
+                                $ref: "#/components/schemas/AccountType"
+                feature_flags:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/FeatureFlag"
+            required:
+                - access_token
+                - claims
+                - user
+            type: object
+        Error:
+            description: The `Status` type defines a logical error model
+            properties:
+                message:
+                    description: A developer-facing error message.
+                    type: string
+                status_code:
+                    description: The HTTP status code
+                    format: int32
+                    type: integer
+            required:
+                - message
+                - status_code
+            type: object
+        FeatureFlag:
+            description: A feature flag is a key-value pair that can be used to enable or disable features.
+            properties:
+                feature_flag:
+                    $ref: "#/components/schemas/WorkspaceFeatureFlag"
+                trial_ends_at:
+                    type: string
+                    format: date-time
+                    nullable: true
+            required:
+                - feature_flag
+        WorkspaceFeatureFlag:
+            description: enum value workspace feature flag
+            type: string
+            x-speakeasy-unknown-values: allow
+            enum:
+                - schema_registry
+                - changes_report
+                - skip_schema_registry
+                - webhooks
+        WorkspaceFeatureFlagRequest:
+            description: A request to add workspace feature flags
+            type: object
+            properties:
+                feature_flags:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/WorkspaceFeatureFlag"
+            required:
+                - feature_flags
+        WorkspaceFeatureFlagResponse:
+            description: Workspace feature flag response
+            properties:
+                feature_flags:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/FeatureFlag"
+        Organization:
+            description: A speakeasy organization
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                slug:
+                    type: string
+                account_type:
+                    $ref: "#/components/schemas/AccountType"
+                telemetry_disabled:
+                    type: boolean
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+                free_trial_expiry:
+                    type: string
+                    format: date-time
+                    nullable: true
+                sso_connection_id:
+                    type: string
+                    nullable: true
+                sso_activated:
+                    type: boolean
+                internal:
+                    type: boolean
+            required:
+                - id
+                - name
+                - slug
+                - account_type
+                - telemetry_disabled
+                - sso_activated
+                - created_at
+                - updated_at
+            type: object
+        OrganizationBillingAddOnRequest:
+            description: A request to add billing add ons
+            type: object
+            properties:
+                add_ons:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/BillingAddOn"
+            required:
+                - add_ons
+        OrganizationBillingAddOnResponse:
+            description: Billing add on response
+            properties:
+                add_ons:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/BillingAddOn"
+            required:
+                - add_ons
+        OrganizationUsageResponse:
+            description: A billing summary of organization usage
+            type: object
+            properties:
+                usage:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/OrganizationUsage"
+                free_trial_expiry:
+                    format: date-time
+                    readOnly: true
+                    type: string
+                    description: Expiry date of the free trial, will be null if no trial
+                total_allowed_languages:
+                    type: integer
+                    description: Total number of allowed languages, -1 if unlimited
+                allowed_languages:
+                    type: array
+                    items:
+                        type: string
+                    description: List of allowed languages
+            required:
+                - usage
+                - total_allowed_languages
+                - allowed_languages
+        OrganizationUsage:
+            type: object
+            properties:
+                number_of_operations:
+                    type: integer
+                    description: Number of operations performed
+                max_operations:
+                    type: integer
+                    description: Maximum Number of operations per SDK specific in contract
+                language:
+                    type: string
+                    description: The programming language used
+                used_features:
+                    type: array
+                    items:
+                        type: string
+                    description: Features that have been used
+                accessible_features:
+                    type: array
+                    items:
+                        type: string
+                    description: Features that are accessible
+                accessible:
+                    type: boolean
+                    description: Indicates if the features are accessible
+                workspaces:
+                    type: array
+                    items:
+                        type: string
+                    description: List of workspace IDs
+                gen_lock_ids:
+                    type: array
+                    items:
+                        type: string
+                    description: List of generation lock IDs
+            required:
+                - number_of_operations
+                - max_operations
+                - language
+                - used_features
+                - accessible_features
+                - accessible
+                - workspaces
+                - gen_lock_ids
+        CliEventBatch:
+            type: array
+            items:
+                $ref: "#/components/schemas/CliEvent"
+            minItems: 1
+        CliEvent:
+            type: object
+            required:
+                - id
+                - execution_id
+                - workspace_id
+                - speakeasy_api_key_name
+                - interaction_type
+                - local_started_at
+                - created_at
+                - speakeasy_version
+                - success
+            properties:
+                id:
+                    type: string
+                    description: Unique identifier for each event.
+                execution_id:
+                    type: string
+                    description: Unique identifier for each execution of the CLI.
+                workspace_id:
+                    type: string
+                    description: Identifier of the workspace.
+                speakeasy_api_key_name:
+                    type: string
+                    description: Identifier of the Speakeasy API key.
+                interaction_type:
+                    $ref: "#/components/schemas/InteractionType"
+                    description: Type of interaction.
+                local_started_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the event started, in local time.
+                local_completed_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the event completed, in local time.
+                created_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the event was created in the database.
+                speakeasy_version:
+                    type: string
+                    description: Version of the Speakeasy CLI.
+                success:
+                    type: boolean
+                    description: Indicates whether the event was successful.
+                raw_command:
+                    type: string
+                    description: Full CLI command.
+                duration_ms:
+                    type: integer
+                    description: Duration of the event in milliseconds.
+                continuous_integration_environment:
+                    type: string
+                    description: Name of the CI environment.
+                gh_action_run_link:
+                    type: string
+                    description: Link to the GitHub action run.
+                gh_action_version:
+                    type: string
+                    description: Version of the GitHub action.
+                gh_action_organization:
+                    type: string
+                    description: GitHub organization of the action.
+                gh_pull_request:
+                    type: string
+                    description: The reference to a created pull request URL.
+                gh_changes_committed:
+                    type: boolean
+                    description: Whether or not changes were committed from generation in the Github Action.
+                gh_action_ref:
+                    type: string
+                    description: GitHub Action ref value.
+                gh_action_repository:
+                    type: string
+                    description: GitHub repository of the action.
+                repo_label:
+                    type: string
+                    description: Label of the git repository.
+                commit_head:
+                    type: string
+                    description: Remote commit ID.
+                hostname:
+                    type: string
+                    description: Remote hostname.
+                git_user_name:
+                    type: string
+                    description: User's name from git configuration. (not GitHub username)
+                git_user_email:
+                    type: string
+                    description: User email from git configuration.
+                git_remote_default_owner:
+                    type: string
+                    description: Default owner for git remote.
+                git_remote_default_repo:
+                    type: string
+                    description: Default repository name for git remote.
+                git_relative_cwd:
+                    type: string
+                    description: Current working directory relative to the git root.
+                generate_target:
+                    type: string
+                    description: The target of the event.
+                generate_target_name:
+                    type: string
+                    description: The workflow name of the target.
+                generate_target_version:
+                    type: string
+                    description: The version of the target.
+                generate_gen_lock_id:
+                    type: string
+                    description: gen.lock ID (expected to be a uuid).
+                management_doc_checksum:
+                    type: string
+                    description: Checksum of the currently Rendered OpenAPI document.
+                management_doc_version:
+                    type: string
+                    description: Version taken from info.version field of the Rendered OpenAPI document.
+                generate_version:
+                    type: string
+                    description: Version of the generation logic used.
+                generate_output_tests:
+                    type: boolean
+                    description: Indicates whether tests were output.
+                generate_config_pre_raw:
+                    type: string
+                    description: Rendered configuration file (prior to generation)
+                generate_config_post_raw:
+                    type: string
+                    description: Rendered configuration file (post generation)
+                generate_config_pre_version:
+                    type: string
+                    description: The version of the customer's SDK before we generated
+                generate_config_post_version:
+                    type: string
+                    description: The version of the customer's SDK that we just generated
+                generate_config_pre_checksum:
+                    type: string
+                    description: Checksum of the configuration file (prior to generation)
+                generate_config_post_checksum:
+                    type: string
+                    description: Checksum of the configuration file (post generation)
+                generate_eligible_features:
+                    type: string
+                    description: Eligible feature set during generation
+                generate_gen_lock_pre_features:
+                    type: string
+                    description: Features prior to generation
+                generate_gen_lock_post_features:
+                    type: string
+                    description: Features post generation
+                generate_gen_lock_pre_doc_version:
+                    type: string
+                    description: info.Version of the Previous Rendered OpenAPI document (prior to generation, via gen lock)
+                generate_gen_lock_pre_doc_checksum:
+                    type: string
+                    description: Checksum of the Previous Rendered OpenAPI document (prior to generation, via gen lock)
+                generate_gen_lock_pre_version:
+                    type: string
+                    description: Artifact version for the Previous Generation
+                generate_gen_lock_pre_revision_digest:
+                    type: string
+                    description: Revision digest of the Previous Generation
+                generate_gen_lock_pre_blob_digest:
+                    type: string
+                    description: Blob digest of the Previous Generation
+                generate_gen_lock_pre_namespace_name:
+                    type: string
+                    description: Namespace name of the Previous Generation
+                generate_bump_type:
+                    type: string
+                    description: Bump type of the lock file (calculated semver delta, custom change (manual release), or prerelease/graduate)
+                    enum:
+                        - major
+                        - minor
+                        - patch
+                        - custom
+                        - graduate
+                        - prerelease
+                        - none
+                generate_number_of_operations_ignored:
+                    type: integer
+                    description: The number of operations ignored in generation.
+                generate_number_of_operations_used:
+                    type: integer
+                    description: The number of operations used in generation.
+                generate_number_of_terraform_resources:
+                    type: integer
+                    description: The number of terraform resources used in generation.
+                generate_published:
+                    type: boolean
+                    description: Indicates whether the target was considered published.
+                generate_repo_url:
+                    type: string
+                    description: Expected Repo URL, for use in documentation generation.
+                publish_package_url:
+                    type: string
+                    description: URL of the published package.
+                publish_package_name:
+                    type: string
+                    description: Name of the published package.
+                publish_package_version:
+                    type: string
+                    description: Version of the published package.
+                publish_package_registry_name:
+                    type: string
+                    description: Name of the registry where the package was published.
+                source_revision_digest:
+                    type: string
+                    description: The revision digest of the source.
+                source_blob_digest:
+                    type: string
+                    description: The blob digest of the source.
+                source_namespace_name:
+                    type: string
+                    description: The namespace name of the source.
+                lint_report_digest:
+                    type: string
+                    description: The checksum of the lint report.
+                lint_report_error_count:
+                    type: integer
+                    description: The number of errors in the lint report.
+                lint_report_warning_count:
+                    type: integer
+                    description: The number of warnings in the lint report.
+                lint_report_info_count:
+                    type: integer
+                    description: The number of info messages in the lint report.
+                openapi_diff_report_digest:
+                    type: string
+                    description: The checksum of the openapi diff report.
+                openapi_diff_base_source_revision_digest:
+                    type: string
+                    description: The revision digest of the base source.
+                openapi_diff_base_source_blob_digest:
+                    type: string
+                    description: The blob digest of the base source.
+                openapi_diff_base_source_namespace_name:
+                    type: string
+                    description: The namespace name of the base source.
+                openapi_diff_breaking_changes_count:
+                    type: integer
+                    description: The number of breaking changes in the openapi diff report.
+                openapi_diff_bump_type:
+                    type: string
+                    description: Bump type of the lock file (calculated semver delta, or a custom change (manual release))
+                    enum:
+                        - major
+                        - minor
+                        - patch
+                        - none
+                error:
+                    type: string
+                    description: Error message if the event was not successful.
+                mermaid_diagram:
+                    type: string
+                    description: Mermaid diagram
+                last_step:
+                    type: string
+                    description: The last step of the event.
+                test_report_raw:
+                    type: string
+                    description: The raw test report xml
+                workflow_pre_raw:
+                    type: string
+                    description: Workflow file (prior to execution)
+                workflow_post_raw:
+                    type: string
+                    description: Workflow file (post execution)
+                workflow_lock_pre_raw:
+                    type: string
+                    description: Workflow lock file (prior to execution)
+                workflow_lock_post_raw:
+                    type: string
+                    description: Workflow lock file (post execution)
+        InteractionType:
+            type: string
+            description: Type of interaction.
+            enum:
+                - CI_EXEC
+                - CLI_EXEC
+                - LINT
+                - OPENAPI_DIFF
+                - TARGET_GENERATE
+                - TOMBSTONE
+                - AUTHENTICATE
+                - QUICKSTART
+                - RUN
+                - CONFIGURE
+                - PUBLISH
+                - TEST
+        TargetSDKList:
+            type: array
+            items:
+                $ref: "#/components/schemas/TargetSDK"
+            minItems: 1
+        TargetSDK:
+            type: object
+            required:
+                - id
+                - generate_target
+                - generate_gen_lock_id
+                - last_event_id
+                - last_event_created_at
+                - last_event_interaction_type
+            properties:
+                id:
+                    type: string
+                    description: Unique identifier of the target the same as `generate_gen_lock_id`
+                last_event_id:
+                    type: string
+                    description: Unique identifier of the last event for the target
+                last_event_created_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the event was created in the database.
+                last_event_interaction_type:
+                    $ref: "#/components/schemas/InteractionType"
+                    description: Type of interaction.
+                success:
+                    type: boolean
+                    description: Indicates whether the event was successful.
+                commit_head:
+                    type: string
+                    description: Remote commit ID.
+                git_remote_default_owner:
+                    type: string
+                    description: Default owner for git remote.
+                git_remote_default_repo:
+                    type: string
+                    description: Default repository name for git remote.
+                git_relative_cwd:
+                    type: string
+                    description: Current working directory relative to the git root.
+                generate_target:
+                    type: string
+                    description: eg `typescript`, `terraform`, `python`
+                generate_target_name:
+                    type: string
+                    description: The workflow name of the target.
+                generate_gen_lock_id:
+                    type: string
+                    description: gen.lock ID (expected to be a uuid). The same as `id`. A unique identifier for the target.
+                generate_target_version:
+                    type: string
+                    description: The version of the Speakeasy generator for this target eg v2 of the typescript generator.
+                generate_config_post_version:
+                    type: string
+                    description: Version of the generated target (post generation)
+                generate_gen_lock_pre_features:
+                    type: string
+                    description: Features prior to generation
+                generate_gen_lock_pre_version:
+                    type: string
+                    description: Artifact version for the Previous Generation
+                generate_eligible_features:
+                    type: string
+                    description: Eligible feature set during generation
+                generate_number_of_operations_ignored:
+                    type: integer
+                    description: The number of operations ignored in generation.
+                generate_number_of_operations_used:
+                    type: integer
+                    description: The number of operations used in generation.
+                generate_number_of_terraform_resources:
+                    type: integer
+                    description: The number of terraform resources used in generation.
+                generate_published:
+                    type: boolean
+                    description: Indicates whether the target was considered published.
+                continuous_integration_environment:
+                    type: string
+                    description: Name of the CI environment.
+                gh_action_ref:
+                    type: string
+                    description: GitHub Action ref value.
+                gh_action_run_link:
+                    type: string
+                    description: Link to the GitHub action run.
+                gh_action_version:
+                    type: string
+                    description: Version of the GitHub action.
+                gh_action_organization:
+                    type: string
+                    description: GitHub organization of the action.
+                gh_action_repository:
+                    type: string
+                    description: GitHub repository of the action.
+                repo_label:
+                    type: string
+                    description: Label of the git repository.
+                hostname:
+                    type: string
+                    description: Remote hostname.
+                git_user_name:
+                    type: string
+                    description: User's name from git configuration. (not GitHub username)
+                git_user_email:
+                    type: string
+                    description: User email from git configuration.
+                source_revision_digest:
+                    type: string
+                    description: The revision digest of the source.
+                source_blob_digest:
+                    type: string
+                    description: The blob digest of the source.
+                source_namespace_name:
+                    type: string
+                    description: The namespace name of the source.
+                error:
+                    type: string
+                    description: Error message if the last event was not successful.
+                workflow_pre_raw:
+                    type: string
+                    description: Workflow file (prior to execution)
+                workflow_post_raw:
+                    type: string
+                    description: Workflow file (post execution)
+                workflow_lock_pre_raw:
+                    type: string
+                    description: Workflow lock file (prior to execution)
+                workflow_lock_post_raw:
+                    type: string
+                    description: Workflow lock file (post execution)
+                publish_package_url:
+                    type: string
+                    description: URL of the published package.
+                publish_package_name:
+                    type: string
+                    description: Name of the published package.
+                publish_package_version:
+                    type: string
+                    description: Version of the published package.
+                publish_package_registry_name:
+                    type: string
+                    description: Name of the registry where the package was published.
+                last_publish_created_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp when the last publishing event was created.
+                last_publish_gh_action_run_link:
+                    type: string
+                    description: Link to the GitHub action run for the last publishing event.
+        User:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: Unique identifier for the user.
+                email:
+                    type: string
+                    description: Email address of the user.
+                email_verified:
+                    type: boolean
+                    description: Indicates whether the email address has been verified.
+                github_handle:
+                    type: string
+                    description: GitHub handle of the user.
+                    nullable: true
+                display_name:
+                    type: string
+                    description: Display name of the user.
+                photo_url:
+                    type: string
+                    nullable: true
+                    description: URL of the user's photo.
+                default_workspace_id:
+                    type: string
+                    description: Identifier of the default workspace.
+                    nullable: true
+                confirmed:
+                    type: boolean
+                    description: Indicates whether the user has been confirmed.
+                whitelisted:
+                    type: boolean
+                    description: Indicates whether the user has been whitelisted.
+                last_login_at:
+                    type: string
+                    nullable: true
+                    format: date-time
+                    description: Timestamp of the last login.
+                admin:
+                    type: boolean
+                    description: Indicates whether the user is an admin.
+                created_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp of the user's creation.
+                updated_at:
+                    type: string
+                    format: date-time
+                    description: Timestamp of the user's last update.
+                internal:
+                    type: boolean
+                    description: Indicates whether the user is internal.
+                pylon_identity_hash:
+                    type: string
+                    description: Hash used for pylon identity verification returned on v1/user.
+                has_created_api_key:
+                    type: boolean
+                    description: Indicates whether the user has created an API key. Not always populated
+            required:
+                - id
+                - email
+                - email_verified
+                - display_name
+                - confirmed
+                - whitelisted
+                - admin
+                - created_at
+                - updated_at
+        Report:
+            type: object
+            properties:
+                type:
+                    type: string
+                    enum:
+                        - linting
+                        - changes
+        SuggestOptsOld:
+            type: object
+            properties:
+                suggestion_type:
+                    type: string
+                    enum:
+                        - method-names
+                        - diagnostics-only
+                diagnostics:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/Diagnostic"
+            required:
+                - suggestion_type
+        SuggestRequestBody:
+            type: object
+            properties:
+                oas_summary:
+                    $ref: "#/components/schemas/OASSummary"
+                suggestion_type:
+                    type: string
+                    enum:
+                        - method-names
+                        - diagnostics-only
+                diagnostics:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/Diagnostic"
+            required:
+                - oas_summary
+                - suggestion_type
+                - diagnostics
+        SuggestItemsRequestBody:
+            type: object
+            properties:
+                prompt:
+                    description: The prompt to use for the suggestion. Think of this as the "preamble".
+                    type: string
+                items:
+                    description: The list of "things" to get suggestions for. One suggestion will be returned for each item in the list.
+                    type: array
+                    items:
+                        type: string
+            required:
+                - prompt
+                - items
+        Diagnostic:
+            type: object
+            properties:
+                message:
+                    type: string
+                    description: Message describing the issue
+                path:
+                    type: array
+                    items:
+                        type: string
+                    description: Schema path to the issue
+                type:
+                    type: string
+                    description: Issue type
+                helpMessage:
+                    type: string
+                    description: Help message for how to fix the issue
+            required:
+                - message
+                - path
+                - type
+        OASInfo:
+            type: object
+            properties:
+                title:
+                    type: string
+                summary:
+                    type: string
+                description:
+                    type: string
+                version:
+                    type: string
+                license:
+                    type: object
+                    properties:
+                        identifier:
+                            type: string
+            required:
+                - title
+                - summary
+                - description
+                - version
+                - license
+        OASOperation:
+            type: object
+            properties:
+                method:
+                    type: string
+                path:
+                    type: string
+                operation_id:
+                    type: string
+                description:
+                    type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
+                method_name_override:
+                    type: string
+                group_override:
+                    type: string
+            required:
+                - method
+                - path
+                - operation_id
+                - description
+                - tags
+        OASSummary:
+            type: object
+            properties:
+                info:
+                    $ref: "#/components/schemas/OASInfo"
+                operations:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/OASOperation"
+            required:
+                - info
+                - operations
+        SchemaStoreItem:
+            type: object
+            properties:
+                id:
+                    type: string
+                spec:
+                    type: string
+                created_at:
+                    type: string
+                    format: date-time
+                format:
+                    type: string
+                    enum:
+                        - json
+                        - yaml
+            required:
+                - id
+                - spec
+                - created_at
+                - format
+        ShortURL:
+            type: object
+            properties:
+                short_url:
+                    type: string
+                full_url:
+                    type: string
+            required:
+                - short_url
+                - full_url
+        AccountType:
+            type: string
+            x-speakeasy-unknown-values: allow
+            enum:
+                - free
+                - scale-up
+                - business
+                - enterprise
+        BillingAddOn:
+            type: string
+            x-speakeasy-unknown-values: allow
+            enum:
+                - webhooks
+                - sdk_testing
+                - custom_code_regions
+        Workspace:
+            description: A speakeasy workspace
+            properties:
+                created_at:
+                    type: string
+                    format: date-time
+                id:
+                    type: string
+                name:
+                    type: string
+                organization_id:
+                    type: string
+                slug:
+                    type: string
+                inactive:
+                    type: boolean
+                telemetry_disabled:
+                    deprecated: true
+                    description: Deprecated. Use organization.telemetry_disabled instead.
+                    type: boolean
+                updated_at:
+                    type: string
+                    format: date-time
+                verified:
+                    type: boolean
+            required:
+                - created_at
+                - id
+                - name
+                - organization_id
+                - slug
+                - updated_at
+                - verified
+            type: object
+        WorkspaceInviteResponse:
+            type: object
+            description: A response for workspace user invite
+            properties:
+                relationship:
+                    type: object
+                    properties:
+                        workspace_id:
+                            type: string
+                        user_id:
+                            type: string
+                    required:
+                        - workspace_id
+                        - user_id
+                invite_link:
+                    nullable: true
+                    type: string
+            required:
+                - relationship
+        WorkspaceToken:
+            description: A workspace token
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                workspace_id:
+                    type: string
+                alg:
+                    type: string
+                key:
+                    type: string
+                last_used:
+                    nullable: true
+                    type: string
+                    format: date-time
+                created_at:
+                    type: string
+                    format: date-time
+                created_by:
+                    type: string
+                    nullable: true
+                email:
+                    nullable: true
+                    type: string
+            required:
+                - id
+                - name
+                - alg
+                - key
+                - created_at
+                - workspace_id
+        WorkspaceAndOrganization:
+            description: A workspace and organization
+            properties:
+                workspace:
+                    $ref: "#/components/schemas/Workspace"
+                organization:
+                    $ref: "#/components/schemas/Organization"
+            required:
+                - workspace
+                - organization
+            type: object
+        WorkspaceTeamResponse:
+            description: Workspace team response
+            properties:
+                users:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/User"
+                sso_metadata:
+                    $ref: "#/components/schemas/SSOMetadata"
+            required:
+                - users
+        CodeSampleSchemaInput:
+            type: object
+            required:
+                - schema_file
+                - language
+            properties:
+                package_name:
+                    type: string
+                    description: The name of the package
+                sdk_class_name:
+                    type: string
+                    description: The SDK class name
+                language:
+                    type: string
+                    description: The language to generate code samples for
+                operation_ids:
+                    type: array
+                    items:
+                        type: string
+                    description: A list of operations IDs to generate code samples for
+                schema_file:
+                    type: string
+                    format: binary
+                    description: The OpenAPI file to be uploaded
+        CodeSamplesJobStatus:
+            type: string
+            enum:
+                - "pending"
+                - "running"
+            description: "The current status of the job. Possible values are `pending` or `running`."
+        SSOMetadata:
+            description: SSO metadata for a workspace
+            properties:
+                sso_activated:
+                    type: boolean
+                sso_domains:
+                    type: array
+                    items:
+                        type: string
+            required:
+                - sso_activated
+                - sso_domains
+        UsageSnippets:
+            type: object
+            properties:
+                snippets:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/UsageSnippet"
+            required:
+                - snippets
+        CodeSampleOperationIdFilter:
+            type: object
+            properties:
+                type:
+                    type: string
+                    const: operationId
+                operationId:
+                    type: string
+            required:
+                - type
+                - operationId
+        CodeSampleMethodPathFilter:
+            type: object
+            properties:
+                type:
+                    type: string
+                    const: methodPath
+                method:
+                    type: string
+                path:
+                    type: string
+            required:
+                - type
+                - method
+                - path
+        HttpMethod:
+            type: string
+            enum:
+                - get
+                - post
+                - put
+                - patch
+                - delete
+                - head
+                - options
+                - trace
+        UsageSnippet:
+            type: object
+            properties:
+                path:
+                    type: string
+                    description: The path of the operation
+                method:
+                    description: The HTTP method of the operation
+                operationId:
+                    type: string
+                    description: The operation ID for the snippet
+                language:
+                    type: string
+                    description: The language of the snippet
+                code:
+                    type: string
+                    description: The code snippet
+            required:
+                - path
+                - method
+                - operationId
+                - language
+                - code
+        WorkspaceSettings:
+            properties:
+                workspace_id:
+                    type: string
+                webhook_url:
+                    type: string
+                created_at:
+                    type: string
+                    format: date-time
+                updated_at:
+                    type: string
+                    format: date-time
+            required:
+                - workspace_id
+                - webhook_url
+                - created_at
+                - updated_at
+        Annotations:
+            description: Annotations
+            properties:
+                org.opencontainers.image.created:
+                    type: string
+                    description: The time the image was created
+                org.opencontainers.image.authors:
+                    type: string
+                    description: The authors of the image
+                org.opencontainers.image.url:
+                    type: string
+                    description: The URL of the image
+                org.opencontainers.image.documentation:
+                    type: string
+                    description: The documentation URL of the image
+                org.opencontainers.image.source:
+                    type: string
+                    description: The URL to get source code for building the image
+                org.opencontainers.image.version:
+                    type: string
+                    description: The version of the packaged software
+                org.opencontainers.image.revision:
+                    type: string
+                    description: Source control revision identifier
+                org.opencontainers.image.vendor:
+                    type: string
+                    description: Name of the distributing entity, organization or individual.
+                org.opencontainers.image.licenses:
+                    type: string
+                org.opencontainers.image.ref.name:
+                    type: string
+                    description: Name of the reference for a target
+                org.opencontainers.image.title:
+                    type: string
+                    description: Human-readable title of the image
+                org.opencontainers.image.description:
+                    type: string
+                    description: Human-readable description of the software packaged in the image
+        Manifest:
+            description: Returns the requested manifest file
+            example:
+                config:
+                    digest: sha256:6d1ef012b5674ad8a127ecfa9b5e6f5178d171b90ee462846974177fd9bdd39f
+                    mediaType: application/vnd.docker.container.image.v1+json
+                    size: 1512
+                layers:
+                    - digest: sha256:5d20c808ce198565ff70b3ed23a991dd49afac45dece63474b27ce6ed036adc6
+                      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+                      size: 2107098
+                mediaType: application/vnd.docker.distribution.manifest.v2+json
+                schemaVersion: 2
+            properties:
+                schemaVersion:
+                    description: Schema version
+                    type: integer
+                mediaType:
+                    description: Media type usually application/vnd.docker.distribution.manifest.v2+json if this is in the accept header
+                    type: string
+                artifactType:
+                    description: Type of artifact
+                    type: string
+                annotations:
+                    "$ref": "#/components/schemas/Annotations"
+                layers:
+                    description: List of V2 image layer information
+                    items:
+                        "$ref": "#/components/schemas/V2Descriptor"
+                    type: array
+        V2Descriptor:
+            description: V2 descriptor
+            properties:
+                digest:
+                    description: Digest
+                    type: string
+                mediaType:
+                    description: Media type
+                    type: string
+                size:
+                    description: Size
+                    type: integer
+                annotations:
+                    "$ref": "#/components/schemas/Annotations"
+        PreflightToken:
+            description: A PreflightToken is a token that allows access to the OCI distribution endpoints.
+            properties:
+                auth_token:
+                    type: string
+            required:
+                - access_token
+        GetNamespacesResponse:
+            properties:
+                items:
+                    type: array
+                    items:
+                        "$ref": "#/components/schemas/Namespace"
+            required:
+                - items
+        GetRevisionsResponse:
+            properties:
+                items:
+                    type: array
+                    items:
+                        "$ref": "#/components/schemas/Revision"
+                next_page_token:
+                    type: string
+            required:
+                - items
+                - next_page_token
+        GetTagsResponse:
+            properties:
+                items:
+                    type: array
+                    items:
+                        "$ref": "#/components/schemas/Tag"
+            required:
+                - items
+        Tag:
+            properties:
+                id:
+                    type: string
+                    description: Format {namespace_id}/{tag}
+                name:
+                    type: string
+                    description: Human readable tag name
+                namespace_name:
+                    type: string
+                revision_digest:
+                    type: string
+            required:
+                - id
+                - name
+                - namespace_name
+                - revision_digest
+        Namespace:
+            description: A namespace contains many revisions.
+            properties:
+                id:
+                    type: string
+                    description: "{organization_slug}/{workspace_slug}/{namespace_name}"
+                name:
+                    type: string
+                    description: A human-readable name for the namespace.
+                created_at:
+                    format: date-time
+                    readOnly: true
+                    type: string
+                updated_at:
+                    format: date-time
+                    readOnly: true
+                    type: string
+                public:
+                    readOnly: true
+                    type: boolean
+                    description: Indicates whether the namespace is publicly accessible
+                archived_at:
+                    format: date-time
+                    readOnly: true
+                    type: string
+                latest_revision_metadata:
+                    "$ref": "#/components/schemas/RevisionContentsMetadata"
+                composite_spec_metadata:
+                    type: object
+                    properties:
+                        subscription_id:
+                            type: string
+                            readOnly: true
+                            description: The subscription ID for the remote source subscription, if applicable. This indicates that the namespace is created by a remote source and thus is composite.
+                        subscription_settings:
+                            "$ref": "#/components/schemas/RemoteSourceSubscriptionSettings"
+                    required:
+                        - subscription_id
+                        - subscription_settings
+            required:
+                - id
+                - name
+                - created_at
+                - updated_at
+        RemoteSourceSubscriptionSettings:
+            properties:
+                base_spec_namespaces:
+                    type: array
+                    items:
+                        type: string
+                overlay_namespaces:
+                    type: array
+                    items:
+                        type: string
+                ignored_namespaces:
+                    type: array
+                    items:
+                        type: string
+                output_namespace:
+                    type: string
+            required:
+                - base_spec_namespaces
+                - overlay_namespaces
+                - output_namespace
+        Revision:
+            properties:
+                id:
+                    type: string
+                    description: Format {namespace_id}/{revision_digest}
+                digest:
+                    type: string
+                    example: sha256:6d1ef012b5674ad8a127ecfa9b5e6f5178d171b90ee462846974177fd9bdd39f
+                namespace_name:
+                    type: string
+                tags:
+                    type: array
+                    items:
+                        type: string
+                contents_metadata:
+                    "$ref": "#/components/schemas/RevisionContentsMetadata"
+                created_at:
+                    format: date-time
+                    readOnly: true
+                    type: string
+                updated_at:
+                    format: date-time
+                    readOnly: true
+                    type: string
+            required:
+                - id
+                - namespace_name
+                - digest
+                - tags
+                - created_at
+                - updated_at
+        RevisionContentsMetadata:
+            properties:
+                type:
+                    type: string
+                    enum:
+                        - OPENAPI_BUNDLE
+                        - OPENAPI_OVERLAY
+                workspace_id:
+                    type: string
+                    description: The workspace ID
+                namespace:
+                    type: string
+                    description: The fully qualified namespace
+                revision_digest:
+                    type: string
+                    description: The digest of the parent bundle
+                title:
+                    type: string
+                    description: The OAS title
+                description:
+                    type: string
+                    description: The OAS description
+                version:
+                    type: string
+                    description: The OAS version
+                hash:
+                    type: string
+                    description: The hash of the contents
+                tags:
+                    type: array
+                    description: The tags contained in the OAS -- NOT the OCI tags. Will be empty if the OAS is an overlay.
+                    items:
+                        type: string
+                operation_ids:
+                    type: array
+                    description: The operation IDs contained in the OAS. Will be empty if the OAS is an overlay.
+                    items:
+                        type: string
+                num_overlay_actions:
+                    type: integer
+                    description: The number of overlay actions in the OAS. Will be 0 if the OAS is not an overlay.
+                contains_code_samples:
+                    type: boolean
+                    description: Whether the OAS contains code samples.
+                created_at:
+                    format: date-time
+                    readOnly: true
+                    type: string
+            required:
+                - workspace_id
+                - namespace
+                - revision_digest
+                - type
+                - title
+                - description
+                - version
+                - hash
+                - tags
+                - operation_ids
+                - num_overlay_actions
+                - contains_code_samples
+                - created_at
+        AddTags:
+            description: Request body of tags to add to a revision
+            properties:
+                revision_digest:
+                    description: revision digest to add tags too sha256:...
+                    type: string
+                tags:
+                    description: string tags to add to the revision
+                    items:
+                        type: string
+                    type: array
+            required:
+                - revision_digest
+                - tags
+            type: object
+        RemoteSource:
+            description: Remote source configuration
+            properties:
+                inputs:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/RemoteDocument'
+                overlays:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/RemoteDocument'
+                output:
+                    $ref: '#/components/schemas/RemoteDocument'
+            required:
+                - inputs
+                - output
+        RemoteDocument:
+            description: A document hosted in the registry
+            properties:
+                registry_url:
+                    type: string
+            required:
+                - registry_url
+    securitySchemes:
+        APIKey:
+            description: The API Key for the workspace
+            in: header
+            name: x-api-key
+            type: apiKey
+        WorkspaceIdentifier:
+            description: The API Key for the workspace
+            in: header
+            name: x-workspace-identifier
+            type: apiKey
+        Bearer:
+            description: The Bearer token for the workspace
+            type: http
+            scheme: bearer
+    examples:
+        UsageSnippets:
+            summary: Array of usage snippets
+            value:
+                snippets:
+                    - operationId: getPetById
+                      path: /pet/{id}
+                      method: get
+                      language: typescript
+                      code: |-
+                        import { Petstore } from "petstore-sdk";
+
+                        const petstore = new Petstore({
+                          apiKey: "<YOUR_API_KEY_HERE>",
+                        });
+
+                        async function run() {
+                          const result = await petstore.pet.getById({
+                            id: 137396,
+                          });
+
+                          // Handle the result
+                          console.log(result);
+                        }
+
+                        run();
+        UsageSnippet:
+            summary: Usage snippet
+            value:
+                operationId: getPetById
+                path: /pet/{id}
+                method: get
+                language: typescript
+                code: |-
+                    import { Petstore } from "petstore-sdk";
+
+                    const petstore = new Petstore({
+                      apiKey: "<YOUR_API_KEY_HERE>",
+                    });
+
+                    async function run() {
+                      const result = await petstore.pet.getById({
+                        id: 137396,
+                      });
+
+                      // Handle the result
+                      console.log(result);
+                    }
+
+                    run();
+    requestBodies:
+        PreflightRequest:
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            namespace_name:
+                                type: string
+                        required:
+                            - namespace_name
