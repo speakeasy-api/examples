@@ -1,0 +1,20 @@
+overlay: 1.0.0
+x-speakeasy-jsonpath: rfc9535
+info:
+  title: Speakeasy Modifications
+  version: 0.0.2
+  x-speakeasy-metadata:
+    after: ""
+    before: ""
+    type: speakeasy-modifications
+actions:
+  - target: $["paths"]["/pets"]["post"]
+    update:
+      x-speakeasy-group: pets
+      x-speakeasy-name-override: add
+    x-speakeasy-metadata:
+      after: sdk.pets.add()
+      before: sdk.<no_group>.addPet()
+      created_at: 1741875942051
+      reviewed_at: 1741875944763
+      type: method-name

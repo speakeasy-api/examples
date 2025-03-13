@@ -1,0 +1,20 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Petstore API:
+        inputs:
+            - location: ../../Desktop/openapi.yaml
+        overlays:
+            - location: .speakeasy/speakeasy-modifications-overlay.yaml
+        registry:
+            location: registry.speakeasyapi.dev/loganinc/loganinc/petstore-api
+targets:
+    token-auth-client-secret-basic:
+        target: typescript
+        source: Petstore API
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/loganinc/loganinc/petstore-api-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false
