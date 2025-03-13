@@ -1,0 +1,38 @@
+speakeasyVersion: 1.517.3
+sources:
+    Petstore API:
+        sourceNamespace: petstore-api
+        sourceRevisionDigest: sha256:8704d571534324e05326f138acf687d953376f9b74186cfe7332c96052a15415
+        sourceBlobDigest: sha256:675672f94bfca27b6dc2864f767440b37978fd86aca9496d5873b38616493f4e
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    token-auth-client-secret-basic:
+        source: Petstore API
+        sourceNamespace: petstore-api
+        sourceRevisionDigest: sha256:8704d571534324e05326f138acf687d953376f9b74186cfe7332c96052a15415
+        sourceBlobDigest: sha256:675672f94bfca27b6dc2864f767440b37978fd86aca9496d5873b38616493f4e
+        codeSamplesNamespace: petstore-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:be826f1a46a9fab8aae2260426975956b6328024d8804deb3d92c62be5f4d6e0
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Petstore API:
+            inputs:
+                - location: ../../Desktop/openapi.yaml
+            overlays:
+                - location: .speakeasy/speakeasy-modifications-overlay.yaml
+            registry:
+                location: registry.speakeasyapi.dev/loganinc/loganinc/petstore-api
+    targets:
+        token-auth-client-secret-basic:
+            target: typescript
+            source: Petstore API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/loganinc/loganinc/petstore-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false
