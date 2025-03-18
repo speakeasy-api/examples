@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Ping Pong API
+  description: A minimal ping/pong API
+  version: 1.0.0
+servers:
+  - url: https://www.example-pingpong.com
+    description: Main API server
+paths:
+  /echo:
+    post:
+      summary: Ping endpoint
+      description: Returns a pong response
+      operationId: getPing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Hello, world!"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Hello, world!" 
+
