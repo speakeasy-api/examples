@@ -1,0 +1,36 @@
+speakeasyVersion: 1.520.1
+sources:
+    Ping Pong API:
+        sourceNamespace: ping-pong-api
+        sourceRevisionDigest: sha256:0a2c32411b509ead3d326d946ac0f966a9eaf7cf9a613b048ac8317b5456de12
+        sourceBlobDigest: sha256:3189a6e24574aead45a7bef4c5c655dc3d99facb35f65bdb41897b3eff79d241
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    msw-example:
+        source: Ping Pong API
+        sourceNamespace: ping-pong-api
+        sourceRevisionDigest: sha256:0a2c32411b509ead3d326d946ac0f966a9eaf7cf9a613b048ac8317b5456de12
+        sourceBlobDigest: sha256:3189a6e24574aead45a7bef4c5c655dc3d99facb35f65bdb41897b3eff79d241
+        codeSamplesNamespace: ping-pong-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:100ec3b0d13a739e5e21f69e2fae8e54528243be147ed374d3e8908b3450ba15
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Ping Pong API:
+            inputs:
+                - location: openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/ping-pong-api
+    targets:
+        msw-example:
+            target: typescript
+            source: Ping Pong API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/ping-pong-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false
