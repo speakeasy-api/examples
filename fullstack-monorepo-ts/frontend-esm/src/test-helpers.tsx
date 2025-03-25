@@ -3,12 +3,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AcmeTodoApiCore } from "@acme/todo-sdk/core.js";
 import { AcmeTodoApiProvider } from "@acme/todo-sdk/react-query/index.js";
 import React from "react";
+import "@acme/todo-sdk";
 
 const queryClient = new QueryClient();
 const acme = new AcmeTodoApiCore();
 
-queryClient.setQueryDefaults(["@acme/sdk"], { retry: false });
-queryClient.setMutationDefaults(["@acme/sdk"], { retry: false });
+queryClient.setQueryDefaults(["@acme/todo-sdk"], { retry: false });
+queryClient.setMutationDefaults(["@acme/todo-sdk"], { retry: false });
 
 const Providers: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (

@@ -1,6 +1,6 @@
 {
   "name": "@acme/todo-sdk",
-  "version": "0.2.7",
+  "version": "0.2.9",
   "author": "Speakeasy",
   "type": "module",
   "tshy": {

@@ -6,6 +6,7 @@ import { setupServer } from "msw/node";
 import { createAcmeHandlers } from "../mocks/handlers/api";
 import { http, HttpResponse } from "msw";
 import userEvent from "@testing-library/user-event";
+import { HTTPClientError } from "@acme/todo-sdk/models/errors";
 
 const { handlers: acmeHandlers, resetTodos: resetAcmeHandlerState } =
   createAcmeHandlers();
@@ -37,10 +38,10 @@ test("renders loading state initially", () => {
 test("renders error state when API fails", async () => {
   // Mock the GET todos endpoint to return an error
   server.use(
-    http.get(
-      "https://todo.example.com/todo",
-      () => new Promise((resolve) => resolve(HttpResponse.error())),
-    ),
+    http.get("https://todo.example.com/todo", async () => {
+      const body = JSON.stringify({ message: "Internal Server Error" });
+      return new HttpResponse(body, { status: 400 });
+    }),
   );
 
   render(<TodoList />);

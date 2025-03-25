@@ -4,8 +4,9 @@ import * as routes from "./routes";
 
 const router = express.Router();
 
-router.post("/todo", routes.createTodo);
 router.get("/todo", routes.getTodos);
+router.post("/todo", routes.createTodo);
+
 router.get("/todo/:id", routes.getTodoById);
 router.patch("/todo/:id", routes.updateTodoById);
 router.delete("/todo/:id", routes.deleteTodoById);

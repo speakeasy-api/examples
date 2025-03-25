@@ -2,7 +2,7 @@ speakeasyVersion: 1.521.1
 sources:
     Todo API:
         sourceNamespace: todo-api
-        sourceRevisionDigest: sha256:669e28571df78784cfbca146d041e7217d5a7639e74ff8202c78e74dfddbf6b9
+        sourceRevisionDigest: sha256:ea505032c92b403a5512621dbe9f1b394fc3e2a4f4f0b15632286f35728ad7f9
         sourceBlobDigest: sha256:9ebd4bebe38f75da4adada5b07fcfb424f838d3979051c63ad8ca772e21d4050
         tags:
             - latest
@@ -11,10 +11,10 @@ targets:
     todo-api:
         source: Todo API
         sourceNamespace: todo-api
-        sourceRevisionDigest: sha256:669e28571df78784cfbca146d041e7217d5a7639e74ff8202c78e74dfddbf6b9
+        sourceRevisionDigest: sha256:ea505032c92b403a5512621dbe9f1b394fc3e2a4f4f0b15632286f35728ad7f9
         sourceBlobDigest: sha256:9ebd4bebe38f75da4adada5b07fcfb424f838d3979051c63ad8ca772e21d4050
         codeSamplesNamespace: todo-api-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:b0ca450f48aed24dd656c49e8c7fafb6b3464536bad2160285fd2fc8ffc1707d
+        codeSamplesRevisionDigest: sha256:21effcf1ab2a2fe102b9c6e86d839e7ce0367ac75137641e5b103d65a10e300b
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest

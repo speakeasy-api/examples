@@ -55,12 +55,12 @@ const useTodoList = () => {
 const TodoList = () => {
   const { query, handleDeleteTodo, handleUpdateTodo } = useTodoList();
 
-  if (query.isPending) {
-    return <div>Loading...</div>;
-  }
-
   if (query.isError) {
     return <div>Error: {query.error.message}</div>;
+  }
+
+  if (query.isPending) {
+    return <div>Loading...</div>;
   }
 
   return (

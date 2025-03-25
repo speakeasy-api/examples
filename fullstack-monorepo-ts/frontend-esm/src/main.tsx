@@ -13,8 +13,8 @@ const Root: React.FC<React.PropsWithChildren> = () => {
   });
 
   // Retries are handled by the underlying SDK.
-  queryClient.setQueryDefaults(["@acme/sdk"], { retry: false });
-  queryClient.setMutationDefaults(["@acme/sdk"], { retry: false });
+  queryClient.setQueryDefaults(["@acme/todo-sdk"], { retry: false });
+  queryClient.setMutationDefaults(["@acme/todo-sdk"], { retry: false });
 
   return (
     <StrictMode>
