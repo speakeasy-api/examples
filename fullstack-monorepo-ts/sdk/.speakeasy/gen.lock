@@ -1,0 +1,139 @@
+lockVersion: 2.0.0
+id: 34efe86a-3738-4c40-8b9b-f441ead7781d
+management:
+  docChecksum: 3555dc587152b1bb341b5b191ca00904
+  docVersion: 1.0.0
+  speakeasyVersion: 1.521.1
+  generationVersion: 2.558.5
+  releaseVersion: 0.2.9
+  configChecksum: 71b5511d1107164c9bafa301f79049a8
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    core: 3.21.4
+    defaultEnabledRetries: 0.1.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.4
+    reactQueryHooks: 0.2.3
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.2.0
+generatedFiles:
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - REACT_QUERY.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/components/createtodorequest.md
+  - docs/models/components/todo.md
+  - docs/models/components/updatetodorequest.md
+  - docs/models/operations/deletetodorequest.md
+  - docs/models/operations/gettodobyidrequest.md
+  - docs/models/operations/updatetodorequest.md
+  - docs/sdks/acmetodoapi/README.md
+  - docs/types/rfcdate.md
+  - eslint.config.mjs
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/createTodo.ts
+  - src/funcs/deleteTodo.ts
+  - src/funcs/getTodoById.ts
+  - src/funcs/getTodos.ts
+  - src/funcs/updateTodo.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/env.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/models/components/createtodorequest.ts
+  - src/models/components/index.ts
+  - src/models/components/todo.ts
+  - src/models/components/updatetodorequest.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/index.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/operations/deletetodo.ts
+  - src/models/operations/gettodobyid.ts
+  - src/models/operations/index.ts
+  - src/models/operations/updatetodo.ts
+  - src/react-query/_context.tsx
+  - src/react-query/_types.ts
+  - src/react-query/createTodo.ts
+  - src/react-query/deleteTodo.ts
+  - src/react-query/getTodoById.ts
+  - src/react-query/getTodos.ts
+  - src/react-query/index.ts
+  - src/react-query/updateTodo.ts
+  - src/sdk/index.ts
+  - src/sdk/sdk.ts
+  - src/types/async.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  getTodoById:
+    speakeasy-default-get-todo-by-id:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"id": "123", "title": "Buy groceries", "due_date": "2021-01-01", "completed": false, "created_at": "2021-01-01T00:00:00Z", "updated_at": "2021-01-01T00:00:00Z"}
+  createTodo:
+    speakeasy-default-create-todo:
+      requestBody:
+        application/json: {"title": "Buy groceries", "due_date": "2021-01-01", "completed": false}
+      responses:
+        "200":
+          application/json: {"id": "123", "title": "Buy groceries", "due_date": "2021-01-01", "completed": false, "created_at": "2021-01-01T00:00:00Z", "updated_at": "2021-01-01T00:00:00Z"}
+  getTodos:
+    speakeasy-default-get-todos:
+      responses:
+        "200":
+          application/json: [{"id": "123", "title": "Buy groceries", "due_date": "2021-01-01", "completed": false, "created_at": "2021-01-01T00:00:00Z", "updated_at": "2021-01-01T00:00:00Z"}]
+  updateTodo:
+    speakeasy-default-update-todo:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"title": "Buy groceries", "due_date": "2021-01-01", "completed": true}
+      responses:
+        "200":
+          application/json: {"id": "123", "title": "Buy groceries", "due_date": "2021-01-01", "completed": false, "created_at": "2021-01-01T00:00:00Z", "updated_at": "2021-01-01T00:00:00Z"}
+  deleteTodo:
+    speakeasy-default-delete-todo:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"id": "123", "title": "Buy groceries", "due_date": "2021-01-01", "completed": false, "created_at": "2021-01-01T00:00:00Z", "updated_at": "2021-01-01T00:00:00Z"}
+examplesVersion: 1.0.0
+generatedTests: {}

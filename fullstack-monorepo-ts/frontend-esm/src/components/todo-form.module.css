@@ -1,0 +1,20 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 320px
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.input-group .error {
+  line-height: 1;
+  color: red;
+  font-size: .75rem;
+  margin-block: 0rem;
+}
+

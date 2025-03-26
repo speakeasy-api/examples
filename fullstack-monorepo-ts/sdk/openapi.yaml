@@ -1,0 +1,150 @@
+openapi: 3.1.0
+
+info:
+  title: Todo API
+  description: A minimal TODO API
+  version: 1.0.0
+
+servers:
+  - url: https://todo.example.com
+    description: Main API server
+
+paths:
+  /todo/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+
+    get:
+      description: Get a todo item by id
+      operationId: getTodoById
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+
+    patch:
+      description: Update a todo item
+      operationId: updateTodo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTodoRequest"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+
+    delete:
+      description: Delete a todo item
+      operationId: deleteTodo
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+
+  /todo:
+    post:
+      description: Create a todo item
+      operationId: createTodo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTodoRequest"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+
+    get:
+      description: Get all todo items
+      operationId: getTodos
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Todo"
+
+components:
+  schemas:
+    CreateTodoRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          example: "Buy groceries"
+        due_date:
+          type: string
+          format: date
+          example: "2021-01-01"
+        completed:
+          type: boolean
+          example: false
+          
+    UpdateTodoRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Buy groceries"
+        due_date:
+          type: string
+          format: date
+          example: "2021-01-01"
+        completed:
+          type: boolean
+          example: true
+
+    Todo:
+      type: object
+      required:
+        - id
+        - title
+        - completed
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          example: "123"
+        title:
+          type: string
+          example: "Buy groceries"
+        due_date:
+          type: string
+          format: date
+          example: "2021-01-01"
+        completed:
+          type: boolean
+          example: false
+        created_at:
+          type: string
+          format: date-time
+          example: "2021-01-01T00:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2021-01-01T00:00:00Z"

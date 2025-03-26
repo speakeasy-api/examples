@@ -1,0 +1,18 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Todo API:
+        inputs:
+            - location: openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/todo-api
+targets:
+    todo-api:
+        target: typescript
+        source: Todo API
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/speakeasy-self/speakeasy-self/todo-api-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false
