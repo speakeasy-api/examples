@@ -1,0 +1,21 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Racing Drivers API:
+        inputs:
+            - location: ../../openapi/openapi.json
+        registry:
+            location: registry.speakeasyapi.dev/ritza-rzx/ritza/racing-drivers-api
+targets:
+    racing-lap-counter:
+        target: typescript
+        source: Racing Drivers API
+        publish:
+            npm:
+                token: $npm_token
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/ritza-rzx/ritza/racing-drivers-api-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false

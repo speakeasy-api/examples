@@ -1,0 +1,815 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Racing Drivers API",
+        "description": "An API for managing racing drivers and their lap times",
+        "version": "1.0.0"
+    },
+    "tags": [
+        {
+            "name": "Root",
+            "description": "Operations related to the root endpoint"
+        },
+        {
+            "name": "Drivers",
+            "description": "Operations related to racing drivers"
+        },
+        {
+            "name": "Laps",
+            "description": "Operations related to lap times"
+        }
+    ],
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local development server"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "Root"
+                ],
+                "summary": "Root endpoint",
+                "description": "Welcome to the Racing Drivers API",
+                "operationId": "getWelcomeMessage",
+                "responses": {
+                    "200": {
+                        "description": "Welcome message",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/drivers": {
+            "get": {
+                "tags": [
+                    "Drivers"
+                ],
+                "summary": "Get all drivers",
+                "description": "Retrieve a list of all racing drivers in the database",
+                "operationId": "listDrivers",
+                "responses": {
+                    "200": {
+                        "description": "List of drivers retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Driver"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Get Drivers Drivers Get"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Drivers"
+                ],
+                "summary": "Create a new driver",
+                "description": "Create a new racing driver in the database",
+                "operationId": "createDriver",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DriverCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Driver created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Driver"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error in request body"
+                    }
+                }
+            }
+        },
+        "/drivers/{driver_id}": {
+            "get": {
+                "tags": [
+                    "Drivers"
+                ],
+                "summary": "Get a specific driver",
+                "description": "Retrieve details for a specific racing driver by ID",
+                "operationId": "getDriver",
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the driver to retrieve",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                }
+                            },
+                            "title": "Driver Id"
+                        },
+                        "description": "The ID of the driver to retrieve"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Driver details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Driver"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Driver not found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Drivers"
+                ],
+                "summary": "Update a driver",
+                "description": "Update a racing driver's details by ID",
+                "operationId": "updateDriver",
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the driver to update",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                }
+                            },
+                            "title": "Driver Id"
+                        },
+                        "description": "The ID of the driver to update"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DriverUpdate",
+                                "description": "Updated driver information"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Driver updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Driver"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Driver not found"
+                    },
+                    "422": {
+                        "description": "Validation error in request body"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Drivers"
+                ],
+                "summary": "Delete a driver",
+                "description": "Delete a racing driver by ID, including all associated lap records",
+                "operationId": "deleteDriver",
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the driver to delete",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                }
+                            },
+                            "title": "Driver Id"
+                        },
+                        "description": "The ID of the driver to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Driver deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Driver not found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/drivers/{driver_id}/laps": {
+            "post": {
+                "tags": [
+                    "Laps"
+                ],
+                "summary": "Create a new lap record",
+                "description": "Create a new lap record for a specific driver",
+                "operationId": "createLap",
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the driver",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                }
+                            },
+                            "title": "Driver Id"
+                        },
+                        "description": "The ID of the driver"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LapCreate",
+                                "description": "Lap data to create"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Lap record created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lap"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Driver not found"
+                    },
+                    "422": {
+                        "description": "Validation error in request body"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Laps"
+                ],
+                "summary": "Get all laps for a driver",
+                "description": "Retrieve all lap records for a specific driver",
+                "operationId": "listLaps",
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the driver",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                }
+                            },
+                            "title": "Driver Id"
+                        },
+                        "description": "The ID of the driver"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lap records retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Lap"
+                                    },
+                                    "title": "Response Get Laps Drivers  Driver Id  Laps Get"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Driver not found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/drivers/{driver_id}/laps/{lap_id}": {
+            "get": {
+                "tags": [
+                    "Laps"
+                ],
+                "summary": "Get a specific lap record",
+                "description": "Retrieve a specific lap record for a driver",
+                "operationId": "getLap",
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the driver",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                }
+                            },
+                            "title": "Driver Id"
+                        },
+                        "description": "The ID of the driver"
+                    },
+                    {
+                        "name": "lap_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the lap record",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa7"
+                                }
+                            },
+                            "title": "Lap Id"
+                        },
+                        "description": "The ID of the lap record"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lap record retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lap"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lap not found or does not belong to specified driver"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Laps"
+                ],
+                "summary": "Update a lap record",
+                "description": "Update a specific lap record for a driver",
+                "operationId": "updateLap",
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the driver",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                }
+                            },
+                            "title": "Driver Id"
+                        },
+                        "description": "The ID of the driver"
+                    },
+                    {
+                        "name": "lap_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the lap record",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa7"
+                                }
+                            },
+                            "title": "Lap Id"
+                        },
+                        "description": "The ID of the lap record"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LapUpdate",
+                                "description": "Updated lap information"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Lap record updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Lap"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lap not found or does not belong to specified driver"
+                    },
+                    "422": {
+                        "description": "Validation error in request body"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Laps"
+                ],
+                "summary": "Delete a lap record",
+                "description": "Delete a specific lap record for a driver",
+                "operationId": "deleteLap",
+                "parameters": [
+                    {
+                        "name": "driver_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the driver",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                                }
+                            },
+                            "title": "Driver Id"
+                        },
+                        "description": "The ID of the driver"
+                    },
+                    {
+                        "name": "lap_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "The ID of the lap record",
+                            "examples": {
+                                "example1": {
+                                    "value": "3fa85f64-5717-4562-b3fc-2c963f66afa7"
+                                }
+                            },
+                            "title": "Lap Id"
+                        },
+                        "description": "The ID of the lap record"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lap record deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Lap not found or does not belong to specified driver"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Driver": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "The full name of the driver",
+                        "example": "Max Verstappen"
+                    },
+                    "id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Id",
+                        "description": "Unique identifier for the driver"
+                    },
+                    "laps": {
+                        "items": {
+                            "$ref": "#/components/schemas/Lap"
+                        },
+                        "type": "array",
+                        "title": "Laps",
+                        "description": "List of laps completed by the driver",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "title": "Driver",
+                "example": {
+                    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "laps": [
+                        {
+                            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+                            "lap_time": 85.4,
+                            "track": "Silverstone"
+                        },
+                        {
+                            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
+                            "lap_time": 86.2,
+                            "track": "Monza"
+                        }
+                    ],
+                    "name": "Lewis Hamilton"
+                }
+            },
+            "DriverCreate": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "The full name of the driver",
+                        "example": "Max Verstappen"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "title": "DriverCreate",
+                "example": {
+                    "name": "Charles Leclerc"
+                }
+            },
+            "DriverUpdate": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "The full name of the driver",
+                        "example": "Max Verstappen"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "title": "DriverUpdate",
+                "example": {
+                    "name": "Fernando Alonso"
+                }
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "Lap": {
+                "properties": {
+                    "id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Id",
+                        "description": "Unique identifier for the lap"
+                    },
+                    "lap_time": {
+                        "type": "number",
+                        "exclusiveMinimum": 0.0,
+                        "title": "Lap Time",
+                        "description": "Lap time in seconds",
+                        "example": 82.45
+                    },
+                    "track": {
+                        "type": "string",
+                        "title": "Track",
+                        "description": "Name of the track where the lap was recorded",
+                        "example": "Spa-Francorchamps"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "lap_time",
+                    "track"
+                ],
+                "title": "Lap",
+                "example": {
+                    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "lap_time": 83.12,
+                    "track": "Monaco"
+                }
+            },
+            "LapCreate": {
+                "properties": {
+                    "lap_time": {
+                        "type": "number",
+                        "exclusiveMinimum": 0.0,
+                        "title": "Lap Time",
+                        "description": "Lap time in seconds",
+                        "example": 82.45
+                    },
+                    "track": {
+                        "type": "string",
+                        "title": "Track",
+                        "description": "Name of the track where the lap was recorded",
+                        "example": "Spa-Francorchamps"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "lap_time",
+                    "track"
+                ],
+                "title": "LapCreate",
+                "example": {
+                    "lap_time": 79.32,
+                    "track": "Silverstone"
+                }
+            },
+            "LapUpdate": {
+                "properties": {
+                    "lap_time": {
+                        "type": "number",
+                        "exclusiveMinimum": 0.0,
+                        "title": "Lap Time",
+                        "description": "Lap time in seconds",
+                        "example": 81.23
+                    },
+                    "track": {
+                        "type": "string",
+                        "title": "Track",
+                        "description": "Name of the track where the lap was recorded",
+                        "example": "Imola"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "lap_time",
+                    "track"
+                ],
+                "title": "LapUpdate",
+                "example": {
+                    "lap_time": 80.56,
+                    "track": "Budapest"
+                }
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}
