@@ -1,0 +1,255 @@
+lockVersion: 2.0.0
+id: 95700970-cf9d-4ed3-a287-1d231a94f919
+management:
+  docChecksum: f592a1e80505b45b874d1a9cb8282574
+  docVersion: 1.0.0
+  speakeasyVersion: 1.523.1
+  generationVersion: 2.559.0
+  releaseVersion: 0.0.2
+  configChecksum: 398581f41841316bea400762b90c3564
+  published: true
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    core: 3.21.4
+    defaultEnabledRetries: 0.1.0
+    devContainers: 2.90.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.4
+    mcpServer: 0.9.0
+    nullables: 0.1.1
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.2.0
+    unions: 2.85.8
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/components/driver.md
+  - docs/models/components/drivercreate.md
+  - docs/models/components/driverupdate.md
+  - docs/models/components/lap.md
+  - docs/models/components/lapcreate.md
+  - docs/models/components/lapupdate.md
+  - docs/models/components/loc.md
+  - docs/models/components/validationerror.md
+  - docs/models/errors/httpvalidationerror.md
+  - docs/models/operations/createlaprequest.md
+  - docs/models/operations/deletedriverrequest.md
+  - docs/models/operations/deletelaprequest.md
+  - docs/models/operations/getdriverrequest.md
+  - docs/models/operations/getlaprequest.md
+  - docs/models/operations/listlapsrequest.md
+  - docs/models/operations/updatedriverrequest.md
+  - docs/models/operations/updatelaprequest.md
+  - docs/sdks/drivers/README.md
+  - docs/sdks/laps/README.md
+  - docs/sdks/racinglapcounter/README.md
+  - docs/sdks/root/README.md
+  - eslint.config.mjs
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/driversCreateDriver.ts
+  - src/funcs/driversDeleteDriver.ts
+  - src/funcs/driversGetDriver.ts
+  - src/funcs/driversListDrivers.ts
+  - src/funcs/driversUpdateDriver.ts
+  - src/funcs/lapsCreateLap.ts
+  - src/funcs/lapsDeleteLap.ts
+  - src/funcs/lapsGetLap.ts
+  - src/funcs/lapsListLaps.ts
+  - src/funcs/lapsUpdateLap.ts
+  - src/funcs/rootGetWelcomeMessage.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/env.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/mcp-server/build.mts
+  - src/mcp-server/cli.ts
+  - src/mcp-server/cli/start/command.ts
+  - src/mcp-server/cli/start/impl.ts
+  - src/mcp-server/console-logger.ts
+  - src/mcp-server/extensions.ts
+  - src/mcp-server/mcp-server.ts
+  - src/mcp-server/prompts.ts
+  - src/mcp-server/resources.ts
+  - src/mcp-server/scopes.ts
+  - src/mcp-server/server.ts
+  - src/mcp-server/shared.ts
+  - src/mcp-server/tools.ts
+  - src/mcp-server/tools/driversCreateDriver.ts
+  - src/mcp-server/tools/driversDeleteDriver.ts
+  - src/mcp-server/tools/driversGetDriver.ts
+  - src/mcp-server/tools/driversListDrivers.ts
+  - src/mcp-server/tools/driversUpdateDriver.ts
+  - src/mcp-server/tools/lapsCreateLap.ts
+  - src/mcp-server/tools/lapsDeleteLap.ts
+  - src/mcp-server/tools/lapsGetLap.ts
+  - src/mcp-server/tools/lapsListLaps.ts
+  - src/mcp-server/tools/lapsUpdateLap.ts
+  - src/mcp-server/tools/rootGetWelcomeMessage.ts
+  - src/models/components/driver.ts
+  - src/models/components/drivercreate.ts
+  - src/models/components/driverupdate.ts
+  - src/models/components/index.ts
+  - src/models/components/lap.ts
+  - src/models/components/lapcreate.ts
+  - src/models/components/lapupdate.ts
+  - src/models/components/validationerror.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/httpvalidationerror.ts
+  - src/models/errors/index.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/operations/createlap.ts
+  - src/models/operations/deletedriver.ts
+  - src/models/operations/deletelap.ts
+  - src/models/operations/getdriver.ts
+  - src/models/operations/getlap.ts
+  - src/models/operations/index.ts
+  - src/models/operations/listlaps.ts
+  - src/models/operations/updatedriver.ts
+  - src/models/operations/updatelap.ts
+  - src/sdk/drivers.ts
+  - src/sdk/index.ts
+  - src/sdk/laps.ts
+  - src/sdk/root.ts
+  - src/sdk/sdk.ts
+  - src/types/async.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  getWelcomeMessage:
+    speakeasy-default-get-welcome-message:
+      responses:
+        "200":
+          application/json: "<value>"
+  listDrivers:
+    speakeasy-default-list-drivers:
+      responses:
+        "200":
+          application/json: [{"name": "Lewis Hamilton", "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "laps": [{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa7", "lap_time": 85.4, "track": "Silverstone"}, {"id": "3fa85f64-5717-4562-b3fc-2c963f66afa8", "lap_time": 86.2, "track": "Monza"}]}]
+  createDriver:
+    speakeasy-default-create-driver:
+      requestBody:
+        application/json: {"name": "Max Verstappen"}
+      responses:
+        "201":
+          application/json: {"name": "Max Verstappen", "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "laps": [{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "lap_time": 83.12, "track": "Monaco"}]}
+  getDriver:
+    speakeasy-default-get-driver:
+      parameters:
+        path:
+          driver_id: "<id>"
+      responses:
+        "200":
+          application/json: {"name": "Max Verstappen", "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "laps": [{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "lap_time": 83.12, "track": "Monaco"}]}
+        "422":
+          application/json: {}
+  updateDriver:
+    speakeasy-default-update-driver:
+      parameters:
+        path:
+          driver_id: "<id>"
+      requestBody:
+        application/json: {"name": "Max Verstappen"}
+      responses:
+        "200":
+          application/json: {"name": "Max Verstappen", "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "laps": [{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "lap_time": 83.12, "track": "Monaco"}]}
+  deleteDriver:
+    speakeasy-default-delete-driver:
+      parameters:
+        path:
+          driver_id: "<id>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  createLap:
+    speakeasy-default-create-lap:
+      parameters:
+        path:
+          driver_id: "<id>"
+      requestBody:
+        application/json: {"lap_time": 82.45, "track": "Spa-Francorchamps"}
+      responses:
+        "201":
+          application/json: {"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "lap_time": 82.45, "track": "Spa-Francorchamps"}
+  listLaps:
+    speakeasy-default-list-laps:
+      parameters:
+        path:
+          driver_id: "<id>"
+      responses:
+        "200":
+          application/json: [{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "lap_time": 83.12, "track": "Monaco"}]
+        "422":
+          application/json: {}
+  getLap:
+    speakeasy-default-get-lap:
+      parameters:
+        path:
+          driver_id: "<id>"
+          lap_id: "<id>"
+      responses:
+        "200":
+          application/json: {"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "lap_time": 82.45, "track": "Spa-Francorchamps"}
+        "422":
+          application/json: {}
+  updateLap:
+    speakeasy-default-update-lap:
+      parameters:
+        path:
+          driver_id: "<id>"
+          lap_id: "<id>"
+      requestBody:
+        application/json: {"lap_time": 81.23, "track": "Imola"}
+      responses:
+        "200":
+          application/json: {"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "lap_time": 82.45, "track": "Spa-Francorchamps"}
+  deleteLap:
+    speakeasy-default-delete-lap:
+      parameters:
+        path:
+          driver_id: "<id>"
+          lap_id: "<id>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+examplesVersion: 1.0.0
+generatedTests: {}

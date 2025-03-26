@@ -1,0 +1,39 @@
+speakeasyVersion: 1.523.1
+sources:
+    Racing Drivers API:
+        sourceNamespace: racing-drivers-api
+        sourceRevisionDigest: sha256:81529644b1d1b6535953ed719d7e887c14d2dd76ec275f4cad7eefde6d57796d
+        sourceBlobDigest: sha256:b59a3f3fef053359ee4fb73fbdbba189fa1d0dc165717ed65d9c861f046a89ab
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    racing-lap-counter:
+        source: Racing Drivers API
+        sourceNamespace: racing-drivers-api
+        sourceRevisionDigest: sha256:81529644b1d1b6535953ed719d7e887c14d2dd76ec275f4cad7eefde6d57796d
+        sourceBlobDigest: sha256:b59a3f3fef053359ee4fb73fbdbba189fa1d0dc165717ed65d9c861f046a89ab
+        codeSamplesNamespace: racing-drivers-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:95c3f01f0264605369204553879fd580b40cff5cfa62ef0518544737f4d96b8c
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Racing Drivers API:
+            inputs:
+                - location: ../../openapi/openapi.json
+            registry:
+                location: registry.speakeasyapi.dev/ritza-rzx/ritza/racing-drivers-api
+    targets:
+        racing-lap-counter:
+            target: typescript
+            source: Racing Drivers API
+            publish:
+                npm:
+                    token: $npm_token
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/ritza-rzx/ritza/racing-drivers-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false
