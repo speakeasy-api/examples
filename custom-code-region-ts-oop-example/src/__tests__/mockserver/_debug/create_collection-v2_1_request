@@ -1,0 +1,15 @@
+POST /api/v2/tenants/%3Cvalue%3E/databases/%3Cvalue%3E/collections HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 40
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: A43B96A1-7FF2-6749-28D9-A428071E8BAB
+X-Speakeasy-Test-Name: create_collection-v2
+
+{"name":"<value>","get_or_create":false}

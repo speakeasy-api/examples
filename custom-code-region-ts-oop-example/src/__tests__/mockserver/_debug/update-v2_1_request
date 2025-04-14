@@ -1,0 +1,15 @@
+POST /api/v2/tenants/%3Cvalue%3E/databases/%3Cvalue%3E/collections/%3Cid%3E/update HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 39
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: FD88ACA7-307F-3833-408A-DD1C103C07E3
+X-Speakeasy-Test-Name: update-v2
+
+{"ids":["<value>","<value>","<value>"]}

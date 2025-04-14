@@ -1,0 +1,12 @@
+GET /api/v2/tenants/%3Cvalue%3E HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: 7B23DC3D-8106-353B-B783-7324BC2FB8C3
+X-Speakeasy-Test-Name: get_tenant-v2
+

@@ -1,0 +1,15 @@
+POST /api/v2/tenants/%3Cvalue%3E/databases/%3Cvalue%3E/collections/%3Cid%3E/query HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 38
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: 99B69835-EFAE-76BC-2F94-6D48C7B5CDC6
+X-Speakeasy-Test-Name: get_nearest_neighbors-v2
+
+{"query_embeddings":[],"n_results":10}

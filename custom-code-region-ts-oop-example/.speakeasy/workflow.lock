@@ -1,0 +1,39 @@
+speakeasyVersion: 1.505.0
+sources:
+    API:
+        sourceNamespace: API
+        sourceRevisionDigest: sha256:cd4c69ebe48c49e7e1e8f06bbf6c81457e5bdc8a6f253d15f0312e1f19b823f4
+        sourceBlobDigest: sha256:9cde0712508fc44c88c527046a7ec4ce617ccb640026f372ce534b62de3eb0d3
+        tags:
+            - latest
+            - 0.7.0
+targets:
+    API:
+        source: API
+        sourceNamespace: API
+        sourceRevisionDigest: sha256:cd4c69ebe48c49e7e1e8f06bbf6c81457e5bdc8a6f253d15f0312e1f19b823f4
+        sourceBlobDigest: sha256:9cde0712508fc44c88c527046a7ec4ce617ccb640026f372ce534b62de3eb0d3
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        API:
+            inputs:
+                - location: ./API_spec_updated.json
+            overlays:
+                - location: .speakeasy/speakeasy-modifications-overlay.yaml
+                - location: .speakeasy/speakeasy-errors-overlay.yaml
+                - location: .speakeasy/speakeasy-overlay-add-security-and-globals.yaml
+                - location: .speakeasy/speakeasy-operation-ids-suggestions.yaml
+            registry:
+                location: registry.speakeasyapi.dev/API/API/API
+    targets:
+        API:
+            target: typescript
+            source: API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/API/API/API-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false

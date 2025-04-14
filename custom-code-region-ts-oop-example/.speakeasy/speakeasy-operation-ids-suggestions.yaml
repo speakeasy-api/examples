@@ -1,0 +1,204 @@
+overlay: 1.0.0
+info:
+  title: Speakeasy Suggestions - API-frontend
+  version: 0.0.1
+actions:
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}"]["delete"]
+    update:
+      x-speakeasy-group: databases
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      after: sdk.databases.delete()
+      before: sdk.<no_group>.delete_database()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}/collections/{collection_id}/query"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: query
+    x-speakeasy-metadata:
+      after: sdk.collections.query()
+      before: sdk.<no_group>.collection_query()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}/collections"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      after: sdk.collections.create()
+      before: sdk.<no_group>.create_collection()
+      type: method-name
+  - target: $["paths"]["/api/v2/auth/identity"]["get"]
+    update:
+      x-speakeasy-group: auth
+      x-speakeasy-name-override: getIdentity
+    x-speakeasy-metadata:
+      after: sdk.auth.getIdentity()
+      before: sdk.<no_group>.get_user_identity()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}/collections/{collection_id}"]["get"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.collections.get()
+      before: sdk.<no_group>.get_collection()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}/collections/{collection_id}"]["put"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: update
+    x-speakeasy-metadata:
+      after: sdk.collections.update()
+      before: sdk.<no_group>.update_collection()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}/collections/{collection_id}/count"]["get"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: countRecords
+    x-speakeasy-metadata:
+      after: sdk.collections.countRecords()
+      before: sdk.<no_group>.collection_count()
+      type: method-name
+  - target: $["paths"]["/api/v2/heartbeat"]["get"]
+    update:
+      x-speakeasy-group: system
+      x-speakeasy-name-override: getHeartbeat
+    x-speakeasy-metadata:
+      after: sdk.system.getHeartbeat()
+      before: sdk.<no_group>.heartbeat()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases"]["post"]
+    update:
+      x-speakeasy-group: databases
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      after: sdk.databases.create()
+      before: sdk.<no_group>.create_database()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/delete"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: deleteRecords
+    x-speakeasy-metadata:
+      after: sdk.collections.deleteRecords()
+      before: sdk.<no_group>.collection_delete()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_name}"]["get"]
+    update:
+      x-speakeasy-group: tenants
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.tenants.get()
+      before: sdk.<no_group>.get_tenant()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants"]["post"]
+    update:
+      x-speakeasy-group: tenants
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      after: sdk.tenants.create()
+      before: sdk.<no_group>.create_tenant()
+      type: method-name
+  - target: $["paths"]["/api/v2/version"]["get"]
+    update:
+      x-speakeasy-group: system
+      x-speakeasy-name-override: getVersion
+    x-speakeasy-metadata:
+      after: sdk.system.getVersion()
+      before: sdk.<no_group>.version()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}/collections_count"]["get"]
+    update:
+      x-speakeasy-name-override: count
+      x-speakeasy-group: collections
+    x-speakeasy-metadata:
+      after: sdk.collections.count()
+      before: sdk.<no_group>.count_collections()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/add"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: add
+    x-speakeasy-metadata:
+      after: sdk.collections.addRecords()
+      before: sdk.<no_group>.collection_add()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}/collections"]["get"]
+    update:
+      x-speakeasy-name-override: list
+      x-speakeasy-group: collections
+    x-speakeasy-metadata:
+      after: sdk.collections.list()
+      before: sdk.<no_group>.list_collections()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}/collections/{collection_id}"]["delete"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      after: sdk.collections.delete()
+      before: sdk.<no_group>.delete_collection()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}/collections/{collection_id}/get"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: retrieveRecords
+    x-speakeasy-metadata:
+      after: sdk.collections.retrieveRecords()
+      before: sdk.<no_group>.collection_get()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases/{database_name}"]["get"]
+    update:
+      x-speakeasy-group: databases
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.databases.get()
+      before: sdk.<no_group>.get_database()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/upsert"]["post"]
+    update:
+      x-speakeasy-name-override: upsert
+      x-speakeasy-group: collections
+    x-speakeasy-metadata:
+      after: sdk.collections.upsert()
+      before: sdk.<no_group>.collection_upsert()
+      type: method-name
+  - target: $["paths"]["/api/v2/healthcheck"]["get"]
+    update:
+      x-speakeasy-group: system
+      x-speakeasy-name-override: getHealthcheck
+    x-speakeasy-metadata:
+      after: sdk.system.getHealthcheck()
+      before: sdk.<no_group>.healthcheck()
+      type: method-name
+  - target: $["paths"]["/api/v2/reset"]["post"]
+    update:
+      x-speakeasy-group: system
+    x-speakeasy-metadata:
+      after: sdk.system.reset()
+      before: sdk.<no_group>.reset()
+      type: method-name
+  - target: $["paths"]["/api/v2/pre-flight-checks"]["get"]
+    update:
+      x-speakeasy-group: system
+      x-speakeasy-name-override: getPreFlightChecks
+    x-speakeasy-metadata:
+      after: sdk.system.getPreFlightChecks()
+      before: sdk.<no_group>.pre_flight_checks()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant_id}/databases"]["get"]
+    update:
+      x-speakeasy-group: databases
+      x-speakeasy-name-override: list
+    x-speakeasy-metadata:
+      after: sdk.databases.list()
+      before: sdk.<no_group>.list_databases()
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/update"]["post"]
+    update:
+      x-speakeasy-name-override: updateById
+      x-speakeasy-group: collections
+    x-speakeasy-metadata:
+      after: sdk.collections.updateById()
+      before: sdk.<no_group>.collection_update()
+      type: method-name

@@ -1,0 +1,15 @@
+POST /api/v2/tenants/%3Cvalue%3E/databases HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 18
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: B115ADD9-EA40-E12B-EB6F-AC77CE92A1DA
+X-Speakeasy-Test-Name: create_database-v2
+
+{"name":"<value>"}

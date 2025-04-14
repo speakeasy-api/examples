@@ -1,0 +1,368 @@
+arazzo: 1.0.0
+info:
+  title: Test Suite
+  summary: Created from /Users/svaughn/Documents/SDKs/API-typescript-sdk/.speakeasy/temp/output_a491f0.json
+  version: 0.0.1
+sourceDescriptions:
+  - name: /Users/svaughn/Documents/SDKs/API-typescript-sdk/.speakeasy/temp/output_a491f0.json
+    url: https://TBD.com
+    type: openapi
+workflows:
+  - workflowId: get_user_identity
+    steps:
+      - stepId: test
+        operationId: get_user_identity
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: auth
+  - workflowId: healthcheck
+    steps:
+      - stepId: test
+        operationId: healthcheck
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: system
+  - workflowId: heartbeat
+    steps:
+      - stepId: test
+        operationId: heartbeat
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: system
+  - workflowId: pre_flight_checks
+    steps:
+      - stepId: test
+        operationId: pre_flight_checks
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: system
+  - workflowId: create_tenant
+    steps:
+      - stepId: test
+        operationId: create_tenant
+        requestBody:
+          contentType: application/json
+          payload:
+            name: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: tenants
+  - workflowId: get_tenant
+    steps:
+      - stepId: test
+        operationId: get_tenant
+        parameters:
+          - name: tenant_name
+            in: path
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: tenants
+  - workflowId: list_databases
+    steps:
+      - stepId: test
+        operationId: list_databases
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: databases
+  - workflowId: create_database
+    steps:
+      - stepId: test
+        operationId: create_database
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+        requestBody:
+          contentType: application/json
+          payload:
+            name: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: databases
+  - workflowId: get_database
+    steps:
+      - stepId: test
+        operationId: get_database
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: databases
+  - workflowId: delete_database
+    steps:
+      - stepId: test
+        operationId: delete_database
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: databases
+  - workflowId: list_collections
+    steps:
+      - stepId: test
+        operationId: list_collections
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: create_collection
+    steps:
+      - stepId: test
+        operationId: create_collection
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+        requestBody:
+          contentType: application/json
+          payload:
+            get_or_create: true
+            name: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: get_collection
+    steps:
+      - stepId: test
+        operationId: get_collection
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+          - name: collection_id
+            in: path
+            value: <id>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: update_collection
+    steps:
+      - stepId: test
+        operationId: update_collection
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+          - name: collection_id
+            in: path
+            value: <id>
+        requestBody:
+          contentType: application/json
+          payload: {}
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: delete_collection
+    steps:
+      - stepId: test
+        operationId: delete_collection
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+          - name: collection_id
+            in: path
+            value: <id>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: collection_count
+    steps:
+      - stepId: test
+        operationId: collection_count
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+          - name: collection_id
+            in: path
+            value: <id>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: collection_get
+    steps:
+      - stepId: test
+        operationId: collection_get
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+          - name: collection_id
+            in: path
+            value: <id>
+        requestBody:
+          contentType: application/json
+          payload: {}
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: collection_query
+    steps:
+      - stepId: test
+        operationId: collection_query
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+          - name: collection_id
+            in: path
+            value: <id>
+        requestBody:
+          contentType: application/json
+          payload:
+            query_embeddings:
+              - - 510.9
+                - 8580.37
+                - 6368.5
+              - - 6399.17
+                - 7442.89
+              - - 9708.31
+                - 8997.26
+                - 4020.95
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: count_collections
+    steps:
+      - stepId: test
+        operationId: count_collections
+        parameters:
+          - name: tenant_id
+            in: path
+            value: <id>
+          - name: database_name
+            in: path
+            value: <value>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: collection_add
+    steps:
+      - stepId: test
+        operationId: collection_add
+        parameters:
+          - name: tenant
+            in: path
+            value: <value>
+          - name: database_name
+            in: path
+            value: <value>
+          - name: collection_id
+            in: path
+            value: <id>
+        requestBody:
+          contentType: application/json
+          payload:
+            ids:
+              - <value>
+        successCriteria:
+          - condition: $statusCode == 201
+    x-speakeasy-test-group: collections
+  - workflowId: collection_delete
+    steps:
+      - stepId: test
+        operationId: collection_delete
+        parameters:
+          - name: tenant
+            in: path
+            value: <value>
+          - name: database_name
+            in: path
+            value: <value>
+          - name: collection_id
+            in: path
+            value: <id>
+        requestBody:
+          contentType: application/json
+          payload: {}
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: collection_update
+    steps:
+      - stepId: test
+        operationId: collection_update
+        parameters:
+          - name: tenant
+            in: path
+            value: <value>
+          - name: database_name
+            in: path
+            value: <value>
+          - name: collection_id
+            in: path
+            value: <id>
+        requestBody:
+          contentType: application/json
+          payload:
+            ids:
+              - <value>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections
+  - workflowId: collection_upsert
+    steps:
+      - stepId: test
+        operationId: collection_upsert
+        parameters:
+          - name: tenant
+            in: path
+            value: <value>
+          - name: database_name
+            in: path
+            value: <value>
+          - name: collection_id
+            in: path
+            value: <id>
+        requestBody:
+          contentType: application/json
+          payload:
+            ids:
+              - <value>
+              - <value>
+        successCriteria:
+          - condition: $statusCode == 200
+    x-speakeasy-test-group: collections

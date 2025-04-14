@@ -1,0 +1,12 @@
+GET /api/v2/tenants/%3Cvalue%3E/databases/%3Cvalue%3E/collections/%3Cid%3E/count HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: 578247BE-4952-CD3D-CD5F-8313990EA7DC
+X-Speakeasy-Test-Name: count-v2
+
