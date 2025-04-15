@@ -1,12 +1,7 @@
+# Example Notes
 
-
-<div align="center">
-    <img width="300px" src="https://github.com/user-attachments/assets/295afb61-5ff2-4ca9-9389-cb03f0a0c9de">
-    <h1>TypeScript SDK</h1>
-    <p>Developer-friendly TypeScript SDK specifically catered to leverage the <strong>API</strong> API.</p>
-    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
-</div>
-
+This is an example of a Speakeasy-generated TypeScript SDK that uses _Custom
+Code Regions_ to add a multiple methods to the SDK client.
 
 <!-- Start Summary [summary] -->
 ## Summary
