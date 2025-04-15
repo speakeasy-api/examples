@@ -1,0 +1,23 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    API:
+        inputs:
+            - location: ./API_spec_updated.json
+        overlays:
+            - location: .speakeasy/speakeasy-modifications-overlay.yaml
+            - location: .speakeasy/speakeasy-errors-overlay.yaml
+            - location: .speakeasy/speakeasy-overlay-add-security-and-globals.yaml
+            - location: .speakeasy/speakeasy-operation-ids-suggestions.yaml
+        registry:
+            location: registry.speakeasyapi.dev/API/API/API
+targets:
+    API:
+        target: typescript
+        source: API
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/API/API/API-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false

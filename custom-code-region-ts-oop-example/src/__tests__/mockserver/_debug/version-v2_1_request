@@ -1,0 +1,12 @@
+GET /api/v2/version HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: A589215D-EF0A-933A-A3C7-EE6CF3BB3F3B
+X-Speakeasy-Test-Name: version-v2
+

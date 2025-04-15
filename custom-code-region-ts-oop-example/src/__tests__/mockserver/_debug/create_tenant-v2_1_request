@@ -1,0 +1,15 @@
+POST /api/v2/tenants HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 18
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: FEEC28A4-D7BD-3AF4-3FE4-53C7E0DB135A
+X-Speakeasy-Test-Name: create_tenant-v2
+
+{"name":"<value>"}

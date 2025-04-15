@@ -1,0 +1,15 @@
+POST /api/v2/tenants/%3Cvalue%3E/databases/%3Cvalue%3E/collections/%3Cid%3E/upsert HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 10
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: 3C030766-FB6B-E452-0D3E-994F192E2D15
+X-Speakeasy-Test-Name: upsert-v2
+
+{"ids":[]}

@@ -1,0 +1,17 @@
+overlay: 1.0.0
+x-speakeasy-jsonpath: rfc9535
+info:
+  title: Overlay API_spec.json => API_spec_original_with_security.json
+  version: 0.0.0
+actions:
+  - target: $["servers"][0]["url"]
+    update: "https://api.API.com/"
+  - target: $
+    update:
+      "x-speakeasy-globals": {"parameters": [{"name": "tenant", "in": "path", "schema": {"type": "string"}}, {"name": "tenant_id", "in": "path", "schema": {"type": "string"}}, {"name": "database_name", "in": "path", "schema": {"type": "string"}}]}
+  - target: $
+    update:
+      "security": [{"api_key": []}]
+  - target: $["components"]
+    update:
+      "securitySchemes": {"api_key": {"type": "apiKey", "name": "x-API-token", "in": "header"}}

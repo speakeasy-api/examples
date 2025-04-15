@@ -1,0 +1,816 @@
+lockVersion: 2.0.0
+id: a98b3b72-5230-49ab-8d03-1f117e6ed156
+management:
+  docChecksum: 8f303cc0fb4c376a13e3e0b129d97cb3
+  docVersion: 0.7.0
+  speakeasyVersion: 1.505.0
+  generationVersion: 2.531.0
+  releaseVersion: 0.12.0
+  configChecksum: 1ad5e2f5df5b5f867b951fc2041a7cde
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    additionalProperties: 0.1.1
+    core: 3.21.3
+    customCodeRegions: 0.1.0
+    defaultEnabledRetries: 0.1.0
+    devContainers: 2.90.0
+    enumUnions: 0.1.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurity: 2.82.13
+    globalSecurityCallbacks: 0.1.0
+    globalSecurityFlattening: 0.1.0
+    globalServerURLs: 2.82.4
+    globals: 2.82.2
+    groups: 2.81.2
+    mcpServer: 0.3.0
+    mockServer: 0.1.0
+    nameOverrides: 2.81.2
+    nullables: 0.1.1
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.2.0
+    tests: 0.15.0
+    unions: 2.85.8
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/components/addcollectionrecordspayload.md
+  - docs/models/components/addcollectionrecordsresponse.md
+  - docs/models/components/checklistresponse.md
+  - docs/models/components/collection.md
+  - docs/models/components/createcollectionpayload.md
+  - docs/models/components/createdatabasepayload.md
+  - docs/models/components/createdatabaseresponse.md
+  - docs/models/components/createtenantpayload.md
+  - docs/models/components/createtenantresponse.md
+  - docs/models/components/database.md
+  - docs/models/components/deletecollectionrecordspayload.md
+  - docs/models/components/deletecollectionrecordsresponse.md
+  - docs/models/components/deletedatabaseresponse.md
+  - docs/models/components/getrequestpayload.md
+  - docs/models/components/getresponse.md
+  - docs/models/components/gettenantresponse.md
+  - docs/models/components/getuseridentityresponse.md
+  - docs/models/components/hashmap.md
+  - docs/models/components/heartbeatresponse.md
+  - docs/models/components/include.md
+  - docs/models/components/queryrequestpayload.md
+  - docs/models/components/queryresponse.md
+  - docs/models/components/security.md
+  - docs/models/components/updatecollectionpayload.md
+  - docs/models/components/updatecollectionrecordspayload.md
+  - docs/models/components/updatecollectionrecordsresponse.md
+  - docs/models/components/updatecollectionresponse.md
+  - docs/models/components/upsertcollectionrecordspayload.md
+  - docs/models/components/upsertcollectionrecordsresponse.md
+  - docs/models/components/vec.md
+  - docs/models/errors/badrequest.md
+  - docs/models/errors/errorresponse.md
+  - docs/models/errors/internalservererror.md
+  - docs/models/errors/notfound.md
+  - docs/models/errors/ratelimited.md
+  - docs/models/errors/timeout.md
+  - docs/models/errors/unauthorized.md
+  - docs/models/operations/collectionaddglobals.md
+  - docs/models/operations/collectionaddrequest.md
+  - docs/models/operations/collectioncountglobals.md
+  - docs/models/operations/collectioncountrequest.md
+  - docs/models/operations/collectiondeleteglobals.md
+  - docs/models/operations/collectiondeleterequest.md
+  - docs/models/operations/collectiongetglobals.md
+  - docs/models/operations/collectiongetrequest.md
+  - docs/models/operations/collectionqueryglobals.md
+  - docs/models/operations/collectionqueryrequest.md
+  - docs/models/operations/collectionupdateglobals.md
+  - docs/models/operations/collectionupdaterequest.md
+  - docs/models/operations/collectionupsertglobals.md
+  - docs/models/operations/collectionupsertrequest.md
+  - docs/models/operations/countcollectionsglobals.md
+  - docs/models/operations/countcollectionsrequest.md
+  - docs/models/operations/createcollectionglobals.md
+  - docs/models/operations/createcollectionrequest.md
+  - docs/models/operations/createdatabaseglobals.md
+  - docs/models/operations/createdatabaserequest.md
+  - docs/models/operations/deletecollectionglobals.md
+  - docs/models/operations/deletecollectionrequest.md
+  - docs/models/operations/deletedatabaseglobals.md
+  - docs/models/operations/deletedatabaserequest.md
+  - docs/models/operations/getcollectionglobals.md
+  - docs/models/operations/getcollectionrequest.md
+  - docs/models/operations/getdatabaseglobals.md
+  - docs/models/operations/getdatabaserequest.md
+  - docs/models/operations/gettenantrequest.md
+  - docs/models/operations/listcollectionsglobals.md
+  - docs/models/operations/listcollectionsrequest.md
+  - docs/models/operations/listdatabasesglobals.md
+  - docs/models/operations/listdatabasesrequest.md
+  - docs/models/operations/updatecollectionglobals.md
+  - docs/models/operations/updatecollectionrequest.md
+  - docs/sdks/auth/README.md
+  - docs/sdks/API/README.md
+  - docs/sdks/collections/README.md
+  - docs/sdks/databases/README.md
+  - docs/sdks/system/README.md
+  - docs/sdks/tenants/README.md
+  - eslint.config.mjs
+  - jsr.json
+  - package.json
+  - src/__tests__/assertions.ts
+  - src/__tests__/auth.test.ts
+  - src/__tests__/collections.test.ts
+  - src/__tests__/databases.test.ts
+  - src/__tests__/files.ts
+  - src/__tests__/mockserver/Dockerfile
+  - src/__tests__/mockserver/Makefile
+  - src/__tests__/mockserver/README.md
+  - src/__tests__/mockserver/go.mod
+  - src/__tests__/mockserver/go.sum
+  - src/__tests__/mockserver/internal/handler/assert/contenttype.go
+  - src/__tests__/mockserver/internal/handler/assert/header.go
+  - src/__tests__/mockserver/internal/handler/assert/parameter.go
+  - src/__tests__/mockserver/internal/handler/assert/pointer.go
+  - src/__tests__/mockserver/internal/handler/assert/security.go
+  - src/__tests__/mockserver/internal/handler/doc.go
+  - src/__tests__/mockserver/internal/handler/generated_handler.go
+  - src/__tests__/mockserver/internal/handler/generated_handlers.go
+  - src/__tests__/mockserver/internal/handler/pathdeleteapiv2tenantstenantiddatabasesdatabasename.go
+  - src/__tests__/mockserver/internal/handler/pathdeleteapiv2tenantstenantiddatabasesdatabasenamecollectionscollectionid.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2authidentity.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2healthcheck.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2heartbeat.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2preflightchecks.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2tenantstenantiddatabases.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2tenantstenantiddatabasesdatabasename.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2tenantstenantiddatabasesdatabasenamecollections.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2tenantstenantiddatabasesdatabasenamecollectionscollectionid.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2tenantstenantiddatabasesdatabasenamecollectionscollectionidcount.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2tenantstenantiddatabasesdatabasenamecollectionscount.go
+  - src/__tests__/mockserver/internal/handler/pathgetapiv2tenantstenantname.go
+  - src/__tests__/mockserver/internal/handler/pathpostapiv2tenants.go
+  - src/__tests__/mockserver/internal/handler/pathpostapiv2tenantstenantdatabasesdatabasenamecollectionscollectionidadd.go
+  - src/__tests__/mockserver/internal/handler/pathpostapiv2tenantstenantdatabasesdatabasenamecollectionscollectioniddelete.go
+  - src/__tests__/mockserver/internal/handler/pathpostapiv2tenantstenantdatabasesdatabasenamecollectionscollectionidupdate.go
+  - src/__tests__/mockserver/internal/handler/pathpostapiv2tenantstenantdatabasesdatabasenamecollectionscollectionidupsert.go
+  - src/__tests__/mockserver/internal/handler/pathpostapiv2tenantstenantiddatabases.go
+  - src/__tests__/mockserver/internal/handler/pathpostapiv2tenantstenantiddatabasesdatabasenamecollections.go
+  - src/__tests__/mockserver/internal/handler/pathpostapiv2tenantstenantiddatabasesdatabasenamecollectionscollectionidget.go
+  - src/__tests__/mockserver/internal/handler/pathpostapiv2tenantstenantiddatabasesdatabasenamecollectionscollectionidquery.go
+  - src/__tests__/mockserver/internal/handler/pathputapiv2tenantstenantiddatabasesdatabasenamecollectionscollectionid.go
+  - src/__tests__/mockserver/internal/handler/values/files.go
+  - src/__tests__/mockserver/internal/logging/doc.go
+  - src/__tests__/mockserver/internal/logging/formats.go
+  - src/__tests__/mockserver/internal/logging/http_file.go
+  - src/__tests__/mockserver/internal/logging/http_logger.go
+  - src/__tests__/mockserver/internal/logging/levels.go
+  - src/__tests__/mockserver/internal/logging/logger.go
+  - src/__tests__/mockserver/internal/logging/oas_operation.go
+  - src/__tests__/mockserver/internal/logging/oas_operation_call.go
+  - src/__tests__/mockserver/internal/sdk/models/components/addcollectionrecordspayload.go
+  - src/__tests__/mockserver/internal/sdk/models/components/addcollectionrecordsresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/checklistresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/collection.go
+  - src/__tests__/mockserver/internal/sdk/models/components/createcollectionpayload.go
+  - src/__tests__/mockserver/internal/sdk/models/components/createdatabasepayload.go
+  - src/__tests__/mockserver/internal/sdk/models/components/createdatabaseresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/createtenantpayload.go
+  - src/__tests__/mockserver/internal/sdk/models/components/createtenantresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/database.go
+  - src/__tests__/mockserver/internal/sdk/models/components/deletecollectionrecordspayload.go
+  - src/__tests__/mockserver/internal/sdk/models/components/deletecollectionrecordsresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/deletedatabaseresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/getrequestpayload.go
+  - src/__tests__/mockserver/internal/sdk/models/components/getresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/gettenantresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/getuseridentityresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/hashmap.go
+  - src/__tests__/mockserver/internal/sdk/models/components/heartbeatresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/httpmetadata.go
+  - src/__tests__/mockserver/internal/sdk/models/components/include.go
+  - src/__tests__/mockserver/internal/sdk/models/components/queryrequestpayload.go
+  - src/__tests__/mockserver/internal/sdk/models/components/queryresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/security.go
+  - src/__tests__/mockserver/internal/sdk/models/components/updatecollectionpayload.go
+  - src/__tests__/mockserver/internal/sdk/models/components/updatecollectionrecordspayload.go
+  - src/__tests__/mockserver/internal/sdk/models/components/updatecollectionrecordsresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/updatecollectionresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/upsertcollectionrecordspayload.go
+  - src/__tests__/mockserver/internal/sdk/models/components/upsertcollectionrecordsresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/components/vec.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/collectionadd.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/collectioncount.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/collectiondelete.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/collectionget.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/collectionquery.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/collectionupdate.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/collectionupsert.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/countcollections.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/createcollection.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/createdatabase.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/createtenant.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/deletecollection.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/deletedatabase.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/getcollection.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/getdatabase.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/gettenant.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/getuseridentity.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/healthcheck.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/heartbeat.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/listcollections.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/listdatabases.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/preflightchecks.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/reset.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/updatecollection.go
+  - src/__tests__/mockserver/internal/sdk/models/operations/version.go
+  - src/__tests__/mockserver/internal/sdk/models/sdkerrors/badrequest.go
+  - src/__tests__/mockserver/internal/sdk/models/sdkerrors/errorresponse.go
+  - src/__tests__/mockserver/internal/sdk/models/sdkerrors/internalservererror.go
+  - src/__tests__/mockserver/internal/sdk/models/sdkerrors/notfound.go
+  - src/__tests__/mockserver/internal/sdk/models/sdkerrors/ratelimited.go
+  - src/__tests__/mockserver/internal/sdk/models/sdkerrors/timeout.go
+  - src/__tests__/mockserver/internal/sdk/models/sdkerrors/unauthorized.go
+  - src/__tests__/mockserver/internal/sdk/types/bigint.go
+  - src/__tests__/mockserver/internal/sdk/types/date.go
+  - src/__tests__/mockserver/internal/sdk/types/datetime.go
+  - src/__tests__/mockserver/internal/sdk/types/decimal.go
+  - src/__tests__/mockserver/internal/sdk/types/pointers.go
+  - src/__tests__/mockserver/internal/sdk/utils/json.go
+  - src/__tests__/mockserver/internal/sdk/utils/reflect.go
+  - src/__tests__/mockserver/internal/sdk/utils/sort.go
+  - src/__tests__/mockserver/internal/server/doc.go
+  - src/__tests__/mockserver/internal/server/generated_handlers.go
+  - src/__tests__/mockserver/internal/server/internal_handlers.go
+  - src/__tests__/mockserver/internal/server/server.go
+  - src/__tests__/mockserver/internal/server/server_option.go
+  - src/__tests__/mockserver/internal/server/templates/log/index.html.tmpl
+  - src/__tests__/mockserver/internal/server/templates/log/operation.html.tmpl
+  - src/__tests__/mockserver/internal/server/templates/log/style.css.tmpl
+  - src/__tests__/mockserver/internal/tracking/requesttracker.go
+  - src/__tests__/mockserver/main.go
+  - src/__tests__/system.test.ts
+  - src/__tests__/tenants.test.ts
+  - src/__tests__/testclient.ts
+  - src/core.ts
+  - src/funcs/authGetIdentity.ts
+  - src/funcs/collectionsAdd.ts
+  - src/funcs/collectionsCount.ts
+  - src/funcs/collectionsCountRecords.ts
+  - src/funcs/collectionsCreate.ts
+  - src/funcs/collectionsDelete.ts
+  - src/funcs/collectionsDeleteRecords.ts
+  - src/funcs/collectionsGet.ts
+  - src/funcs/collectionsList.ts
+  - src/funcs/collectionsQuery.ts
+  - src/funcs/collectionsRetrieveRecords.ts
+  - src/funcs/collectionsUpdate.ts
+  - src/funcs/collectionsUpdateById.ts
+  - src/funcs/collectionsUpsert.ts
+  - src/funcs/databasesCreate.ts
+  - src/funcs/databasesDelete.ts
+  - src/funcs/databasesGet.ts
+  - src/funcs/databasesList.ts
+  - src/funcs/systemGetHealthcheck.ts
+  - src/funcs/systemGetHeartbeat.ts
+  - src/funcs/systemGetPreFlightChecks.ts
+  - src/funcs/systemGetVersion.ts
+  - src/funcs/systemReset.ts
+  - src/funcs/tenantsCreate.ts
+  - src/funcs/tenantsGet.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/env.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/mcp-server/build.mts
+  - src/mcp-server/cli.ts
+  - src/mcp-server/cli/start/command.ts
+  - src/mcp-server/cli/start/impl.ts
+  - src/mcp-server/console-logger.ts
+  - src/mcp-server/mcp-server.ts
+  - src/mcp-server/resources.ts
+  - src/mcp-server/scopes.ts
+  - src/mcp-server/server.ts
+  - src/mcp-server/shared.ts
+  - src/mcp-server/tools.ts
+  - src/mcp-server/tools/authGetIdentity.ts
+  - src/mcp-server/tools/collectionsAdd.ts
+  - src/mcp-server/tools/collectionsCount.ts
+  - src/mcp-server/tools/collectionsCountRecords.ts
+  - src/mcp-server/tools/collectionsCreate.ts
+  - src/mcp-server/tools/collectionsDelete.ts
+  - src/mcp-server/tools/collectionsDeleteRecords.ts
+  - src/mcp-server/tools/collectionsGet.ts
+  - src/mcp-server/tools/collectionsList.ts
+  - src/mcp-server/tools/collectionsQuery.ts
+  - src/mcp-server/tools/collectionsRetrieveRecords.ts
+  - src/mcp-server/tools/collectionsUpdate.ts
+  - src/mcp-server/tools/collectionsUpdateById.ts
+  - src/mcp-server/tools/collectionsUpsert.ts
+  - src/mcp-server/tools/databasesCreate.ts
+  - src/mcp-server/tools/databasesDelete.ts
+  - src/mcp-server/tools/databasesGet.ts
+  - src/mcp-server/tools/databasesList.ts
+  - src/mcp-server/tools/systemGetHealthcheck.ts
+  - src/mcp-server/tools/systemGetHeartbeat.ts
+  - src/mcp-server/tools/systemGetPreFlightChecks.ts
+  - src/mcp-server/tools/systemGetVersion.ts
+  - src/mcp-server/tools/systemReset.ts
+  - src/mcp-server/tools/tenantsCreate.ts
+  - src/mcp-server/tools/tenantsGet.ts
+  - src/models/components/addcollectionrecordspayload.ts
+  - src/models/components/addcollectionrecordsresponse.ts
+  - src/models/components/checklistresponse.ts
+  - src/models/components/collection.ts
+  - src/models/components/createcollectionpayload.ts
+  - src/models/components/createdatabasepayload.ts
+  - src/models/components/createdatabaseresponse.ts
+  - src/models/components/createtenantpayload.ts
+  - src/models/components/createtenantresponse.ts
+  - src/models/components/database.ts
+  - src/models/components/deletecollectionrecordspayload.ts
+  - src/models/components/deletecollectionrecordsresponse.ts
+  - src/models/components/deletedatabaseresponse.ts
+  - src/models/components/getrequestpayload.ts
+  - src/models/components/getresponse.ts
+  - src/models/components/gettenantresponse.ts
+  - src/models/components/getuseridentityresponse.ts
+  - src/models/components/hashmap.ts
+  - src/models/components/heartbeatresponse.ts
+  - src/models/components/include.ts
+  - src/models/components/index.ts
+  - src/models/components/queryrequestpayload.ts
+  - src/models/components/queryresponse.ts
+  - src/models/components/security.ts
+  - src/models/components/updatecollectionpayload.ts
+  - src/models/components/updatecollectionrecordspayload.ts
+  - src/models/components/updatecollectionrecordsresponse.ts
+  - src/models/components/updatecollectionresponse.ts
+  - src/models/components/upsertcollectionrecordspayload.ts
+  - src/models/components/upsertcollectionrecordsresponse.ts
+  - src/models/components/vec.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/badrequest.ts
+  - src/models/errors/errorresponse.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/index.ts
+  - src/models/errors/internalservererror.ts
+  - src/models/errors/notfound.ts
+  - src/models/errors/ratelimited.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/errors/timeout.ts
+  - src/models/errors/unauthorized.ts
+  - src/models/operations/collectionadd.ts
+  - src/models/operations/collectioncount.ts
+  - src/models/operations/collectiondelete.ts
+  - src/models/operations/collectionget.ts
+  - src/models/operations/collectionquery.ts
+  - src/models/operations/collectionupdate.ts
+  - src/models/operations/collectionupsert.ts
+  - src/models/operations/countcollections.ts
+  - src/models/operations/createcollection.ts
+  - src/models/operations/createdatabase.ts
+  - src/models/operations/deletecollection.ts
+  - src/models/operations/deletedatabase.ts
+  - src/models/operations/getcollection.ts
+  - src/models/operations/getdatabase.ts
+  - src/models/operations/gettenant.ts
+  - src/models/operations/index.ts
+  - src/models/operations/listcollections.ts
+  - src/models/operations/listdatabases.ts
+  - src/models/operations/updatecollection.ts
+  - src/sdk/auth.ts
+  - src/sdk/collections.ts
+  - src/sdk/databases.ts
+  - src/sdk/index.ts
+  - src/sdk/sdk.ts
+  - src/sdk/system.ts
+  - src/sdk/tenants.ts
+  - src/types/async.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  get_user_identity:
+    speakeasy-default-get-user-identity:
+      responses:
+        "200":
+          application/json: {"databases": ["<value>", "<value>"], "tenant": "<value>", "user_id": "<id>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  healthcheck:
+    speakeasy-default-healthcheck:
+      responses:
+        "200":
+          application/json: "<value>"
+        "503":
+          application/json: {"error": "<value>", "message": "<value>"}
+  heartbeat:
+    speakeasy-default-heartbeat:
+      responses:
+        "200":
+          application/json: {"nanosecond_heartbeat": 560209}
+        "404":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "401":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "408":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "429":
+          application/json: {"key": "<value>", "key1": "<value>"}
+        "400":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "504":
+          application/json: {"key": "<value>", "key1": "<value>"}
+        "500":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "510":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "511":
+          application/json: {"key": "<value>", "key1": "<value>"}
+  pre_flight_checks:
+    speakeasy-default-pre-flight-checks:
+      responses:
+        "200":
+          application/json: {"max_batch_size": 369530}
+        "404":
+          application/json: {"key": "<value>", "key1": "<value>"}
+        "401":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "408":
+          application/json: {"key": "<value>", "key1": "<value>"}
+        "429":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "400":
+          application/json: {"key": "<value>"}
+        "504":
+          application/json: {"key": "<value>", "key1": "<value>"}
+        "500":
+          application/json: {"key": "<value>"}
+        "510":
+          application/json: {"key": "<value>", "key1": "<value>"}
+        "511":
+          application/json: {"key": "<value>"}
+  reset:
+    speakeasy-default-reset:
+      responses:
+        "200":
+          text/plain: "<value>"
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  version:
+    speakeasy-default-version:
+      responses:
+        "200":
+          text/plain: "<value>"
+        "404":
+          application/json: {"key": "<value>", "key1": "<value>"}
+        "401":
+          application/json: {"key": "<value>", "key1": "<value>"}
+        "408":
+          application/json: {"key": "<value>"}
+        "429":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "400":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "504":
+          application/json: {"key": "<value>"}
+        "500":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "510":
+          application/json: {"key": "<value>"}
+        "511":
+          application/json: {"key": "<value>", "key1": "<value>"}
+  create_tenant:
+    speakeasy-default-create-tenant:
+      requestBody:
+        application/json: {"name": "<value>"}
+      responses:
+        "200":
+          application/json: {}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  get_tenant:
+    speakeasy-default-get-tenant:
+      parameters:
+        path:
+          tenant_name: "<value>"
+      responses:
+        "200":
+          application/json: {"name": "<value>"}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  list_databases:
+    speakeasy-default-list-databases:
+      parameters:
+        path:
+          tenant_id: "<id>"
+        query: {}
+      responses:
+        "200":
+          application/json: [{"collection_id": "8a232aa0-b11b-48a0-8057-1e9e705d0e6e", "database": "<value>", "log_position": 75058, "name": "<value>", "tenant": "<value>", "version": 897069}, {"collection_id": "2766718d-6d46-412e-80ae-e1b9ddf121dc", "database": "<value>", "log_position": 664080, "name": "<value>", "tenant": "<value>", "version": 284580}, {"collection_id": "c8104fb4-51a7-40cf-8c8f-e07fbc60ab96", "database": "<value>", "log_position": 829409, "name": "<value>", "tenant": "<value>", "version": 329360}]
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  create_database:
+    speakeasy-default-create-database:
+      parameters:
+        path:
+          tenant_id: "<id>"
+      requestBody:
+        application/json: {"name": "<value>"}
+      responses:
+        "200":
+          application/json: {}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  get_database:
+    speakeasy-default-get-database:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+      responses:
+        "200":
+          application/json: {"id": "b888f774-3e7c-4135-a18c-6b985523c4bc", "name": "<value>", "tenant": "<value>"}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  delete_database:
+    speakeasy-default-delete-database:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+      responses:
+        "200":
+          application/json: {}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  list_collections:
+    speakeasy-default-list-collections:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+        query: {}
+      responses:
+        "200":
+          application/json: [{"collection_id": "8a232aa0-b11b-48a0-8057-1e9e705d0e6e", "database": "<value>", "log_position": 75058, "name": "<value>", "tenant": "<value>", "version": 897069}, {"collection_id": "2766718d-6d46-412e-80ae-e1b9ddf121dc", "database": "<value>", "log_position": 664080, "name": "<value>", "tenant": "<value>", "version": 284580}, {"collection_id": "c8104fb4-51a7-40cf-8c8f-e07fbc60ab96", "database": "<value>", "log_position": 829409, "name": "<value>", "tenant": "<value>", "version": 329360}]
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  create_collection:
+    speakeasy-default-create-collection:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+      requestBody:
+        application/json: {"get_or_create": true, "name": "<value>"}
+      responses:
+        "200":
+          application/json: {"collection_id": "7a621cf0-21cd-49cf-8540-3315211a509a", "database": "<value>", "log_position": 15552, "name": "<value>", "tenant": "<value>", "version": 523523}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  get_collection:
+    speakeasy-default-get-collection:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+          collection_id: "<id>"
+      responses:
+        "200":
+          application/json: {"collection_id": "b888f774-3e7c-4135-a18c-6b985523c4bc", "database": "<value>", "log_position": 909118, "name": "<value>", "tenant": "<value>", "version": 324692}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  update_collection:
+    speakeasy-default-update-collection:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+          collection_id: "<id>"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  delete_collection:
+    speakeasy-default-delete-collection:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+          collection_id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  collection_count:
+    speakeasy-default-collection-count:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+          collection_id: "<id>"
+      responses:
+        "200":
+          application/json: 529724
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  collection_get:
+    speakeasy-default-collection-get:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+          collection_id: "<id>"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"ids": [], "include": ["distances"]}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  collection_query:
+    speakeasy-default-collection-query:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+          collection_id: "<id>"
+        query: {}
+      requestBody:
+        application/json: {"query_embeddings": [[510.9, 8580.37, 6368.5], [6399.17, 7442.89], [9708.31, 8997.26, 4020.95]]}
+      responses:
+        "200":
+          application/json: {"ids": [["<value>", "<value>", "<value>"], [], ["<value>", "<value>", "<value>"]], "include": ["embeddings", "metadatas"]}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  count_collections:
+    speakeasy-default-count-collections:
+      parameters:
+        path:
+          tenant_id: "<id>"
+          database_name: "<value>"
+      responses:
+        "200":
+          application/json: 264166
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+  collection_add:
+    speakeasy-default-collection-add:
+      parameters:
+        path:
+          tenant: "<value>"
+          database_name: "<value>"
+          collection_id: "<id>"
+      requestBody:
+        application/json: {"ids": ["<value>"]}
+      responses:
+        "201":
+          application/json: {}
+  collection_delete:
+    speakeasy-default-collection-delete:
+      parameters:
+        path:
+          tenant: "<value>"
+          database_name: "<value>"
+          collection_id: "<id>"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "404":
+          application/json: {"key": "<value>"}
+        "401":
+          application/json: {"key": "<value>"}
+        "408":
+          application/json: {"key": "<value>", "key1": "<value>"}
+        "429":
+          application/json: {"key": "<value>"}
+        "400":
+          application/json: {"key": "<value>"}
+        "504":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "500":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+        "510":
+          application/json: {"key": "<value>"}
+        "511":
+          application/json: {"key": "<value>"}
+  collection_update:
+    speakeasy-default-collection-update:
+      parameters:
+        path:
+          tenant: "<value>"
+          database_name: "<value>"
+          collection_id: "<id>"
+      requestBody:
+        application/json: {"ids": ["<value>"]}
+      responses:
+        "200":
+          application/json: {}
+  collection_upsert:
+    speakeasy-default-collection-upsert:
+      parameters:
+        path:
+          tenant: "<value>"
+          database_name: "<value>"
+          collection_id: "<id>"
+      requestBody:
+        application/json: {"ids": ["<value>", "<value>"]}
+      responses:
+        "200":
+          application/json: {}
+        "401":
+          application/json: {"error": "<value>", "message": "<value>"}
+        "500":
+          application/json: {"error": "<value>", "message": "<value>"}
+examplesVersion: 1.0.0
+generatedTests:
+  get_user_identity: "2025-02-20T14:43:23-08:00"
+  healthcheck: "2025-02-20T14:43:23-08:00"
+  heartbeat: "2025-02-20T14:43:23-08:00"
+  pre_flight_checks: "2025-02-20T14:43:23-08:00"
+  create_tenant: "2025-02-20T14:43:23-08:00"
+  get_tenant: "2025-02-20T14:43:23-08:00"
+  list_databases: "2025-02-20T14:43:23-08:00"
+  create_database: "2025-02-20T14:43:23-08:00"
+  get_database: "2025-02-20T14:43:23-08:00"
+  delete_database: "2025-02-20T14:43:23-08:00"
+  list_collections: "2025-02-20T14:43:23-08:00"
+  create_collection: "2025-02-20T14:43:23-08:00"
+  get_collection: "2025-02-20T14:43:23-08:00"
+  update_collection: "2025-02-20T14:43:23-08:00"
+  delete_collection: "2025-02-20T14:43:23-08:00"
+  collection_count: "2025-02-20T14:43:23-08:00"
+  collection_get: "2025-02-20T14:43:23-08:00"
+  collection_query: "2025-02-20T14:43:23-08:00"
+  count_collections: "2025-02-20T14:43:23-08:00"
+  collection_add: "2025-02-20T14:43:23-08:00"
+  collection_delete: "2025-02-20T14:43:23-08:00"
+  collection_update: "2025-02-20T14:43:23-08:00"
+  collection_upsert: "2025-02-20T14:43:23-08:00"

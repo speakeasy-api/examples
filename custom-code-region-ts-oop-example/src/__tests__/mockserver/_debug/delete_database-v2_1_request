@@ -1,0 +1,12 @@
+DELETE /api/v2/tenants/%3Cvalue%3E/databases/%3Cvalue%3E HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: D79D6866-BAD3-EC07-5EB9-685FC8C09108
+X-Speakeasy-Test-Name: delete_database-v2
+

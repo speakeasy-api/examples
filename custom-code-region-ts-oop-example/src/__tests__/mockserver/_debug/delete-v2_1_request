@@ -1,0 +1,15 @@
+POST /api/v2/tenants/%3Cvalue%3E/databases/%3Cvalue%3E/collections/%3Cid%3E/delete HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 2
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: F157C109-0B35-F6E6-A241-7B38622C95B5
+X-Speakeasy-Test-Name: delete-v2
+
+{}

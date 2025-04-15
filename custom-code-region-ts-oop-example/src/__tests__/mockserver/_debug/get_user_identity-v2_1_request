@@ -1,0 +1,12 @@
+GET /api/v2/auth/identity HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: 030D2932-6F46-D281-D346-119705AB60E2
+X-Speakeasy-Test-Name: get_user_identity-v2
+

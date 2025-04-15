@@ -1,0 +1,13 @@
+POST /api/v2/reset HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 0
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.10.6 2.512.4 0.6.3 API
+X-Speakeasy-Test-Instance-Id: 07789795-3ECB-48BE-29FA-8DF2F28359C5
+X-Speakeasy-Test-Name: reset-v2
+

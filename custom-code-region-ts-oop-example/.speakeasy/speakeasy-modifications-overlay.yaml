@@ -1,0 +1,460 @@
+overlay: 1.0.0
+x-speakeasy-jsonpath: rfc9535
+info:
+  title: Speakeasy Modifications
+  version: 0.0.2
+  x-speakeasy-metadata:
+    after: ""
+    before: ""
+    type: speakeasy-modifications
+actions:
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_name}"]["get"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.collections.get()
+      before: sdk.<no_group>.get_collection-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/delete"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      after: sdk.collections.delete()
+      before: sdk.<no_group>.delete-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/count"]["get"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: count
+    x-speakeasy-metadata:
+      after: sdk.collections.count()
+      before: sdk.<no_group>.count-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections/{collection_id}/delete"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: deleteByIdV1
+    x-speakeasy-metadata:
+      after: sdk.collections.deleteByIdV1()
+      before: sdk.<no_group>.delete_v1-v1()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/pre-flight-checks"]["get"]
+    update:
+      x-speakeasy-group: preFlightChecks
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.preFlightChecks.get()
+      before: sdk.<no_group>.pre_flight_checks-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/upsert"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: upsert
+    x-speakeasy-metadata:
+      after: sdk.collections.upsert()
+      before: sdk.<no_group>.upsert-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections/{collection_id}/update"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: updateV1
+    x-speakeasy-metadata:
+      after: sdk.collections.updateV1()
+      before: sdk.<no_group>.update_v1-v1()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/update"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: update
+    x-speakeasy-metadata:
+      after: sdk.collections.update()
+      before: sdk.<no_group>.update-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}"]["get"]
+    update:
+      x-speakeasy-group: databases
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.databases.get()
+      before: sdk.<no_group>.get_database-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/tenants/{tenant}"]["get"]
+    update:
+      x-speakeasy-group: tenants
+      x-speakeasy-name-override: getV1
+    x-speakeasy-metadata:
+      after: sdk.tenants.getV1()
+      before: sdk.<no_group>.get_tenant_v1-v1()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections"]["get"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: list
+    x-speakeasy-metadata:
+      after: sdk.collections.list()
+      before: sdk.<no_group>.list_collections_v1-v1()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: createV1
+    x-speakeasy-metadata:
+      after: sdk.collections.createV1()
+      before: sdk.<no_group>.create_collection_v1-v1()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections/{collection_id}/add"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: addV1
+    x-speakeasy-metadata:
+      after: sdk.collections.addV1()
+      before: sdk.<no_group>.add_v1-v1()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections"]["get"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: list
+    x-speakeasy-metadata:
+      after: sdk.collections.list()
+      before: sdk.<no_group>.list_collections-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/pre-flight-checks"]["get"]
+    update:
+      x-speakeasy-group: preFlightChecks
+      x-speakeasy-name-override: getV1
+    x-speakeasy-metadata:
+      after: sdk.preFlightChecks.getV1()
+      before: sdk.<no_group>.pre_flight_checks-v1()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants"]["post"]
+    update:
+      x-speakeasy-group: tenants
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      after: sdk.tenants.create()
+      before: sdk.<no_group>.create_tenant-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/auth/identity"]["get"]
+    update:
+      x-speakeasy-group: auth
+      x-speakeasy-name-override: getUserIdentity
+    x-speakeasy-metadata:
+      after: sdk.auth.getUserIdentity()
+      before: sdk.<no_group>.get_user_identity-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases"]["get"]
+    update:
+      x-speakeasy-group: databases
+      x-speakeasy-name-override: list
+    x-speakeasy-metadata:
+      after: sdk.databases.list()
+      before: sdk.<no_group>.list_databases-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      after: sdk.collections.create()
+      before: sdk.<no_group>.create_collection-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections/{collection_name}"]["get"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: getV1
+    x-speakeasy-metadata:
+      after: sdk.collections.getV1()
+      before: sdk.<no_group>.get_collection_v1-v1()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/heartbeat"]["get"]
+    update:
+      x-speakeasy-group: system
+      x-speakeasy-name-override: heartbeat
+    x-speakeasy-metadata:
+      after: sdk.system.heartbeat()
+      before: sdk.<no_group>.heartbeat-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/query"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: queryGetNearestNeighbors
+    x-speakeasy-metadata:
+      after: sdk.collections.queryGetNearestNeighbors()
+      before: sdk.<no_group>.get_nearest_neighbors-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_name}"]["delete"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: deleteCollection
+    x-speakeasy-metadata:
+      after: sdk.collections.deleteCollection()
+      before: sdk.<no_group>.delete_collection-v2()
+      created_at: 1739037818501
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections/{collection_id}/upsert"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: upsertV1
+    x-speakeasy-metadata:
+      after: sdk.collections.upsertV1()
+      before: sdk.<no_group>.upsert_v1-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/tenants"]["post"]
+    update:
+      x-speakeasy-group: tenants
+      x-speakeasy-name-override: createV1
+    x-speakeasy-metadata:
+      after: sdk.tenants.createV1()
+      before: sdk.<no_group>.create_tenant_v1-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1"]["get"]
+    update:
+      x-speakeasy-group: root
+      x-speakeasy-name-override: getV1
+    x-speakeasy-metadata:
+      after: sdk.root.getV1()
+      before: sdk.<no_group>.root-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections/{collection_id}/count"]["get"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: count
+    x-speakeasy-metadata:
+      after: sdk.collections.count()
+      before: sdk.<no_group>.count_v1-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections/{collection_id}/get"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: postGet
+    x-speakeasy-metadata:
+      after: sdk.collections.postGet()
+      before: sdk.<no_group>.get_v1-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases"]["post"]
+    update:
+      x-speakeasy-group: databases
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      after: sdk.databases.create()
+      before: sdk.<no_group>.create_database-v2()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/reset"]["post"]
+    update:
+      x-speakeasy-group: system
+      x-speakeasy-name-override: resetV1
+    x-speakeasy-metadata:
+      after: sdk.system.resetV1()
+      before: sdk.<no_group>.reset-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/heartbeat"]["get"]
+    update:
+      x-speakeasy-group: heartbeat
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.heartbeat.get()
+      before: sdk.<no_group>.heartbeat-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}"]["get"]
+    update:
+      x-speakeasy-group: tenants
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.tenants.get()
+      before: sdk.<no_group>.get_tenant-v2()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/reset"]["post"]
+    update:
+      x-speakeasy-group: system
+      x-speakeasy-name-override: reset
+    x-speakeasy-metadata:
+      after: sdk.system.reset()
+      before: sdk.<no_group>.reset-v2()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections/{collection_id}/query"]["post"]
+    update:
+      x-speakeasy-group: collections.query
+      x-speakeasy-name-override: getNearestNeighborsV1
+    x-speakeasy-metadata:
+      after: sdk.collections.query.getNearestNeighborsV1()
+      before: sdk.<no_group>.get_nearest_neighbors_v1-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/collections/{collection_name}"]["delete"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: deleteV1
+    x-speakeasy-metadata:
+      after: sdk.collections.deleteV1()
+      before: sdk.<no_group>.delete_collection_v1-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/add"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: add
+    x-speakeasy-metadata:
+      after: sdk.collections.add()
+      before: sdk.<no_group>.add-v2()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/databases"]["post"]
+    update:
+      x-speakeasy-group: databases
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      after: sdk.databases.create()
+      before: sdk.<no_group>.create_database_v1-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}"]["delete"]
+    update:
+      x-speakeasy-group: databases
+      x-speakeasy-name-override: delete
+    x-speakeasy-metadata:
+      after: sdk.databases.delete()
+      before: sdk.<no_group>.delete_database-v2()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/databases/{database}"]["get"]
+    update:
+      x-speakeasy-group: databases
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.databases.get()
+      before: sdk.<no_group>.get_database_v1-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/version"]["get"]
+    update:
+      x-speakeasy-group: version
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.version.get()
+      before: sdk.<no_group>.version-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections/{collection_id}/get"]["post"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: getById
+    x-speakeasy-metadata:
+      after: sdk.collections.getById()
+      before: sdk.<no_group>.get-v2()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/version"]["get"]
+    update:
+      x-speakeasy-group: system
+      x-speakeasy-name-override: version
+    x-speakeasy-metadata:
+      after: sdk.system.version()
+      before: sdk.<no_group>.version-v2()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2"]["get"]
+    update:
+      x-speakeasy-group: root
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.root.get()
+      before: sdk.<no_group>.root-v2()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v1/count_collections"]["get"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: countV1
+    x-speakeasy-metadata:
+      after: sdk.collections.countV1()
+      before: sdk.<no_group>.count_collections_v1-v1()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
+  - target: $["paths"]["/api/v2/tenants/{tenant}/databases/{database_name}/collections_count"]["get"]
+    update:
+      x-speakeasy-group: collections
+      x-speakeasy-name-override: countCollections
+    x-speakeasy-metadata:
+      after: sdk.collections.countCollections()
+      before: sdk.<no_group>.count_collections-v2()
+      created_at: 1739037818502
+      reviewed_at: 1739037825179
+      type: method-name
