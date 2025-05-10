@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  driver: one
+  circuit: one
+  lap_number: 1
+  time_ms: 1
+
+two:
+  driver: two
+  circuit: two
+  lap_number: 1
+  time_ms: 1

@@ -1,0 +1,1152 @@
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-05-06 19:41:57.571705', '2025-05-06 19:41:57.571706') RETURNING "key" /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+Migrating to CreateDrivers (20250506194156)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "drivers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "code" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_drivers_on_code" ON "drivers" ("code") /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250506194156') RETURNING "version" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+Migrating to CreateCircuits (20250506194157)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "circuits" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "location" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (1.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250506194157') RETURNING "version" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+Migrating to CreateLapTimes (20250506194158)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "lap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_7517eb811f"
+FOREIGN KEY ("driver_id")
+  REFERENCES "drivers" ("id")
+, CONSTRAINT "fk_rails_9b3dc2962d"
+FOREIGN KEY ("circuit_id")
+  REFERENCES "circuits" ("id")
+) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_driver_id" ON "lap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_circuit_id" ON "lap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250506194158') RETURNING "version" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mDriver Create (0.6ms)[0m  [1m[32mINSERT INTO "drivers" ("name", "code", "created_at", "updated_at") VALUES ('Max Verstappen', 'VER', '2025-05-06 19:45:09.641360', '2025-05-06 19:45:09.641360') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mCircuit Create (2.1ms)[0m  [1m[32mINSERT INTO "circuits" ("name", "location", "created_at", "updated_at") VALUES ('Spa‑Francorchamps', 'Belgium', '2025-05-06 19:45:09.654362', '2025-05-06 19:45:09.654362') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (1.0ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 1, 96782, '2025-05-06 19:45:09.674281', '2025-05-06 19:45:09.674281') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.8ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 2, 103138, '2025-05-06 19:45:09.677868', '2025-05-06 19:45:09.677868') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (9.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 3, 91307, '2025-05-06 19:45:09.685280', '2025-05-06 19:45:09.685280') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 4, 90799, '2025-05-06 19:45:09.700412', '2025-05-06 19:45:09.700412') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 5, 92842, '2025-05-06 19:45:09.703219', '2025-05-06 19:45:09.703219') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 6, 95225, '2025-05-06 19:45:09.704649', '2025-05-06 19:45:09.704649') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 7, 102454, '2025-05-06 19:45:09.705965', '2025-05-06 19:45:09.705965') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 8, 97165, '2025-05-06 19:45:09.708336', '2025-05-06 19:45:09.708336') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 9, 93849, '2025-05-06 19:45:09.711346', '2025-05-06 19:45:09.711346') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 10, 92366, '2025-05-06 19:45:09.713042', '2025-05-06 19:45:09.713042') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.6ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 11, 94571, '2025-05-06 19:45:09.714309', '2025-05-06 19:45:09.714309') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 12, 104574, '2025-05-06 19:45:09.717516', '2025-05-06 19:45:09.717516') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 13, 104447, '2025-05-06 19:45:09.718588', '2025-05-06 19:45:09.718588') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 14, 92449, '2025-05-06 19:45:09.721436', '2025-05-06 19:45:09.721436') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 15, 103916, '2025-05-06 19:45:09.727049', '2025-05-06 19:45:09.727049') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 16, 91770, '2025-05-06 19:45:09.728415', '2025-05-06 19:45:09.728415') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 17, 92603, '2025-05-06 19:45:09.729248', '2025-05-06 19:45:09.729248') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 18, 102891, '2025-05-06 19:45:09.736328', '2025-05-06 19:45:09.736328') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 19, 100638, '2025-05-06 19:45:09.737674', '2025-05-06 19:45:09.737674') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.6ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 20, 95565, '2025-05-06 19:45:09.738361', '2025-05-06 19:45:09.738361') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 21, 102524, '2025-05-06 19:45:09.739425', '2025-05-06 19:45:09.739425') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 22, 92621, '2025-05-06 19:45:09.740336', '2025-05-06 19:45:09.740336') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 23, 95609, '2025-05-06 19:45:09.741563', '2025-05-06 19:45:09.741563') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 24, 97856, '2025-05-06 19:45:09.742215', '2025-05-06 19:45:09.742215') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 25, 91377, '2025-05-06 19:45:09.742928', '2025-05-06 19:45:09.742928') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.5ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 26, 98198, '2025-05-06 19:45:09.744300', '2025-05-06 19:45:09.744300') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 27, 91938, '2025-05-06 19:45:09.745292', '2025-05-06 19:45:09.745292') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 28, 99178, '2025-05-06 19:45:09.751763', '2025-05-06 19:45:09.751763') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 29, 102790, '2025-05-06 19:45:09.756053', '2025-05-06 19:45:09.756053') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 30, 95392, '2025-05-06 19:45:09.757037', '2025-05-06 19:45:09.757037') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 31, 99649, '2025-05-06 19:45:09.757702', '2025-05-06 19:45:09.757702') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 32, 97414, '2025-05-06 19:45:09.763453', '2025-05-06 19:45:09.763453') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 33, 91433, '2025-05-06 19:45:09.764333', '2025-05-06 19:45:09.764333') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 34, 96596, '2025-05-06 19:45:09.765026', '2025-05-06 19:45:09.765026') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 35, 97222, '2025-05-06 19:45:09.765989', '2025-05-06 19:45:09.765989') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 36, 97471, '2025-05-06 19:45:09.766623', '2025-05-06 19:45:09.766623') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.5ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 37, 92446, '2025-05-06 19:45:09.767550', '2025-05-06 19:45:09.767550') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 38, 96741, '2025-05-06 19:45:09.768520', '2025-05-06 19:45:09.768520') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 39, 91374, '2025-05-06 19:45:09.769181', '2025-05-06 19:45:09.769181') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.5ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 40, 104399, '2025-05-06 19:45:09.769941', '2025-05-06 19:45:09.769941') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 41, 97428, '2025-05-06 19:45:09.770823', '2025-05-06 19:45:09.770823') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 42, 96858, '2025-05-06 19:45:09.771458', '2025-05-06 19:45:09.771458') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 43, 93320, '2025-05-06 19:45:09.772142', '2025-05-06 19:45:09.772142') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 44, 92923, '2025-05-06 19:45:09.772766', '2025-05-06 19:45:09.772766') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 45, 91725, '2025-05-06 19:45:09.773412', '2025-05-06 19:45:09.773412') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (2.8ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 46, 103023, '2025-05-06 19:45:09.774046', '2025-05-06 19:45:09.774046') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 47, 98300, '2025-05-06 19:45:09.777274', '2025-05-06 19:45:09.777274') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 48, 100812, '2025-05-06 19:45:09.777916', '2025-05-06 19:45:09.777916') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 49, 95105, '2025-05-06 19:45:09.778836', '2025-05-06 19:45:09.778836') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 50, 94739, '2025-05-06 19:45:09.779477', '2025-05-06 19:45:09.779477') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.5ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 51, 103224, '2025-05-06 19:45:09.780102', '2025-05-06 19:45:09.780102') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 52, 100285, '2025-05-06 19:45:09.780963', '2025-05-06 19:45:09.780963') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 53, 98422, '2025-05-06 19:45:09.781581', '2025-05-06 19:45:09.781581') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 54, 97527, '2025-05-06 19:45:09.782203', '2025-05-06 19:45:09.782203') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 55, 96122, '2025-05-06 19:45:09.783157', '2025-05-06 19:45:09.783157') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 56, 90769, '2025-05-06 19:45:09.783777', '2025-05-06 19:45:09.783777') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 57, 94869, '2025-05-06 19:45:09.784396', '2025-05-06 19:45:09.784396') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 58, 96399, '2025-05-06 19:45:09.785020', '2025-05-06 19:45:09.785020') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 59, 99083, '2025-05-06 19:45:09.785638', '2025-05-06 19:45:09.785638') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.6ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 60, 92792, '2025-05-06 19:45:09.786268', '2025-05-06 19:45:09.786268') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 61, 100714, '2025-05-06 19:45:09.787243', '2025-05-06 19:45:09.787243') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 62, 97580, '2025-05-06 19:45:09.787926', '2025-05-06 19:45:09.787926') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 63, 102806, '2025-05-06 19:45:09.788547', '2025-05-06 19:45:09.788547') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 64, 100314, '2025-05-06 19:45:09.789381', '2025-05-06 19:45:09.789381') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 65, 103594, '2025-05-06 19:45:09.790005', '2025-05-06 19:45:09.790005') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 66, 97275, '2025-05-06 19:45:09.790841', '2025-05-06 19:45:09.790841') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 67, 98756, '2025-05-06 19:45:09.791455', '2025-05-06 19:45:09.791455') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 68, 100101, '2025-05-06 19:45:09.792064', '2025-05-06 19:45:09.792064') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 69, 92946, '2025-05-06 19:45:09.792959', '2025-05-06 19:45:09.792959') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 70, 90393, '2025-05-06 19:45:09.793571', '2025-05-06 19:45:09.793571') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 71, 102521, '2025-05-06 19:45:09.794181', '2025-05-06 19:45:09.794181') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 72, 104782, '2025-05-06 19:45:09.794792', '2025-05-06 19:45:09.794792') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 73, 91978, '2025-05-06 19:45:09.795412', '2025-05-06 19:45:09.795412') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 74, 95572, '2025-05-06 19:45:09.796031', '2025-05-06 19:45:09.796031') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 75, 97327, '2025-05-06 19:45:09.796982', '2025-05-06 19:45:09.796982') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 76, 96192, '2025-05-06 19:45:09.797594', '2025-05-06 19:45:09.797594') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 77, 95433, '2025-05-06 19:45:09.798208', '2025-05-06 19:45:09.798208') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 78, 97030, '2025-05-06 19:45:09.799022', '2025-05-06 19:45:09.799022') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 79, 97180, '2025-05-06 19:45:09.799642', '2025-05-06 19:45:09.799642') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 80, 99456, '2025-05-06 19:45:09.800276', '2025-05-06 19:45:09.800276') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 81, 94571, '2025-05-06 19:45:09.801064', '2025-05-06 19:45:09.801064') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 82, 97406, '2025-05-06 19:45:09.801691', '2025-05-06 19:45:09.801691') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 83, 94304, '2025-05-06 19:45:09.802397', '2025-05-06 19:45:09.802397') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 84, 95864, '2025-05-06 19:45:09.803227', '2025-05-06 19:45:09.803227') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 85, 92931, '2025-05-06 19:45:09.803847', '2025-05-06 19:45:09.803847') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 86, 92689, '2025-05-06 19:45:09.804457', '2025-05-06 19:45:09.804457') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 87, 92975, '2025-05-06 19:45:09.805084', '2025-05-06 19:45:09.805084') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 88, 97202, '2025-05-06 19:45:09.805699', '2025-05-06 19:45:09.805699') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 89, 103551, '2025-05-06 19:45:09.806628', '2025-05-06 19:45:09.806628') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 90, 96295, '2025-05-06 19:45:09.807237', '2025-05-06 19:45:09.807237') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 91, 98893, '2025-05-06 19:45:09.807848', '2025-05-06 19:45:09.807848') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 92, 101011, '2025-05-06 19:45:09.808663', '2025-05-06 19:45:09.808663') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 93, 103207, '2025-05-06 19:45:09.809292', '2025-05-06 19:45:09.809292') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 94, 91766, '2025-05-06 19:45:09.809910', '2025-05-06 19:45:09.809910') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 95, 91832, '2025-05-06 19:45:09.810705', '2025-05-06 19:45:09.810705') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 96, 92098, '2025-05-06 19:45:09.811324', '2025-05-06 19:45:09.811324') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 97, 102233, '2025-05-06 19:45:09.811941', '2025-05-06 19:45:09.811941') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 98, 96629, '2025-05-06 19:45:09.812820', '2025-05-06 19:45:09.812820') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 99, 92800, '2025-05-06 19:45:09.813437', '2025-05-06 19:45:09.813437') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 100, 96265, '2025-05-06 19:45:09.814065', '2025-05-06 19:45:09.814065') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mDriver Create (0.6ms)[0m  [1m[32mINSERT INTO "drivers" ("name", "code", "created_at", "updated_at") VALUES ('Max Verstappen', 'VER', '2025-05-06 19:48:16.064514', '2025-05-06 19:48:16.064514') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mDriver Create (3.1ms)[0m  [1m[32mINSERT INTO "drivers" ("name", "code", "created_at", "updated_at") VALUES ('Charles Leclerc', 'LEC', '2025-05-06 19:48:16.066871', '2025-05-06 19:48:16.066871') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mDriver Create (0.6ms)[0m  [1m[32mINSERT INTO "drivers" ("name", "code", "created_at", "updated_at") VALUES ('Max Verstappen', 'VER', '2025-05-06 19:51:45.011015', '2025-05-06 19:51:45.011015') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mDriver Create (2.9ms)[0m  [1m[32mINSERT INTO "drivers" ("name", "code", "created_at", "updated_at") VALUES ('Charles Leclerc', 'LEC', '2025-05-06 19:51:45.013279', '2025-05-06 19:51:45.013279') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mCircuit Create (0.4ms)[0m  [1m[32mINSERT INTO "circuits" ("name", "location", "created_at", "updated_at") VALUES ('Spa-Francorchamps', 'Belgium', '2025-05-06 19:51:45.028266', '2025-05-06 19:51:45.028266') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mCircuit Create (0.9ms)[0m  [1m[32mINSERT INTO "circuits" ("name", "location", "created_at", "updated_at") VALUES ('Monza', 'Italy', '2025-05-06 19:51:45.033228', '2025-05-06 19:51:45.033228') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mCircuit Create (0.4ms)[0m  [1m[32mINSERT INTO "circuits" ("name", "location", "created_at", "updated_at") VALUES ('Monaco', 'Monaco', '2025-05-06 19:51:45.039140', '2025-05-06 19:51:45.039140') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.5ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 2, 1, 90131, '2025-05-06 19:51:45.055131', '2025-05-06 19:51:45.055131') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (7.0ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (5, 3, 1, 102085, '2025-05-06 19:51:45.058592', '2025-05-06 19:51:45.058592') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 4, 1, 98935, '2025-05-06 19:51:45.067446', '2025-05-06 19:51:45.067446') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 2, 2, 91675, '2025-05-06 19:51:45.068651', '2025-05-06 19:51:45.068651') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (5, 3, 2, 102030, '2025-05-06 19:51:45.070104', '2025-05-06 19:51:45.070104') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 4, 2, 103776, '2025-05-06 19:51:45.072327', '2025-05-06 19:51:45.072327') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.7ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 2, 3, 94260, '2025-05-06 19:51:45.073181', '2025-05-06 19:51:45.073181') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (5, 3, 3, 94340, '2025-05-06 19:51:45.075332', '2025-05-06 19:51:45.075332') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 4, 3, 95141, '2025-05-06 19:51:45.077154', '2025-05-06 19:51:45.077154') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 2, 4, 101375, '2025-05-06 19:51:45.078471', '2025-05-06 19:51:45.078471') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (5, 3, 4, 91286, '2025-05-06 19:51:45.080452', '2025-05-06 19:51:45.080452') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 4, 4, 97474, '2025-05-06 19:51:45.082823', '2025-05-06 19:51:45.082823') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 2, 5, 99013, '2025-05-06 19:51:45.083547', '2025-05-06 19:51:45.083547') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (5, 3, 5, 90728, '2025-05-06 19:51:45.084210', '2025-05-06 19:51:45.084210') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 4, 5, 90243, '2025-05-06 19:51:45.089512', '2025-05-06 19:51:45.089512') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 2, 6, 100215, '2025-05-06 19:51:45.091056', '2025-05-06 19:51:45.091056') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (4.8ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (5, 3, 6, 101727, '2025-05-06 19:51:45.091749', '2025-05-06 19:51:45.091749') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 4, 6, 99619, '2025-05-06 19:51:45.097085', '2025-05-06 19:51:45.097085') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 2, 7, 102228, '2025-05-06 19:51:45.097900', '2025-05-06 19:51:45.097900') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.5ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (5, 3, 7, 103406, '2025-05-06 19:51:45.098892', '2025-05-06 19:51:45.098892') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 4, 7, 96213, '2025-05-06 19:51:45.099814', '2025-05-06 19:51:45.099814') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 2, 8, 101620, '2025-05-06 19:51:45.100532', '2025-05-06 19:51:45.100532') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (5, 3, 8, 96502, '2025-05-06 19:51:45.101893', '2025-05-06 19:51:45.101893') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 4, 8, 99365, '2025-05-06 19:51:45.102593', '2025-05-06 19:51:45.102593') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.5ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 2, 9, 99126, '2025-05-06 19:51:45.108749', '2025-05-06 19:51:45.108749') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (5, 3, 9, 93662, '2025-05-06 19:51:45.111791', '2025-05-06 19:51:45.111791') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.5ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 4, 9, 101594, '2025-05-06 19:51:45.112478', '2025-05-06 19:51:45.112478') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 2, 10, 94211, '2025-05-06 19:51:45.113364', '2025-05-06 19:51:45.113364') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (5, 3, 10, 92397, '2025-05-06 19:51:45.114025', '2025-05-06 19:51:45.114025') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (4, 4, 10, 101723, '2025-05-06 19:51:45.114896', '2025-05-06 19:51:45.114896') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+Started GET "/" for 127.0.0.1 at 2025-05-06 21:53:49 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/abdul/.local/share/mise/installs/ruby/3.4.3/lib/ruby/gems/3.4.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/abdul/.local/share/mise/installs/ruby/3.4.3/lib/ruby/gems/3.4.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.6ms | GC: 0.0ms)
+Completed 200 OK in 19ms (Views: 4.4ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/icon.png" for 127.0.0.1 at 2025-05-06 21:53:49 +0200
+  
+ActionController::RoutingError (No route matches [GET] "/icon.png"):
+  
+Started GET "/" for 127.0.0.1 at 2025-05-06 21:55:42 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/abdul/.local/share/mise/installs/ruby/3.4.3/lib/ruby/gems/3.4.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/abdul/.local/share/mise/installs/ruby/3.4.3/lib/ruby/gems/3.4.0/gems/railties-8.0.2/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.4ms | GC: 0.0ms)
+Completed 200 OK in 8ms (Views: 1.4ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/circuits" for 127.0.0.1 at 2025-05-06 21:55:55 +0200
+Processing by Api::V1::CircuitsController#index as HTML
+  [1m[36mCircuit Load (1.1ms)[0m  [1m[34mSELECT "circuits".* FROM "circuits" /*action='index',application='F1LapsApi',controller='circuits'*/[0m
+  ↳ app/controllers/api/v1/circuits_controller.rb:4:in 'Api::V1::CircuitsController#index'
+Completed 200 OK in 28ms (Views: 12.9ms | ActiveRecord: 2.3ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/favicon.ico" for 127.0.0.1 at 2025-05-06 21:55:55 +0200
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/api/v1/drivers" for 127.0.0.1 at 2025-05-06 21:56:05 +0200
+Processing by Api::V1::DriversController#index as HTML
+  [1m[36mDriver Load (4.3ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 36ms (Views: 26.4ms | ActiveRecord: 5.0ms (1 query, 0 cached) | GC: 0.7ms)
+
+
+Started POST "/api/v1/drivers" for ::1 at 2025-05-06 22:10:46 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+Processing by Api::V1::DriversController#create as */*
+  Parameters: {"driver" => {"name" => "Lando Norris", "code" => "NOR"}}
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='create',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:8:in 'Api::V1::DriversController#create'
+  [1m[36mDriver Create (5.1ms)[0m  [1m[32mINSERT INTO "drivers" ("name", "code", "created_at", "updated_at") VALUES ('Lando Norris', 'NOR', '2025-05-06 20:10:46.793769', '2025-05-06 20:10:46.793769') RETURNING "id" /*action='create',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:8:in 'Api::V1::DriversController#create'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='create',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:8:in 'Api::V1::DriversController#create'
+Completed 201 Created in 19ms (Views: 0.2ms | ActiveRecord: 7.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/circuits" for ::1 at 2025-05-06 22:10:59 +0200
+Processing by Api::V1::CircuitsController#create as */*
+  Parameters: {"circuit" => {"name" => "Silverstone", "location" => "UK"}}
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='create',application='F1LapsApi',controller='circuits'*/[0m
+  ↳ app/controllers/api/v1/circuits_controller.rb:8:in 'Api::V1::CircuitsController#create'
+  [1m[36mCircuit Create (2.1ms)[0m  [1m[32mINSERT INTO "circuits" ("name", "location", "created_at", "updated_at") VALUES ('Silverstone', 'UK', '2025-05-06 20:10:59.142292', '2025-05-06 20:10:59.142292') RETURNING "id" /*action='create',application='F1LapsApi',controller='circuits'*/[0m
+  ↳ app/controllers/api/v1/circuits_controller.rb:8:in 'Api::V1::CircuitsController#create'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='create',application='F1LapsApi',controller='circuits'*/[0m
+  ↳ app/controllers/api/v1/circuits_controller.rb:8:in 'Api::V1::CircuitsController#create'
+Completed 201 Created in 24ms (Views: 1.0ms | ActiveRecord: 3.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/lap_times" for ::1 at 2025-05-06 22:11:22 +0200
+Processing by Api::V1::LapTimesController#create as */*
+  Parameters: {"lap_time" => {"driver_id" => 1, "circuit_id" => 1, "lap_number" => 1, "time_ms" => 92000}}
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='create',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:21:in 'Api::V1::LapTimesController#create'
+  [1m[36mDriver Load (0.6ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" WHERE "drivers"."id" = 1 LIMIT 1 /*action='create',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:21:in 'Api::V1::LapTimesController#create'
+  [1m[36mCircuit Load (0.0ms)[0m  [1m[34mSELECT "circuits".* FROM "circuits" WHERE "circuits"."id" = 1 LIMIT 1 /*action='create',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:21:in 'Api::V1::LapTimesController#create'
+  [1m[36mLapTime Create (0.1ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 1, 92000, '2025-05-06 20:11:22.541357', '2025-05-06 20:11:22.541357') RETURNING "id" /*action='create',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:21:in 'Api::V1::LapTimesController#create'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='create',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:21:in 'Api::V1::LapTimesController#create'
+Completed 201 Created in 43ms (Views: 0.4ms | ActiveRecord: 1.1ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-05-06 22:11:36 +0200
+Started GET "/api/v1/drivers" for ::1 at 2025-05-06 22:12:28 +0200
+Processing by Api::V1::DriversController#index as */*
+  [1m[36mDriver Load (0.4ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 8ms (Views: 6.1ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/lap_times" for ::1 at 2025-05-06 22:13:46 +0200
+Processing by Api::V1::LapTimesController#index as */*
+  [1m[36mLapTime Load (0.2ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 13ms (Views: 11.6ms | ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/lap_times?driver_id=5" for ::1 at 2025-05-06 22:14:15 +0200
+Processing by Api::V1::LapTimesController#index as HTML
+  Parameters: {"driver_id" => "5"}
+  [1m[36mLapTime Load (0.1ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."driver_id" = 5 /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/favicon.ico" for ::1 at 2025-05-06 22:14:15 +0200
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/api/v1/drivers?driver_id=1" for ::1 at 2025-05-06 22:14:25 +0200
+Processing by Api::V1::DriversController#index as HTML
+  Parameters: {"driver_id" => "1"}
+  [1m[36mDriver Load (0.1ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 7ms (Views: 5.7ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/lap_times?driver_id=1" for ::1 at 2025-05-06 22:15:02 +0200
+Processing by Api::V1::LapTimesController#index as HTML
+  Parameters: {"driver_id" => "1"}
+  [1m[36mLapTime Load (1.1ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."driver_id" = 1 /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 10ms (Views: 7.3ms | ActiveRecord: 1.1ms (1 query, 0 cached) | GC: 1.0ms)
+
+
+Started GET "/api/v1/lap_times?driver_id=1&lap_min=96781" for ::1 at 2025-05-06 22:15:33 +0200
+Processing by Api::V1::LapTimesController#index as HTML
+  Parameters: {"driver_id" => "1", "lap_min" => "96781"}
+  [1m[36mLapTime Load (0.8ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."driver_id" = 1 AND (lap_number >= '96781') /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 5ms (Views: 2.0ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/lap_times?driver_id=1&lap_min=10" for ::1 at 2025-05-06 22:15:40 +0200
+Processing by Api::V1::LapTimesController#index as HTML
+  Parameters: {"driver_id" => "1", "lap_min" => "10"}
+  [1m[36mLapTime Load (0.4ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."driver_id" = 1 AND (lap_number >= '10') /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 7ms (Views: 6.1ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/lap_times?driver_id=1&lap_min=92" for ::1 at 2025-05-06 22:15:46 +0200
+Processing by Api::V1::LapTimesController#index as HTML
+  Parameters: {"driver_id" => "1", "lap_min" => "92"}
+  [1m[36mLapTime Load (0.3ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."driver_id" = 1 AND (lap_number >= '92') /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 4ms (Views: 2.1ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/lap_times?driver_id=1&lap_min=92800" for ::1 at 2025-05-06 22:15:54 +0200
+Processing by Api::V1::LapTimesController#index as HTML
+  Parameters: {"driver_id" => "1", "lap_min" => "92800"}
+  [1m[36mLapTime Load (0.3ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."driver_id" = 1 AND (lap_number >= '92800') /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 4ms (Views: 3.0ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/lap_times?driver_id=1&lap_min=92700" for ::1 at 2025-05-06 22:15:58 +0200
+Processing by Api::V1::LapTimesController#index as HTML
+  Parameters: {"driver_id" => "1", "lap_min" => "92700"}
+  [1m[36mLapTime Load (0.2ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."driver_id" = 1 AND (lap_number >= '92700') /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 5ms (Views: 3.8ms | ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/lap_times?driver_id=1&lap_min=92800" for ::1 at 2025-05-06 22:16:04 +0200
+Processing by Api::V1::LapTimesController#index as HTML
+  Parameters: {"driver_id" => "1", "lap_min" => "92800"}
+  [1m[36mLapTime Load (0.1ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."driver_id" = 1 AND (lap_number >= '92800') /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 3ms (Views: 1.7ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/lap_times?driver_id=1" for ::1 at 2025-05-06 22:16:13 +0200
+Processing by Api::V1::LapTimesController#index as HTML
+  Parameters: {"driver_id" => "1"}
+  [1m[36mLapTime Load (0.3ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."driver_id" = 1 /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 16ms (Views: 14.5ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 5.8ms)
+
+
+Started GET "/api/v1/drivers?driver_id=1" for ::1 at 2025-05-06 22:16:22 +0200
+Processing by Api::V1::DriversController#index as HTML
+  Parameters: {"driver_id" => "1"}
+  [1m[36mDriver Load (0.9ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 7ms (Views: 5.6ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 3.8ms)
+
+
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='F1LapsApi'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mDROP TABLE IF EXISTS "circuits" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "circuits" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "location" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "drivers" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "drivers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "code" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_drivers_on_code" ON "drivers" ("code") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "lap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_circuit_id" ON "lap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_driver_id" ON "lap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (1.3ms)[0m  [1m[35mPRAGMA foreign_keys /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='F1LapsApi'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='F1LapsApi'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_alap_times_on_driver_id" ON "alap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_alap_times_on_circuit_id" ON "alap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alap_times" ("id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at")
+                     SELECT "id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at" FROM "lap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "lap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "lap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_9b3dc2962d"
+FOREIGN KEY ("circuit_id")
+  REFERENCES "circuits" ("id")
+) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_circuit_id" ON "lap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_driver_id" ON "lap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lap_times" ("id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at")
+                     SELECT "id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at" FROM "alap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "alap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (7.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_alap_times_on_driver_id" ON "alap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_alap_times_on_circuit_id" ON "alap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alap_times" ("id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at")
+                     SELECT "id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at" FROM "lap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "lap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "lap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_9b3dc2962d"
+FOREIGN KEY ("circuit_id")
+  REFERENCES "circuits" ("id")
+, CONSTRAINT "fk_rails_7517eb811f"
+FOREIGN KEY ("driver_id")
+  REFERENCES "drivers" ("id")
+) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_circuit_id" ON "lap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_driver_id" ON "lap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lap_times" ("id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at")
+                     SELECT "id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at" FROM "alap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "alap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY) /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20250506194158) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20250506194157),
+(20250506194156); /*application='F1LapsApi'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-05-06 20:18:34.777131', '2025-05-06 20:18:34.777132') RETURNING "key" /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '9d2965635a071eb91c1e8759aa60e86609d2234c', '2025-05-06 20:18:34.779008', '2025-05-06 20:18:34.779008') RETURNING "key" /*application='F1LapsApi'*/[0m
+  [1m[35m (1.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "circuits" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "circuits" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "location" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "drivers" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "drivers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "code" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_drivers_on_code" ON "drivers" ("code") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "lap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "lap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_circuit_id" ON "lap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_driver_id" ON "lap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mPRAGMA foreign_keys /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_alap_times_on_driver_id" ON "alap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_alap_times_on_circuit_id" ON "alap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alap_times" ("id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at")
+                     SELECT "id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at" FROM "lap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "lap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "lap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_9b3dc2962d"
+FOREIGN KEY ("circuit_id")
+  REFERENCES "circuits" ("id")
+) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_circuit_id" ON "lap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_driver_id" ON "lap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lap_times" ("id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at")
+                     SELECT "id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at" FROM "alap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "alap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mPRAGMA foreign_keys /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "alap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_alap_times_on_driver_id" ON "alap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_alap_times_on_circuit_id" ON "alap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "alap_times" ("id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at")
+                     SELECT "id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at" FROM "lap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "lap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "lap_times" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "driver_id" integer NOT NULL, "circuit_id" integer NOT NULL, "lap_number" integer, "time_ms" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_9b3dc2962d"
+FOREIGN KEY ("circuit_id")
+  REFERENCES "circuits" ("id")
+, CONSTRAINT "fk_rails_7517eb811f"
+FOREIGN KEY ("driver_id")
+  REFERENCES "drivers" ("id")
+) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_circuit_id" ON "lap_times" ("circuit_id") /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_lap_times_on_driver_id" ON "lap_times" ("driver_id") /*application='F1LapsApi'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "lap_times" ("id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at")
+                     SELECT "id","driver_id","circuit_id","lap_number","time_ms","created_at","updated_at" FROM "alap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "alap_times" /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY) /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20250506194158) /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20250506194157),
+(20250506194156); /*application='F1LapsApi'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-05-06 20:18:34.807062', '2025-05-06 20:18:34.807062') RETURNING "key" /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Update (0.0ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = 'test', "updated_at" = '2025-05-06 20:18:34.807718' WHERE "ar_internal_metadata"."key" = 'environment' /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '9d2965635a071eb91c1e8759aa60e86609d2234c', '2025-05-06 20:18:34.808283', '2025-05-06 20:18:34.808283') RETURNING "key" /*application='F1LapsApi'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mDriver Create (0.3ms)[0m  [1m[32mINSERT INTO "drivers" ("name", "code", "created_at", "updated_at") VALUES ('Max Verstappen', 'VER', '2025-05-06 20:18:34.832351', '2025-05-06 20:18:34.832351') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mDriver Create (0.3ms)[0m  [1m[32mINSERT INTO "drivers" ("name", "code", "created_at", "updated_at") VALUES ('Charles Leclerc', 'LEC', '2025-05-06 20:18:34.836014', '2025-05-06 20:18:34.836014') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mCircuit Create (0.3ms)[0m  [1m[32mINSERT INTO "circuits" ("name", "location", "created_at", "updated_at") VALUES ('Spa-Francorchamps', 'Belgium', '2025-05-06 20:18:34.841249', '2025-05-06 20:18:34.841249') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mCircuit Create (0.3ms)[0m  [1m[32mINSERT INTO "circuits" ("name", "location", "created_at", "updated_at") VALUES ('Monza', 'Italy', '2025-05-06 20:18:34.843758', '2025-05-06 20:18:34.843758') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mCircuit Create (0.3ms)[0m  [1m[32mINSERT INTO "circuits" ("name", "location", "created_at", "updated_at") VALUES ('Monaco', 'Monaco', '2025-05-06 20:18:34.847444', '2025-05-06 20:18:34.847444') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 1, 100017, '2025-05-06 20:18:34.863303', '2025-05-06 20:18:34.863303') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 1, 1, 101034, '2025-05-06 20:18:34.866854', '2025-05-06 20:18:34.866854') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 3, 1, 91363, '2025-05-06 20:18:34.868467', '2025-05-06 20:18:34.868467') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.6ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 3, 1, 94576, '2025-05-06 20:18:34.869814', '2025-05-06 20:18:34.869814') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 2, 1, 102796, '2025-05-06 20:18:34.871242', '2025-05-06 20:18:34.871242') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 2, 1, 96437, '2025-05-06 20:18:34.873055', '2025-05-06 20:18:34.873055') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 2, 104775, '2025-05-06 20:18:34.874196', '2025-05-06 20:18:34.874196') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 1, 2, 93792, '2025-05-06 20:18:34.875845', '2025-05-06 20:18:34.875845') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 3, 2, 104005, '2025-05-06 20:18:34.877573', '2025-05-06 20:18:34.877573') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 3, 2, 96852, '2025-05-06 20:18:34.878640', '2025-05-06 20:18:34.878640') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 2, 2, 95828, '2025-05-06 20:18:34.881519', '2025-05-06 20:18:34.881519') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 2, 2, 97460, '2025-05-06 20:18:34.882514', '2025-05-06 20:18:34.882514') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 3, 98865, '2025-05-06 20:18:34.883304', '2025-05-06 20:18:34.883304') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 1, 3, 95501, '2025-05-06 20:18:34.884096', '2025-05-06 20:18:34.884096') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 3, 3, 103398, '2025-05-06 20:18:34.889229', '2025-05-06 20:18:34.889229') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 3, 3, 91359, '2025-05-06 20:18:34.890432', '2025-05-06 20:18:34.890432') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 2, 3, 90970, '2025-05-06 20:18:34.894363', '2025-05-06 20:18:34.894363') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 2, 3, 96926, '2025-05-06 20:18:34.895174', '2025-05-06 20:18:34.895174') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.6ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 4, 94384, '2025-05-06 20:18:34.895922', '2025-05-06 20:18:34.895922') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 1, 4, 98679, '2025-05-06 20:18:34.897019', '2025-05-06 20:18:34.897019') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (1.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 3, 4, 103286, '2025-05-06 20:18:34.899143', '2025-05-06 20:18:34.899143') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 3, 4, 103135, '2025-05-06 20:18:34.904196', '2025-05-06 20:18:34.904196') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 2, 4, 96309, '2025-05-06 20:18:34.904969', '2025-05-06 20:18:34.904969') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 2, 4, 93517, '2025-05-06 20:18:34.905888', '2025-05-06 20:18:34.905888') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 5, 102987, '2025-05-06 20:18:34.910346', '2025-05-06 20:18:34.910346') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 1, 5, 99304, '2025-05-06 20:18:34.912181', '2025-05-06 20:18:34.912181') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.5ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 3, 5, 104268, '2025-05-06 20:18:34.913077', '2025-05-06 20:18:34.913077') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 3, 5, 95525, '2025-05-06 20:18:34.914008', '2025-05-06 20:18:34.914008') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 2, 5, 104959, '2025-05-06 20:18:34.914703', '2025-05-06 20:18:34.914703') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 2, 5, 94182, '2025-05-06 20:18:34.915610', '2025-05-06 20:18:34.915610') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 6, 90257, '2025-05-06 20:18:34.916300', '2025-05-06 20:18:34.916300') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 1, 6, 104911, '2025-05-06 20:18:34.916991', '2025-05-06 20:18:34.916991') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (1.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 3, 6, 104800, '2025-05-06 20:18:34.917687', '2025-05-06 20:18:34.917687') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 3, 6, 90172, '2025-05-06 20:18:34.919512', '2025-05-06 20:18:34.919512') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 2, 6, 94390, '2025-05-06 20:18:34.920208', '2025-05-06 20:18:34.920208') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 2, 6, 96913, '2025-05-06 20:18:34.921135', '2025-05-06 20:18:34.921135') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 7, 99101, '2025-05-06 20:18:34.921815', '2025-05-06 20:18:34.921815') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 1, 7, 95917, '2025-05-06 20:18:34.922720', '2025-05-06 20:18:34.922720') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 3, 7, 93092, '2025-05-06 20:18:34.923423', '2025-05-06 20:18:34.923423') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 3, 7, 91410, '2025-05-06 20:18:34.924127', '2025-05-06 20:18:34.924127') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 2, 7, 96215, '2025-05-06 20:18:34.925028', '2025-05-06 20:18:34.925028') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 2, 7, 91733, '2025-05-06 20:18:34.925723', '2025-05-06 20:18:34.925723') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 8, 98329, '2025-05-06 20:18:34.926513', '2025-05-06 20:18:34.926513') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 1, 8, 92199, '2025-05-06 20:18:34.927353', '2025-05-06 20:18:34.927353') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 3, 8, 91845, '2025-05-06 20:18:34.928029', '2025-05-06 20:18:34.928029') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 3, 8, 91634, '2025-05-06 20:18:34.928709', '2025-05-06 20:18:34.928709') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 2, 8, 96742, '2025-05-06 20:18:34.929383', '2025-05-06 20:18:34.929383') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 2, 8, 102522, '2025-05-06 20:18:34.930063', '2025-05-06 20:18:34.930063') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (1.1ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 9, 101297, '2025-05-06 20:18:34.930744', '2025-05-06 20:18:34.930744') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 1, 9, 93846, '2025-05-06 20:18:34.932247', '2025-05-06 20:18:34.932247') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 3, 9, 101194, '2025-05-06 20:18:34.932934', '2025-05-06 20:18:34.932934') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 3, 9, 104217, '2025-05-06 20:18:34.933841', '2025-05-06 20:18:34.933841') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 2, 9, 98595, '2025-05-06 20:18:34.934532', '2025-05-06 20:18:34.934532') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.5ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 2, 9, 99267, '2025-05-06 20:18:34.935215', '2025-05-06 20:18:34.935215') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 1, 10, 97871, '2025-05-06 20:18:34.936104', '2025-05-06 20:18:34.936104') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 1, 10, 90776, '2025-05-06 20:18:34.936789', '2025-05-06 20:18:34.936789') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.3ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 3, 10, 97859, '2025-05-06 20:18:34.937642', '2025-05-06 20:18:34.937642') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 3, 10, 92117, '2025-05-06 20:18:34.938333', '2025-05-06 20:18:34.938333') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.4ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (1, 2, 10, 91299, '2025-05-06 20:18:34.939043', '2025-05-06 20:18:34.939043') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='F1LapsApi'*/[0m
+  [1m[36mLapTime Create (0.2ms)[0m  [1m[32mINSERT INTO "lap_times" ("driver_id", "circuit_id", "lap_number", "time_ms", "created_at", "updated_at") VALUES (2, 2, 10, 92683, '2025-05-06 20:18:34.939974', '2025-05-06 20:18:34.939974') RETURNING "id" /*application='F1LapsApi'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='F1LapsApi'*/[0m
+Started GET "/api/v1/drivers?driver_id=1" for ::1 at 2025-05-06 22:18:44 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+Processing by Api::V1::DriversController#index as HTML
+  Parameters: {"driver_id" => "1"}
+  [1m[36mDriver Load (0.5ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 20ms (Views: 8.6ms | ActiveRecord: 1.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/drivers?driver_id=1" for ::1 at 2025-05-06 22:20:56 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+Processing by Api::V1::DriversController#index as HTML
+  Parameters: {"driver_id" => "1"}
+  [1m[36mDriver Load (0.5ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 18ms (Views: 7.7ms | ActiveRecord: 1.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 192.168.65.1 at 2025-05-06 20:36:48 +0000
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+Started GET "/api/v1/drivers" for 192.168.65.1 at 2025-05-07 09:00:47 +0000
+Processing by Api::V1::DriversController#index as */*
+  [1m[36mDriver Load (1.9ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 47ms (Views: 11.4ms | ActiveRecord: 3.2ms (1 query, 0 cached) | GC: 1.3ms)
+
+
+Started GET "/api/v1/drivers" for 192.168.65.1 at 2025-05-07 09:33:15 +0000
+Processing by Api::V1::DriversController#index as */*
+  [1m[36mDriver Load (10.9ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 20ms (Views: 7.1ms | ActiveRecord: 10.9ms (1 query, 0 cached) | GC: 0.1ms)
+
+
+Started GET "/api/v1/drivers" for 192.168.65.1 at 2025-05-07 09:33:23 +0000
+Processing by Api::V1::DriversController#index as */*
+  [1m[36mDriver Load (1.0ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 27ms (Views: 26.1ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api-docs" for 192.168.65.1 at 2025-05-07 20:12:51 +0000
+  
+NameError (uninitialized constant Rswag):
+  
+config/routes.rb:2:in 'block in <main>'
+config/routes.rb:1:in '<main>'
+Started GET "/favicon.ico" for 192.168.65.1 at 2025-05-07 20:12:51 +0000
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/" for 127.0.0.1 at 2025-05-07 22:22:04 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+Started GET "/favicon.ico" for 127.0.0.1 at 2025-05-07 22:22:04 +0200
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/api-docs" for 127.0.0.1 at 2025-05-07 22:22:16 +0200
+Started GET "/api-docs/index.html" for 127.0.0.1 at 2025-05-07 22:22:16 +0200
+Started GET "/api-docs/swagger-ui.css" for 127.0.0.1 at 2025-05-07 22:22:16 +0200
+Started GET "/api-docs/swagger-ui-bundle.js" for 127.0.0.1 at 2025-05-07 22:22:16 +0200
+Started GET "/api-docs/swagger-ui-standalone-preset.js" for 127.0.0.1 at 2025-05-07 22:22:16 +0200
+Started GET "/api-docs/v1/swagger.yaml" for 127.0.0.1 at 2025-05-07 22:22:17 +0200
+Started GET "/api-docs/favicon-32x32.png" for 127.0.0.1 at 2025-05-07 22:22:17 +0200
+Started GET "/api-docs" for ::1 at 2025-05-07 22:25:18 +0200
+Started GET "/api-docs/index.html" for ::1 at 2025-05-07 22:25:18 +0200
+Started GET "/api-docs/swagger-ui.css" for ::1 at 2025-05-07 22:25:18 +0200
+Started GET "/api-docs/swagger-ui-standalone-preset.js" for ::1 at 2025-05-07 22:25:18 +0200
+Started GET "/api-docs/swagger-ui-bundle.js" for ::1 at 2025-05-07 22:25:18 +0200
+Started GET "/api-docs/v1/swagger.yaml" for ::1 at 2025-05-07 22:25:18 +0200
+Started GET "/api-docs/favicon-32x32.png" for ::1 at 2025-05-07 22:25:18 +0200
+Started GET "/api/v1/circuits" for ::1 at 2025-05-07 22:25:25 +0200
+Processing by Api::V1::CircuitsController#index as JSON
+  [1m[36mCircuit Load (0.7ms)[0m  [1m[34mSELECT "circuits".* FROM "circuits" /*action='index',application='F1LapsApi',controller='circuits'*/[0m
+  ↳ app/controllers/api/v1/circuits_controller.rb:4:in 'Api::V1::CircuitsController#index'
+Completed 200 OK in 46ms (Views: 30.2ms | ActiveRecord: 1.7ms (1 query, 0 cached) | GC: 2.6ms)
+
+
+Started GET "/api/v1/circuits" for ::1 at 2025-05-07 22:25:27 +0200
+Processing by Api::V1::CircuitsController#index as JSON
+  [1m[36mCircuit Load (0.3ms)[0m  [1m[34mSELECT "circuits".* FROM "circuits" /*action='index',application='F1LapsApi',controller='circuits'*/[0m
+  ↳ app/controllers/api/v1/circuits_controller.rb:4:in 'Api::V1::CircuitsController#index'
+Completed 200 OK in 13ms (Views: 12.4ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/circuits" for ::1 at 2025-05-07 22:25:47 +0200
+Processing by Api::V1::CircuitsController#create as */*
+  Parameters: {"name" => "cape_town", "location" => "southAfrica", "circuit" => {"name" => "cape_town", "location" => "southAfrica"}}
+  [1m[36mTRANSACTION (2.7ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='create',application='F1LapsApi',controller='circuits'*/[0m
+  ↳ app/controllers/api/v1/circuits_controller.rb:8:in 'Api::V1::CircuitsController#create'
+  [1m[36mCircuit Create (6.2ms)[0m  [1m[32mINSERT INTO "circuits" ("name", "location", "created_at", "updated_at") VALUES ('cape_town', 'southAfrica', '2025-05-07 20:25:47.935075', '2025-05-07 20:25:47.935075') RETURNING "id" /*action='create',application='F1LapsApi',controller='circuits'*/[0m
+  ↳ app/controllers/api/v1/circuits_controller.rb:8:in 'Api::V1::CircuitsController#create'
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='create',application='F1LapsApi',controller='circuits'*/[0m
+  ↳ app/controllers/api/v1/circuits_controller.rb:8:in 'Api::V1::CircuitsController#create'
+Completed 201 Created in 28ms (Views: 2.6ms | ActiveRecord: 9.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/drivers" for ::1 at 2025-05-07 22:25:59 +0200
+Processing by Api::V1::DriversController#index as JSON
+  [1m[36mDriver Load (0.1ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 15ms (Views: 12.5ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/api/v1/drivers" for ::1 at 2025-05-07 22:26:07 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='F1LapsApi'*/[0m
+Processing by Api::V1::DriversController#index as JSON
+  [1m[36mDriver Load (0.5ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" /*action='index',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:4:in 'Api::V1::DriversController#index'
+Completed 200 OK in 15ms (Views: 8.0ms | ActiveRecord: 1.2ms (1 query, 0 cached) | GC: 0.6ms)
+
+
+Started POST "/api/v1/drivers" for ::1 at 2025-05-07 22:26:11 +0200
+Processing by Api::V1::DriversController#create as */*
+  Parameters: {"name" => "string", "code" => "string", "driver" => {"name" => "string", "code" => "string"}}
+  [1m[36mTRANSACTION (3.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='create',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:8:in 'Api::V1::DriversController#create'
+  [1m[36mDriver Create (7.7ms)[0m  [1m[32mINSERT INTO "drivers" ("name", "code", "created_at", "updated_at") VALUES ('string', 'string', '2025-05-07 20:26:11.667160', '2025-05-07 20:26:11.667160') RETURNING "id" /*action='create',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:8:in 'Api::V1::DriversController#create'
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT TRANSACTION /*action='create',application='F1LapsApi',controller='drivers'*/[0m
+  ↳ app/controllers/api/v1/drivers_controller.rb:8:in 'Api::V1::DriversController#create'
+Completed 201 Created in 33ms (Views: 1.3ms | ActiveRecord: 11.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/health" for ::1 at 2025-05-07 22:26:16 +0200
+Processing by Api::V1::HealthController#show as JSON
+Completed 200 OK in 1ms (Views: 0.5ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/lap_times" for ::1 at 2025-05-07 22:26:22 +0200
+Processing by Api::V1::LapTimesController#index as JSON
+  [1m[36mLapTime Load (0.2ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" /*action='index',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:9:in 'Api::V1::LapTimesController#index'
+Completed 200 OK in 38ms (Views: 28.0ms | ActiveRecord: 1.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/api/v1/lap_times" for ::1 at 2025-05-07 22:26:27 +0200
+Processing by Api::V1::LapTimesController#create as */*
+  Parameters: {"driver_id" => 0, "circuit_id" => 0, "time_ms" => 0, "lap_number" => 0, "lap_time" => {"driver_id" => 0, "circuit_id" => 0, "lap_number" => 0, "time_ms" => 0}}
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*action='create',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:21:in 'Api::V1::LapTimesController#create'
+  [1m[36mDriver Load (0.7ms)[0m  [1m[34mSELECT "drivers".* FROM "drivers" WHERE "drivers"."id" = 0 LIMIT 1 /*action='create',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:21:in 'Api::V1::LapTimesController#create'
+  [1m[36mCircuit Load (0.0ms)[0m  [1m[34mSELECT "circuits".* FROM "circuits" WHERE "circuits"."id" = 0 LIMIT 1 /*action='create',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:21:in 'Api::V1::LapTimesController#create'
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*action='create',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:21:in 'Api::V1::LapTimesController#create'
+Completed 422 Unprocessable Content in 34ms (ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActiveRecord::RecordInvalid (Validation failed: Driver must exist, Circuit must exist):
+  
+app/controllers/api/v1/lap_times_controller.rb:21:in 'Api::V1::LapTimesController#create'
+Started GET "/api/v1/drivers/1/lap_times" for ::1 at 2025-05-07 22:26:51 +0200
+Processing by Api::V1::LapTimesController#by_driver as JSON
+  Parameters: {"driver_id" => "1"}
+  [1m[36mLapTime Load (0.1ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."driver_id" = 1 /*action='by_driver',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:13:in 'Api::V1::LapTimesController#by_driver'
+Completed 200 OK in 13ms (Views: 10.6ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/api/v1/circuits/1/lap_times" for ::1 at 2025-05-07 22:27:13 +0200
+Processing by Api::V1::LapTimesController#by_circuit as JSON
+  Parameters: {"circuit_id" => "1"}
+  [1m[36mLapTime Load (0.1ms)[0m  [1m[34mSELECT "lap_times".* FROM "lap_times" WHERE "lap_times"."circuit_id" = 1 /*action='by_circuit',application='F1LapsApi',controller='lap_times'*/[0m
+  ↳ app/controllers/api/v1/lap_times_controller.rb:17:in 'Api::V1::LapTimesController#by_circuit'
+Completed 200 OK in 3ms (Views: 1.9ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
