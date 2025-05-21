@@ -1,0 +1,30 @@
+{
+  "name": "users-api",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node ./dist/src/index.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint . --fix",
+    "create:openapi": "npx tsx ./src/generateOpenAPIYamlFile.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.14.2",
+    "@hono/zod-openapi": "^0.19.6",
+    "@scalar/hono-api-reference": "^0.8.10",
+    "dotenv": "^16.5.0",
+    "hono": "^4.7.10",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.13.2",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.15.21",
+    "eslint": "^9.27.0",
+    "eslint-plugin-format": "^1.0.1",
+    "tsx": "^4.19.4",
+    "zod": "^3.25.13"
+  }
+}
