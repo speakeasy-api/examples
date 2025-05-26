@@ -11,6 +11,8 @@ This example Hono app demonstrates Speakeasy-recommended practices for creating 
 
 This project was bootstrapped with the [Hono Node.js starter template](https://hono.dev/docs/getting-started/basic#starter) and has three example API endpoints in `src/routes/users/users.index.ts` to get all users, get a user by id, and create a user.
 
+The `initial-app` folder is the starter code used for our guide: [How to generate an OpenAPI document with Hono](https://www.speakeasy.com/openapi/frameworks/hono). The guide walks you through the process of generating an OpenAPI document from the initial Hono app, improving it, and then generating a Speakeasy SDK from the OpenAPI document. The final code of the guide is this repositories' example Hono app.
+
 ## Prerequisites
 
 You need to have [Node.js version >= 18](https://nodejs.org/) installed on your system to run this project.
