@@ -1,0 +1,16 @@
+POST /orders HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 131
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.1.0 2.539.1 1.0.0 speakeasy-coffee-client
+X-Api-Key: your-api-key-here
+X-Speakeasy-Test-Instance-Id: F789EFD4-00B1-8AC7-D606-4D1816691BA5
+X-Speakeasy-Test-Name: CreateOrder-complex_order
+
+{"id":4,"customer_name":"Diana","coffee_type":"Cappuccino","size":"Medium","extras":["Whipped cream","Caramel syrup"],"price":5.25}

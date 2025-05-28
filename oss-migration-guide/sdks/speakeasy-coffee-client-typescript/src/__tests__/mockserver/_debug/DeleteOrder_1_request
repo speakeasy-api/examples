@@ -1,0 +1,13 @@
+DELETE /orders/1 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.1.0 2.539.1 1.0.0 speakeasy-coffee-client
+X-Api-Key: your-api-key-here
+X-Speakeasy-Test-Instance-Id: 069F0A4E-D29E-1940-3445-3F42017C9EB4
+X-Speakeasy-Test-Name: DeleteOrder-order1
+

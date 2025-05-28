@@ -1,0 +1,16 @@
+PUT /orders/2 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 70
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.1.0 2.539.1 1.0.0 speakeasy-coffee-client
+X-Api-Key: your-api-key-here
+X-Speakeasy-Test-Instance-Id: 0DB54397-2BDA-6E1F-E18D-792EE9367211
+X-Speakeasy-Test-Name: UpdateOrder-order2
+
+{"customer_name":"Frank","size":"Small","extras":["Sugar-free syrup"]}

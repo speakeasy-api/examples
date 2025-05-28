@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"id":5,"customer_name":"Eve","coffee_type":"Mocha","size":"Large","extras":["Whipped cream","Chocolate syrup"],"price":6}

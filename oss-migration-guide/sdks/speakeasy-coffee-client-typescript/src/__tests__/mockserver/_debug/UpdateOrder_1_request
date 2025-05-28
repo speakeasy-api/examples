@@ -1,0 +1,16 @@
+PUT /orders/1 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Content-Length: 79
+Content-Type: application/json
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.1.0 2.539.1 1.0.0 speakeasy-coffee-client
+X-Api-Key: your-api-key-here
+X-Speakeasy-Test-Instance-Id: FCB59FDF-2BB0-F09F-C6E9-BB3E51632F29
+X-Speakeasy-Test-Name: UpdateOrder-order1
+
+{"coffee_type":"Cappuccino","extras":["Cinnamon","Whipped cream"],"price":5.75}

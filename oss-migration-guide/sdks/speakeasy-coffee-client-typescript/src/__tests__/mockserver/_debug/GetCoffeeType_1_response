@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+{"name":"Cold Brew","description":"Smooth, cold-steeped coffee","id":4,"price_multiplier":1.4}

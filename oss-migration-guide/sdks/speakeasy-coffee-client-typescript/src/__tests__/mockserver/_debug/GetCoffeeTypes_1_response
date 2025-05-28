@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Connection: close
+Content-Type: application/json
+
+[{"name":"Espresso","description":"Strong and bold coffee shot","id":1,"price_multiplier":1},{"name":"Latte","description":"Espresso with steamed milk","id":2,"price_multiplier":1.2},{"name":"Mocha","description":"Espresso with chocolate and steamed milk","id":3,"price_multiplier":1.3}]
