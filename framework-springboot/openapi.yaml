@@ -1,0 +1,211 @@
+openapi: 3.1.0
+info:
+  title: Bookstore API
+  description: "This API provides endpoints to manage a bookstore's inventory of books\
+    \ and magazines, as well as customer orders. You can use it to browse publications,\
+    \ create orders, and track order status."
+  contact:
+    name: Bookstore API Support
+    url: https://bookstore.example.com/support
+    email: api@bookstore.example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://api.bookstore.example.com
+  description: Production server (uses live data)
+- url: http://localhost:8080
+  description: Development server (uses test data)
+tags:
+- name: Publications
+  description: Publications management APIs
+paths:
+  /publications:
+    get:
+      tags:
+      - Publications
+      summary: List all publications
+      description: Get a list of all publications in the store
+      operationId: listPublications
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: "#/components/schemas/Book"
+                  - $ref: "#/components/schemas/Magazine"
+      x-speakeasy-retries:
+        statusCodes:
+        - 5XX
+        backoff:
+          initialInterval: 500
+          maxInterval: 60000
+          maxElapsedTime: 3600000
+          exponent: 1.5
+        strategy: backoff
+        retryConnectionErrors: true
+    post:
+      tags:
+      - Publications
+      summary: Create a new publication
+      description: Add a new publication to the store
+      operationId: createPublication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              oneOf:
+              - $ref: "#/components/schemas/Book"
+              - $ref: "#/components/schemas/Magazine"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            '*/*':
+              schema:
+                type: string
+                oneOf:
+                - $ref: "#/components/schemas/Book"
+                - $ref: "#/components/schemas/Magazine"
+        "400":
+          description: Invalid input
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /publications/{id}:
+    get:
+      tags:
+      - Publications
+      summary: Get a publication by ID
+      description: Retrieves a publication's details by its unique identifier
+      operationId: getPublication
+      parameters:
+      - name: id
+        in: path
+        description: ID of the publication to retrieve
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            '*/*':
+              schema:
+                type: string
+                oneOf:
+                - $ref: "#/components/schemas/Book"
+                - $ref: "#/components/schemas/Magazine"
+        "404":
+          description: Publication not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    Book:
+      type: object
+      allOf:
+      - $ref: "#/components/schemas/Publication"
+      - type: object
+        properties:
+          type:
+            type: string
+            default: Book
+            description: Type of the publication
+            enum:
+            - Book
+            example: Book
+            readOnly: true
+          author:
+            type: string
+            description: Author of the book
+            example: Craig Walls
+          isbn:
+            type: string
+            description: ISBN of the book
+            example: 978-1617292545
+      description: Represents a book in the store
+      required:
+      - type
+    Magazine:
+      type: object
+      allOf:
+      - $ref: "#/components/schemas/Publication"
+      - type: object
+        properties:
+          type:
+            type: string
+            default: Magazine
+            description: Type of the publication
+            enum:
+            - Magazine
+            example: Magazine
+            readOnly: true
+          issueNumber:
+            type: integer
+            format: int32
+            description: Issue number of the magazine
+            example: 42
+          publisher:
+            type: string
+            description: Publisher of the magazine
+            example: National Geographic Society
+      description: Represents a magazine in the store
+      required:
+      - type
+    Publication:
+      type: object
+      description: Represents a publication in the store
+      discriminator:
+        propertyName: type
+        mapping:
+          Book: "#/components/schemas/Book"
+          Magazine: "#/components/schemas/Magazine"
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the publication
+          example: 123e4567-e89b-12d3-a456-426614174000
+        title:
+          type: string
+          description: Title of the publication
+          example: Spring Boot in Action
+        publishDate:
+          type: string
+          description: Publication date
+          example: 2023-06-15
+        price:
+          type: number
+          format: float
+          description: Price in USD
+          example: 39.99
+        type:
+          type: string
+          description: Type of the publication
+          enum:
+          - Book
+          - Magazine
+          example: Book
+    ErrorResponse:
+      type: object
+      description: Represents an error response
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code
+          example: 404
+        message:
+          type: string
+          description: Error message
+          example: Publication not found

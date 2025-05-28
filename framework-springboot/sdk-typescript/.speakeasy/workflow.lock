@@ -1,0 +1,36 @@
+speakeasyVersion: 1.552.0
+sources:
+    Bookstore API:
+        sourceNamespace: bookstore-api
+        sourceRevisionDigest: sha256:6b8a2f8225455a5a53abcd695091a698c874b428abb5f281030af52506ac60d2
+        sourceBlobDigest: sha256:7873e0bae8e895aa79980075d8e43b7f3e5dc233a3fc820282c80054d4e3225f
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    sdk:
+        source: Bookstore API
+        sourceNamespace: bookstore-api
+        sourceRevisionDigest: sha256:6b8a2f8225455a5a53abcd695091a698c874b428abb5f281030af52506ac60d2
+        sourceBlobDigest: sha256:7873e0bae8e895aa79980075d8e43b7f3e5dc233a3fc820282c80054d4e3225f
+        codeSamplesNamespace: bookstore-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:3729b643a2c0019a0cb1aab6647cd028f01b4da39cedbe4787162b27f5d409bd
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Bookstore API:
+            inputs:
+                - location: ../openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/ritza-rzx/ritza/bookstore-api
+    targets:
+        sdk:
+            target: typescript
+            source: Bookstore API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/ritza-rzx/ritza/bookstore-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false
