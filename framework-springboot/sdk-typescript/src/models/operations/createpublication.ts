@@ -6,225 +6,190 @@ import * as z from "zod";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
+import * as models from "../index.js";
 
-export type MagazineRequest = {};
+export type Magazine = {};
 
-export type MagazineRequestUnion = MagazineRequest | string;
+export type MagazineUnion = Magazine | string;
 
-export type BookRequest = {};
+export type Book = {};
 
-export type BookRequestUnion = BookRequest | string;
+export type BookUnion = Book | string;
 
-export type CreatePublicationRequest =
-  | BookRequest
-  | string
-  | MagazineRequest
-  | string;
-
-export type CreatePublicationMagazineResponse = {};
-
-export type CreatePublicationMagazineResponseUnion =
-  | CreatePublicationMagazineResponse
-  | string;
-
-export type CreatePublicationBookResponse = {};
-
-export type CreatePublicationBookResponseUnion =
-  | CreatePublicationBookResponse
-  | string;
+export type CreatePublicationRequest = Book | string | Magazine | string;
 
 /**
  * Successful operation
  */
-export type CreatePublicationResponseBody =
-  | CreatePublicationBookResponse
-  | string
-  | CreatePublicationMagazineResponse
-  | string;
+export type CreatePublicationResponse = models.Book | models.Magazine;
 
 /** @internal */
-export const MagazineRequest$inboundSchema: z.ZodType<
-  MagazineRequest,
+export const Magazine$inboundSchema: z.ZodType<
+  Magazine,
   z.ZodTypeDef,
   unknown
 > = z.object({});
 
 /** @internal */
-export type MagazineRequest$Outbound = {};
+export type Magazine$Outbound = {};
 
 /** @internal */
-export const MagazineRequest$outboundSchema: z.ZodType<
-  MagazineRequest$Outbound,
+export const Magazine$outboundSchema: z.ZodType<
+  Magazine$Outbound,
   z.ZodTypeDef,
-  MagazineRequest
+  Magazine
 > = z.object({});
 
 /**
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace MagazineRequest$ {
-  /** @deprecated use `MagazineRequest$inboundSchema` instead. */
-  export const inboundSchema = MagazineRequest$inboundSchema;
-  /** @deprecated use `MagazineRequest$outboundSchema` instead. */
-  export const outboundSchema = MagazineRequest$outboundSchema;
-  /** @deprecated use `MagazineRequest$Outbound` instead. */
-  export type Outbound = MagazineRequest$Outbound;
+export namespace Magazine$ {
+  /** @deprecated use `Magazine$inboundSchema` instead. */
+  export const inboundSchema = Magazine$inboundSchema;
+  /** @deprecated use `Magazine$outboundSchema` instead. */
+  export const outboundSchema = Magazine$outboundSchema;
+  /** @deprecated use `Magazine$Outbound` instead. */
+  export type Outbound = Magazine$Outbound;
 }
 
-export function magazineRequestToJSON(
-  magazineRequest: MagazineRequest,
-): string {
-  return JSON.stringify(MagazineRequest$outboundSchema.parse(magazineRequest));
+export function magazineToJSON(magazine: Magazine): string {
+  return JSON.stringify(Magazine$outboundSchema.parse(magazine));
 }
 
-export function magazineRequestFromJSON(
+export function magazineFromJSON(
   jsonString: string,
-): SafeParseResult<MagazineRequest, SDKValidationError> {
+): SafeParseResult<Magazine, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => MagazineRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'MagazineRequest' from JSON`,
+    (x) => Magazine$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Magazine' from JSON`,
   );
 }
 
 /** @internal */
-export const MagazineRequestUnion$inboundSchema: z.ZodType<
-  MagazineRequestUnion,
+export const MagazineUnion$inboundSchema: z.ZodType<
+  MagazineUnion,
   z.ZodTypeDef,
   unknown
-> = z.union([z.lazy(() => MagazineRequest$inboundSchema), z.string()]);
+> = z.union([z.lazy(() => Magazine$inboundSchema), z.string()]);
 
 /** @internal */
-export type MagazineRequestUnion$Outbound = MagazineRequest$Outbound | string;
+export type MagazineUnion$Outbound = Magazine$Outbound | string;
 
 /** @internal */
-export const MagazineRequestUnion$outboundSchema: z.ZodType<
-  MagazineRequestUnion$Outbound,
+export const MagazineUnion$outboundSchema: z.ZodType<
+  MagazineUnion$Outbound,
   z.ZodTypeDef,
-  MagazineRequestUnion
-> = z.union([z.lazy(() => MagazineRequest$outboundSchema), z.string()]);
+  MagazineUnion
+> = z.union([z.lazy(() => Magazine$outboundSchema), z.string()]);
 
 /**
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace MagazineRequestUnion$ {
-  /** @deprecated use `MagazineRequestUnion$inboundSchema` instead. */
-  export const inboundSchema = MagazineRequestUnion$inboundSchema;
-  /** @deprecated use `MagazineRequestUnion$outboundSchema` instead. */
-  export const outboundSchema = MagazineRequestUnion$outboundSchema;
-  /** @deprecated use `MagazineRequestUnion$Outbound` instead. */
-  export type Outbound = MagazineRequestUnion$Outbound;
+export namespace MagazineUnion$ {
+  /** @deprecated use `MagazineUnion$inboundSchema` instead. */
+  export const inboundSchema = MagazineUnion$inboundSchema;
+  /** @deprecated use `MagazineUnion$outboundSchema` instead. */
+  export const outboundSchema = MagazineUnion$outboundSchema;
+  /** @deprecated use `MagazineUnion$Outbound` instead. */
+  export type Outbound = MagazineUnion$Outbound;
 }
 
-export function magazineRequestUnionToJSON(
-  magazineRequestUnion: MagazineRequestUnion,
-): string {
-  return JSON.stringify(
-    MagazineRequestUnion$outboundSchema.parse(magazineRequestUnion),
-  );
+export function magazineUnionToJSON(magazineUnion: MagazineUnion): string {
+  return JSON.stringify(MagazineUnion$outboundSchema.parse(magazineUnion));
 }
 
-export function magazineRequestUnionFromJSON(
+export function magazineUnionFromJSON(
   jsonString: string,
-): SafeParseResult<MagazineRequestUnion, SDKValidationError> {
+): SafeParseResult<MagazineUnion, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => MagazineRequestUnion$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'MagazineRequestUnion' from JSON`,
+    (x) => MagazineUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'MagazineUnion' from JSON`,
   );
 }
 
 /** @internal */
-export const BookRequest$inboundSchema: z.ZodType<
-  BookRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({});
+export const Book$inboundSchema: z.ZodType<Book, z.ZodTypeDef, unknown> = z
+  .object({});
 
 /** @internal */
-export type BookRequest$Outbound = {};
+export type Book$Outbound = {};
 
 /** @internal */
-export const BookRequest$outboundSchema: z.ZodType<
-  BookRequest$Outbound,
-  z.ZodTypeDef,
-  BookRequest
-> = z.object({});
+export const Book$outboundSchema: z.ZodType<Book$Outbound, z.ZodTypeDef, Book> =
+  z.object({});
 
 /**
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace BookRequest$ {
-  /** @deprecated use `BookRequest$inboundSchema` instead. */
-  export const inboundSchema = BookRequest$inboundSchema;
-  /** @deprecated use `BookRequest$outboundSchema` instead. */
-  export const outboundSchema = BookRequest$outboundSchema;
-  /** @deprecated use `BookRequest$Outbound` instead. */
-  export type Outbound = BookRequest$Outbound;
+export namespace Book$ {
+  /** @deprecated use `Book$inboundSchema` instead. */
+  export const inboundSchema = Book$inboundSchema;
+  /** @deprecated use `Book$outboundSchema` instead. */
+  export const outboundSchema = Book$outboundSchema;
+  /** @deprecated use `Book$Outbound` instead. */
+  export type Outbound = Book$Outbound;
 }
 
-export function bookRequestToJSON(bookRequest: BookRequest): string {
-  return JSON.stringify(BookRequest$outboundSchema.parse(bookRequest));
+export function bookToJSON(book: Book): string {
+  return JSON.stringify(Book$outboundSchema.parse(book));
 }
 
-export function bookRequestFromJSON(
+export function bookFromJSON(
   jsonString: string,
-): SafeParseResult<BookRequest, SDKValidationError> {
+): SafeParseResult<Book, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => BookRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'BookRequest' from JSON`,
+    (x) => Book$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Book' from JSON`,
   );
 }
 
 /** @internal */
-export const BookRequestUnion$inboundSchema: z.ZodType<
-  BookRequestUnion,
+export const BookUnion$inboundSchema: z.ZodType<
+  BookUnion,
   z.ZodTypeDef,
   unknown
-> = z.union([z.lazy(() => BookRequest$inboundSchema), z.string()]);
+> = z.union([z.lazy(() => Book$inboundSchema), z.string()]);
 
 /** @internal */
-export type BookRequestUnion$Outbound = BookRequest$Outbound | string;
+export type BookUnion$Outbound = Book$Outbound | string;
 
 /** @internal */
-export const BookRequestUnion$outboundSchema: z.ZodType<
-  BookRequestUnion$Outbound,
+export const BookUnion$outboundSchema: z.ZodType<
+  BookUnion$Outbound,
   z.ZodTypeDef,
-  BookRequestUnion
-> = z.union([z.lazy(() => BookRequest$outboundSchema), z.string()]);
+  BookUnion
+> = z.union([z.lazy(() => Book$outboundSchema), z.string()]);
 
 /**
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace BookRequestUnion$ {
-  /** @deprecated use `BookRequestUnion$inboundSchema` instead. */
-  export const inboundSchema = BookRequestUnion$inboundSchema;
-  /** @deprecated use `BookRequestUnion$outboundSchema` instead. */
-  export const outboundSchema = BookRequestUnion$outboundSchema;
-  /** @deprecated use `BookRequestUnion$Outbound` instead. */
-  export type Outbound = BookRequestUnion$Outbound;
+export namespace BookUnion$ {
+  /** @deprecated use `BookUnion$inboundSchema` instead. */
+  export const inboundSchema = BookUnion$inboundSchema;
+  /** @deprecated use `BookUnion$outboundSchema` instead. */
+  export const outboundSchema = BookUnion$outboundSchema;
+  /** @deprecated use `BookUnion$Outbound` instead. */
+  export type Outbound = BookUnion$Outbound;
 }
 
-export function bookRequestUnionToJSON(
-  bookRequestUnion: BookRequestUnion,
-): string {
-  return JSON.stringify(
-    BookRequestUnion$outboundSchema.parse(bookRequestUnion),
-  );
+export function bookUnionToJSON(bookUnion: BookUnion): string {
+  return JSON.stringify(BookUnion$outboundSchema.parse(bookUnion));
 }
 
-export function bookRequestUnionFromJSON(
+export function bookUnionFromJSON(
   jsonString: string,
-): SafeParseResult<BookRequestUnion, SDKValidationError> {
+): SafeParseResult<BookUnion, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => BookRequestUnion$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'BookRequestUnion' from JSON`,
+    (x) => BookUnion$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'BookUnion' from JSON`,
   );
 }
 
@@ -234,15 +199,15 @@ export const CreatePublicationRequest$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.union([
-  z.union([z.lazy(() => BookRequest$inboundSchema), z.string()]),
-  z.union([z.lazy(() => MagazineRequest$inboundSchema), z.string()]),
+  z.union([z.lazy(() => Book$inboundSchema), z.string()]),
+  z.union([z.lazy(() => Magazine$inboundSchema), z.string()]),
 ]);
 
 /** @internal */
 export type CreatePublicationRequest$Outbound =
-  | BookRequest$Outbound
+  | Book$Outbound
   | string
-  | MagazineRequest$Outbound
+  | Magazine$Outbound
   | string;
 
 /** @internal */
@@ -251,8 +216,8 @@ export const CreatePublicationRequest$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   CreatePublicationRequest
 > = z.union([
-  z.union([z.lazy(() => BookRequest$outboundSchema), z.string()]),
-  z.union([z.lazy(() => MagazineRequest$outboundSchema), z.string()]),
+  z.union([z.lazy(() => Book$outboundSchema), z.string()]),
+  z.union([z.lazy(() => Magazine$outboundSchema), z.string()]),
 ]);
 
 /**
@@ -287,296 +252,51 @@ export function createPublicationRequestFromJSON(
 }
 
 /** @internal */
-export const CreatePublicationMagazineResponse$inboundSchema: z.ZodType<
-  CreatePublicationMagazineResponse,
+export const CreatePublicationResponse$inboundSchema: z.ZodType<
+  CreatePublicationResponse,
   z.ZodTypeDef,
   unknown
-> = z.object({});
+> = z.union([models.Book$inboundSchema, models.Magazine$inboundSchema]);
 
 /** @internal */
-export type CreatePublicationMagazineResponse$Outbound = {};
+export type CreatePublicationResponse$Outbound =
+  | models.Book$Outbound
+  | models.Magazine$Outbound;
 
 /** @internal */
-export const CreatePublicationMagazineResponse$outboundSchema: z.ZodType<
-  CreatePublicationMagazineResponse$Outbound,
+export const CreatePublicationResponse$outboundSchema: z.ZodType<
+  CreatePublicationResponse$Outbound,
   z.ZodTypeDef,
-  CreatePublicationMagazineResponse
-> = z.object({});
+  CreatePublicationResponse
+> = z.union([models.Book$outboundSchema, models.Magazine$outboundSchema]);
 
 /**
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace CreatePublicationMagazineResponse$ {
-  /** @deprecated use `CreatePublicationMagazineResponse$inboundSchema` instead. */
-  export const inboundSchema = CreatePublicationMagazineResponse$inboundSchema;
-  /** @deprecated use `CreatePublicationMagazineResponse$outboundSchema` instead. */
-  export const outboundSchema =
-    CreatePublicationMagazineResponse$outboundSchema;
-  /** @deprecated use `CreatePublicationMagazineResponse$Outbound` instead. */
-  export type Outbound = CreatePublicationMagazineResponse$Outbound;
+export namespace CreatePublicationResponse$ {
+  /** @deprecated use `CreatePublicationResponse$inboundSchema` instead. */
+  export const inboundSchema = CreatePublicationResponse$inboundSchema;
+  /** @deprecated use `CreatePublicationResponse$outboundSchema` instead. */
+  export const outboundSchema = CreatePublicationResponse$outboundSchema;
+  /** @deprecated use `CreatePublicationResponse$Outbound` instead. */
+  export type Outbound = CreatePublicationResponse$Outbound;
 }
 
-export function createPublicationMagazineResponseToJSON(
-  createPublicationMagazineResponse: CreatePublicationMagazineResponse,
+export function createPublicationResponseToJSON(
+  createPublicationResponse: CreatePublicationResponse,
 ): string {
   return JSON.stringify(
-    CreatePublicationMagazineResponse$outboundSchema.parse(
-      createPublicationMagazineResponse,
-    ),
+    CreatePublicationResponse$outboundSchema.parse(createPublicationResponse),
   );
 }
 
-export function createPublicationMagazineResponseFromJSON(
+export function createPublicationResponseFromJSON(
   jsonString: string,
-): SafeParseResult<CreatePublicationMagazineResponse, SDKValidationError> {
+): SafeParseResult<CreatePublicationResponse, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => CreatePublicationMagazineResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CreatePublicationMagazineResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const CreatePublicationMagazineResponseUnion$inboundSchema: z.ZodType<
-  CreatePublicationMagazineResponseUnion,
-  z.ZodTypeDef,
-  unknown
-> = z.union([
-  z.lazy(() => CreatePublicationMagazineResponse$inboundSchema),
-  z.string(),
-]);
-
-/** @internal */
-export type CreatePublicationMagazineResponseUnion$Outbound =
-  | CreatePublicationMagazineResponse$Outbound
-  | string;
-
-/** @internal */
-export const CreatePublicationMagazineResponseUnion$outboundSchema: z.ZodType<
-  CreatePublicationMagazineResponseUnion$Outbound,
-  z.ZodTypeDef,
-  CreatePublicationMagazineResponseUnion
-> = z.union([
-  z.lazy(() => CreatePublicationMagazineResponse$outboundSchema),
-  z.string(),
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CreatePublicationMagazineResponseUnion$ {
-  /** @deprecated use `CreatePublicationMagazineResponseUnion$inboundSchema` instead. */
-  export const inboundSchema =
-    CreatePublicationMagazineResponseUnion$inboundSchema;
-  /** @deprecated use `CreatePublicationMagazineResponseUnion$outboundSchema` instead. */
-  export const outboundSchema =
-    CreatePublicationMagazineResponseUnion$outboundSchema;
-  /** @deprecated use `CreatePublicationMagazineResponseUnion$Outbound` instead. */
-  export type Outbound = CreatePublicationMagazineResponseUnion$Outbound;
-}
-
-export function createPublicationMagazineResponseUnionToJSON(
-  createPublicationMagazineResponseUnion:
-    CreatePublicationMagazineResponseUnion,
-): string {
-  return JSON.stringify(
-    CreatePublicationMagazineResponseUnion$outboundSchema.parse(
-      createPublicationMagazineResponseUnion,
-    ),
-  );
-}
-
-export function createPublicationMagazineResponseUnionFromJSON(
-  jsonString: string,
-): SafeParseResult<CreatePublicationMagazineResponseUnion, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      CreatePublicationMagazineResponseUnion$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CreatePublicationMagazineResponseUnion' from JSON`,
-  );
-}
-
-/** @internal */
-export const CreatePublicationBookResponse$inboundSchema: z.ZodType<
-  CreatePublicationBookResponse,
-  z.ZodTypeDef,
-  unknown
-> = z.object({});
-
-/** @internal */
-export type CreatePublicationBookResponse$Outbound = {};
-
-/** @internal */
-export const CreatePublicationBookResponse$outboundSchema: z.ZodType<
-  CreatePublicationBookResponse$Outbound,
-  z.ZodTypeDef,
-  CreatePublicationBookResponse
-> = z.object({});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CreatePublicationBookResponse$ {
-  /** @deprecated use `CreatePublicationBookResponse$inboundSchema` instead. */
-  export const inboundSchema = CreatePublicationBookResponse$inboundSchema;
-  /** @deprecated use `CreatePublicationBookResponse$outboundSchema` instead. */
-  export const outboundSchema = CreatePublicationBookResponse$outboundSchema;
-  /** @deprecated use `CreatePublicationBookResponse$Outbound` instead. */
-  export type Outbound = CreatePublicationBookResponse$Outbound;
-}
-
-export function createPublicationBookResponseToJSON(
-  createPublicationBookResponse: CreatePublicationBookResponse,
-): string {
-  return JSON.stringify(
-    CreatePublicationBookResponse$outboundSchema.parse(
-      createPublicationBookResponse,
-    ),
-  );
-}
-
-export function createPublicationBookResponseFromJSON(
-  jsonString: string,
-): SafeParseResult<CreatePublicationBookResponse, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => CreatePublicationBookResponse$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CreatePublicationBookResponse' from JSON`,
-  );
-}
-
-/** @internal */
-export const CreatePublicationBookResponseUnion$inboundSchema: z.ZodType<
-  CreatePublicationBookResponseUnion,
-  z.ZodTypeDef,
-  unknown
-> = z.union([
-  z.lazy(() => CreatePublicationBookResponse$inboundSchema),
-  z.string(),
-]);
-
-/** @internal */
-export type CreatePublicationBookResponseUnion$Outbound =
-  | CreatePublicationBookResponse$Outbound
-  | string;
-
-/** @internal */
-export const CreatePublicationBookResponseUnion$outboundSchema: z.ZodType<
-  CreatePublicationBookResponseUnion$Outbound,
-  z.ZodTypeDef,
-  CreatePublicationBookResponseUnion
-> = z.union([
-  z.lazy(() => CreatePublicationBookResponse$outboundSchema),
-  z.string(),
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CreatePublicationBookResponseUnion$ {
-  /** @deprecated use `CreatePublicationBookResponseUnion$inboundSchema` instead. */
-  export const inboundSchema = CreatePublicationBookResponseUnion$inboundSchema;
-  /** @deprecated use `CreatePublicationBookResponseUnion$outboundSchema` instead. */
-  export const outboundSchema =
-    CreatePublicationBookResponseUnion$outboundSchema;
-  /** @deprecated use `CreatePublicationBookResponseUnion$Outbound` instead. */
-  export type Outbound = CreatePublicationBookResponseUnion$Outbound;
-}
-
-export function createPublicationBookResponseUnionToJSON(
-  createPublicationBookResponseUnion: CreatePublicationBookResponseUnion,
-): string {
-  return JSON.stringify(
-    CreatePublicationBookResponseUnion$outboundSchema.parse(
-      createPublicationBookResponseUnion,
-    ),
-  );
-}
-
-export function createPublicationBookResponseUnionFromJSON(
-  jsonString: string,
-): SafeParseResult<CreatePublicationBookResponseUnion, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      CreatePublicationBookResponseUnion$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CreatePublicationBookResponseUnion' from JSON`,
-  );
-}
-
-/** @internal */
-export const CreatePublicationResponseBody$inboundSchema: z.ZodType<
-  CreatePublicationResponseBody,
-  z.ZodTypeDef,
-  unknown
-> = z.union([
-  z.union([
-    z.lazy(() => CreatePublicationBookResponse$inboundSchema),
-    z.string(),
-  ]),
-  z.union([
-    z.lazy(() => CreatePublicationMagazineResponse$inboundSchema),
-    z.string(),
-  ]),
-]);
-
-/** @internal */
-export type CreatePublicationResponseBody$Outbound =
-  | CreatePublicationBookResponse$Outbound
-  | string
-  | CreatePublicationMagazineResponse$Outbound
-  | string;
-
-/** @internal */
-export const CreatePublicationResponseBody$outboundSchema: z.ZodType<
-  CreatePublicationResponseBody$Outbound,
-  z.ZodTypeDef,
-  CreatePublicationResponseBody
-> = z.union([
-  z.union([
-    z.lazy(() => CreatePublicationBookResponse$outboundSchema),
-    z.string(),
-  ]),
-  z.union([
-    z.lazy(() => CreatePublicationMagazineResponse$outboundSchema),
-    z.string(),
-  ]),
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CreatePublicationResponseBody$ {
-  /** @deprecated use `CreatePublicationResponseBody$inboundSchema` instead. */
-  export const inboundSchema = CreatePublicationResponseBody$inboundSchema;
-  /** @deprecated use `CreatePublicationResponseBody$outboundSchema` instead. */
-  export const outboundSchema = CreatePublicationResponseBody$outboundSchema;
-  /** @deprecated use `CreatePublicationResponseBody$Outbound` instead. */
-  export type Outbound = CreatePublicationResponseBody$Outbound;
-}
-
-export function createPublicationResponseBodyToJSON(
-  createPublicationResponseBody: CreatePublicationResponseBody,
-): string {
-  return JSON.stringify(
-    CreatePublicationResponseBody$outboundSchema.parse(
-      createPublicationResponseBody,
-    ),
-  );
-}
-
-export function createPublicationResponseBodyFromJSON(
-  jsonString: string,
-): SafeParseResult<CreatePublicationResponseBody, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => CreatePublicationResponseBody$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CreatePublicationResponseBody' from JSON`,
+    (x) => CreatePublicationResponse$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreatePublicationResponse' from JSON`,
   );
 }

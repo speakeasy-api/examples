@@ -34,7 +34,7 @@ export class Publications extends ClientSDK {
   async createPublication(
     request: operations.CreatePublicationRequest,
     options?: RequestOptions,
-  ): Promise<Uint8Array> {
+  ): Promise<operations.CreatePublicationResponse> {
     return unwrapAsync(publicationsCreatePublication(
       this,
       request,
@@ -51,7 +51,7 @@ export class Publications extends ClientSDK {
   async getPublication(
     request: operations.GetPublicationRequest,
     options?: RequestOptions,
-  ): Promise<Uint8Array> {
+  ): Promise<operations.GetPublicationResponse> {
     return unwrapAsync(publicationsGetPublication(
       this,
       request,

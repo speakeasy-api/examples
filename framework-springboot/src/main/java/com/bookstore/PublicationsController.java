@@ -41,9 +41,9 @@ public class PublicationsController {
     @Operation(summary = "Get a publication by ID", description = "Retrieves a publication's details by its unique identifier")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful operation",
-                     content = @Content(schema = @Schema(oneOf = {Book.class, Magazine.class}))),
+                     content = @Content(mediaType = "application/json", schema = @Schema(type="object", oneOf = {Book.class, Magazine.class}))),
         @ApiResponse(responseCode = "404", description = "Publication not found",
-                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/{id}")
     public ResponseEntity<?> getPublication(
@@ -60,9 +60,9 @@ public class PublicationsController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(schema = @Schema(oneOf = {Book.class, Magazine.class}))))
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successful operation",
-                     content = @Content(schema = @Schema(oneOf = {Book.class, Magazine.class}))),
+                     content = @Content(mediaType = "application/json", schema = @Schema(type="object", oneOf = {Book.class, Magazine.class}))),
         @ApiResponse(responseCode = "400", description = "Invalid input",
-                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping
     public ResponseEntity<?> createPublication(

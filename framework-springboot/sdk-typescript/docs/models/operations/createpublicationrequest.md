@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### `operations.BookRequestUnion`
+### `operations.BookUnion`
 
 ```typescript
-const value: operations.BookRequestUnion = "<value>";
+const value: operations.BookUnion = "<value>";
 ```
 
-### `operations.MagazineRequestUnion`
+### `operations.MagazineUnion`
 
 ```typescript
-const value: operations.MagazineRequestUnion = "<value>";
+const value: operations.MagazineUnion = "<value>";
 ```
 

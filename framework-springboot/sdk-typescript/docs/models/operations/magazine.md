@@ -1,11 +1,11 @@
-# CreatePublicationMagazineResponse
+# Magazine
 
 ## Example Usage
 
 ```typescript
-import { CreatePublicationMagazineResponse } from "sdk/models/operations";
+import { Magazine } from "sdk/models/operations";
 
-let value: CreatePublicationMagazineResponse = {};
+let value: Magazine = {};
 ```
 
 ## Fields

@@ -1,12 +1,12 @@
-# BookRequestUnion
+# MagazineUnion
 
 
 ## Supported Types
 
-### `operations.BookRequest`
+### `operations.Magazine`
 
 ```typescript
-const value: operations.BookRequest = {};
+const value: operations.Magazine = {};
 ```
 
 ### `string`

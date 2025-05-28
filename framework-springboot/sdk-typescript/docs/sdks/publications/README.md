@@ -138,13 +138,14 @@ run();
 
 ### Response
 
-**Promise\<[Uint8Array](../../models/.md)\>**
+**Promise\<[operations.CreatePublicationResponse](../../models/operations/createpublicationresponse.md)\>**
 
 ### Errors
 
-| Error Type      | Status Code     | Content Type    |
-| --------------- | --------------- | --------------- |
-| errors.APIError | 4XX, 5XX        | \*/\*           |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| errors.ErrorResponse | 400                  | application/json     |
+| errors.APIError      | 4XX, 5XX             | \*/\*                |
 
 ## getPublication
 
@@ -210,10 +211,11 @@ run();
 
 ### Response
 
-**Promise\<[Uint8Array](../../models/.md)\>**
+**Promise\<[operations.GetPublicationResponse](../../models/operations/getpublicationresponse.md)\>**
 
 ### Errors
 
-| Error Type      | Status Code     | Content Type    |
-| --------------- | --------------- | --------------- |
-| errors.APIError | 4XX, 5XX        | \*/\*           |
+| Error Type           | Status Code          | Content Type         |
+| -------------------- | -------------------- | -------------------- |
+| errors.ErrorResponse | 404                  | application/json     |
+| errors.APIError      | 4XX, 5XX             | \*/\*                |

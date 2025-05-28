@@ -2,8 +2,8 @@ speakeasyVersion: 1.552.0
 sources:
     Bookstore API:
         sourceNamespace: bookstore-api
-        sourceRevisionDigest: sha256:6b8a2f8225455a5a53abcd695091a698c874b428abb5f281030af52506ac60d2
-        sourceBlobDigest: sha256:7873e0bae8e895aa79980075d8e43b7f3e5dc233a3fc820282c80054d4e3225f
+        sourceRevisionDigest: sha256:be5b64b74b74a41c82a1000c3c5c7344098662d17a95bc253f00f42a95a33150
+        sourceBlobDigest: sha256:8d2c06071045f0aa896dea084dba4a333b47aa81e71a26f8f84f34ae072cc9cd
         tags:
             - latest
             - 1.0.0
@@ -11,10 +11,10 @@ targets:
     sdk:
         source: Bookstore API
         sourceNamespace: bookstore-api
-        sourceRevisionDigest: sha256:6b8a2f8225455a5a53abcd695091a698c874b428abb5f281030af52506ac60d2
-        sourceBlobDigest: sha256:7873e0bae8e895aa79980075d8e43b7f3e5dc233a3fc820282c80054d4e3225f
+        sourceRevisionDigest: sha256:be5b64b74b74a41c82a1000c3c5c7344098662d17a95bc253f00f42a95a33150
+        sourceBlobDigest: sha256:8d2c06071045f0aa896dea084dba4a333b47aa81e71a26f8f84f34ae072cc9cd
         codeSamplesNamespace: bookstore-api-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:3729b643a2c0019a0cb1aab6647cd028f01b4da39cedbe4787162b27f5d409bd
+        codeSamplesRevisionDigest: sha256:cb43fb80ed865c05fe4a561e76b69d2f6f2f99be3ea57cb038b7478fdbb575ba
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 11cb7251-bc35-4c2a-8ccb-e35af11a5a1f
 management:
-  docChecksum: 533b3c198611ab005d47e1d187607744
+  docChecksum: a8dec07d1896e689edb8c9d8cba05fe5
   docVersion: 1.0.0
   speakeasyVersion: 1.552.0
   generationVersion: 2.610.0
-  releaseVersion: 0.0.1
-  configChecksum: 5566ab716bc4889d5a0fa69f092e5a55
+  releaseVersion: 0.0.2
+  configChecksum: 3da9d083746782a5862c28136a07a19a
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -35,24 +35,17 @@ generatedFiles:
   - docs/lib/utils/retryconfig.md
   - docs/models/book.md
   - docs/models/booktype.md
+  - docs/models/errors/errorresponse.md
   - docs/models/magazine.md
   - docs/models/magazinetype.md
-  - docs/models/operations/bookrequest.md
-  - docs/models/operations/bookrequestunion.md
-  - docs/models/operations/createpublicationbookresponse.md
-  - docs/models/operations/createpublicationbookresponseunion.md
-  - docs/models/operations/createpublicationmagazineresponse.md
-  - docs/models/operations/createpublicationmagazineresponseunion.md
+  - docs/models/operations/book.md
+  - docs/models/operations/bookunion.md
   - docs/models/operations/createpublicationrequest.md
-  - docs/models/operations/createpublicationresponsebody.md
-  - docs/models/operations/getpublicationbook.md
-  - docs/models/operations/getpublicationbookunion.md
-  - docs/models/operations/getpublicationmagazine.md
-  - docs/models/operations/getpublicationmagazineunion.md
+  - docs/models/operations/createpublicationresponse.md
   - docs/models/operations/getpublicationrequest.md
-  - docs/models/operations/getpublicationresponsebody.md
-  - docs/models/operations/magazinerequest.md
-  - docs/models/operations/magazinerequestunion.md
+  - docs/models/operations/getpublicationresponse.md
+  - docs/models/operations/magazine.md
+  - docs/models/operations/magazineunion.md
   - docs/models/operations/responsebody.md
   - docs/sdks/publications/README.md
   - docs/sdks/sdk/README.md
@@ -101,6 +94,7 @@ generatedFiles:
   - src/mcp-server/tools/publicationsListPublications.ts
   - src/models/book.ts
   - src/models/errors/apierror.ts
+  - src/models/errors/errorresponse.ts
   - src/models/errors/httpclienterrors.ts
   - src/models/errors/index.ts
   - src/models/errors/sdkvalidationerror.ts
@@ -136,6 +130,9 @@ examples:
       responses:
         "200":
           '*/*': "0x1b587BE5F2"
+          application/json: {"id": "123e4567-e89b-12d3-a456-426614174000", "title": "Spring Boot in Action", "publishDate": "2023-06-15T00:00:00Z", "price": 39.99, "type": "Book", "author": "Craig Walls", "isbn": "978-1617292545"}
+        "400":
+          application/json: {"code": 404, "message": "Publication not found"}
   getPublication:
     speakeasy-default-get-publication:
       parameters:
@@ -144,5 +141,8 @@ examples:
       responses:
         "200":
           '*/*': "0x03c0b7000e"
+          application/json: {"id": "123e4567-e89b-12d3-a456-426614174000", "title": "Spring Boot in Action", "publishDate": "2023-06-15T00:00:00Z", "price": 39.99, "type": "Book", "author": "Craig Walls", "isbn": "978-1617292545"}
+        "404":
+          application/json: {"code": 404, "message": "Publication not found"}
 examplesVersion: 1.0.2
 generatedTests: {}

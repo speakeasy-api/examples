@@ -68,16 +68,16 @@ paths:
         "200":
           description: Successful operation
           content:
-            '*/*':
+            application/json:
               schema:
-                type: string
+                type: object
                 oneOf:
                 - $ref: "#/components/schemas/Book"
                 - $ref: "#/components/schemas/Magazine"
         "400":
           description: Invalid input
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
   /publications/{id}:
@@ -98,16 +98,16 @@ paths:
         "200":
           description: Successful operation
           content:
-            '*/*':
+            application/json:
               schema:
-                type: string
+                type: object
                 oneOf:
                 - $ref: "#/components/schemas/Book"
                 - $ref: "#/components/schemas/Magazine"
         "404":
           description: Publication not found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 components:

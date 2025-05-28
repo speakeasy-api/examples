@@ -1,11 +1,11 @@
-# GetPublicationMagazine
+# Book
 
 ## Example Usage
 
 ```typescript
-import { GetPublicationMagazine } from "sdk/models/operations";
+import { Book } from "sdk/models/operations";
 
-let value: GetPublicationMagazine = {};
+let value: Book = {};
 ```
 
 ## Fields

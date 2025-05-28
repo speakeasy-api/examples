@@ -1,0 +1,34 @@
+overlay: 1.0.0
+x-speakeasy-jsonpath: rfc9535
+info:
+  title: Speakeasy Modifications
+  version: 0.0.1
+  x-speakeasy-metadata:
+    type: speakeasy-modifications
+    before: ""
+    after: ""
+actions:
+  - target: $["paths"]["/publications"]["post"]
+    update:
+      x-speakeasy-name-override: create
+    x-speakeasy-metadata:
+      after: sdk.publications.create()
+      before: sdk.Publications.createPublication()
+      created_at: 1748431397998
+      type: method-name
+  - target: $["paths"]["/publications/{id}"]["get"]
+    update:
+      x-speakeasy-name-override: get
+    x-speakeasy-metadata:
+      after: sdk.publications.get()
+      before: sdk.Publications.getPublication()
+      created_at: 1748431397998
+      type: method-name
+  - target: $["paths"]["/publications"]["get"]
+    update:
+      x-speakeasy-name-override: list
+    x-speakeasy-metadata:
+      after: sdk.publications.list()
+      before: sdk.Publications.listPublications()
+      created_at: 1748431397998
+      type: method-name
