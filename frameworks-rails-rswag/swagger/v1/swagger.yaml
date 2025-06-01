@@ -1,0 +1,319 @@
+---
+openapi: 3.0.1
+info:
+  title: F1 Laps API
+  version: v1
+  description: API for accessing Formula 1 lap time data and analytics
+  contact:
+    name: API Support
+    email: support@f1laps.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+paths:
+  "/api/v1/circuits":
+    get:
+      summary: List all circuits
+      tags:
+      - Circuits
+      responses:
+        '200':
+          description: circuits found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    location:
+                      type: string
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+                  required:
+                  - id
+                  - name
+                  - location
+    post:
+      summary: Create a circuit
+      tags:
+      - Circuits
+      parameters: []
+      responses:
+        '201':
+          description: circuit created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                location:
+                  type: string
+              required:
+              - name
+              - location
+  "/api/v1/drivers":
+    get:
+      summary: List all drivers
+      tags:
+      - Drivers
+      responses:
+        '200':
+          description: drivers found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    code:
+                      type: string
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+                  required:
+                  - id
+                  - name
+                  - code
+    post:
+      summary: Create a driver
+      tags:
+      - Drivers
+      parameters: []
+      responses:
+        '201':
+          description: driver created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                code:
+                  type: string
+              required:
+              - name
+              - code
+  "/api/v1/health":
+    get:
+      summary: Get API health status
+      tags:
+      - Health
+      responses:
+        '200':
+          description: health status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - healthy
+                  version:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+                required:
+                - status
+                - version
+                - timestamp
+  "/api/v1/lap_times":
+    get:
+      summary: List all lap times
+      tags:
+      - Lap Times
+      parameters:
+      - name: driver_id
+        in: query
+        required: false
+        description: Filter by driver ID
+        schema:
+          type: integer
+      - name: circuit_id
+        in: query
+        required: false
+        description: Filter by circuit ID
+        schema:
+          type: integer
+      - name: lap_min
+        in: query
+        required: false
+        description: Minimum lap number
+        schema:
+          type: integer
+      - name: lap_max
+        in: query
+        required: false
+        description: Maximum lap number
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: lap times found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    driver_id:
+                      type: integer
+                    circuit_id:
+                      type: integer
+                    time_ms:
+                      type: integer
+                    lap_number:
+                      type: integer
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+                  required:
+                  - id
+                  - driver_id
+                  - circuit_id
+                  - time_ms
+                  - lap_number
+    post:
+      summary: Create a lap time
+      tags:
+      - Lap Times
+      parameters: []
+      responses:
+        '201':
+          description: lap time created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                driver_id:
+                  type: integer
+                circuit_id:
+                  type: integer
+                time_ms:
+                  type: integer
+                lap_number:
+                  type: integer
+              required:
+              - driver_id
+              - circuit_id
+              - time_ms
+              - lap_number
+  "/api/v1/drivers/{driver_id}/lap_times":
+    get:
+      summary: Get lap times for a specific driver
+      tags:
+      - Lap Times
+      parameters:
+      - name: driver_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: lap times found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    circuit_id:
+                      type: integer
+                    time_ms:
+                      type: integer
+                    lap_number:
+                      type: integer
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+  "/api/v1/circuits/{circuit_id}/lap_times":
+    get:
+      summary: Get lap times for a specific circuit
+      tags:
+      - Lap Times
+      parameters:
+      - name: circuit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: lap times found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    driver_id:
+                      type: integer
+                    time_ms:
+                      type: integer
+                    lap_number:
+                      type: integer
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+components:
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
