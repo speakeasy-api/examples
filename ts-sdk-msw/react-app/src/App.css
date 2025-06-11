@@ -1,0 +1,13 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.new-todo-form {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 1rem;
+  & > label { text-align: end; }
+}
