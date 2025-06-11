@@ -1,0 +1,13 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Todo API:
+        inputs:
+            - location: ./openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/deathstar/deathstar/todo-api
+targets:
+    gtd:
+        target: java
+        source: Todo API
+        output: .

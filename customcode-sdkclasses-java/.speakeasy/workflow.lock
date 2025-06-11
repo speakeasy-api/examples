@@ -1,0 +1,36 @@
+speakeasyVersion: 0.0.1
+sources:
+    Todo API:
+        sourceNamespace: todo-api
+        sourceRevisionDigest: sha256:4baab914ead3ee8cd7c084a16b1e2b3a7351599cec9dd3883fd411b69467f9e1
+        sourceBlobDigest: sha256:f5a333503bfb23d11b8ea261b711956a7e354ca0c729fb9ebf29d06987663183
+        tags:
+            - latest
+            - 0.0.1
+targets:
+    gtd:
+        source: Todo API
+        sourceNamespace: todo-api
+        sourceRevisionDigest: sha256:4baab914ead3ee8cd7c084a16b1e2b3a7351599cec9dd3883fd411b69467f9e1
+        sourceBlobDigest: sha256:f5a333503bfb23d11b8ea261b711956a7e354ca0c729fb9ebf29d06987663183
+    todos:
+        source: Todo API
+        sourceNamespace: todo-api
+        sourceRevisionDigest: sha256:4baab914ead3ee8cd7c084a16b1e2b3a7351599cec9dd3883fd411b69467f9e1
+        sourceBlobDigest: sha256:f5a333503bfb23d11b8ea261b711956a7e354ca0c729fb9ebf29d06987663183
+        codeSamplesNamespace: todo-api-java-code-samples
+        codeSamplesRevisionDigest: sha256:ec67dca4c633b13aff311169724926c78c8588c18547ec9141946a9c3be08650
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Todo API:
+            inputs:
+                - location: ./openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/deathstar/deathstar/todo-api
+    targets:
+        gtd:
+            target: java
+            source: Todo API
+            output: .

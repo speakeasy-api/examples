@@ -1,0 +1,84 @@
+openapi: 3.1.0
+info:
+  title: Todo API
+  description: A simple todo API
+  version: 0.0.1
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /todos:
+    post:
+      tags: [todos]
+      operationId: create
+      summary: Create a new todo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TodoForm"
+      responses:
+        201:
+          description: Created todo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+
+  /todos/{id}:
+    get:
+      tags: [todos]
+      operationId: getOne
+      summary: Get a todo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: q7vqspzbu
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        404:
+          description: Not found
+
+components:
+  schemas:
+    TodoForm:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+          example: Buy cat food
+        description:
+          type: string
+          default: ""
+          example: Finn is running low on tuna and chicken cans.
+        completed:
+          type: boolean
+          default: false
+          example: false
+
+    Todo:
+      type: object
+      required: [id, title, description, completed]
+      properties:
+        id:
+          type: string
+          example: q7vqspzbu
+        title:
+          type: string
+          example: Buy conference ticket
+        description:
+          type: string
+          example: "Deadline is in 2 months but don't leave it until then."
+        completed:
+          type: boolean
+          example: false
