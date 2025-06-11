@@ -1,0 +1,114 @@
+lockVersion: 2.0.0
+id: 61bdfb21-3f94-4521-b7ac-e4a5d18b2545
+management:
+  docChecksum: 44a669e0122aef3b0f6a5a4dd6d385c3
+  docVersion: 0.0.1
+  speakeasyVersion: 0.0.1
+  generationVersion: 2.598.22
+  releaseVersion: 0.0.3
+  configChecksum: 8b215fa9eec9c044e449807d7321ebd3
+features:
+  java:
+    additionalDependencies: 0.1.0
+    constsAndDefaults: 0.1.1
+    core: 3.37.2
+    flattening: 2.81.1
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.2
+    sdkHooks: 1.0.0
+generatedFiles:
+  - .gitattributes
+  - USAGE.md
+  - build.gradle
+  - docs/models/components/Todo.md
+  - docs/models/components/TodoForm.md
+  - docs/models/operations/CreateResponse.md
+  - docs/models/operations/GetOneRequest.md
+  - docs/models/operations/GetOneResponse.md
+  - docs/sdks/gtd/README.md
+  - docs/sdks/todos/README.md
+  - gradle.properties
+  - gradle/wrapper/gradle-wrapper.jar
+  - gradle/wrapper/gradle-wrapper.properties
+  - gradlew
+  - gradlew.bat
+  - settings.gradle
+  - src/main/java/com/example/sdk/Gtd.java
+  - src/main/java/com/example/sdk/SDKConfiguration.java
+  - src/main/java/com/example/sdk/SecuritySource.java
+  - src/main/java/com/example/sdk/Todos.java
+  - src/main/java/com/example/sdk/models/components/Security.java
+  - src/main/java/com/example/sdk/models/components/Todo.java
+  - src/main/java/com/example/sdk/models/components/TodoForm.java
+  - src/main/java/com/example/sdk/models/errors/APIException.java
+  - src/main/java/com/example/sdk/models/errors/AuthException.java
+  - src/main/java/com/example/sdk/models/operations/CreateRequestBuilder.java
+  - src/main/java/com/example/sdk/models/operations/CreateResponse.java
+  - src/main/java/com/example/sdk/models/operations/GetOneRequest.java
+  - src/main/java/com/example/sdk/models/operations/GetOneRequestBuilder.java
+  - src/main/java/com/example/sdk/models/operations/GetOneResponse.java
+  - src/main/java/com/example/sdk/models/operations/SDKMethodInterfaces.java
+  - src/main/java/com/example/sdk/utils/BackoffStrategy.java
+  - src/main/java/com/example/sdk/utils/BigDecimalString.java
+  - src/main/java/com/example/sdk/utils/BigIntegerString.java
+  - src/main/java/com/example/sdk/utils/Constants.java
+  - src/main/java/com/example/sdk/utils/Deserializers.java
+  - src/main/java/com/example/sdk/utils/EventStream.java
+  - src/main/java/com/example/sdk/utils/EventStreamLineReader.java
+  - src/main/java/com/example/sdk/utils/EventStreamMessage.java
+  - src/main/java/com/example/sdk/utils/EventStreamReader.java
+  - src/main/java/com/example/sdk/utils/FormMetadata.java
+  - src/main/java/com/example/sdk/utils/HTTPClient.java
+  - src/main/java/com/example/sdk/utils/HTTPRequest.java
+  - src/main/java/com/example/sdk/utils/HasSecurity.java
+  - src/main/java/com/example/sdk/utils/HeaderMetadata.java
+  - src/main/java/com/example/sdk/utils/Helpers.java
+  - src/main/java/com/example/sdk/utils/Hook.java
+  - src/main/java/com/example/sdk/utils/Hooks.java
+  - src/main/java/com/example/sdk/utils/JSON.java
+  - src/main/java/com/example/sdk/utils/LazySingletonValue.java
+  - src/main/java/com/example/sdk/utils/Metadata.java
+  - src/main/java/com/example/sdk/utils/Multipart.java
+  - src/main/java/com/example/sdk/utils/MultipartFormMetadata.java
+  - src/main/java/com/example/sdk/utils/NameValue.java
+  - src/main/java/com/example/sdk/utils/OneOfDeserializer.java
+  - src/main/java/com/example/sdk/utils/Options.java
+  - src/main/java/com/example/sdk/utils/PathParamsMetadata.java
+  - src/main/java/com/example/sdk/utils/QueryEncoding.java
+  - src/main/java/com/example/sdk/utils/QueryParameter.java
+  - src/main/java/com/example/sdk/utils/QueryParameters.java
+  - src/main/java/com/example/sdk/utils/QueryParamsMetadata.java
+  - src/main/java/com/example/sdk/utils/RecordingClient.java
+  - src/main/java/com/example/sdk/utils/RequestBody.java
+  - src/main/java/com/example/sdk/utils/RequestMetadata.java
+  - src/main/java/com/example/sdk/utils/Response.java
+  - src/main/java/com/example/sdk/utils/Retries.java
+  - src/main/java/com/example/sdk/utils/RetryConfig.java
+  - src/main/java/com/example/sdk/utils/Security.java
+  - src/main/java/com/example/sdk/utils/SecurityMetadata.java
+  - src/main/java/com/example/sdk/utils/SerializedBody.java
+  - src/main/java/com/example/sdk/utils/SessionManager.java
+  - src/main/java/com/example/sdk/utils/SpeakeasyHTTPClient.java
+  - src/main/java/com/example/sdk/utils/SpeakeasyMetadata.java
+  - src/main/java/com/example/sdk/utils/TypedObject.java
+  - src/main/java/com/example/sdk/utils/Types.java
+  - src/main/java/com/example/sdk/utils/Utf8UrlEncoder.java
+  - src/main/java/com/example/sdk/utils/Utils.java
+examples:
+  create:
+    speakeasy-default-create:
+      requestBody:
+        application/json: {"title": "Buy cat food", "description": "Finn is running low on tuna and chicken cans.", "completed": false}
+      responses:
+        "201":
+          application/json: {"id": "q7vqspzbu", "title": "Buy conference ticket", "description": "Deadline is in 2 months but don't leave it until then.", "completed": false}
+  getOne:
+    speakeasy-default-get-one:
+      parameters:
+        path:
+          id: "q7vqspzbu"
+      responses:
+        "200":
+          application/json: {"id": "q7vqspzbu", "title": "Buy conference ticket", "description": "Deadline is in 2 months but don't leave it until then.", "completed": false}
+examplesVersion: 1.0.1
+generatedTests: {}
