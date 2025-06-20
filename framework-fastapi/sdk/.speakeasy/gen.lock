@@ -1,0 +1,216 @@
+lockVersion: 2.0.0
+id: dba07bf4-6188-41b9-b5e1-0444b9b13993
+management:
+  docChecksum: 5dc3440124d0673ad0f4eaa8df66e816
+  docVersion: 0.1.0
+  speakeasyVersion: 1.549.0
+  generationVersion: 2.607.0
+  releaseVersion: 0.0.1
+  configChecksum: 929707b4b55fa683333e081bbcab3bf2
+features:
+  python:
+    additionalDependencies: 1.0.0
+    constsAndDefaults: 1.0.5
+    core: 5.19.0
+    defaultEnabledRetries: 0.2.0
+    enumUnions: 0.1.0
+    envVarSecurityUsage: 0.3.2
+    flatRequests: 1.0.1
+    flattening: 3.1.1
+    globalSecurity: 3.0.3
+    globalSecurityCallbacks: 1.0.0
+    globalSecurityFlattening: 1.0.0
+    globalServerURLs: 3.1.1
+    methodArguments: 1.0.2
+    responseFormat: 1.0.1
+    retries: 3.0.2
+    sdkHooks: 1.0.1
+    unions: 3.0.4
+    webhooks: 2.0.0
+generatedFiles:
+  - .gitattributes
+  - .python-version
+  - .vscode/settings.json
+  - USAGE.md
+  - docs/errors/httpvalidationerror.md
+  - docs/errors/responsemessageerror.md
+  - docs/models/burgercreate.md
+  - docs/models/burgeroutput.md
+  - docs/models/burgerupdate.md
+  - docs/models/deleteburgerrequest.md
+  - docs/models/loc.md
+  - docs/models/ordercreate.md
+  - docs/models/orderoutput.md
+  - docs/models/orderstatus.md
+  - docs/models/orderupdate.md
+  - docs/models/readburgerrequest.md
+  - docs/models/readorderrequest.md
+  - docs/models/responsemessage.md
+  - docs/models/security.md
+  - docs/models/updateburgerrequest.md
+  - docs/models/updateorderrequest.md
+  - docs/models/utils/retryconfig.md
+  - docs/models/validationerror.md
+  - docs/sdks/burger/README.md
+  - docs/sdks/order/README.md
+  - docs/sdks/sdk/README.md
+  - poetry.toml
+  - py.typed
+  - pylintrc
+  - pyproject.toml
+  - scripts/prepare_readme.py
+  - scripts/publish.sh
+  - src/openapi/__init__.py
+  - src/openapi/_hooks/__init__.py
+  - src/openapi/_hooks/sdkhooks.py
+  - src/openapi/_hooks/types.py
+  - src/openapi/_version.py
+  - src/openapi/basesdk.py
+  - src/openapi/burger.py
+  - src/openapi/errors/__init__.py
+  - src/openapi/errors/apierror.py
+  - src/openapi/errors/httpvalidationerror.py
+  - src/openapi/errors/responsemessage_error.py
+  - src/openapi/httpclient.py
+  - src/openapi/models/__init__.py
+  - src/openapi/models/burgercreate.py
+  - src/openapi/models/burgeroutput.py
+  - src/openapi/models/burgerupdate.py
+  - src/openapi/models/deleteburgerop.py
+  - src/openapi/models/ordercreate.py
+  - src/openapi/models/orderoutput.py
+  - src/openapi/models/orderstatus.py
+  - src/openapi/models/orderupdate.py
+  - src/openapi/models/readburgerop.py
+  - src/openapi/models/readorderop.py
+  - src/openapi/models/responsemessage.py
+  - src/openapi/models/security.py
+  - src/openapi/models/updateburgerop.py
+  - src/openapi/models/updateorderop.py
+  - src/openapi/models/validationerror.py
+  - src/openapi/order.py
+  - src/openapi/py.typed
+  - src/openapi/sdk.py
+  - src/openapi/sdkconfiguration.py
+  - src/openapi/types/__init__.py
+  - src/openapi/types/basemodel.py
+  - src/openapi/utils/__init__.py
+  - src/openapi/utils/annotations.py
+  - src/openapi/utils/datetimes.py
+  - src/openapi/utils/enums.py
+  - src/openapi/utils/eventstreaming.py
+  - src/openapi/utils/forms.py
+  - src/openapi/utils/headers.py
+  - src/openapi/utils/logger.py
+  - src/openapi/utils/metadata.py
+  - src/openapi/utils/queryparams.py
+  - src/openapi/utils/requestbodies.py
+  - src/openapi/utils/retries.py
+  - src/openapi/utils/security.py
+  - src/openapi/utils/serializers.py
+  - src/openapi/utils/url.py
+  - src/openapi/utils/values.py
+examples:
+  webhookOrderStatusChanged:
+    speakeasy-default-webhook-order-status-changed:
+      requestBody:
+        application/json: {"id": 1, "burger_ids": [1, 2], "time": "2021-01-01T12:00:00", "table": 1, "status": "DELIVERED", "note": "No onions"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  listBurgers:
+    speakeasy-default-list-burgers:
+      responses:
+        "200":
+          application/json: [{"id": 1, "name": "Cheeseburger", "description": "A classic cheeseburger"}, {"id": 1, "name": "Cheeseburger", "description": "A classic cheeseburger"}, {"id": 1, "name": "Cheeseburger", "description": "A classic cheeseburger"}]
+  createBurger:
+    speakeasy-default-create-burger:
+      requestBody:
+        application/json: {"name": "Cheeseburger", "description": "A classic cheeseburger"}
+      responses:
+        "201":
+          application/json: {"id": 1, "name": "Cheeseburger", "description": "A classic cheeseburger"}
+        "422":
+          application/json: {}
+  readBurger:
+    speakeasy-default-read-burger:
+      parameters:
+        path:
+          burger_id: 88308
+      responses:
+        "200":
+          application/json: {"id": 1, "name": "Cheeseburger", "description": "A classic cheeseburger"}
+        "404":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  updateBurger:
+    speakeasy-default-update-burger:
+      parameters:
+        path:
+          burger_id: 731130
+      requestBody:
+        application/json: {"name": "Cheeseburger", "description": "A classic cheeseburger"}
+      responses:
+        "200":
+          application/json: {"id": 1, "name": "Cheeseburger", "description": "A classic cheeseburger"}
+        "404":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  deleteBurger:
+    speakeasy-default-delete-burger:
+      parameters:
+        path:
+          burger_id: 887477
+      responses:
+        "200":
+          application/json: {"message": "<value>"}
+        "404":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  listOrders:
+    speakeasy-default-list-orders:
+      responses:
+        "200":
+          application/json: [{"id": 1, "burger_ids": [1, 2], "time": "2021-01-01T12:00:00", "table": 1, "status": "PREPARING", "note": "No onions"}]
+  createOrder:
+    speakeasy-default-create-order:
+      requestBody:
+        application/json: {"burger_ids": [1, 2], "table": 1, "note": "No onions"}
+      responses:
+        "201":
+          application/json: {"id": 1, "burger_ids": [1, 2], "time": "2021-01-01T12:00:00", "table": 1, "status": "PREPARING", "note": "No onions"}
+        "422":
+          application/json: {}
+  readOrder:
+    speakeasy-default-read-order:
+      parameters:
+        path:
+          order_id: 270294
+      responses:
+        "200":
+          application/json: {"id": 1, "burger_ids": [1, 2], "time": "2021-01-01T12:00:00", "table": 1, "status": "PREPARING", "note": "No onions"}
+        "404":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  updateOrder:
+    speakeasy-default-update-order:
+      parameters:
+        path:
+          order_id: 628998
+      requestBody:
+        application/json: {"burger_ids": [1, 2], "table": 1, "note": "No onions"}
+      responses:
+        "200":
+          application/json: {"id": 1, "burger_ids": [1, 2], "time": "2021-01-01T12:00:00", "table": 1, "status": "READY", "note": "No onions"}
+        "404":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+examplesVersion: 1.0.2
+generatedTests: {}
