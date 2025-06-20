@@ -1,0 +1,36 @@
+speakeasyVersion: 1.548.3
+sources:
+    Users API:
+        sourceNamespace: users-api
+        sourceRevisionDigest: sha256:bfc5c27b9c4ccb82589f3fd9a1ba4018c615cf7e57d9bfca5df16dd2e5dba3d1
+        sourceBlobDigest: sha256:98aec5358f1ea68361eadfb5651b2a1697db527e71fdd87224f14c111dd7890a
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    sdk:
+        source: Users API
+        sourceNamespace: users-api
+        sourceRevisionDigest: sha256:bfc5c27b9c4ccb82589f3fd9a1ba4018c615cf7e57d9bfca5df16dd2e5dba3d1
+        sourceBlobDigest: sha256:98aec5358f1ea68361eadfb5651b2a1697db527e71fdd87224f14c111dd7890a
+        codeSamplesNamespace: users-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:98b0d18898a60569b4d3d6fdfb697b63e7cc17ead86bb33b1992f7dd5754df69
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Users API:
+            inputs:
+                - location: ../openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/ritza-rzx/ritza/users-api
+    targets:
+        sdk:
+            target: typescript
+            source: Users API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/ritza-rzx/ritza/users-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false

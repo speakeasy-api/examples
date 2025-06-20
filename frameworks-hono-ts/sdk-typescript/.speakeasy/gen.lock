@@ -1,0 +1,142 @@
+lockVersion: 2.0.0
+id: 91e44368-55c9-412c-b004-d7fed75ce126
+management:
+  docChecksum: f02e1d601c8f6f1eadc8683602263e71
+  docVersion: 1.0.0
+  speakeasyVersion: 1.548.3
+  generationVersion: 2.605.6
+  releaseVersion: 0.0.2
+  configChecksum: 3da9d083746782a5862c28136a07a19a
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    core: 3.21.9
+    defaultEnabledRetries: 0.1.0
+    devContainers: 2.90.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.5
+    mcpServer: 0.9.2
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.2.0
+    unions: 2.85.8
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/errors/createerror.md
+  - docs/models/errors/createmessageobjecterror.md
+  - docs/models/errort.md
+  - docs/models/issue.md
+  - docs/models/operations/getuserrequest.md
+  - docs/models/path.md
+  - docs/models/userinsert.md
+  - docs/models/userselect.md
+  - docs/sdks/sdk/README.md
+  - docs/sdks/users/README.md
+  - eslint.config.mjs
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/usersCreateUser.ts
+  - src/funcs/usersGetUser.ts
+  - src/funcs/usersGetUsers.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/env.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/mcp-server/build.mts
+  - src/mcp-server/cli.ts
+  - src/mcp-server/cli/start/command.ts
+  - src/mcp-server/cli/start/impl.ts
+  - src/mcp-server/console-logger.ts
+  - src/mcp-server/extensions.ts
+  - src/mcp-server/mcp-server.ts
+  - src/mcp-server/prompts.ts
+  - src/mcp-server/resources.ts
+  - src/mcp-server/scopes.ts
+  - src/mcp-server/server.ts
+  - src/mcp-server/shared.ts
+  - src/mcp-server/tools.ts
+  - src/mcp-server/tools/usersCreateUser.ts
+  - src/mcp-server/tools/usersGetUser.ts
+  - src/mcp-server/tools/usersGetUsers.ts
+  - src/models/createerror.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/createerror.ts
+  - src/models/errors/createmessageobjecterror.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/index.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/index.ts
+  - src/models/operations/getuser.ts
+  - src/models/operations/index.ts
+  - src/models/userinsert.ts
+  - src/models/userselect.ts
+  - src/sdk/index.ts
+  - src/sdk/sdk.ts
+  - src/sdk/users.ts
+  - src/types/async.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  getUsers:
+    speakeasy-default-get-users:
+      responses:
+        "200":
+          application/json: [{"id": "123", "name": "John Doe", "age": 42}, {"id": "123", "name": "John Doe", "age": 42}, {"id": "123", "name": "John Doe", "age": 42}]
+  createUser:
+    speakeasy-default-create-user:
+      requestBody:
+        application/json: {"name": "John Doe", "age": 42}
+      responses:
+        "200":
+          application/json: {"id": "123", "name": "John Doe", "age": 42}
+        "404":
+          application/json: {"message": "Not Found"}
+        "422":
+          application/json: {"success": false, "error": {"issues": [{"code": "invalid_type", "path": ["age"], "message": "Expected number, received string"}], "name": "ZodError"}}
+  getUser:
+    speakeasy-default-get-user:
+      parameters:
+        path:
+          id: "423"
+      responses:
+        "200":
+          application/json: {"id": "123", "name": "John Doe", "age": 42}
+        "404":
+          application/json: {"message": "Not Found"}
+        "422":
+          application/json: {"success": false, "error": {"issues": [{"code": "invalid_type", "path": ["age"], "message": "Expected number, received string"}], "name": "ZodError"}}
+examplesVersion: 1.0.2
+generatedTests: {}

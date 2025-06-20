@@ -1,0 +1,198 @@
+openapi: 3.1.0
+externalDocs:
+  description: Find out more about Users API
+  url: www.example.com
+servers:
+  - url: http://localhost:3000/
+    description: Development server
+x-speakeasy-retries:
+  strategy: backoff
+  backoff:
+    initialInterval: 500
+    maxInterval: 60000
+    maxElapsedTime: 3600000
+    exponent: 1.5
+  statusCodes:
+    - 5XX
+  retryConnectionErrors: true
+tags:
+  - name: Users
+    description: Users operations
+    externalDocs:
+      description: Find more info here
+      url: https://example.com
+info:
+  version: 1.0.0
+  title: Users API
+components:
+  schemas:
+    UserSelect:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '123'
+        name:
+          type: string
+          example: John Doe
+        age:
+          type: number
+          example: 42
+      required:
+        - id
+        - name
+        - age
+    createMessageObject:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+      example:
+        message: Not Found
+    createError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            issues:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  path:
+                    type: array
+                    items:
+                      anyOf:
+                        - type: string
+                        - type: number
+                  message:
+                    type: string
+                required:
+                  - code
+                  - path
+            name:
+              type: string
+          required:
+            - issues
+            - name
+          example:
+            issues:
+              - code: invalid_type
+                path:
+                  - age
+                message: Expected number, received string
+            name: ZodError
+      required:
+        - success
+        - error
+    UserInsert:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John Doe
+        age:
+          type: number
+          example: 42
+      required:
+        - name
+        - age
+    idParams:
+      type: string
+      minLength: 3
+      example: '423'
+  parameters: {}
+paths:
+  /users:
+    get:
+      operationId: getUsers
+      tags:
+        - Users
+      x-speakeasy-retries:
+        strategy: backoff
+        backoff:
+          initialInterval: 300
+          maxInterval: 40000
+          maxElapsedTime: 3000000
+          exponent: 1.2
+        statusCodes:
+          - 5XX
+        retryConnectionErrors: true
+      responses:
+        '200':
+          description: The list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserSelect'
+    post:
+      operationId: createUser
+      tags:
+        - Users
+      requestBody:
+        description: The user to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInsert'
+      responses:
+        '200':
+          description: The created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSelect'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createMessageObject'
+        '422':
+          description: The validation error(s)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createError'
+  /users/{id}:
+    get:
+      operationId: getUser
+      tags:
+        - Users
+      parameters:
+        - schema:
+            $ref: '#/components/schemas/idParams'
+          required: true
+          name: id
+          in: path
+      responses:
+        '200':
+          description: The requested user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSelect'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createMessageObject'
+        '422':
+          description: Invalid id error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createError'
+webhooks: {}

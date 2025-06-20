@@ -1,0 +1,24 @@
+{
+  "name": "users-api",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node ./dist/src/index.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint . --fix"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.14.1",
+    "dotenv": "^16.5.0",
+    "hono": "^4.7.10"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.13.1",
+    "@types/node": "^22.15.19",
+    "eslint": "^9.27.0",
+    "eslint-plugin-format": "^1.0.1",
+    "tsx": "^4.19.4"
+  }
+}
