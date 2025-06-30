@@ -3,14 +3,16 @@
  */
 package com.example.sdk.models.components;
 
+import java.util.Objects;
+
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+
 import com.example.sdk.utils.Utils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
-import java.lang.Override;
-import java.lang.String;
-import java.util.Objects;
+// #endregion imports
 
 public class Todo {
 
@@ -124,6 +126,16 @@ public class Todo {
                 "description", description,
                 "completed", completed);
     }
+
+    // #region class-body
+    public String render() throws Exception {
+        Parser parser = Parser.builder().build();
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        String markdown = String.format("# %s\n\n%s", title(), description());
+
+        return renderer.render(parser.parse(markdown));
+    }
+    // #endregion class-body
     
     public final static class Builder {
  
