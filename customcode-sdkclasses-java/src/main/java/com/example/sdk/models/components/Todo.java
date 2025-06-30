@@ -5,14 +5,13 @@ package com.example.sdk.models.components;
 
 import java.util.Objects;
 
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
-
 import com.example.sdk.utils.Utils;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 // #region imports
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 // #endregion imports
 
 public class Todo {
