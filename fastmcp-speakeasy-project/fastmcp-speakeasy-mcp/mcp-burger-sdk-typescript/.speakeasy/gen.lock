@@ -1,0 +1,256 @@
+lockVersion: 2.0.0
+id: 103f7cca-c529-4cf2-b1ff-792f81eab55c
+management:
+  docChecksum: 5ca45608e9e00308bfcda1ed6640edd1
+  docVersion: 0.1.0
+  speakeasyVersion: 1.555.2
+  generationVersion: 2.620.2
+  releaseVersion: 0.0.1
+  configChecksum: 0919c140410e522c8a0a473f05b43f35
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    constsAndDefaults: 0.1.11
+    core: 3.21.10
+    defaultEnabledRetries: 0.1.0
+    devContainers: 2.90.0
+    enumUnions: 0.1.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurity: 2.82.13
+    globalSecurityCallbacks: 0.1.0
+    globalSecurityFlattening: 0.1.0
+    globalServerURLs: 2.82.5
+    mcpServer: 0.9.2
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.3.0
+    unions: 2.85.8
+    webhooks: 1.5.0
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/burgercreate.md
+  - docs/models/burgeroutput.md
+  - docs/models/burgerupdate.md
+  - docs/models/errors/httpvalidationerror.md
+  - docs/models/errors/responsemessageerror.md
+  - docs/models/loc.md
+  - docs/models/operations/deleteburgerrequest.md
+  - docs/models/operations/readburgerrequest.md
+  - docs/models/operations/readorderrequest.md
+  - docs/models/operations/updateburgerrequest.md
+  - docs/models/operations/updateorderrequest.md
+  - docs/models/ordercreate.md
+  - docs/models/orderoutput.md
+  - docs/models/orderstatus.md
+  - docs/models/orderupdate.md
+  - docs/models/responsemessage.md
+  - docs/models/security.md
+  - docs/models/validationerror.md
+  - docs/sdks/burger/README.md
+  - docs/sdks/mcpburgersdk/README.md
+  - docs/sdks/order/README.md
+  - eslint.config.mjs
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/burgerCreateBurger.ts
+  - src/funcs/burgerDeleteBurger.ts
+  - src/funcs/burgerListBurgers.ts
+  - src/funcs/burgerReadBurger.ts
+  - src/funcs/burgerUpdateBurger.ts
+  - src/funcs/orderCreateOrder.ts
+  - src/funcs/orderListOrders.ts
+  - src/funcs/orderReadOrder.ts
+  - src/funcs/orderUpdateOrder.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/env.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/mcp-server/build.mts
+  - src/mcp-server/cli.ts
+  - src/mcp-server/cli/start/command.ts
+  - src/mcp-server/cli/start/impl.ts
+  - src/mcp-server/console-logger.ts
+  - src/mcp-server/extensions.ts
+  - src/mcp-server/mcp-server.ts
+  - src/mcp-server/prompts.ts
+  - src/mcp-server/resources.ts
+  - src/mcp-server/scopes.ts
+  - src/mcp-server/server.ts
+  - src/mcp-server/shared.ts
+  - src/mcp-server/tools.ts
+  - src/mcp-server/tools/burgerCreateBurger.ts
+  - src/mcp-server/tools/burgerDeleteBurger.ts
+  - src/mcp-server/tools/burgerListBurgers.ts
+  - src/mcp-server/tools/burgerReadBurger.ts
+  - src/mcp-server/tools/burgerUpdateBurger.ts
+  - src/mcp-server/tools/orderCreateOrder.ts
+  - src/mcp-server/tools/orderListOrders.ts
+  - src/mcp-server/tools/orderReadOrder.ts
+  - src/mcp-server/tools/orderUpdateOrder.ts
+  - src/models/burgercreate.ts
+  - src/models/burgeroutput.ts
+  - src/models/burgerupdate.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/httpvalidationerror.ts
+  - src/models/errors/index.ts
+  - src/models/errors/responsemessageerror.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/index.ts
+  - src/models/operations/deleteburger.ts
+  - src/models/operations/index.ts
+  - src/models/operations/readburger.ts
+  - src/models/operations/readorder.ts
+  - src/models/operations/updateburger.ts
+  - src/models/operations/updateorder.ts
+  - src/models/ordercreate.ts
+  - src/models/orderoutput.ts
+  - src/models/orderstatus.ts
+  - src/models/orderupdate.ts
+  - src/models/responsemessage.ts
+  - src/models/security.ts
+  - src/models/validationerror.ts
+  - src/sdk/burger.ts
+  - src/sdk/index.ts
+  - src/sdk/order.ts
+  - src/sdk/sdk.ts
+  - src/types/async.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - src/types/webhooks.ts
+  - tsconfig.json
+examples:
+  webhookOrderStatusChanged:
+    speakeasy-default-webhook-order-status-changed:
+      requestBody:
+        application/json: {"burger_ids": [1, 2], "id": 1, "note": "No onions", "status": "DELIVERED", "table": 1, "time": "2021-01-01T12:00:00"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  listBurgers:
+    speakeasy-default-list-burgers:
+      responses:
+        "200":
+          application/json: [{"description": "A classic cheeseburger", "id": 1, "name": "Cheeseburger"}]
+  createBurger:
+    speakeasy-default-create-burger:
+      requestBody:
+        application/json: {"description": "A classic cheeseburger", "name": "Cheeseburger"}
+      responses:
+        "201":
+          application/json: {"description": "A classic cheeseburger", "id": 1, "name": "Cheeseburger"}
+        "422":
+          application/json: {}
+  deleteBurger:
+    speakeasy-default-delete-burger:
+      parameters:
+        path:
+          burger_id: 887477
+      responses:
+        "200":
+          application/json: {"message": "<value>"}
+        "404":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  readBurger:
+    speakeasy-default-read-burger:
+      parameters:
+        path:
+          burger_id: 88308
+      responses:
+        "200":
+          application/json: {"description": "A classic cheeseburger", "id": 1, "name": "Cheeseburger"}
+        "404":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  updateBurger:
+    speakeasy-default-update-burger:
+      parameters:
+        path:
+          burger_id: 731130
+      requestBody:
+        application/json: {"description": "A classic cheeseburger", "name": "Cheeseburger"}
+      responses:
+        "200":
+          application/json: {"description": "A classic cheeseburger", "id": 1, "name": "Cheeseburger"}
+        "404":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  listOrders:
+    speakeasy-default-list-orders:
+      responses:
+        "200":
+          application/json: [{"burger_ids": [1, 2], "id": 1, "note": "No onions", "status": "PREPARING", "table": 1, "time": "2021-01-01T12:00:00"}]
+  createOrder:
+    speakeasy-default-create-order:
+      requestBody:
+        application/json: {"burger_ids": [1, 2], "note": "No onions", "table": 1}
+      responses:
+        "201":
+          application/json: {"burger_ids": [1, 2], "id": 1, "note": "No onions", "status": "PREPARING", "table": 1, "time": "2021-01-01T12:00:00"}
+        "422":
+          application/json: {}
+  readOrder:
+    speakeasy-default-read-order:
+      parameters:
+        path:
+          order_id: 270294
+      responses:
+        "200":
+          application/json: {"burger_ids": [1, 2], "id": 1, "note": "No onions", "status": "PREPARING", "table": 1, "time": "2021-01-01T12:00:00"}
+        "404":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  updateOrder:
+    speakeasy-default-update-order:
+      parameters:
+        path:
+          order_id: 628998
+      requestBody:
+        application/json: {"burger_ids": [1, 2], "note": "No onions", "table": 1}
+      responses:
+        "200":
+          application/json: {"burger_ids": [1, 2], "id": 1, "note": "No onions", "status": "READY", "table": 1, "time": "2021-01-01T12:00:00"}
+        "404":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+examplesVersion: 1.0.2
+generatedTests: {}

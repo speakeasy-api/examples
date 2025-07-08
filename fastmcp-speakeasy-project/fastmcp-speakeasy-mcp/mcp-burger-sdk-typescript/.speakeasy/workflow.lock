@@ -1,0 +1,36 @@
+speakeasyVersion: 1.555.2
+sources:
+    APItizing Burgers API:
+        sourceNamespace: ap-itizing-burgers-api
+        sourceRevisionDigest: sha256:3cd9f181469cc8e65bde5e69ba20939fde44bde9a8e325284d99420af710a87e
+        sourceBlobDigest: sha256:d0bd27091a17a07c9c1a6f8a0ee243a37d88bcd5d27a6840d859716797b10a04
+        tags:
+            - latest
+            - 0.1.0
+targets:
+    mcp-burger-sdk:
+        source: APItizing Burgers API
+        sourceNamespace: ap-itizing-burgers-api
+        sourceRevisionDigest: sha256:3cd9f181469cc8e65bde5e69ba20939fde44bde9a8e325284d99420af710a87e
+        sourceBlobDigest: sha256:d0bd27091a17a07c9c1a6f8a0ee243a37d88bcd5d27a6840d859716797b10a04
+        codeSamplesNamespace: ap-itizing-burgers-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:eddda24e63656af4d338bb187fa736b817c2243d2e5d13b821266b0a660cea34
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        APItizing Burgers API:
+            inputs:
+                - location: ../openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/ritza-rzx/ritza/ap-itizing-burgers-api
+    targets:
+        mcp-burger-sdk:
+            target: typescript
+            source: APItizing Burgers API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/ritza-rzx/ritza/ap-itizing-burgers-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false

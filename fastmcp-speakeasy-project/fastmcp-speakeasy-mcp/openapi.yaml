@@ -1,0 +1,620 @@
+components:
+  schemas:
+    BurgerCreate:
+      description: Fields to create a burger
+      properties:
+        description:
+          default: ''
+          description: The description of the burger
+          examples:
+          - A classic cheeseburger
+          - Veggie burger with avocado
+          maxLength: 255
+          title: Description
+          type: string
+        name:
+          description: The name of the burger
+          examples:
+          - Cheeseburger
+          - Hamburger
+          - Veggie Burger
+          maxLength: 50
+          minLength: 1
+          title: Name
+          type: string
+      required:
+      - name
+      title: BurgerCreate
+      type: object
+    BurgerOutput:
+      description: A burger to be returned
+      properties:
+        description:
+          default: ''
+          description: The description of the burger
+          examples:
+          - A classic cheeseburger
+          - Veggie burger with avocado
+          maxLength: 255
+          title: Description
+          type: string
+        id:
+          description: The id of the burger
+          examples:
+          - 1
+          - 2
+          - 3
+          gte: 0
+          title: Id
+          type: integer
+        name:
+          description: The name of the burger
+          examples:
+          - Cheeseburger
+          - Hamburger
+          - Veggie Burger
+          maxLength: 50
+          minLength: 1
+          title: Name
+          type: string
+      required:
+      - id
+      - name
+      title: BurgerOutput
+      type: object
+    BurgerUpdate:
+      description: Fields to update a burger
+      properties:
+        description:
+          description: The description of the burger
+          examples:
+          - A classic cheeseburger
+          - Veggie burger with avocado
+          - null
+          maxLength: 255
+          title: Description
+          type: string
+        name:
+          description: The name of the burger
+          examples:
+          - Cheeseburger
+          - Hamburger
+          - Veggie Burger
+          - null
+          maxLength: 50
+          minLength: 1
+          title: Name
+          type: string
+      title: BurgerUpdate
+      type: object
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+          type: array
+      title: HTTPValidationError
+      type: object
+    OrderCreate:
+      description: Fields to create an order
+      properties:
+        burger_ids:
+          description: List of burger ids in the order
+          examples:
+          - - 1
+            - 2
+          - - 3
+          - - 1
+            - 3
+          items:
+            type: integer
+          maxItems: 255
+          minItems: 1
+          title: Burger Ids
+          type: array
+        note:
+          description: Note for the order
+          examples:
+          - No onions
+          - Extra ketchup
+          title: Note
+          type: string
+        table:
+          description: Table number for the order
+          examples:
+          - 1
+          - 2
+          - 3
+          exclusiveMinimum: 0.0
+          title: Table
+          type: integer
+      required:
+      - burger_ids
+      - table
+      title: OrderCreate
+      type: object
+    OrderOutput:
+      description: An order to be returned
+      properties:
+        burger_ids:
+          description: List of burger ids in the order
+          examples:
+          - - 1
+            - 2
+          - - 3
+          - - 1
+            - 3
+          items:
+            type: integer
+          maxItems: 255
+          minItems: 1
+          title: Burger Ids
+          type: array
+        id:
+          description: The id of the order
+          examples:
+          - 1
+          - 2
+          - 3
+          gte: 0
+          title: Id
+          type: integer
+        note:
+          description: Note for the order
+          examples:
+          - No onions
+          - Extra ketchup
+          title: Note
+          type: string
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+          examples:
+          - CREATED
+          - PREPARING
+          - READY
+          - DELIVERED
+          - CANCELLED
+        table:
+          description: Table number for the order
+          examples:
+          - 1
+          - 2
+          - 3
+          exclusiveMinimum: 0.0
+          title: Table
+          type: integer
+        time:
+          description: Time of the order
+          examples:
+          - '2021-01-01T12:00:00'
+          format: date-time
+          title: Time
+          type: string
+      required:
+      - id
+      - burger_ids
+      - time
+      - table
+      - status
+      title: OrderOutput
+      type: object
+    OrderStatus:
+      description: Status of the order
+      enum:
+      - CREATED
+      - PREPARING
+      - READY
+      - DELIVERED
+      - CANCELLED
+      title: OrderStatus
+      type: string
+    OrderUpdate:
+      description: Fields to update an order
+      properties:
+        burger_ids:
+          description: List of burger ids in the order
+          examples:
+          - - 1
+            - 2
+          - - 3
+          - - 1
+            - 3
+          items:
+            type: integer
+          maxItems: 255
+          minItems: 1
+          title: Burger Ids
+          type: array
+        note:
+          description: Note for the order
+          examples:
+          - No onions
+          - Extra ketchup
+          title: Note
+          type: string
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+          description: Status of the order
+          examples:
+          - CREATED
+          - PREPARING
+          - READY
+          - DELIVERED
+          - CANCELLED
+        table:
+          description: Table number for the order
+          examples:
+          - 1
+          - 2
+          - 3
+          exclusiveMinimum: 0.0
+          title: Table
+          type: integer
+      title: OrderUpdate
+      type: object
+    ResponseMessage:
+      description: A response message
+      properties:
+        message:
+          description: The response message
+          title: Message
+          type: string
+      required:
+      - message
+      title: ResponseMessage
+      type: object
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          title: Location
+          type: array
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+      type: object
+  securitySchemes:
+    api_key:
+      description: API Key for the Burger listing API. API Key should be sent as a
+        header, witht the value 'your-apitizing-api-key'
+      in: header
+      name: your-apitizing-api-key
+      type: apiKey
+info:
+  description: This API is used to manage burgers and orders in a restaurant
+  summary: A simple API to manage burgers and orders
+  title: APItizing Burgers API
+  version: 0.1.0
+openapi: 3.1.0
+paths:
+  /burger/:
+    get:
+      description: List all burgers
+      operationId: listBurgers
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/BurgerOutput'
+                title: Response Listburgers
+                type: array
+          description: Successful Response
+      security:
+      - api_key: []
+      summary: List Burgers
+      tags:
+      - burger
+      x-speakeasy-retries:
+        backoff:
+          exponent: 1.5
+          initialInterval: 500
+          maxElapsedTime: 3600000
+          maxInterval: 60000
+        retryConnectionErrors: true
+        statusCodes:
+        - 5XX
+        strategy: backoff
+    post:
+      description: Create a burger
+      operationId: createBurger
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BurgerCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BurgerOutput'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Burger
+      tags:
+      - burger
+  /burger/{burger_id}:
+    delete:
+      description: Delete a burger
+      operationId: deleteBurger
+      parameters:
+      - in: path
+        name: burger_id
+        required: true
+        schema:
+          title: Burger ID
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+          description: Burger deleted
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+          description: Burger not found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Delete Burger
+      tags:
+      - burger
+    get:
+      description: Read a burger
+      operationId: readBurger
+      parameters:
+      - in: path
+        name: burger_id
+        required: true
+        schema:
+          title: Burger ID
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BurgerOutput'
+          description: Successful Response
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+          description: Burger not found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Read Burger
+      tags:
+      - burger
+    put:
+      description: Update a burger
+      operationId: updateBurger
+      parameters:
+      - in: path
+        name: burger_id
+        required: true
+        schema:
+          title: Burger Id
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BurgerUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BurgerOutput'
+          description: Successful Response
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+          description: Burger not found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Update Burger
+      tags:
+      - burger
+  /order/:
+    get:
+      description: List all orders
+      operationId: listOrders
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/OrderOutput'
+                title: Response Listorders
+                type: array
+          description: Successful Response
+      summary: List Orders
+      tags:
+      - order
+    post:
+      description: Create an order
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderOutput'
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Create Order
+      tags:
+      - order
+  /order/{order_id}:
+    get:
+      description: Read an order
+      operationId: readOrder
+      parameters:
+      - in: path
+        name: order_id
+        required: true
+        schema:
+          title: Order ID
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderOutput'
+          description: Successful Response
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+          description: Order not found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Read Order
+      tags:
+      - order
+    put:
+      description: Update an order
+      operationId: updateOrder
+      parameters:
+      - in: path
+        name: order_id
+        required: true
+        schema:
+          title: Order ID
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderOutput'
+          description: Successful Response
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseMessage'
+          description: Order not found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Update Order
+      tags:
+      - order
+servers:
+- description: Local server
+  url: http://127.0.0.1:8000
+tags:
+- description: Operations related to burgers
+  externalDocs:
+    description: Burger external docs
+    url: https://en.wikipedia.org/wiki/Hamburger
+  name: burger
+- description: Operations related to orders
+  name: order
+webhooks:
+  order-status-changed:
+    post:
+      description: 'When an order status is changed, this webhook will be triggered.
+
+
+        The server will send a `POST` request with the order details to the webhook
+        URL.'
+      operationId: webhookOrderStatusChanged
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderOutput'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: Webhook Order Status Changed
+x-speakeasy-retries:
+  backoff:
+    exponent: 1.5
+    initialInterval: 500
+    maxElapsedTime: 3600000
+    maxInterval: 60000
+  retryConnectionErrors: true
+  statusCodes:
+  - 5XX
+  strategy: backoff
