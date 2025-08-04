@@ -1,13 +1,14 @@
 <div align="center">
  <a href="https://www.speakeasy.com/" target="_blank">
-   <picture>
-       <img width="500px" src=".assets/banner.png" alt="Speakeasy">
-   </picture>
+  <img width="1500" height="500" alt="Speakeasy" src="https://github.com/user-attachments/assets/0e56055b-02a3-4476-9130-4be299e5a39c" />
  </a>
+ <br />
+ <br />
   <div>
-   <a href="https://speakeasy.com/docs/create-client-sdks/" target="_blank"><b>Docs Quickstart</b></a>&nbsp;&nbsp;//&nbsp;&nbsp;<a href="https://join.slack.com/t/speakeasy-dev/shared_invite/zt-1cwb3flxz-lS5SyZxAsF_3NOq5xc8Cjw" target="_blank"><b>Join us on Slack</b></a>
+   <a href="https://speakeasy.com/docs/create-client-sdks/" target="_blank"><b>Docs Quickstart</b></a>&nbsp;&nbsp;//&nbsp;&nbsp;<a href="https://go.speakeasy.com/slack" target="_blank"><b>Join us on Slack</b></a>
   </div>
  <br />
+
 </div>
 
 # // Speakeasy Examples //
