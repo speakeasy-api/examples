@@ -1,0 +1,310 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "TaskMaster License Management API",
+    "description": "A simple API for managing TaskMaster software licenses with SQLite database",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/licenses": {
+      "get": {
+        "tags": [
+          "licenses"
+        ],
+        "summary": "List all TaskMaster licenses",
+        "description": "Retrieve a list of all TaskMaster licenses in the system.\n    Returns all TaskMaster licenses with their details including creation timestamp and status.",
+        "operationId": "list_licenses",
+        "responses": {
+          "200": {
+            "description": "Successful response with list of licenses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/License"
+                  },
+                  "type": "array",
+                  "title": "Response List Licenses"
+                }
+              }
+            }
+          }
+        },
+        "x-gram": {
+          "name": "list_taskmaster_licenses",
+          "summary": "List all TaskMaster software licenses",
+          "description": "<context>\n                This tool retrieves all TaskMaster software licenses in the system, including their details\n                such as name, description, license key, creation date, and active status.\n                Perfect for getting an overview of all available TaskMaster licenses.\n                </context>\n\n                <prerequisites>\n                - No authentication required\n                - Returns all TaskMaster licenses regardless of status\n                - Results are ordered by creation date (newest first)\n                </prerequisites>",
+          "responseFilterType": "jq"
+        }
+      },
+      "post": {
+        "tags": [
+          "licenses"
+        ],
+        "summary": "Create a new TaskMaster license",
+        "description": "Create a new TaskMaster license in the system.\n    Requires a unique TaskMaster license key and a name. Description and active status are optional.",
+        "operationId": "create_license",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LicenseCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "License created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/License"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing required fields"
+          },
+          "409": {
+            "description": "Conflict - license key already exists"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-gram": {
+          "name": "create_taskmaster_license",
+          "summary": "Create a new TaskMaster software license",
+          "description": "<context>\n                This tool creates a new TaskMaster software license in the system. Requires a unique\n                TaskMaster license key and name. Useful for adding new TaskMaster licenses to the system.\n                </context>\n\n                <prerequisites>\n                - TaskMaster license key must be unique across all licenses\n                - Name is required and should be descriptive\n                - Description is optional but recommended\n                - TaskMaster license will be active by default unless specified otherwise\n                </prerequisites>",
+          "responseFilterType": "jq"
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Health check",
+        "description": "Check if the API is running and healthy.\n    Returns current status and timestamp.",
+        "operationId": "health_check",
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-gram": {
+          "name": "health_check",
+          "summary": "Check TaskMaster License API health status",
+          "description": "<context>\n                This endpoint provides a simple health check to verify that the TaskMaster License\n                Management API is running and responsive. Returns current timestamp and status.\n                </context>\n\n                <prerequisites>\n                - No authentication required\n                - Always available for monitoring purposes\n                - Returns current system timestamp\n                </prerequisites>",
+          "responseFilterType": "jq"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Health status",
+            "example": "healthy"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp",
+            "description": "Current timestamp",
+            "example": "2023-12-01T10:00:00Z"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "timestamp"
+        ],
+        "title": "HealthResponse",
+        "description": "Health check response model"
+      },
+      "License": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the TaskMaster license",
+            "example": "TaskMaster Premium License"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the TaskMaster license",
+            "example": "Full access to all TaskMaster features"
+          },
+          "license_key": {
+            "type": "string",
+            "title": "License Key",
+            "description": "Unique TaskMaster license key",
+            "example": "TASKMASTER-PREMIUM-12345-ABCDE"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the TaskMaster license is active",
+            "default": true,
+            "example": true
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id",
+            "description": "Unique identifier for the TaskMaster license",
+            "example": 1
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When the TaskMaster license was created",
+            "example": "2023-12-01T10:00:00Z"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "license_key",
+          "id",
+          "created_at"
+        ],
+        "title": "License",
+        "description": "Model representing a TaskMaster license with all fields"
+      },
+      "LicenseCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the TaskMaster license",
+            "example": "TaskMaster Premium License"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Description of the TaskMaster license",
+            "example": "Full access to all TaskMaster features"
+          },
+          "license_key": {
+            "type": "string",
+            "title": "License Key",
+            "description": "Unique TaskMaster license key",
+            "example": "TASKMASTER-PREMIUM-12345-ABCDE"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the TaskMaster license is active",
+            "default": true,
+            "example": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "license_key"
+        ],
+        "title": "LicenseCreate",
+        "description": "Model for creating a new TaskMaster license"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "licenses",
+      "description": "Operations for managing TaskMaster software licenses"
+    },
+    {
+      "name": "system",
+      "description": "System health and status operations"
+    }
+  ]
+}
