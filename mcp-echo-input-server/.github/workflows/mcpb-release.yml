@@ -1,0 +1,87 @@
+name: MCPB Release
+
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+jobs:
+  mcpb-release:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: npm test
+      
+    - name: Extract version from tag or use current
+      id: version
+      run: |
+        if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+          VERSION=${GITHUB_REF#refs/tags/v}
+        else
+          VERSION=$(node -p "require('./package.json').version")
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "MCPB Release version: $VERSION"
+        
+    - name: Build MCPB Package
+      run: |
+        # Create bundle directory
+        mkdir -p bundle
+        cp index.js bundle/
+        cp package.json bundle/
+        cp manifest.json bundle/
+        
+        # Install production dependencies
+        cd bundle
+        npm install --production
+        
+        # Create MCPB package
+        npx @anthropic-ai/mcpb pack
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          bundle/*.mcpb
+        tag_name: ${{ github.ref_name }}
+        name: MCPB Release ${{ github.ref_name }}
+        body: |
+          ## 📱 MCPB Package Release ${{ steps.version.outputs.version }}
+          
+          ### Installation
+          1. Download the `.mcpb` file below
+          2. Double-click to install in Claude Desktop
+          3. Configure your user name in the installation dialog
+          
+          ### Features
+          - Single-click installation
+          - User-friendly configuration interface
+          - Echo tool with customizable user name
+          - No command line setup required
+          
+          ### Usage
+          After installation, the echo tool will be available in Claude Desktop with your configured user name.
+          
+          ### Configuration
+          During installation, you can set:
+          - **User Name**: The name to use in echo responses (defaults to "user")
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
