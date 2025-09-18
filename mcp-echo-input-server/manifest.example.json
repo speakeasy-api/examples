@@ -1,0 +1,39 @@
+{
+  "dxt_version": "0.1",
+  "name": "mcp-echo-server-mcpb",
+  "version": "1.0.0",
+  "description": "An MCP server that echo user words with customizable user name",
+  "author": {
+    "name": "koladev",
+    "email": "kolawole@ritza.co"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/index.js"
+      ],
+      "env": {
+        "USER_NAME": "${user_config.user_name}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "echo",
+      "description": "Echo back the input text with customizable user name"
+    }
+  ],
+  "user_config": {
+    "user_name": {
+      "type": "string",
+      "title": "User Name",
+      "description": "The name to use in echo responses",
+      "default": "user",
+      "required": false
+    }
+  },
+  "license": "MIT"
+}
