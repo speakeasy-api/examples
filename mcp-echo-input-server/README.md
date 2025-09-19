@@ -17,14 +17,14 @@ A simple Model Context Protocol (MCP) server written in JavaScript that provides
 npm install
 ```
 
-Add the following configuration to your `claude-desktop-config.json` file:
+Add the following configuration to your `claude_desktop_config.json` file:
 
 ```json
 {
   "mcpServers": {
     "echo-server-local-build": {
       "command": "node",
-      "args": ["/Users/koladev/ritza-projects/mcp-echo-server/index.js"],
+      "args": ["<PATH-TO-PROJECT>/mcp-echo-server/index.js"],
       "env": {
         "USER_NAME": "John"
       }
@@ -38,7 +38,7 @@ Reload Claude Desktop and you should see the `echo-server-local-build` server in
 
 ### NPM package
 
-Add the following configuration to your `claude-desktop-config.json` file:
+Add the following configuration to your `claude_desktop_config.json` file:
 
 ```json
 {
@@ -80,6 +80,6 @@ Build the package:
 npx @anthropic-ai/mcpb build
 ```
 
-A file name `claude-desktop-config.json` will be created in the current directory.
+A file name `claude_desktop_config.json` will be created in the current directory.
 
-Navigate to Claude Desktop, Settings -> Extensions -> Advanced Settings -> Install Extension and select the `.mcpb` file.
+Navigate to Claude Desktop, **Settings -> Extensions -> Advanced Settings -> Install Extension** and select the `.mcpb` file.
