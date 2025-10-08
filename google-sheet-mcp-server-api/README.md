@@ -21,7 +21,7 @@ A FastAPI server that provides Google Sheets integration for MCP (Model Context 
 
 ```bash
 git clone https://github.com/speakeasy-api/examples.git
-cd examples/excel-mcp-server-api
+cd examples/google-sheet-mcp-server-api
 ```
 
 ### Installation
