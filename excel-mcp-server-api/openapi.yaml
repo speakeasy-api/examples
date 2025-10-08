@@ -1,0 +1,386 @@
+openapi: 3.1.0
+info:
+  title: Google Sheets MCP API
+  description: A FastAPI server for accessing Google Sheets data via MCP integration
+  version: 1.0.0
+paths:
+  /spreadsheets:
+    get:
+      tags:
+      - spreadsheets
+      summary: List Google Sheets spreadsheets
+      description: "Retrieve a list of Google Sheets spreadsheets accessible by the\
+        \ service account.\n    Returns basic information about each spreadsheet including\
+        \ ID, name, and modification times."
+      operationId: list_spreadsheets
+      responses:
+        '200':
+          description: Successful response with list of spreadsheets
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SpreadsheetInfo'
+                type: array
+                title: Response List Spreadsheets
+        '500':
+          description: Internal server error or Google API authentication failure
+      x-gram:
+        name: list_google_spreadsheets
+        summary: List all accessible Google Sheets spreadsheets
+        description: This tool retrieves all Google Sheets spreadsheets accessible
+          by the service account, including their names, IDs, and modification times.
+          Perfect for discovering available spreadsheets before reading their data.
+        responseFilterType: jq
+  /spreadsheets/{spreadsheet_id}:
+    get:
+      tags:
+      - spreadsheets
+      summary: Get spreadsheet details
+      description: "Get detailed information about a specific spreadsheet including\
+        \ all its sheets.\n    Useful for understanding the structure before reading\
+        \ specific sheet data."
+      operationId: get_spreadsheet_detail
+      parameters:
+      - name: spreadsheet_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Spreadsheet Id
+      responses:
+        '200':
+          description: Successful response with spreadsheet details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpreadsheetDetail'
+        '404':
+          description: Spreadsheet not found or access denied
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-gram:
+        name: get_spreadsheet_details
+        summary: Get detailed information about a specific Google Sheets spreadsheet
+        description: This tool provides comprehensive information about a specific
+          spreadsheet including all its sheets, creation/modification times, and structure.
+          Use this to understand the spreadsheet layout before reading specific sheet
+          data.
+        responseFilterType: jq
+  /spreadsheets/{spreadsheet_id}/sheets/{sheet_name}:
+    get:
+      tags:
+      - spreadsheets
+      summary: Read sheet data
+      description: "Read data from a specific sheet within a spreadsheet.\n    Returns\
+        \ all data from the sheet with optional header row identification.\n    The\
+        \ range parameter allows you to specify a custom range (e.g., 'A1:D10')."
+      operationId: read_sheet_data
+      parameters:
+      - name: spreadsheet_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Spreadsheet Id
+      - name: sheet_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Sheet Name
+      - name: range_spec
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Range Spec
+      - name: include_headers
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Include Headers
+      responses:
+        '200':
+          description: Successful response with sheet data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SheetData'
+        '404':
+          description: Spreadsheet or sheet not found
+        '500':
+          description: Internal server error
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-gram:
+        name: read_google_sheet_data
+        summary: Read data from a specific sheet in a Google Sheets spreadsheet
+        description: This tool reads all data from a specific sheet within a Google
+          Sheets spreadsheet. It can automatically identify headers and normalize
+          the data format. Perfect for accessing marketing keywords, campaign data,
+          or any structured information stored in Google Sheets.
+        responseFilterType: jq
+  /health:
+    get:
+      tags:
+      - system
+      summary: Health check
+      description: "Check if the API is running and can access Google APIs.\n    Returns\
+        \ current status, timestamp, and Google API accessibility."
+      operationId: health_check
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+      x-gram:
+        name: check_sheets_api_health
+        summary: Check Google Sheets API health status
+        description: This endpoint provides a health check to verify that the Google
+          Sheets API is accessible and the service is running properly. Returns current
+          status and Google API connectivity information.
+        responseFilterType: jq
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    HealthResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Health status
+          example: healthy
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: Current timestamp
+          example: '2024-03-20T10:00:00Z'
+        google_api_accessible:
+          type: boolean
+          title: Google Api Accessible
+          description: Whether Google API is accessible
+          example: true
+      type: object
+      required:
+      - status
+      - timestamp
+      - google_api_accessible
+      title: HealthResponse
+      description: Health check response model
+    SheetData:
+      properties:
+        spreadsheet_id:
+          type: string
+          title: Spreadsheet Id
+          description: Google Sheets spreadsheet ID
+        sheet_name:
+          type: string
+          title: Sheet Name
+          description: Name of the sheet
+        range:
+          type: string
+          title: Range
+          description: Range of data retrieved
+          example: A1:Z100
+        values:
+          items:
+            items:
+              type: string
+            type: array
+          type: array
+          title: Values
+          description: 2D array of cell values
+        headers:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Headers
+          description: First row as headers if available
+        row_count:
+          type: integer
+          title: Row Count
+          description: Number of rows with data
+        column_count:
+          type: integer
+          title: Column Count
+          description: Number of columns with data
+      type: object
+      required:
+      - spreadsheet_id
+      - sheet_name
+      - range
+      - values
+      - row_count
+      - column_count
+      title: SheetData
+      description: Model representing data from a specific sheet
+    SheetInfo:
+      properties:
+        sheet_id:
+          type: integer
+          title: Sheet Id
+          description: Internal sheet ID
+          example: 0
+        title:
+          type: string
+          title: Title
+          description: Sheet name/title
+          example: Keywords
+        index:
+          type: integer
+          title: Index
+          description: Sheet position index
+          example: 0
+        sheet_type:
+          type: string
+          title: Sheet Type
+          description: Type of sheet
+          example: GRID
+        grid_properties:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Grid Properties
+          description: Grid properties like row/column count
+      type: object
+      required:
+      - sheet_id
+      - title
+      - index
+      - sheet_type
+      title: SheetInfo
+      description: Model representing a sheet within a spreadsheet
+    SpreadsheetDetail:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Google Sheets spreadsheet ID
+        name:
+          type: string
+          title: Name
+          description: Name of the spreadsheet
+        sheets:
+          items:
+            $ref: '#/components/schemas/SheetInfo'
+          type: array
+          title: Sheets
+          description: List of sheets in the spreadsheet
+        created_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created Time
+          description: When the spreadsheet was created
+        modified_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Modified Time
+          description: When the spreadsheet was last modified
+        web_view_link:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Web View Link
+          description: Link to view the spreadsheet in browser
+      type: object
+      required:
+      - id
+      - name
+      - sheets
+      title: SpreadsheetDetail
+      description: Model representing detailed spreadsheet information
+    SpreadsheetInfo:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Google Sheets spreadsheet ID
+          example: 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms
+        name:
+          type: string
+          title: Name
+          description: Name of the spreadsheet
+          example: Marketing Keywords Q4 2024
+        created_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Created Time
+          description: When the spreadsheet was created
+          example: '2024-01-15T10:30:00Z'
+        modified_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Modified Time
+          description: When the spreadsheet was last modified
+          example: '2024-03-20T14:45:00Z'
+        web_view_link:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Web View Link
+          description: Link to view the spreadsheet in browser
+      type: object
+      required:
+      - id
+      - name
+      title: SpreadsheetInfo
+      description: Model representing basic spreadsheet information
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+tags:
+- name: spreadsheets
+  description: Operations for accessing Google Sheets data
+- name: system
+  description: System health and status operations
