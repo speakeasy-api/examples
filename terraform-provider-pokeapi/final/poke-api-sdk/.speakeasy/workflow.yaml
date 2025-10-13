@@ -1,0 +1,19 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    PokeAPISDK-OAS:
+        inputs:
+            - location: ../openapi.yml
+        output: .speakeasy/out.openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/vedalok/test/poke-apisdk-oas
+targets:
+    poke-apisdk:
+        target: go
+        source: PokeAPISDK-OAS
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/vedalok/test/poke-apisdk-oas-go-code-samples
+            labelOverride:
+                fixedValue: Go (SDK)
+            blocking: false

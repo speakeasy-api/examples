@@ -1,0 +1,1075 @@
+lockVersion: 2.0.0
+id: f365698f-239b-416a-a9fb-642b93b28b42
+management:
+  docChecksum: 559f57167a9d50074dc1e0e0c3a98a0e
+  docVersion: "20220523"
+  speakeasyVersion: 1.636.3
+  generationVersion: 2.723.11
+  releaseVersion: 0.0.1
+  configChecksum: e9c58f73adb73ffa571663ad3460b5b4
+features:
+  go:
+    additionalDependencies: 0.1.0
+    core: 3.11.1
+    defaultEnabledRetries: 0.2.0
+    devContainers: 2.90.0
+    envVarSecurityUsage: 0.3.2
+    flattening: 2.81.1
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.3
+    intellisenseMarkdownSupport: 0.1.0
+    responseFormat: 0.1.2
+    retries: 2.84.2
+    sdkHooks: 0.2.0
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .gitattributes
+  - /models/components/httpmetadata.go
+  - /models/operations/abilitylist.go
+  - /models/operations/abilityread.go
+  - /models/operations/berryfirmnesslist.go
+  - /models/operations/berryfirmnessread.go
+  - /models/operations/berryflavorlist.go
+  - /models/operations/berryflavorread.go
+  - /models/operations/berrylist.go
+  - /models/operations/berryread.go
+  - /models/operations/characteristiclist.go
+  - /models/operations/characteristicread.go
+  - /models/operations/contesteffectlist.go
+  - /models/operations/contesteffectread.go
+  - /models/operations/contesttypelist.go
+  - /models/operations/contesttyperead.go
+  - /models/operations/egggrouplist.go
+  - /models/operations/egggroupread.go
+  - /models/operations/encounterconditionlist.go
+  - /models/operations/encounterconditionread.go
+  - /models/operations/encounterconditionvaluelist.go
+  - /models/operations/encounterconditionvalueread.go
+  - /models/operations/encountermethodlist.go
+  - /models/operations/encountermethodread.go
+  - /models/operations/evolutionchainlist.go
+  - /models/operations/evolutionchainread.go
+  - /models/operations/evolutiontriggerlist.go
+  - /models/operations/evolutiontriggerread.go
+  - /models/operations/genderlist.go
+  - /models/operations/genderread.go
+  - /models/operations/generationlist.go
+  - /models/operations/generationread.go
+  - /models/operations/growthratelist.go
+  - /models/operations/growthrateread.go
+  - /models/operations/itemattributelist.go
+  - /models/operations/itemattributeread.go
+  - /models/operations/itemcategorylist.go
+  - /models/operations/itemcategoryread.go
+  - /models/operations/itemflingeffectlist.go
+  - /models/operations/itemflingeffectread.go
+  - /models/operations/itemlist.go
+  - /models/operations/itempocketlist.go
+  - /models/operations/itempocketread.go
+  - /models/operations/itemread.go
+  - /models/operations/languagelist.go
+  - /models/operations/languageread.go
+  - /models/operations/locationarealist.go
+  - /models/operations/locationarearead.go
+  - /models/operations/locationlist.go
+  - /models/operations/locationread.go
+  - /models/operations/machinelist.go
+  - /models/operations/machineread.go
+  - /models/operations/moveailmentlist.go
+  - /models/operations/moveailmentread.go
+  - /models/operations/movebattlestylelist.go
+  - /models/operations/movebattlestyleread.go
+  - /models/operations/movecategorylist.go
+  - /models/operations/movecategoryread.go
+  - /models/operations/movedamageclasslist.go
+  - /models/operations/movedamageclassread.go
+  - /models/operations/movelearnmethodlist.go
+  - /models/operations/movelearnmethodread.go
+  - /models/operations/movelist.go
+  - /models/operations/moveread.go
+  - /models/operations/movetargetlist.go
+  - /models/operations/movetargetread.go
+  - /models/operations/naturelist.go
+  - /models/operations/natureread.go
+  - /models/operations/palparkarealist.go
+  - /models/operations/palparkarearead.go
+  - /models/operations/pokeathlonstatlist.go
+  - /models/operations/pokeathlonstatread.go
+  - /models/operations/pokedexlist.go
+  - /models/operations/pokedexread.go
+  - /models/operations/pokemoncolorlist.go
+  - /models/operations/pokemoncolorread.go
+  - /models/operations/pokemonformlist.go
+  - /models/operations/pokemonformread.go
+  - /models/operations/pokemonhabitatlist.go
+  - /models/operations/pokemonhabitatread.go
+  - /models/operations/pokemonlist.go
+  - /models/operations/pokemonread.go
+  - /models/operations/pokemonshapelist.go
+  - /models/operations/pokemonshaperead.go
+  - /models/operations/pokemonspecieslist.go
+  - /models/operations/pokemonspeciesread.go
+  - /models/operations/regionlist.go
+  - /models/operations/regionread.go
+  - /models/operations/statlist.go
+  - /models/operations/statread.go
+  - /models/operations/supercontesteffectlist.go
+  - /models/operations/supercontesteffectread.go
+  - /models/operations/typelist.go
+  - /models/operations/typeread.go
+  - /models/operations/versiongrouplist.go
+  - /models/operations/versiongroupread.go
+  - /models/operations/versionlist.go
+  - /models/operations/versionread.go
+  - USAGE.md
+  - ability.go
+  - berry.go
+  - berryfirmness.go
+  - berryflavor.go
+  - characteristic.go
+  - contesteffect.go
+  - contesttype.go
+  - docs/models/components/httpmetadata.md
+  - docs/models/operations/ability.md
+  - docs/models/operations/abilityability.md
+  - docs/models/operations/abilitylistrequest.md
+  - docs/models/operations/abilitylistresponse.md
+  - docs/models/operations/abilityreadrequest.md
+  - docs/models/operations/abilityreadresponse.md
+  - docs/models/operations/berryfirmnesslistrequest.md
+  - docs/models/operations/berryfirmnesslistresponse.md
+  - docs/models/operations/berryfirmnessreadrequest.md
+  - docs/models/operations/berryfirmnessreadresponse.md
+  - docs/models/operations/berryflavorlistrequest.md
+  - docs/models/operations/berryflavorlistresponse.md
+  - docs/models/operations/berryflavorreadrequest.md
+  - docs/models/operations/berryflavorreadresponse.md
+  - docs/models/operations/berrylistrequest.md
+  - docs/models/operations/berrylistresponse.md
+  - docs/models/operations/berryreadrequest.md
+  - docs/models/operations/berryreadresponse.md
+  - docs/models/operations/characteristiclistrequest.md
+  - docs/models/operations/characteristiclistresponse.md
+  - docs/models/operations/characteristicreadrequest.md
+  - docs/models/operations/characteristicreadresponse.md
+  - docs/models/operations/contesteffectlistrequest.md
+  - docs/models/operations/contesteffectlistresponse.md
+  - docs/models/operations/contesteffectreadrequest.md
+  - docs/models/operations/contesteffectreadresponse.md
+  - docs/models/operations/contesttypelistrequest.md
+  - docs/models/operations/contesttypelistresponse.md
+  - docs/models/operations/contesttypereadrequest.md
+  - docs/models/operations/contesttypereadresponse.md
+  - docs/models/operations/egggrouplistrequest.md
+  - docs/models/operations/egggrouplistresponse.md
+  - docs/models/operations/egggroupreadrequest.md
+  - docs/models/operations/egggroupreadresponse.md
+  - docs/models/operations/encounterconditionlistrequest.md
+  - docs/models/operations/encounterconditionlistresponse.md
+  - docs/models/operations/encounterconditionreadrequest.md
+  - docs/models/operations/encounterconditionreadresponse.md
+  - docs/models/operations/encounterconditionvaluelistrequest.md
+  - docs/models/operations/encounterconditionvaluelistresponse.md
+  - docs/models/operations/encounterconditionvaluereadrequest.md
+  - docs/models/operations/encounterconditionvaluereadresponse.md
+  - docs/models/operations/encountermethodlistrequest.md
+  - docs/models/operations/encountermethodlistresponse.md
+  - docs/models/operations/encountermethodreadrequest.md
+  - docs/models/operations/encountermethodreadresponse.md
+  - docs/models/operations/evolutionchainlistrequest.md
+  - docs/models/operations/evolutionchainlistresponse.md
+  - docs/models/operations/evolutionchainreadrequest.md
+  - docs/models/operations/evolutionchainreadresponse.md
+  - docs/models/operations/evolutiontriggerlistrequest.md
+  - docs/models/operations/evolutiontriggerlistresponse.md
+  - docs/models/operations/evolutiontriggerreadrequest.md
+  - docs/models/operations/evolutiontriggerreadresponse.md
+  - docs/models/operations/genderlistrequest.md
+  - docs/models/operations/genderlistresponse.md
+  - docs/models/operations/genderreadrequest.md
+  - docs/models/operations/genderreadresponse.md
+  - docs/models/operations/generationlistrequest.md
+  - docs/models/operations/generationlistresponse.md
+  - docs/models/operations/generationreadrequest.md
+  - docs/models/operations/generationreadresponse.md
+  - docs/models/operations/growthratelistrequest.md
+  - docs/models/operations/growthratelistresponse.md
+  - docs/models/operations/growthratereadrequest.md
+  - docs/models/operations/growthratereadresponse.md
+  - docs/models/operations/itemattributelistrequest.md
+  - docs/models/operations/itemattributelistresponse.md
+  - docs/models/operations/itemattributereadrequest.md
+  - docs/models/operations/itemattributereadresponse.md
+  - docs/models/operations/itemcategorylistrequest.md
+  - docs/models/operations/itemcategorylistresponse.md
+  - docs/models/operations/itemcategoryreadrequest.md
+  - docs/models/operations/itemcategoryreadresponse.md
+  - docs/models/operations/itemflingeffectlistrequest.md
+  - docs/models/operations/itemflingeffectlistresponse.md
+  - docs/models/operations/itemflingeffectreadrequest.md
+  - docs/models/operations/itemflingeffectreadresponse.md
+  - docs/models/operations/itemlistrequest.md
+  - docs/models/operations/itemlistresponse.md
+  - docs/models/operations/itempocketlistrequest.md
+  - docs/models/operations/itempocketlistresponse.md
+  - docs/models/operations/itempocketreadrequest.md
+  - docs/models/operations/itempocketreadresponse.md
+  - docs/models/operations/itemreadrequest.md
+  - docs/models/operations/itemreadresponse.md
+  - docs/models/operations/languagelistrequest.md
+  - docs/models/operations/languagelistresponse.md
+  - docs/models/operations/languagereadrequest.md
+  - docs/models/operations/languagereadresponse.md
+  - docs/models/operations/locationarealistrequest.md
+  - docs/models/operations/locationarealistresponse.md
+  - docs/models/operations/locationareareadrequest.md
+  - docs/models/operations/locationareareadresponse.md
+  - docs/models/operations/locationlistrequest.md
+  - docs/models/operations/locationlistresponse.md
+  - docs/models/operations/locationreadrequest.md
+  - docs/models/operations/locationreadresponse.md
+  - docs/models/operations/machinelistrequest.md
+  - docs/models/operations/machinelistresponse.md
+  - docs/models/operations/machinereadrequest.md
+  - docs/models/operations/machinereadresponse.md
+  - docs/models/operations/moveailmentlistrequest.md
+  - docs/models/operations/moveailmentlistresponse.md
+  - docs/models/operations/moveailmentreadrequest.md
+  - docs/models/operations/moveailmentreadresponse.md
+  - docs/models/operations/movebattlestylelistrequest.md
+  - docs/models/operations/movebattlestylelistresponse.md
+  - docs/models/operations/movebattlestylereadrequest.md
+  - docs/models/operations/movebattlestylereadresponse.md
+  - docs/models/operations/movecategorylistrequest.md
+  - docs/models/operations/movecategorylistresponse.md
+  - docs/models/operations/movecategoryreadrequest.md
+  - docs/models/operations/movecategoryreadresponse.md
+  - docs/models/operations/movedamageclasslistrequest.md
+  - docs/models/operations/movedamageclasslistresponse.md
+  - docs/models/operations/movedamageclassreadrequest.md
+  - docs/models/operations/movedamageclassreadresponse.md
+  - docs/models/operations/movelearnmethodlistrequest.md
+  - docs/models/operations/movelearnmethodlistresponse.md
+  - docs/models/operations/movelearnmethodreadrequest.md
+  - docs/models/operations/movelearnmethodreadresponse.md
+  - docs/models/operations/movelistrequest.md
+  - docs/models/operations/movelistresponse.md
+  - docs/models/operations/movereadrequest.md
+  - docs/models/operations/movereadresponse.md
+  - docs/models/operations/movetargetlistrequest.md
+  - docs/models/operations/movetargetlistresponse.md
+  - docs/models/operations/movetargetreadrequest.md
+  - docs/models/operations/movetargetreadresponse.md
+  - docs/models/operations/naturelistrequest.md
+  - docs/models/operations/naturelistresponse.md
+  - docs/models/operations/naturereadrequest.md
+  - docs/models/operations/naturereadresponse.md
+  - docs/models/operations/option.md
+  - docs/models/operations/palparkarealistrequest.md
+  - docs/models/operations/palparkarealistresponse.md
+  - docs/models/operations/palparkareareadrequest.md
+  - docs/models/operations/palparkareareadresponse.md
+  - docs/models/operations/pokeathlonstatlistrequest.md
+  - docs/models/operations/pokeathlonstatlistresponse.md
+  - docs/models/operations/pokeathlonstatreadrequest.md
+  - docs/models/operations/pokeathlonstatreadresponse.md
+  - docs/models/operations/pokedexlistrequest.md
+  - docs/models/operations/pokedexlistresponse.md
+  - docs/models/operations/pokedexreadrequest.md
+  - docs/models/operations/pokedexreadresponse.md
+  - docs/models/operations/pokemoncolorlistrequest.md
+  - docs/models/operations/pokemoncolorlistresponse.md
+  - docs/models/operations/pokemoncolorreadrequest.md
+  - docs/models/operations/pokemoncolorreadresponse.md
+  - docs/models/operations/pokemonformlistrequest.md
+  - docs/models/operations/pokemonformlistresponse.md
+  - docs/models/operations/pokemonformreadrequest.md
+  - docs/models/operations/pokemonformreadresponse.md
+  - docs/models/operations/pokemonhabitatlistrequest.md
+  - docs/models/operations/pokemonhabitatlistresponse.md
+  - docs/models/operations/pokemonhabitatreadrequest.md
+  - docs/models/operations/pokemonhabitatreadresponse.md
+  - docs/models/operations/pokemonlistrequest.md
+  - docs/models/operations/pokemonlistresponse.md
+  - docs/models/operations/pokemonreadrequest.md
+  - docs/models/operations/pokemonreadresponse.md
+  - docs/models/operations/pokemonreadresponsebody.md
+  - docs/models/operations/pokemonshapelistrequest.md
+  - docs/models/operations/pokemonshapelistresponse.md
+  - docs/models/operations/pokemonshapereadrequest.md
+  - docs/models/operations/pokemonshapereadresponse.md
+  - docs/models/operations/pokemonspecieslistrequest.md
+  - docs/models/operations/pokemonspecieslistresponse.md
+  - docs/models/operations/pokemonspeciesreadrequest.md
+  - docs/models/operations/pokemonspeciesreadresponse.md
+  - docs/models/operations/regionlistrequest.md
+  - docs/models/operations/regionlistresponse.md
+  - docs/models/operations/regionreadrequest.md
+  - docs/models/operations/regionreadresponse.md
+  - docs/models/operations/species.md
+  - docs/models/operations/sprites.md
+  - docs/models/operations/stat.md
+  - docs/models/operations/statlistrequest.md
+  - docs/models/operations/statlistresponse.md
+  - docs/models/operations/statreadrequest.md
+  - docs/models/operations/statreadresponse.md
+  - docs/models/operations/statstat.md
+  - docs/models/operations/supercontesteffectlistrequest.md
+  - docs/models/operations/supercontesteffectlistresponse.md
+  - docs/models/operations/supercontesteffectreadrequest.md
+  - docs/models/operations/supercontesteffectreadresponse.md
+  - docs/models/operations/type.md
+  - docs/models/operations/typelistrequest.md
+  - docs/models/operations/typelistresponse.md
+  - docs/models/operations/typereadrequest.md
+  - docs/models/operations/typereadresponse.md
+  - docs/models/operations/typetype.md
+  - docs/models/operations/versiongrouplistrequest.md
+  - docs/models/operations/versiongrouplistresponse.md
+  - docs/models/operations/versiongroupreadrequest.md
+  - docs/models/operations/versiongroupreadresponse.md
+  - docs/models/operations/versionlistrequest.md
+  - docs/models/operations/versionlistresponse.md
+  - docs/models/operations/versionreadrequest.md
+  - docs/models/operations/versionreadresponse.md
+  - docs/sdks/ability/README.md
+  - docs/sdks/berry/README.md
+  - docs/sdks/berryfirmness/README.md
+  - docs/sdks/berryflavor/README.md
+  - docs/sdks/characteristic/README.md
+  - docs/sdks/contesteffect/README.md
+  - docs/sdks/contesttype/README.md
+  - docs/sdks/egggroup/README.md
+  - docs/sdks/encountercondition/README.md
+  - docs/sdks/encounterconditionvalue/README.md
+  - docs/sdks/encountermethod/README.md
+  - docs/sdks/evolutionchain/README.md
+  - docs/sdks/evolutiontrigger/README.md
+  - docs/sdks/gender/README.md
+  - docs/sdks/generation/README.md
+  - docs/sdks/growthrate/README.md
+  - docs/sdks/item/README.md
+  - docs/sdks/itemattribute/README.md
+  - docs/sdks/itemcategory/README.md
+  - docs/sdks/itemflingeffect/README.md
+  - docs/sdks/itempocket/README.md
+  - docs/sdks/language/README.md
+  - docs/sdks/location/README.md
+  - docs/sdks/locationarea/README.md
+  - docs/sdks/machine/README.md
+  - docs/sdks/move/README.md
+  - docs/sdks/moveailment/README.md
+  - docs/sdks/movebattlestyle/README.md
+  - docs/sdks/movecategory/README.md
+  - docs/sdks/movedamageclass/README.md
+  - docs/sdks/movelearnmethod/README.md
+  - docs/sdks/movetarget/README.md
+  - docs/sdks/nature/README.md
+  - docs/sdks/palparkarea/README.md
+  - docs/sdks/pokeathlonstat/README.md
+  - docs/sdks/pokedex/README.md
+  - docs/sdks/pokemon/README.md
+  - docs/sdks/pokemoncolor/README.md
+  - docs/sdks/pokemonform/README.md
+  - docs/sdks/pokemonhabitat/README.md
+  - docs/sdks/pokemonshape/README.md
+  - docs/sdks/pokemonspecies/README.md
+  - docs/sdks/region/README.md
+  - docs/sdks/stat/README.md
+  - docs/sdks/supercontesteffect/README.md
+  - docs/sdks/type/README.md
+  - docs/sdks/version/README.md
+  - docs/sdks/versiongroup/README.md
+  - egggroup.go
+  - encountercondition.go
+  - encounterconditionvalue.go
+  - encountermethod.go
+  - evolutionchain.go
+  - evolutiontrigger.go
+  - gender.go
+  - generation.go
+  - go.mod
+  - growthrate.go
+  - internal/config/sdkconfiguration.go
+  - internal/hooks/hooks.go
+  - internal/utils/contenttype.go
+  - internal/utils/env.go
+  - internal/utils/form.go
+  - internal/utils/headers.go
+  - internal/utils/json.go
+  - internal/utils/pathparams.go
+  - internal/utils/queryparams.go
+  - internal/utils/requestbody.go
+  - internal/utils/retries.go
+  - internal/utils/security.go
+  - internal/utils/utils.go
+  - item.go
+  - itemattribute.go
+  - itemcategory.go
+  - itemflingeffect.go
+  - itempocket.go
+  - language.go
+  - location.go
+  - locationarea.go
+  - machine.go
+  - models/apierrors/apierror.go
+  - models/operations/options.go
+  - move.go
+  - moveailment.go
+  - movebattlestyle.go
+  - movecategory.go
+  - movedamageclass.go
+  - movelearnmethod.go
+  - movetarget.go
+  - nature.go
+  - optionalnullable/optionalnullable.go
+  - optionalnullable/optionalnullable_test.go
+  - palparkarea.go
+  - pokeapisdk.go
+  - pokeathlonstat.go
+  - pokedex.go
+  - pokemon.go
+  - pokemoncolor.go
+  - pokemonform.go
+  - pokemonhabitat.go
+  - pokemonshape.go
+  - pokemonspecies.go
+  - region.go
+  - retry/config.go
+  - stat.go
+  - supercontesteffect.go
+  - type.go
+  - types/bigint.go
+  - types/date.go
+  - types/datetime.go
+  - types/pointers.go
+  - version.go
+  - versiongroup.go
+examples:
+  ability_list:
+    speakeasy-default-ability-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  ability_read:
+    speakeasy-default-ability-read:
+      parameters:
+        path:
+          id: 522334
+      responses:
+        default:
+          text/plain: "<value>"
+  berry-firmness_list:
+    speakeasy-default-berry-firmness-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  berry-firmness_read:
+    speakeasy-default-berry-firmness-read:
+      parameters:
+        path:
+          id: 359713
+      responses:
+        default:
+          text/plain: "<value>"
+  berry-flavor_list:
+    speakeasy-default-berry-flavor-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  berry-flavor_read:
+    speakeasy-default-berry-flavor-read:
+      parameters:
+        path:
+          id: 833803
+      responses:
+        default:
+          text/plain: "<value>"
+  berry_list:
+    speakeasy-default-berry-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  berry_read:
+    speakeasy-default-berry-read:
+      parameters:
+        path:
+          id: 650114
+      responses:
+        default:
+          text/plain: "<value>"
+  characteristic_list:
+    speakeasy-default-characteristic-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  characteristic_read:
+    speakeasy-default-characteristic-read:
+      parameters:
+        path:
+          id: 850741
+      responses:
+        default:
+          text/plain: "<value>"
+  contest-effect_list:
+    speakeasy-default-contest-effect-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  contest-effect_read:
+    speakeasy-default-contest-effect-read:
+      parameters:
+        path:
+          id: 444274
+      responses:
+        default:
+          text/plain: "<value>"
+  contest-type_list:
+    speakeasy-default-contest-type-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  contest-type_read:
+    speakeasy-default-contest-type-read:
+      parameters:
+        path:
+          id: 329046
+      responses:
+        default:
+          text/plain: "<value>"
+  egg-group_list:
+    speakeasy-default-egg-group-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  egg-group_read:
+    speakeasy-default-egg-group-read:
+      parameters:
+        path:
+          id: 769911
+      responses:
+        default:
+          text/plain: "<value>"
+  encounter-condition-value_list:
+    speakeasy-default-encounter-condition-value-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  encounter-condition-value_read:
+    speakeasy-default-encounter-condition-value-read:
+      parameters:
+        path:
+          id: 480746
+      responses:
+        default:
+          text/plain: "<value>"
+  encounter-condition_list:
+    speakeasy-default-encounter-condition-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  encounter-condition_read:
+    speakeasy-default-encounter-condition-read:
+      parameters:
+        path:
+          id: 686263
+      responses:
+        default:
+          text/plain: "<value>"
+  encounter-method_list:
+    speakeasy-default-encounter-method-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  encounter-method_read:
+    speakeasy-default-encounter-method-read:
+      parameters:
+        path:
+          id: 821444
+      responses:
+        default:
+          text/plain: "<value>"
+  evolution-chain_list:
+    speakeasy-default-evolution-chain-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  evolution-chain_read:
+    speakeasy-default-evolution-chain-read:
+      parameters:
+        path:
+          id: 988616
+      responses:
+        default:
+          text/plain: "<value>"
+  evolution-trigger_list:
+    speakeasy-default-evolution-trigger-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  evolution-trigger_read:
+    speakeasy-default-evolution-trigger-read:
+      parameters:
+        path:
+          id: 794813
+      responses:
+        default:
+          text/plain: "<value>"
+  gender_list:
+    speakeasy-default-gender-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  gender_read:
+    speakeasy-default-gender-read:
+      parameters:
+        path:
+          id: 775445
+      responses:
+        default:
+          text/plain: "<value>"
+  generation_list:
+    speakeasy-default-generation-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  generation_read:
+    speakeasy-default-generation-read:
+      parameters:
+        path:
+          id: 157227
+      responses:
+        default:
+          text/plain: "<value>"
+  growth-rate_list:
+    speakeasy-default-growth-rate-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  growth-rate_read:
+    speakeasy-default-growth-rate-read:
+      parameters:
+        path:
+          id: 493796
+      responses:
+        default:
+          text/plain: "<value>"
+  item-attribute_list:
+    speakeasy-default-item-attribute-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  item-attribute_read:
+    speakeasy-default-item-attribute-read:
+      parameters:
+        path:
+          id: 913717
+      responses:
+        default:
+          text/plain: "<value>"
+  item-category_list:
+    speakeasy-default-item-category-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  item-category_read:
+    speakeasy-default-item-category-read:
+      parameters:
+        path:
+          id: 749273
+      responses:
+        default:
+          text/plain: "<value>"
+  item-fling-effect_list:
+    speakeasy-default-item-fling-effect-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  item-fling-effect_read:
+    speakeasy-default-item-fling-effect-read:
+      parameters:
+        path:
+          id: 578072
+      responses:
+        default:
+          text/plain: "<value>"
+  item-pocket_list:
+    speakeasy-default-item-pocket-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  item-pocket_read:
+    speakeasy-default-item-pocket-read:
+      parameters:
+        path:
+          id: 349191
+      responses:
+        default:
+          text/plain: "<value>"
+  item_list:
+    speakeasy-default-item-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  item_read:
+    speakeasy-default-item-read:
+      parameters:
+        path:
+          id: 451703
+      responses:
+        default:
+          text/plain: "<value>"
+  language_list:
+    speakeasy-default-language-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  language_read:
+    speakeasy-default-language-read:
+      parameters:
+        path:
+          id: 750440
+      responses:
+        default:
+          text/plain: "<value>"
+  location-area_list:
+    speakeasy-default-location-area-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  location-area_read:
+    speakeasy-default-location-area-read:
+      parameters:
+        path:
+          id: 882121
+      responses:
+        default:
+          text/plain: "<value>"
+  location_list:
+    speakeasy-default-location-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  location_read:
+    speakeasy-default-location-read:
+      parameters:
+        path:
+          id: 924966
+      responses:
+        default:
+          text/plain: "<value>"
+  machine_list:
+    speakeasy-default-machine-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  machine_read:
+    speakeasy-default-machine-read:
+      parameters:
+        path:
+          id: 469009
+      responses:
+        default:
+          text/plain: "<value>"
+  move-ailment_list:
+    speakeasy-default-move-ailment-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  move-ailment_read:
+    speakeasy-default-move-ailment-read:
+      parameters:
+        path:
+          id: 699957
+      responses:
+        default:
+          text/plain: "<value>"
+  move-battle-style_list:
+    speakeasy-default-move-battle-style-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  move-battle-style_read:
+    speakeasy-default-move-battle-style-read:
+      parameters:
+        path:
+          id: 306446
+      responses:
+        default:
+          text/plain: "<value>"
+  move-category_list:
+    speakeasy-default-move-category-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  move-category_read:
+    speakeasy-default-move-category-read:
+      parameters:
+        path:
+          id: 248925
+      responses:
+        default:
+          text/plain: "<value>"
+  move-damage-class_list:
+    speakeasy-default-move-damage-class-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  move-damage-class_read:
+    speakeasy-default-move-damage-class-read:
+      parameters:
+        path:
+          id: 822988
+      responses:
+        default:
+          text/plain: "<value>"
+  move-learn-method_list:
+    speakeasy-default-move-learn-method-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  move-learn-method_read:
+    speakeasy-default-move-learn-method-read:
+      parameters:
+        path:
+          id: 748528
+      responses:
+        default:
+          text/plain: "<value>"
+  move-target_list:
+    speakeasy-default-move-target-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  move-target_read:
+    speakeasy-default-move-target-read:
+      parameters:
+        path:
+          id: 36053
+      responses:
+        default:
+          text/plain: "<value>"
+  move_list:
+    speakeasy-default-move-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  move_read:
+    speakeasy-default-move-read:
+      parameters:
+        path:
+          id: 742720
+      responses:
+        default:
+          text/plain: "<value>"
+  nature_list:
+    speakeasy-default-nature-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  nature_read:
+    speakeasy-default-nature-read:
+      parameters:
+        path:
+          id: 176800
+      responses:
+        default:
+          text/plain: "<value>"
+  pal-park-area_list:
+    speakeasy-default-pal-park-area-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  pal-park-area_read:
+    speakeasy-default-pal-park-area-read:
+      parameters:
+        path:
+          id: 918199
+      responses:
+        default:
+          text/plain: "<value>"
+  pokeathlon-stat_list:
+    speakeasy-default-pokeathlon-stat-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  pokeathlon-stat_read:
+    speakeasy-default-pokeathlon-stat-read:
+      parameters:
+        path:
+          id: 995903
+      responses:
+        default:
+          text/plain: "<value>"
+  pokedex_list:
+    speakeasy-default-pokedex-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  pokedex_read:
+    speakeasy-default-pokedex-read:
+      parameters:
+        path:
+          id: 703349
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon-color_list:
+    speakeasy-default-pokemon-color-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon-color_read:
+    speakeasy-default-pokemon-color-read:
+      parameters:
+        path:
+          id: 637573
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon-form_list:
+    speakeasy-default-pokemon-form-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon-form_read:
+    speakeasy-default-pokemon-form-read:
+      parameters:
+        path:
+          id: 794288
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon-habitat_list:
+    speakeasy-default-pokemon-habitat-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon-habitat_read:
+    speakeasy-default-pokemon-habitat-read:
+      parameters:
+        path:
+          id: 437673
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon-shape_list:
+    speakeasy-default-pokemon-shape-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon-shape_read:
+    speakeasy-default-pokemon-shape-read:
+      parameters:
+        path:
+          id: 462443
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon-species_list:
+    speakeasy-default-pokemon-species-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon-species_read:
+    speakeasy-default-pokemon-species-read:
+      parameters:
+        path:
+          id: 875570
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon_list:
+    speakeasy-default-pokemon-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  pokemon_read:
+    speakeasy-default-pokemon-read:
+      parameters:
+        path:
+          id: 985059
+      responses:
+        "200":
+          application/json: {}
+  region_list:
+    speakeasy-default-region-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  region_read:
+    speakeasy-default-region-read:
+      parameters:
+        path:
+          id: 764123
+      responses:
+        default:
+          text/plain: "<value>"
+  stat_list:
+    speakeasy-default-stat-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  stat_read:
+    speakeasy-default-stat-read:
+      parameters:
+        path:
+          id: 391790
+      responses:
+        default:
+          text/plain: "<value>"
+  super-contest-effect_list:
+    speakeasy-default-super-contest-effect-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  super-contest-effect_read:
+    speakeasy-default-super-contest-effect-read:
+      parameters:
+        path:
+          id: 464056
+      responses:
+        default:
+          text/plain: "<value>"
+  type_list:
+    speakeasy-default-type-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  type_read:
+    speakeasy-default-type-read:
+      parameters:
+        path:
+          id: 182121
+      responses:
+        default:
+          text/plain: "<value>"
+  version-group_list:
+    speakeasy-default-version-group-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  version-group_read:
+    speakeasy-default-version-group-read:
+      parameters:
+        path:
+          id: 707221
+      responses:
+        default:
+          text/plain: "<value>"
+  version_list:
+    speakeasy-default-version-list:
+      responses:
+        default:
+          text/plain: "<value>"
+  version_read:
+    speakeasy-default-version-read:
+      parameters:
+        path:
+          id: 792954
+      responses:
+        default:
+          text/plain: "<value>"
+examplesVersion: 1.0.2
