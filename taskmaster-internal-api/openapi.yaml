@@ -1,0 +1,981 @@
+openapi: 3.1.0
+info:
+  title: License Distribution API
+  version: 1.0.0
+paths:
+  /health:
+    get:
+      tags:
+      - system
+      summary: Health Check
+      operationId: health_check_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /users/register:
+    post:
+      tags:
+      - users
+      summary: Register User
+      operationId: register_user_users_register_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/login:
+    post:
+      tags:
+      - users
+      summary: Login User
+      operationId: login_user_users_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users:
+    get:
+      tags:
+      - users
+      summary: List Users
+      operationId: list_users_users_get
+      parameters:
+      - name: name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+                title: Response List Users Users Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/{user_id}:
+    get:
+      tags:
+      - users
+      summary: Get User
+      operationId: get_user_users__user_id__get
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /licenses:
+    get:
+      tags:
+      - licenses
+      summary: List Licenses
+      description: List all licenses in the system
+      operationId: list_licenses_licenses_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/License'
+                type: array
+                title: Response List Licenses Licenses Get
+    post:
+      tags:
+      - licenses
+      summary: Create License
+      description: Create a new license
+      operationId: create_license_licenses_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LicenseCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/License'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /licenses/users:
+    post:
+      tags:
+      - licenses
+      summary: Create License User
+      operationId: create_license_user_licenses_users_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /licenses/validate:
+    post:
+      tags:
+      - licenses
+      summary: Validate License
+      description: Validate a license key
+      operationId: validate_license_licenses_validate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LicenseValidation'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LicenseValidationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /marketing/campaigns:
+    get:
+      tags:
+      - marketing
+      summary: List Campaigns
+      description: List all marketing campaigns
+      operationId: list_campaigns_marketing_campaigns_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Campaign'
+                type: array
+                title: Response List Campaigns Marketing Campaigns Get
+    post:
+      tags:
+      - marketing
+      summary: Create Campaign
+      description: Create a new marketing campaign
+      operationId: create_campaign_marketing_campaigns_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /marketing/users:
+    post:
+      tags:
+      - marketing
+      summary: Create Marketing User
+      operationId: create_marketing_user_marketing_users_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /customer-service/tickets:
+    get:
+      tags:
+      - customer-service
+      summary: List Support Tickets
+      description: List all support tickets
+      operationId: list_support_tickets_customer_service_tickets_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SupportTicket'
+                type: array
+                title: Response List Support Tickets Customer Service Tickets Get
+    post:
+      tags:
+      - customer-service
+      summary: Create Support Ticket
+      description: Create a new support ticket
+      operationId: create_support_ticket_customer_service_tickets_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupportTicketCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportTicket'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /customer-service/my-tickets:
+    get:
+      tags:
+      - customer-service
+      summary: Get My Tickets
+      description: Get current user's support tickets
+      operationId: get_my_tickets_customer_service_my_tickets_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SupportTicket'
+                type: array
+                title: Response Get My Tickets Customer Service My Tickets Get
+  /customer-service/users:
+    post:
+      tags:
+      - customer-service
+      summary: Create Customer Service User
+      operationId: create_customer_service_user_customer_service_users_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Campaign:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Campaign name
+          example: Q1 2024 Product Launch
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Campaign description
+          example: Marketing campaign for new product launch
+        target_audience:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target Audience
+          description: Target audience
+          example: Enterprise customers
+        start_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Date
+          description: Campaign start date
+          example: '2024-01-01T00:00:00Z'
+        end_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: End Date
+          description: Campaign end date
+          example: '2024-03-31T23:59:59Z'
+        id:
+          type: integer
+          title: Id
+          description: Campaign ID
+          example: 1
+        status:
+          $ref: '#/components/schemas/CampaignStatus'
+          description: Campaign status
+          example: active
+        created_by:
+          type: integer
+          title: Created By
+          description: User ID who created the campaign
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Creation timestamp
+          example: '2023-12-01T10:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Last update timestamp
+          example: '2023-12-01T10:00:00Z'
+        is_active:
+          type: boolean
+          title: Is Active
+          description: Whether campaign is active
+          example: true
+      type: object
+      required:
+      - name
+      - id
+      - status
+      - created_by
+      - created_at
+      - updated_at
+      - is_active
+      title: Campaign
+    CampaignCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Campaign name
+          example: Q1 2024 Product Launch
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Campaign description
+          example: Marketing campaign for new product launch
+        target_audience:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target Audience
+          description: Target audience
+          example: Enterprise customers
+        start_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Start Date
+          description: Campaign start date
+          example: '2024-01-01T00:00:00Z'
+        end_date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: End Date
+          description: Campaign end date
+          example: '2024-03-31T23:59:59Z'
+      type: object
+      required:
+      - name
+      title: CampaignCreate
+    CampaignStatus:
+      type: string
+      enum:
+      - draft
+      - active
+      - paused
+      - completed
+      - cancelled
+      title: CampaignStatus
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    HealthResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+      type: object
+      required:
+      - status
+      - timestamp
+      title: HealthResponse
+    License:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the license
+          example: TaskMaster Premium License
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the license
+          example: Full access to all TaskMaster features
+        license_key:
+          type: string
+          title: License Key
+          description: Unique license key
+          example: TASKMASTER-PREMIUM-12345-ABCDE
+        license_type:
+          $ref: '#/components/schemas/LicenseType'
+          description: Type of license
+          default: basic
+          example: premium
+        expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires At
+          description: License expiration date
+          example: '2024-12-01T10:00:00Z'
+        is_active:
+          type: boolean
+          title: Is Active
+          description: Whether the license is active
+          default: true
+          example: true
+        id:
+          type: integer
+          title: Id
+          description: License ID
+          example: 1
+        user_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: User Id
+          description: User ID
+          example: 1
+        status:
+          $ref: '#/components/schemas/LicenseStatus'
+          description: License status
+          example: active
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Creation timestamp
+          example: '2023-12-01T10:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Last update timestamp
+          example: '2023-12-01T10:00:00Z'
+      type: object
+      required:
+      - name
+      - license_key
+      - id
+      - status
+      - created_at
+      - updated_at
+      title: License
+    LicenseCreate:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the license
+          example: TaskMaster Premium License
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Description of the license
+          example: Full access to all TaskMaster features
+        license_key:
+          type: string
+          title: License Key
+          description: Unique license key
+          example: TASKMASTER-PREMIUM-12345-ABCDE
+        license_type:
+          $ref: '#/components/schemas/LicenseType'
+          description: Type of license
+          default: basic
+          example: premium
+        expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires At
+          description: License expiration date
+          example: '2024-12-01T10:00:00Z'
+        is_active:
+          type: boolean
+          title: Is Active
+          description: Whether the license is active
+          default: true
+          example: true
+        user_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: User Id
+          description: User ID to assign license to
+          example: 1
+      type: object
+      required:
+      - name
+      - license_key
+      title: LicenseCreate
+    LicenseStatus:
+      type: string
+      enum:
+      - active
+      - expired
+      - revoked
+      - pending
+      title: LicenseStatus
+    LicenseType:
+      type: string
+      enum:
+      - trial
+      - basic
+      - premium
+      - enterprise
+      title: LicenseType
+    LicenseValidation:
+      properties:
+        license_key:
+          type: string
+          title: License Key
+          description: License key to validate
+          example: TASKMASTER-PREMIUM-12345-ABCDE
+      type: object
+      required:
+      - license_key
+      title: LicenseValidation
+    LicenseValidationResponse:
+      properties:
+        is_valid:
+          type: boolean
+          title: Is Valid
+          description: Whether license is valid
+          example: true
+        license_type:
+          anyOf:
+          - $ref: '#/components/schemas/LicenseType'
+          - type: 'null'
+          description: License type if valid
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/LicenseStatus'
+          - type: 'null'
+          description: License status if valid
+        expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires At
+          description: Expiration date if valid
+        user_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: User Id
+          description: User ID if valid
+      type: object
+      required:
+      - is_valid
+      title: LicenseValidationResponse
+    SupportTicket:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Ticket title
+          example: Login issues with TaskMaster
+        description:
+          type: string
+          title: Description
+          description: Ticket description
+          example: Unable to login to TaskMaster application
+        priority:
+          $ref: '#/components/schemas/TicketPriority'
+          description: Ticket priority
+          default: medium
+          example: medium
+        id:
+          type: integer
+          title: Id
+          description: Ticket ID
+          example: 1
+        status:
+          $ref: '#/components/schemas/TicketStatus'
+          description: Ticket status
+          example: open
+        user_id:
+          type: integer
+          title: User Id
+          description: User ID who created the ticket
+          example: 1
+        assigned_to:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Assigned To
+          description: User ID assigned to handle the ticket
+          example: 2
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Creation timestamp
+          example: '2023-12-01T10:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Last update timestamp
+          example: '2023-12-01T10:00:00Z'
+        resolved_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Resolved At
+          description: Resolution timestamp
+          example: '2023-12-02T15:30:00Z'
+        is_active:
+          type: boolean
+          title: Is Active
+          description: Whether ticket is active
+          example: true
+      type: object
+      required:
+      - title
+      - description
+      - id
+      - status
+      - user_id
+      - created_at
+      - updated_at
+      - is_active
+      title: SupportTicket
+    SupportTicketCreate:
+      properties:
+        title:
+          type: string
+          title: Title
+          description: Ticket title
+          example: Login issues with TaskMaster
+        description:
+          type: string
+          title: Description
+          description: Ticket description
+          example: Unable to login to TaskMaster application
+        priority:
+          $ref: '#/components/schemas/TicketPriority'
+          description: Ticket priority
+          default: medium
+          example: medium
+      type: object
+      required:
+      - title
+      - description
+      title: SupportTicketCreate
+    TicketPriority:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - urgent
+      title: TicketPriority
+    TicketStatus:
+      type: string
+      enum:
+      - open
+      - in_progress
+      - resolved
+      - closed
+      title: TicketStatus
+    Token:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+          description: JWT access token
+          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+        token_type:
+          type: string
+          title: Token Type
+          description: Token type
+          example: bearer
+      type: object
+      required:
+      - access_token
+      - token_type
+      title: Token
+    User:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+          description: User email address
+          example: user@example.com
+        username:
+          type: string
+          title: Username
+          description: Username
+          example: johndoe
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+          description: Full name
+          example: John Doe
+        role:
+          $ref: '#/components/schemas/UserRole'
+          description: User role
+          default: user
+          example: user
+        id:
+          type: integer
+          title: Id
+          description: User ID
+          example: 1
+        is_active:
+          type: boolean
+          title: Is Active
+          description: Whether user is active
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+          description: Creation timestamp
+          example: '2023-12-01T10:00:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+          description: Last update timestamp
+          example: '2023-12-01T10:00:00Z'
+      type: object
+      required:
+      - email
+      - username
+      - id
+      - is_active
+      - created_at
+      - updated_at
+      title: User
+    UserCreate:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+          description: User email address
+          example: user@example.com
+        username:
+          type: string
+          title: Username
+          description: Username
+          example: johndoe
+        full_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Full Name
+          description: Full name
+          example: John Doe
+        role:
+          $ref: '#/components/schemas/UserRole'
+          description: User role
+          default: user
+          example: user
+        password:
+          type: string
+          title: Password
+          description: Password
+          example: securepassword123
+      type: object
+      required:
+      - email
+      - username
+      - password
+      title: UserCreate
+    UserLogin:
+      properties:
+        username:
+          type: string
+          title: Username
+          description: Username
+          example: johndoe
+        password:
+          type: string
+          title: Password
+          description: Password
+          example: securepassword123
+      type: object
+      required:
+      - username
+      - password
+      title: UserLogin
+    UserRole:
+      type: string
+      enum:
+      - admin
+      - marketing
+      - customer_service
+      - user
+      title: UserRole
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+tags:
+- name: licenses
+- name: users
+- name: marketing
+- name: customer-service
+- name: system
