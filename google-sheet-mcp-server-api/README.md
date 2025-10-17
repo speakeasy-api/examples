@@ -24,9 +24,10 @@ A FastAPI server that provides Google Sheets integration for MCP (Model Context 
 1. Navigate to the Google console: [https://console.cloud.google.com/](https://console.cloud.google.com/).
 2. Click the **Project selector → New Project**, name it, and click **Create**.
 3. Enable the Google Sheet and Google Drive APIs by navigating to **APIs & Services → Library**, search for **Google Sheets API** and **Google Drive API**, and click **Enable** for each.
-4. To create a service account, navigate to **IAM & Admin → Service Accounts**, click **+ CREATE SERVICE ACCOUNT**, name it, and click **Create and Continue → Done**.
-5. Click the **three dots (⋮)** next to your account → **Manage keys → Add Key → Create New Key → JSON → Create**, and download the file.
-6. Store the Google Sheet in a Drive folder, then in that drive folder, click Share → Add people and groups, paste the service account email available in the service account JSON file, and assign the Editor permission.
+4. To create a service account, navigate to **IAM & Admin → Service Accounts**, click **+ CREATE SERVICE ACCOUNT**, name it.
+5. On the permission step, grant the **Editor** role: Add Editor role for broad access.
+6. Click the **three dots (⋮)** next to your account → **Manage keys → Add Key → Create New Key → JSON → Create**, and download the file.
+7. Store the Google Sheet in a Drive folder, then in that drive folder, click Share → Add people and groups, paste the service account email available in the service account JSON file, and assign the Editor permission.
 
 ### Clone the project
 
