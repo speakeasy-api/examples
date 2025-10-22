@@ -1,0 +1,119 @@
+openapi: 3.1.0
+info:
+  title: Django Documentation RAG API
+  description: Semantic search over Django 5.2.8 documentation using RAG (Retrieval-Augmented
+    Generation)
+  version: 1.0.0
+paths:
+  /search:
+    post:
+      tags:
+      - search
+      summary: Search Django documentation
+      description: "Perform semantic search over Django 5.2.8 documentation chunks.\n\
+        \    Returns relevant documentation sections with similarity scores and token\
+        \ estimates."
+      operationId: search_documentation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful search with results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '422':
+          description: Validation error
+      x-gram:
+        name: search_django_docs
+        summary: Search Django documentation using semantic similarity
+        description: "<context>\n                This tool performs semantic search\
+          \ over Django 5.2.8 documentation using RAG (Retrieval-Augmented Generation).\n\
+          \                It returns relevant documentation chunks with similarity\
+          \ scores and token estimates for LLM context management.\n             \
+          \   Perfect for finding specific Django functionality, code examples, and\
+          \ best practices.\n                </context>\n\n                <prerequisites>\n\
+          \                - Query should be natural language describing what you're\
+          \ looking for\n                - Results are ranked by semantic similarity\
+          \ (score 0-1, higher is better)\n                - Token estimates help\
+          \ manage LLM context windows\n                - Supports filtering by minimum\
+          \ relevance score and maximum result count\n                </prerequisites>"
+        responseFilterType: jq
+components:
+  schemas:
+    SearchRequest:
+      properties:
+        query:
+          type: string
+          title: Query
+          description: Natural language search query
+          example: What's new in django.contrib.gis?
+        max_results:
+          anyOf:
+          - type: integer
+            maximum: 10.0
+            minimum: 1.0
+          - type: 'null'
+          title: Max Results
+          description: Maximum number of results
+          default: 3
+        min_score:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Min Score
+          description: Minimum relevance score
+          default: 0.5
+      type: object
+      required:
+      - query
+      title: SearchRequest
+    SearchResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/SearchResult'
+          type: array
+          title: Results
+        total_found:
+          type: integer
+          title: Total Found
+        tokens_estimate:
+          type: integer
+          title: Tokens Estimate
+      type: object
+      required:
+      - results
+      - total_found
+      - tokens_estimate
+      title: SearchResponse
+    SearchResult:
+      properties:
+        content:
+          type: string
+          title: Content
+          description: The documentation chunk
+        source:
+          type: string
+          title: Source
+          description: Source reference
+        score:
+          type: number
+          title: Score
+          description: Relevance score (0-1)
+      type: object
+      required:
+      - content
+      - source
+      - score
+      title: SearchResult
+tags:
+- name: search
+  description: Semantic search operations over Django documentation

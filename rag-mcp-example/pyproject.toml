@@ -1,0 +1,18 @@
+[project]
+name = "django-rag-api"
+version = "1.0.0"
+description = "Django Documentation RAG API"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "sentence-transformers>=2.2.0",
+    "chromadb>=0.4.0",
+    "pydantic>=2.5.0",
+]
+
+[tool.setuptools]
+packages = ["app"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
