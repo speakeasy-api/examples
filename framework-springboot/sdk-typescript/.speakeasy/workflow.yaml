@@ -1,0 +1,18 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Bookstore API:
+        inputs:
+            - location: ../openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/ritza-rzx/ritza/bookstore-api
+targets:
+    sdk:
+        target: typescript
+        source: Bookstore API
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/ritza-rzx/ritza/bookstore-api-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false
