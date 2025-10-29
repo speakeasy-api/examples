@@ -1,0 +1,51 @@
+{
+  "name": "mcp-echo-input-server",
+  "version": "1.0.1",
+  "description": "A simple Model Context Protocol (MCP) server with an echo tool that returns user input with customizable user name",
+  "main": "index.js",
+  "bin": {
+    "mcp-echo-server": "./index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js",
+    "prepublishOnly": "npm test"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "echo",
+    "server",
+    "claude",
+    "ai",
+    "tools"
+  ],
+  "author": {
+    "name": "Name",
+    "email": "emailaddress"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/mcp-echo-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/mcp-echo-server/issues"
+  },
+  "homepage": "https://github.com/username/mcp-echo-server#readme",
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@anthropic-ai/mcpb": "^1.1.0"
+  }
+}

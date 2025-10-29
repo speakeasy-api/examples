@@ -1,0 +1,33 @@
+{
+  "dxt_version": "0.1",
+  "name": "mcp-echo-input-server",
+  "version": "1.0.0",
+  "description": "A simple Model Context Protocol (MCP) server with an echo tool that returns user input with customizable user name",
+  "author": {
+    "name": "NAME",
+    "email": "EMAIL ADDRESS"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/index.js"
+      ],
+      "env": {
+        "USER_NAME": "${user_config.userName}"
+      }
+    }
+  },
+  "user_config": {
+    "userName": {
+      "type": "string",
+      "title": "Username",
+      "description": "Username of the user using the tool.",
+      "required": true,
+      "sensitive": false
+    }
+  },
+  "license": "MIT"
+}

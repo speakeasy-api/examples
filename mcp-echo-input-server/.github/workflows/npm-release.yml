@@ -1,0 +1,101 @@
+name: NPM Release
+
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+jobs:
+  npm-release:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+      packages: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests
+      run: npm test
+      
+    - name: Extract version from tag or use current
+      id: version
+      run: |
+        if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+          VERSION=${GITHUB_REF#refs/tags/v}
+        else
+          VERSION=$(node -p "require('./package.json').version")
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "NPM Release version: $VERSION"
+        
+    - name: Update package.json version (only if from tag)
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: |
+        npm version ${{ steps.version.outputs.version }} --no-git-tag-version
+        
+    - name: Publish to NPM
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          README.md
+          LICENSE
+        tag_name: ${{ github.ref_name }}
+        name: NPM Release ${{ github.ref_name }}
+        body: |
+          ## 📦 NPM Package Release ${{ steps.version.outputs.version }}
+          
+          ### Installation
+          ```bash
+          npm install -g mcp-echo-input-server@${{ steps.version.outputs.version }}
+          ```
+          
+          ### Usage
+          ```bash
+          # Using npx (recommended)
+          npx -y mcp-echo-input-server@${{ steps.version.outputs.version }}
+          
+          # Using global installation
+          mcp-echo-server
+          ```
+          
+          ### Claude Desktop Configuration
+          ```json
+          {
+            "mcpServers": {
+              "echo-server": {
+                "command": "npx",
+                "args": ["-y", "mcp-echo-input-server@${{ steps.version.outputs.version }}"],
+                "env": {
+                  "USER_NAME": "YourName"
+                }
+              }
+            }
+          }
+          ```
+          
+          ### Features
+          - Echo tool with customizable user name
+          - Cross-platform support
+          - Environment variable configuration
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
