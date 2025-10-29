@@ -1,16 +1,17 @@
-# F1 Laps API - Laravel PHP
+# F1 Race API - Laravel PHP
 
-A Laravel PHP implementation of the Formula 1 lap times API. This API provides endpoints for managing drivers, circuits, and lap time data.
+A Laravel PHP implementation of the Formula 1 race management API. This API provides endpoints for managing drivers, circuits.
 
 ## Overview
 
-This is a Laravel version of the F1 Laps API, providing the same functionality as the Rails version but built with PHP and Laravel framework.
+This is a Laravel-based F1 Race API that models real-world Formula 1 concepts: races held at circuits with drivers competing. It includes database migrations, seeders with demo data, and RESTful API endpoints following best practices like HATEOAS. The goal is to provide a simple API which can export OpenAPI specifications and be used to generate SDKs using tools like Speakeasy.
 
 ## Features
 
-- **Drivers Management**: Create and list F1 drivers
-- **Circuits Management**: Create and list racing circuits
-- **Lap Times**: Record and query lap times with flexible filtering
+- **Drivers**: Browse F1 drivers
+- **Circuits**: Browse racing circuits
+- **Races**: Browse races at circuits with participating drivers
+- **HATEOAS**: Hypermedia links instead of exposing raw foreign key IDs
 - **Health Check**: API health and version information
 
 ## Setup
@@ -19,7 +20,7 @@ This is a Laravel version of the F1 Laps API, providing the same functionality a
 
 - PHP 8.2 or higher
 - Composer
-- SQLite (default) or MySQL/PostgreSQL
+- SQLite
 
 ### Installation
 
@@ -56,153 +57,44 @@ The API will be available at `http://localhost:8000`.
 The application includes database seeders that populate the database with realistic F1 data:
 - **10 F1 Drivers** (Verstappen, Hamilton, Leclerc, Norris, etc.)
 - **10 Famous Circuits** (Monaco, Silverstone, Monza, Spa, etc.)
-- **30+ Lap Times** with realistic lap times in milliseconds
+- **5 Races** from the 2024 season with drivers assigned to each race
 
 This demo data makes it easy to test the API endpoints without having to create data manually.
 
 ## API Endpoints
 
-All endpoints are prefixed with `/api/v1`.
+All endpoints are prefixed with `/api`.
 
 ### Health Check
 
-- `GET /api/v1/health` - Get API health status
+- `GET /api/health` - Get API health status
 
 ### Drivers
 
-- `GET /api/v1/drivers` - List all drivers
-- `POST /api/v1/drivers` - Create a new driver
-
-**Create Driver Request:**
-```json
-{
-  "name": "Lewis Hamilton",
-  "code": "HAM"
-}
-```
+- `GET /api/drivers` - List all drivers
+- `GET /api/drivers/{id}` - Get a single driver
 
 ### Circuits
 
-- `GET /api/v1/circuits` - List all circuits
-- `POST /api/v1/circuits` - Create a new circuit
+- `GET /api/circuits` - List all circuits
+- `GET /api/circuits/{id}` - Get a single circuit
 
-**Create Circuit Request:**
-```json
-{
-  "name": "Monaco Grand Prix",
-  "location": "Monte Carlo, Monaco"
-}
-```
+### Races
 
-### Lap Times
+- `GET /api/races` - List all races (filterable by `?circuit=X` or `?season=2024`)
+- `GET /api/races/{id}` - Get a single race
 
-- `GET /api/v1/lap_times` - List all lap times (with optional filters)
-  - Query parameters:
-    - `driver_id` - Filter by driver ID
-    - `circuit_id` - Filter by circuit ID
-    - `lap_min` - Minimum lap number
-    - `lap_max` - Maximum lap number
-- `POST /api/v1/lap_times` - Create a new lap time
-- `GET /api/v1/drivers/{driverId}/lap_times` - Get lap times for a specific driver
-- `GET /api/v1/circuits/{circuitId}/lap_times` - Get lap times for a specific circuit
+## Generating API Documentation
 
-**Create Lap Time Request:**
-```json
-{
-  "driver_id": 1,
-  "circuit_id": 1,
-  "lap_number": 1,
-  "time_ms": 82345
-}
-```
-
-## Testing
-
-Run the tests:
+Generate API documentation using Scribe:
 ```bash
-php artisan test
+php artisan scribe:generate
 ```
 
-## OpenAPI Specification
+## OpenAPI
 
-The OpenAPI specification is available in `openapi.yaml`. This spec is compatible with the Rails version and can be used to generate SDKs using Speakeasy.
-
-## Database
-
-By default, the application uses SQLite. The database file is created at `database/database.sqlite`.
-
-To use a different database, update your `.env` file accordingly.
-
-## Models
-
-### Driver
-- `id`: Integer (auto-increment)
-- `name`: String
-- `code`: String (indexed)
-- `created_at`: Timestamp
-- `updated_at`: Timestamp
-
-### Circuit
-- `id`: Integer (auto-increment)
-- `name`: String
-- `location`: String
-- `created_at`: Timestamp
-- `updated_at`: Timestamp
-
-### LapTime
-- `id`: Integer (auto-increment)
-- `driver_id`: Integer (foreign key to drivers)
-- `circuit_id`: Integer (foreign key to circuits)
-- `lap_number`: Integer
-- `time_ms`: Integer (lap time in milliseconds)
-- `created_at`: Timestamp
-- `updated_at`: Timestamp
-
-## Development
-
-### Running Locally
-
-```bash
-php artisan serve
-```
-
-The API will be available at `http://localhost:8000`.
-
-### Artisan Commands
-
-Laravel provides various artisan commands for development:
-
-```bash
-# Run migrations
-php artisan migrate
-
-# Rollback migrations
-php artisan migrate:rollback
-
-# Create a new migration
-php artisan make:migration create_table_name
-
-# Create a new model
-php artisan make:model ModelName
-
-# Create a new controller
-php artisan make:controller ControllerName
-```
+The API description is exported by [Scribe](https://scribe.knuckles.wtf/laravel/) and can be found at `frameworks-laravel/storage/app/private/scribe/openapi.yaml`.
 
 ## License
 
-This project is licensed under the MIT License.
-
-
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the [MIT license](https://opensource.org/licenses/MIT).

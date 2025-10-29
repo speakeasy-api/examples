@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Driver extends Model
 {
     protected $fillable = ['name', 'code'];
 
-    public function lapTimes()
+    public function races(): BelongsToMany
     {
-        return $this->hasMany(LapTime::class);
+        return $this->belongsToMany(Race::class)
+            ->withPivot('position')
+            ->withTimestamps();
     }
 }

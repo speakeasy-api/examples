@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Api\CircuitController;
 use App\Http\Controllers\Api\DriverController;
-use App\Http\Controllers\Api\LapTimeController;
 use App\Http\Controllers\Api\HealthController;
+use App\Http\Controllers\Api\RaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,14 +13,16 @@ Route::get('/health', [HealthController::class, 'show']);
 
 // Drivers
 Route::get('/drivers', [DriverController::class, 'index']);
-Route::post('/drivers', [DriverController::class, 'store']);
+Route::get('/drivers/{id}', [DriverController::class, 'show']);
+// GET-only demo: removed create/update/delete routes
 
 // Circuits
 Route::get('/circuits', [CircuitController::class, 'index']);
-Route::post('/circuits', [CircuitController::class, 'store']);
+Route::get('/circuits/{id}', [CircuitController::class, 'show']);
+// GET-only demo: removed create/update/delete routes
 
-// Lap times
-Route::get('/lap_times', [LapTimeController::class, 'index']);
-Route::post('/lap_times', [LapTimeController::class, 'store']);
-Route::get('/drivers/{driverId}/lap_times', [LapTimeController::class, 'byDriver']);
-Route::get('/circuits/{circuitId}/lap_times', [LapTimeController::class, 'byCircuit']);
+// Races
+Route::get('/races', [RaceController::class, 'index']);
+Route::get('/races/{id}', [RaceController::class, 'show']);
+// GET-only demo: removed create/update/delete routes
+// Removed granular driver attach/detach endpoints to simplify API

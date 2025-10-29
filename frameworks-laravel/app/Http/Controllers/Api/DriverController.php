@@ -13,9 +13,18 @@ class DriverController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): DriverCollection
+    public function index(Request $request): DriverCollection
     {
-        return new DriverCollection(Driver::all());
+        $query = Driver::query();
+
+        // Filter by race if provided
+        if ($request->has('race')) {
+            $query->whereHas('races', function ($q) use ($request) {
+                $q->where('races.id', $request->race);
+            });
+        }
+
+        return new DriverCollection($query->get());
     }
 
     /**
@@ -36,17 +45,27 @@ class DriverController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): DriverResource
     {
-        // Not implemented
+        $driver = Driver::findOrFail($id);
+        return new DriverResource($driver);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): DriverResource
     {
-        // Not implemented
+        $driver = Driver::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string',
+            'code' => 'sometimes|required|string',
+        ]);
+
+        $driver->update($validated);
+
+        return new DriverResource($driver);
     }
 
     /**
@@ -54,6 +73,9 @@ class DriverController extends Controller
      */
     public function destroy(string $id)
     {
-        // Not implemented
+        $driver = Driver::findOrFail($id);
+        $driver->delete();
+
+        return response()->json(null, 204);
     }
 }

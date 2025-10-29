@@ -36,17 +36,27 @@ class CircuitController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): CircuitResource
     {
-        // Not implemented
+        $circuit = Circuit::findOrFail($id);
+        return new CircuitResource($circuit);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): CircuitResource
     {
-        // Not implemented
+        $circuit = Circuit::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'sometimes|required|string',
+            'location' => 'sometimes|required|string',
+        ]);
+
+        $circuit->update($validated);
+
+        return new CircuitResource($circuit);
     }
 
     /**
@@ -54,6 +64,9 @@ class CircuitController extends Controller
      */
     public function destroy(string $id)
     {
-        // Not implemented
+        $circuit = Circuit::findOrFail($id);
+        $circuit->delete();
+
+        return response()->json(null, 204);
     }
 }
