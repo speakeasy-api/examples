@@ -36,14 +36,14 @@ The API is configured in three main files:
 1. **swagger_helper.rb**:
 ```ruby
 RSpec.configure do |config|
-  config.openapi_root = Rails.root.join('swagger').to_s
+  config.openapi_root = Rails.root.join('openapi').to_s
   config.openapi_specs = {
-    'v1/swagger.yaml' => {
+    'v1/openapi.yaml' => {
       openapi: '3.0.1',
       info: {
         title: 'F1 Laps API',
         version: 'v1',
-        description: 'API for accessing Formula 1 lap time data'
+        description: 'API for accessing Formula 1 lap time data and analytics'
       },
       paths: {},
       servers: [
@@ -125,7 +125,7 @@ end
    ```bash
    RAILS_ENV=test rake rswag:specs:swaggerize
    ```
-3. Documentation is generated to `swagger/v1/swagger.yaml`
+3. Documentation is generated to `openapi/v1/openapi.yaml`
 
 ## Viewing Documentation
 
