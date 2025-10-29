@@ -1,0 +1,690 @@
+openapi: 3.1.0
+info:
+  title: Coffee Orders API
+  version: 1.0.0
+  description: A CRUD API for managing coffee orders and available coffee types.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+security:
+  - ApiKeyAuth: []
+servers:
+  - url: http://localhost:8000
+    description: Development server
+tags:
+  - name: Orders
+    description: Operations related to coffee orders
+  - name: CoffeeTypes
+    description: Operations related to coffee types
+paths:
+  /orders:
+    get:
+      tags:
+        - Orders
+      summary: Get Orders
+      operationId: GetOrders
+      description: |
+        Retrieve all coffee orders.
+        If 'coffee_type' is provided, returns orders matching that coffee type.
+      parameters:
+        - examples:
+            latte:
+              summary: Filter Latte orders
+              value: Latte
+            espresso:
+              summary: Filter Espresso orders
+              value: Espresso
+          name: coffee_type
+          in: query
+          required: false
+          schema:
+            title: Coffee Type
+            description: Optional filter by coffee type (case-insensitive)
+            anyOf:
+              - type: string
+              - type: "null"
+          description: Optional filter by coffee type (case-insensitive)
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              examples:
+                multiple_orders:
+                  summary: List of coffee orders
+                  value:
+                    - id: 1
+                      customer_name: Alice
+                      coffee_type: Latte
+                      size: Medium
+                      extras:
+                        - Extra shot
+                        - Soy milk
+                      price: 4.5
+                    - id: 2
+                      customer_name: Bob
+                      coffee_type: Espresso
+                      size: Small
+                      extras:
+                        - Extra shot
+                      price: 3.5
+              schema:
+                type: array
+                title: Response Get Orders Orders Get
+                items:
+                  $ref: "#/components/schemas/CoffeeOrder"
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      x-speakeasy-group: orders
+      x-speakeasy-usage-example: true
+    post:
+      tags:
+        - Orders
+      summary: Create Order
+      operationId: CreateOrder
+      description: |
+        Create a new coffee order.
+        Validates that the coffee type exists.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            examples:
+              simple_order:
+                summary: Basic coffee order
+                value:
+                  id: 3
+                  customer_name: Charlie
+                  coffee_type: Americano
+                  size: Large
+                  price: 3.75
+              complex_order:
+                summary: Coffee order with extras
+                value:
+                  id: 4
+                  customer_name: Diana
+                  coffee_type: Cappuccino
+                  size: Medium
+                  extras:
+                    - Whipped cream
+                    - Caramel syrup
+                  price: 5.25
+            schema:
+              $ref: "#/components/schemas/CoffeeOrder"
+      responses:
+        201:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoffeeOrder"
+        400:
+          description: Bad Request - Invalid coffee type or duplicate ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      x-speakeasy-group: orders
+      x-speakeasy-usage-example: true
+  /orders/{order_id}:
+    parameters:
+      - examples:
+          order1:
+            summary: First order
+            value: 1
+          order2:
+            summary: Second order
+            value: 2
+        name: order_id
+        in: path
+        required: true
+        description: The ID of the order to operate on
+        schema:
+          type: integer
+          title: Order ID
+          minimum: 1
+    get:
+      tags:
+        - Orders
+      summary: Get Order
+      operationId: GetOrder
+      description: Retrieve a specific coffee order by its ID.
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoffeeOrder"
+        404:
+          description: Order not found
+          content:
+            application/json:
+              examples:
+                not_found:
+                  value:
+                    detail: Order not found
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      x-speakeasy-group: orders
+    put:
+      tags:
+        - Orders
+      summary: Update Order
+      operationId: UpdateOrder
+      description: Update an existing coffee order.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CoffeeOrderUpdate"
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoffeeOrder"
+        404:
+          description: Order not found
+          content:
+            application/json:
+              examples:
+                not_found:
+                  value:
+                    detail: Order not found
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      x-speakeasy-group: orders
+    delete:
+      tags:
+        - Orders
+      summary: Delete Order
+      operationId: DeleteOrder
+      description: Delete a coffee order.
+      responses:
+        204:
+          description: Order successfully deleted
+        404:
+          description: Order not found
+          content:
+            application/json:
+              examples:
+                not_found:
+                  value:
+                    detail: Order not found
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      x-speakeasy-group: orders
+  /coffee-types:
+    get:
+      tags:
+        - CoffeeTypes
+      summary: Get Coffee Types
+      operationId: GetCoffeeTypes
+      description: Retrieve all available coffee types.
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              examples:
+                coffee_types:
+                  summary: List of available coffee types
+                  value:
+                    - name: Espresso
+                      description: Strong and bold coffee shot
+                      id: 1
+                      price_multiplier: 1
+                    - name: Latte
+                      description: Espresso with steamed milk
+                      id: 2
+                      price_multiplier: 1.2
+                    - name: Mocha
+                      description: Espresso with chocolate and steamed milk
+                      id: 3
+                      price_multiplier: 1.3
+              schema:
+                type: array
+                title: Response Get Coffee Types Coffee Types Get
+                items:
+                  $ref: "#/components/schemas/CoffeeType"
+      x-speakeasy-group: coffeeTypes
+    post:
+      tags:
+        - CoffeeTypes
+      summary: Create Coffee Type
+      operationId: CreateCoffeeType
+      description: Create a new coffee type.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CoffeeType"
+      responses:
+        201:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoffeeType"
+        400:
+          description: Bad Request - Duplicate ID
+          content:
+            application/json:
+              examples:
+                duplicate_id:
+                  value:
+                    detail: Coffee type with this ID already exists
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      x-speakeasy-group: coffeeTypes
+  /coffee-types/{type_id}:
+    parameters:
+      - examples:
+          espresso:
+            summary: Espresso type ID
+            value: 1
+          latte:
+            summary: Latte type ID
+            value: 2
+        name: type_id
+        in: path
+        required: true
+        description: The ID of the coffee type to operate on
+        schema:
+          type: integer
+          title: Type ID
+          minimum: 1
+    get:
+      tags:
+        - CoffeeTypes
+      summary: Get Coffee Type
+      operationId: GetCoffeeType
+      description: Retrieve a specific coffee type by its ID.
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoffeeType"
+        404:
+          description: Coffee type not found
+          content:
+            application/json:
+              examples:
+                not_found:
+                  value:
+                    detail: Coffee type not found
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      x-speakeasy-group: coffeeTypes
+    put:
+      tags:
+        - CoffeeTypes
+      summary: Update Coffee Type
+      operationId: UpdateCoffeeType
+      description: Update an existing coffee type.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CoffeeType"
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoffeeType"
+        404:
+          description: Coffee type not found
+          content:
+            application/json:
+              examples:
+                not_found:
+                  value:
+                    detail: Coffee type not found
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      x-speakeasy-group: coffeeTypes
+    delete:
+      tags:
+        - CoffeeTypes
+      summary: Delete Coffee Type
+      operationId: DeleteCoffeeType
+      description: Delete a coffee type.
+      responses:
+        204:
+          description: Coffee type successfully deleted
+        404:
+          description: Coffee type not found
+          content:
+            application/json:
+              examples:
+                not_found:
+                  value:
+                    detail: Coffee type not found
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      x-speakeasy-group: coffeeTypes
+components:
+  schemas:
+    CoffeeOrder:
+      examples:
+        - id: 5
+          customer_name: Eve
+          coffee_type: Mocha
+          size: Large
+          extras:
+            - Whipped cream
+            - Chocolate syrup
+          price: 6
+        - id: 6
+          customer_name: Grace
+          coffee_type: Cold Brew
+          size: Medium
+          extras:
+            - Vanilla syrup
+          price: 5.5
+      properties:
+        id:
+          type: integer
+          title: Id
+          description: Unique identifier for the order
+          example: 1
+        customer_name:
+          type: string
+          title: Customer Name
+          description: Name of the customer placing the order
+          example: Alice
+        coffee_type:
+          type: string
+          title: Coffee Type
+          description: Type of coffee ordered (must match an existing coffee type)
+          example: Latte
+        size:
+          type: string
+          title: Size
+          description: Size of the coffee order
+          enum:
+            - Small
+            - Medium
+            - Large
+          example: Medium
+        extras:
+          title: Extras
+          description: Optional additions to the coffee order
+          anyOf:
+            - type: array
+              items:
+                type: string
+            - type: "null"
+          example:
+            - Extra shot
+            - Soy milk
+        price:
+          type: number
+          title: Price
+          description: Total price of the order
+          minimum: 0.01
+          example: 4.5
+      type: object
+      required:
+        - id
+        - customer_name
+        - coffee_type
+        - size
+        - price
+      title: CoffeeOrder
+      description: Represents a coffee order in the system
+      x-speakeasy-entity: true
+    CoffeeOrderUpdate:
+      examples:
+        - customer_name: Frank
+          size: Small
+          extras:
+            - Sugar-free syrup
+        - coffee_type: Cappuccino
+          extras:
+            - Cinnamon
+            - Whipped cream
+          price: 5.75
+      properties:
+        customer_name:
+          title: Customer Name
+          description: Updated customer name
+          anyOf:
+            - type: string
+            - type: "null"
+          example: Alice
+        coffee_type:
+          title: Coffee Type
+          description: Updated coffee type (must match an existing coffee type)
+          anyOf:
+            - type: string
+            - type: "null"
+          example: Cappuccino
+        size:
+          title: Size
+          description: Updated size of the coffee order
+          anyOf:
+            - type: string
+            - type: "null"
+          example: Large
+          enum:
+            - Small
+            - Medium
+            - Large
+        extras:
+          title: Extras
+          description: Updated optional additions to the coffee order
+          anyOf:
+            - type: array
+              items:
+                type: string
+            - type: "null"
+          example:
+            - Whipped cream
+        price:
+          title: Price
+          description: Updated total price of the order
+          anyOf:
+            - type: number
+            - type: "null"
+          example: 5
+          minimum: 0.01
+      type: object
+      title: CoffeeOrderUpdate
+      description: Model for updating an existing coffee order (all fields optional)
+    CoffeeType:
+      examples:
+        - name: Cold Brew
+          description: Smooth, cold-steeped coffee
+          id: 4
+          price_multiplier: 1.4
+        - name: Flat White
+          description: Espresso with steamed whole milk
+          id: 5
+          price_multiplier: 1.25
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Name of the coffee type
+          example: Latte
+        description:
+          title: Description
+          description: Detailed description of the coffee type
+          anyOf:
+            - type: string
+            - type: "null"
+          example: A milk-based espresso coffee
+        id:
+          type: integer
+          title: Id
+          description: Unique identifier for the coffee type
+          example: 1
+        price_multiplier:
+          title: Price Multiplier
+          description: Price multiplier for this coffee type
+          anyOf:
+            - type: number
+            - type: "null"
+          default: 1
+          example: 1.2
+          minimum: 0.1
+          maximum: 5.0
+      type: object
+      required:
+        - id
+        - name
+      title: CoffeeType
+      description: Represents a type of coffee available in the system
+      x-speakeasy-entity: true
+    ErrorResponse:
+      type: object
+      title: ErrorResponse
+      description: Standard error response format
+      required:
+        - detail
+      properties:
+        detail:
+          type: string
+          description: Error detail message
+    HTTPValidationError:
+      examples:
+        - detail:
+            - type: value_error
+              loc:
+                - body
+                - coffee_type
+              msg: Invalid coffee type specified
+      properties:
+        detail:
+          type: array
+          title: Detail
+          description: List of validation errors
+          items:
+            $ref: "#/components/schemas/ValidationError"
+      type: object
+      title: HTTPValidationError
+      description: Error thrown when request validation fails
+    ValidationError:
+      examples:
+        - type: value_error.number.not_gt
+          loc:
+            - body
+            - price
+          msg: Price must be greater than 0
+      properties:
+        type:
+          type: string
+          title: Error Type
+          description: Type of error
+        loc:
+          type: array
+          title: Location
+          description: Location of the error in the request
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          type: string
+          title: Message
+          description: Error message
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
+      description: Detailed information about a validation error
+  securitySchemes:
+    ApiKeyAuth:
+      name: X-API-Key
+      type: apiKey
+      description: API key for authentication
+      in: header
+      x-speakeasy-example: "your-api-key-here"
+x-speakeasy-name-override:
+  - operationId: ^GetOrder$
+    methodNameOverride: getById
+  - operationId: ^GetOrders$
+    methodNameOverride: list
+  - operationId: ^GetCoffeeType$
+    methodNameOverride: getById
+  - operationId: ^GetCoffeeTypes$
+    methodNameOverride: list
+  - operationId: ^Create(.*)
+    methodNameOverride: create
+  - operationId: ^Update(.*)
+    methodNameOverride: update
+  - operationId: ^Delete(.*)
+    methodNameOverride: delete
+x-speakeasy-metadata:
+  sdk:
+    typescript:
+      packageName: coffee-api
+      packageVersion: 1.0.0
+      clientName: CoffeeAPI
+  features:
+    nativeErrors: true
+    cacheControl: true

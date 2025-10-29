@@ -1,0 +1,13 @@
+GET /orders/2 HTTP/1.1
+Host: localhost:18080
+Accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: *
+Connection: keep-alive
+Cookie: 
+Sec-Fetch-Mode: cors
+User-Agent: speakeasy-sdk/typescript 0.1.0 2.539.1 1.0.0 speakeasy-coffee-client
+X-Api-Key: your-api-key-here
+X-Speakeasy-Test-Instance-Id: B8F7994E-7018-C77B-3B24-C6A7A4736F36
+X-Speakeasy-Test-Name: GetOrder-order2
+

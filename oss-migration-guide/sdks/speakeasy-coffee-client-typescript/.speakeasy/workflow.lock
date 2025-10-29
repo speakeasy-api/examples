@@ -1,0 +1,38 @@
+speakeasyVersion: 1.509.1
+sources:
+    Coffee Orders API:
+        sourceNamespace: coffee-orders-api
+        sourceRevisionDigest: sha256:f894ed4498bf450c62d25daddce29450276d82c26066fee1304039cc0984e133
+        sourceBlobDigest: sha256:349becf1b143a60f925b15491b2eac56aef0b8cd87e5b1900c19f3813192b112
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    speakeasy-coffee-client:
+        source: Coffee Orders API
+        sourceNamespace: coffee-orders-api
+        sourceRevisionDigest: sha256:f894ed4498bf450c62d25daddce29450276d82c26066fee1304039cc0984e133
+        sourceBlobDigest: sha256:349becf1b143a60f925b15491b2eac56aef0b8cd87e5b1900c19f3813192b112
+        codeSamplesNamespace: coffee-orders-api-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:9280bc77faee28ca8d8894bca02df9984905ce8804f9f88598f638682b381b59
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        Coffee Orders API:
+            inputs:
+                - location: ../openapi-formatted.yaml
+            registry:
+                location: registry.speakeasyapi.dev/ritza-rzx/ritza/coffee-orders-api
+    targets:
+        speakeasy-coffee-client:
+            target: typescript
+            source: Coffee Orders API
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/ritza-rzx/ritza/coffee-orders-api-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false
+            testing:
+                enabled: true
