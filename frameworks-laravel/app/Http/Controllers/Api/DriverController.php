@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DriverResource;
+use App\Http\Resources\DriverCollection;
 use App\Models\Driver;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class DriverController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(): DriverCollection
     {
-        return response()->json(Driver::all());
+        return new DriverCollection(Driver::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request): DriverResource
     {
         $validated = $request->validate([
             'name' => 'required|string',
@@ -29,7 +30,7 @@ class DriverController extends Controller
 
         $driver = Driver::create($validated);
 
-        return response()->json($driver, 201);
+        return new DriverResource($driver);
     }
 
     /**
@@ -37,7 +38,7 @@ class DriverController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Not implemented
     }
 
     /**
@@ -45,7 +46,7 @@ class DriverController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Not implemented
     }
 
     /**
@@ -53,6 +54,6 @@ class DriverController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Not implemented
     }
 }

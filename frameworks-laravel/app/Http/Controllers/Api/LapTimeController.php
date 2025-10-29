@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LapTimeResource;
+use App\Http\Resources\LapTimeCollection;
 use App\Models\LapTime;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class LapTimeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): LapTimeCollection
     {
         $query = LapTime::query();
 
@@ -32,13 +33,13 @@ class LapTimeController extends Controller
             $query->where('lap_number', '<=', $request->lap_max);
         }
 
-        return response()->json($query->get());
+        return new LapTimeCollection($query->get());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request): LapTimeResource
     {
         $validated = $request->validate([
             'driver_id' => 'required|integer|exists:drivers,id',
@@ -49,25 +50,25 @@ class LapTimeController extends Controller
 
         $lapTime = LapTime::create($validated);
 
-        return response()->json($lapTime, 201);
+        return new LapTimeResource($lapTime);
     }
 
     /**
      * Get lap times for a specific driver.
      */
-    public function byDriver(string $driverId): JsonResponse
+    public function byDriver(string $driverId): LapTimeCollection
     {
         $lapTimes = LapTime::where('driver_id', $driverId)->get();
-        return response()->json($lapTimes);
+        return new LapTimeCollection($lapTimes);
     }
 
     /**
      * Get lap times for a specific circuit.
      */
-    public function byCircuit(string $circuitId): JsonResponse
+    public function byCircuit(string $circuitId): LapTimeCollection
     {
         $lapTimes = LapTime::where('circuit_id', $circuitId)->get();
-        return response()->json($lapTimes);
+        return new LapTimeCollection($lapTimes);
     }
 
     /**
@@ -75,7 +76,7 @@ class LapTimeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Not implemented
     }
 
     /**
@@ -83,7 +84,7 @@ class LapTimeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Not implemented
     }
 
     /**
@@ -91,6 +92,6 @@ class LapTimeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Not implemented
     }
 }

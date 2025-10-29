@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CircuitResource;
+use App\Http\Resources\CircuitCollection;
 use App\Models\Circuit;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class CircuitController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(): CircuitCollection
     {
-        return response()->json(Circuit::all());
+        return new CircuitCollection(Circuit::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request): CircuitResource
     {
         $validated = $request->validate([
             'name' => 'required|string',
@@ -29,7 +30,7 @@ class CircuitController extends Controller
 
         $circuit = Circuit::create($validated);
 
-        return response()->json($circuit, 201);
+        return new CircuitResource($circuit);
     }
 
     /**
@@ -37,7 +38,7 @@ class CircuitController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Not implemented
     }
 
     /**
@@ -45,7 +46,7 @@ class CircuitController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Not implemented
     }
 
     /**
@@ -53,6 +54,6 @@ class CircuitController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Not implemented
     }
 }

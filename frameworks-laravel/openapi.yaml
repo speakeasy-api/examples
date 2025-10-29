@@ -2,7 +2,7 @@
 openapi: 3.0.1
 info:
   title: F1 Laps API
-  version: v1
+  version: 1.0.0
   description: API for accessing Formula 1 lap time data and analytics
   contact:
     name: API Support
@@ -11,7 +11,7 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
 paths:
-  "/v1/circuits":
+  "/circuits":
     get:
       summary: List all circuits
       tags:
@@ -65,7 +65,7 @@ paths:
               required:
               - name
               - location
-  "/v1/drivers":
+  "/drivers":
     get:
       summary: List all drivers
       tags:
@@ -119,7 +119,7 @@ paths:
               required:
               - name
               - code
-  "/v1/health":
+  "/health":
     get:
       summary: Get API health status
       tags:
@@ -145,7 +145,7 @@ paths:
                 - status
                 - version
                 - timestamp
-  "/v1/lap_times":
+  "/lap_times":
     get:
       summary: List all lap times
       tags:
@@ -236,7 +236,7 @@ paths:
               - circuit_id
               - time_ms
               - lap_number
-  "/v1/drivers/{driver_id}/lap_times":
+  "/drivers/{driver_id}/lap_times":
     get:
       summary: Get lap times for a specific driver
       tags:
@@ -271,7 +271,7 @@ paths:
                     updated_at:
                       type: string
                       format: date-time
-  "/v1/circuits/{circuit_id}/lap_times":
+  "/circuits/{circuit_id}/lap_times":
     get:
       summary: Get lap times for a specific circuit
       tags:

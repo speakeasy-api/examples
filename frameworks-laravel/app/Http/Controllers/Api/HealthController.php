@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -11,7 +11,7 @@ class HealthController extends Controller
     {
         return response()->json([
             'status' => 'healthy',
-            'version' => 'v1',
+            'version' => 'unversioned',
             'timestamp' => now()->toIso8601String(),
         ]);
     }
