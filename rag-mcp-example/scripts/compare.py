@@ -22,7 +22,7 @@ chroma_client = chromadb.PersistentClient(path="./chroma_db")
 collection = chroma_client.get_collection("django_docs")
 
 # Test question
-question = "What's new in django.contrib.gis for Django 5.2?"
+question = "Django 5.2 new features"
 
 print("=" * 80)
 print("RAG vs MCP COMPARISON")
@@ -69,7 +69,7 @@ async def query_mcp():
     # 1. Connect to MCP server
     server_params = StdioServerParameters(
         command="python3",
-        args=["mcp_server.py"],
+        args=["scripts/mcp_server.py"],
         env=None
     )
     

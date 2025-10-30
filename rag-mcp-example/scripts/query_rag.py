@@ -17,7 +17,7 @@ client = chromadb.PersistentClient(path="./chroma_db")
 collection = client.get_collection("django_docs")
 
 # Query
-query = "What's new in django.contrib.gis for Django 5.2?"
+query = "Django 5.2 new features"
 print(f"Query: {query}\n")
 
 # Embed query and search
