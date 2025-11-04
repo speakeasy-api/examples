@@ -19,14 +19,29 @@ class DjangoMCPServer:
     
     def _load_documentation(self):
         """Load Django PDF once at startup"""
-        pdf_path = Path("django.pdf")
-        if not pdf_path.exists():
+        # Try multiple possible paths for the PDF
+        possible_paths = [
+            Path("django.pdf"),  # Current directory
+            Path("resources/django.pdf"),  # Resources folder
+            Path("../resources/django.pdf"),  # Parent resources folder
+        ]
+        
+        pdf_path = None
+        for path in possible_paths:
+            if path.exists():
+                pdf_path = path
+                break
+        
+        if not pdf_path:
+            print("Warning: django.pdf not found in any expected location")
             return
         
+        print(f"Loading Django documentation from: {pdf_path}")
         reader = PdfReader(str(pdf_path))
         self.documentation_pages = [
             page.extract_text() for page in reader.pages
         ]
+        print(f"Loaded {len(self.documentation_pages)} pages from Django documentation")
     
     def _search_documentation(self, query: str, max_pages: int = 50):
         """Keyword search across all pages"""
