@@ -7,7 +7,7 @@ from pathlib import Path
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 import json
 
 class DjangoMCPServer:

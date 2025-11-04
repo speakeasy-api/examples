@@ -5,7 +5,7 @@ Run this once to index the documentation.
 """
 
 from pathlib import Path
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 from sentence_transformers import SentenceTransformer
 import chromadb
 
