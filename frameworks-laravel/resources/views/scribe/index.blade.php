@@ -72,7 +72,7 @@
                 </li>
                                     <ul id="tocify-subheader-endpoints" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="endpoints-GETapi-health">
-                                <a href="#endpoints-GETapi-health">GET api/health</a>
+                                <a href="#endpoints-GETapi-health">Healthcheck</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-drivers">
                                 <a href="#endpoints-GETapi-drivers">Display a listing of the resource.</a>
@@ -87,10 +87,13 @@
                                 <a href="#endpoints-GETapi-circuits--id-">Display the specified resource.</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-races">
-                                <a href="#endpoints-GETapi-races">Display a listing of the resource.</a>
+                                <a href="#endpoints-GETapi-races">Get races</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-races--id-">
                                 <a href="#endpoints-GETapi-races--id-">Display the specified resource.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-races">
+                                <a href="#endpoints-POSTapi-races">Create a race</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -103,7 +106,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: November 3, 2025</li>
+        <li>Last updated: November 16, 2025</li>
     </ul>
 </div>
 
@@ -125,12 +128,13 @@ This documentation aims to provide all the information you need to work with our
 
     
 
-                                <h2 id="endpoints-GETapi-health">GET api/health</h2>
+                                <h2 id="endpoints-GETapi-health">Healthcheck</h2>
 
 <p>
 </p>
 
-
+<p>Check that the service is up. If everything is okay, you'll get a 200 OK response.</p>
+<p>Otherwise, the request will fail with a 400 error, and a response listing the failed services.</p>
 
 <span id="example-requests-GETapi-health">
 <blockquote>Example request:</blockquote>
@@ -176,7 +180,7 @@ access-control-allow-origin: *
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;healthy&quot;,
     &quot;version&quot;: &quot;unversioned&quot;,
-    &quot;timestamp&quot;: &quot;2025-11-03T10:55:55+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-11-16T15:08:22+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -943,12 +947,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-GETapi-races">Display a listing of the resource.</h2>
+                    <h2 id="endpoints-GETapi-races">Get races</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>A collection of race resources, newest first, optionally filtered by circuit or season query parameters.</p>
 
 <span id="example-requests-GETapi-races">
 <blockquote>Example request:</blockquote>
@@ -956,7 +961,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/races" \
+    --get "http://localhost/api/races?season=2024&amp;circuit=Monaco" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -965,6 +970,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-javascript">const url = new URL(
     "http://localhost/api/races"
 );
+
+const params = {
+    "season": "2024",
+    "circuit": "Monaco",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 const headers = {
     "Content-Type": "application/json",
@@ -992,75 +1004,9 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;name&quot;: &quot;2024 Monaco Grand Prix&quot;,
-            &quot;race_date&quot;: &quot;2024-05-26&quot;,
-            &quot;season&quot;: &quot;2024&quot;,
-            &quot;created_at&quot;: &quot;2025-10-29T17:21:39+00:00&quot;,
-            &quot;updated_at&quot;: &quot;2025-10-29T17:21:39+00:00&quot;,
-            &quot;links&quot;: {
-                &quot;self&quot;: &quot;http://localhost/api/races/1&quot;,
-                &quot;circuit&quot;: &quot;http://localhost/api/circuits/1&quot;,
-                &quot;drivers&quot;: &quot;http://localhost/api/drivers?race=1&quot;
-            }
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;name&quot;: &quot;2024 British Grand Prix&quot;,
-            &quot;race_date&quot;: &quot;2024-07-07&quot;,
-            &quot;season&quot;: &quot;2024&quot;,
-            &quot;created_at&quot;: &quot;2025-10-29T17:21:39+00:00&quot;,
-            &quot;updated_at&quot;: &quot;2025-10-29T17:21:39+00:00&quot;,
-            &quot;links&quot;: {
-                &quot;self&quot;: &quot;http://localhost/api/races/2&quot;,
-                &quot;circuit&quot;: &quot;http://localhost/api/circuits/2&quot;,
-                &quot;drivers&quot;: &quot;http://localhost/api/drivers?race=2&quot;
-            }
-        },
-        {
-            &quot;id&quot;: 3,
-            &quot;name&quot;: &quot;2024 Italian Grand Prix&quot;,
-            &quot;race_date&quot;: &quot;2024-09-01&quot;,
-            &quot;season&quot;: &quot;2024&quot;,
-            &quot;created_at&quot;: &quot;2025-10-29T17:21:39+00:00&quot;,
-            &quot;updated_at&quot;: &quot;2025-10-29T17:21:39+00:00&quot;,
-            &quot;links&quot;: {
-                &quot;self&quot;: &quot;http://localhost/api/races/3&quot;,
-                &quot;circuit&quot;: &quot;http://localhost/api/circuits/3&quot;,
-                &quot;drivers&quot;: &quot;http://localhost/api/drivers?race=3&quot;
-            }
-        },
-        {
-            &quot;id&quot;: 4,
-            &quot;name&quot;: &quot;2024 Belgian Grand Prix&quot;,
-            &quot;race_date&quot;: &quot;2024-07-28&quot;,
-            &quot;season&quot;: &quot;2024&quot;,
-            &quot;created_at&quot;: &quot;2025-10-29T17:21:39+00:00&quot;,
-            &quot;updated_at&quot;: &quot;2025-10-29T17:21:39+00:00&quot;,
-            &quot;links&quot;: {
-                &quot;self&quot;: &quot;http://localhost/api/races/4&quot;,
-                &quot;circuit&quot;: &quot;http://localhost/api/circuits/4&quot;,
-                &quot;drivers&quot;: &quot;http://localhost/api/drivers?race=4&quot;
-            }
-        },
-        {
-            &quot;id&quot;: 5,
-            &quot;name&quot;: &quot;2024 Japanese Grand Prix&quot;,
-            &quot;race_date&quot;: &quot;2024-04-07&quot;,
-            &quot;season&quot;: &quot;2024&quot;,
-            &quot;created_at&quot;: &quot;2025-10-29T17:21:40+00:00&quot;,
-            &quot;updated_at&quot;: &quot;2025-10-29T17:21:40+00:00&quot;,
-            &quot;links&quot;: {
-                &quot;self&quot;: &quot;http://localhost/api/races/5&quot;,
-                &quot;circuit&quot;: &quot;http://localhost/api/circuits/5&quot;,
-                &quot;drivers&quot;: &quot;http://localhost/api/drivers?race=5&quot;
-            }
-        }
-    ],
+    &quot;data&quot;: [],
     &quot;meta&quot;: {
-        &quot;count&quot;: 5
+        &quot;count&quot;: 0
     }
 }</code>
  </pre>
@@ -1082,7 +1028,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-GETapi-races" data-method="GET"
       data-path="api/races"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
@@ -1136,7 +1082,32 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>season</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="season"                data-endpoint="GETapi-races"
+               value="2024"
+               data-component="query">
+    <br>
+<p>Filter the results by season year Example: <code>2024</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>circuit</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="circuit"                data-endpoint="GETapi-races"
+               value="Monaco"
+               data-component="query">
+    <br>
+<p>Filter the results by circuit name Example: <code>Monaco</code></p>
+            </div>
+                </form>
 
                     <h2 id="endpoints-GETapi-races--id-">Display the specified resource.</h2>
 
@@ -1288,6 +1259,202 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>The ID of the race. Example: <code>1</code></p>
             </div>
                     </form>
+
+                    <h2 id="endpoints-POSTapi-races">Create a race</h2>
+
+<p>
+</p>
+
+<p>Allows authenticated users to submit a new Race resource to the system.</p>
+
+<span id="example-requests-POSTapi-races">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/races" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"Monaco Grand Prix\",
+    \"circuit_id\": \"1234-1234-1234-1234\",
+    \"race_date\": \"2024-05-26T14:53:59\",
+    \"season\": \"2024\",
+    \"driver_ids\": [
+        \"5678-5678-5678-5678\",
+        \"6789-6789-6789-6789\"
+    ]
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/races"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "Monaco Grand Prix",
+    "circuit_id": "1234-1234-1234-1234",
+    "race_date": "2024-05-26T14:53:59",
+    "season": "2024",
+    "driver_ids": [
+        "5678-5678-5678-5678",
+        "6789-6789-6789-6789"
+    ]
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-races">
+</span>
+<span id="execution-results-POSTapi-races" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-races"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-races"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-races" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-races">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-races" data-method="POST"
+      data-path="api/races"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-races', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-races"
+                    onclick="tryItOut('POSTapi-races');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-races"
+                    onclick="cancelTryOut('POSTapi-races');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-races"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/races</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-races"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-races"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTapi-races"
+               value="Monaco Grand Prix"
+               data-component="body">
+    <br>
+<p>The name of the race. Example: <code>Monaco Grand Prix</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>circuit_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="circuit_id"                data-endpoint="POSTapi-races"
+               value="1234-1234-1234-1234"
+               data-component="body">
+    <br>
+<p>The Unique Identifier for the circuit where the race will be held. Example: <code>1234-1234-1234-1234</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>race_date</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="race_date"                data-endpoint="POSTapi-races"
+               value="2024-05-26T14:53:59"
+               data-component="body">
+    <br>
+<p>The date and time the race takes place, RFC 3339 in local timezone. Example: <code>2024-05-26T14:53:59</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>season</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="season"                data-endpoint="POSTapi-races"
+               value="2024"
+               data-component="body">
+    <br>
+<p>The season year for this race. Example: <code>2024</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>driver_ids</code></b>&nbsp;&nbsp;
+<small>string[]</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="driver_ids[0]"                data-endpoint="POSTapi-races"
+               data-component="body">
+        <input type="text" style="display: none"
+               name="driver_ids[1]"                data-endpoint="POSTapi-races"
+               data-component="body">
+    <br>
+<p>An array of Unique Identifiers for drivers participating in the race.</p>
+        </div>
+        </form>
 
             
 

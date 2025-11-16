@@ -14,8 +14,11 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
+      title: Healthcheck
+      description: |-
+        Check that the service is up. If everything is okay, you'll get a 200 OK response.
+
+        Otherwise, the request will fail with a 400 error, and a response listing the failed services.
       authenticated: false
       deprecated: false
     headers:
@@ -32,7 +35,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"status":"healthy","version":"unversioned","timestamp":"2025-11-03T10:55:55+00:00"}'
+        content: '{"status":"healthy","version":"unversioned","timestamp":"2025-11-16T15:08:22+00:00"}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -238,17 +241,41 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
-      authenticated: false
+      title: 'Get races'
+      description: 'A collection of race resources, newest first, optionally filtered by circuit or season query parameters.'
+      authenticated: true
       deprecated: false
     headers:
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
+    queryParameters:
+      season:
+        custom: []
+        name: season
+        description: 'Filter the results by season year'
+        required: false
+        example: '2024'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      circuit:
+        custom: []
+        name: circuit
+        description: 'Filter the results by circuit name'
+        required: false
+        example: Monaco
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      season: '2024'
+      circuit: Monaco
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
@@ -256,7 +283,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"data":[{"id":1,"name":"2024 Monaco Grand Prix","race_date":"2024-05-26","season":"2024","created_at":"2025-10-29T17:21:39+00:00","updated_at":"2025-10-29T17:21:39+00:00","links":{"self":"http:\/\/localhost\/api\/races\/1","circuit":"http:\/\/localhost\/api\/circuits\/1","drivers":"http:\/\/localhost\/api\/drivers?race=1"}},{"id":2,"name":"2024 British Grand Prix","race_date":"2024-07-07","season":"2024","created_at":"2025-10-29T17:21:39+00:00","updated_at":"2025-10-29T17:21:39+00:00","links":{"self":"http:\/\/localhost\/api\/races\/2","circuit":"http:\/\/localhost\/api\/circuits\/2","drivers":"http:\/\/localhost\/api\/drivers?race=2"}},{"id":3,"name":"2024 Italian Grand Prix","race_date":"2024-09-01","season":"2024","created_at":"2025-10-29T17:21:39+00:00","updated_at":"2025-10-29T17:21:39+00:00","links":{"self":"http:\/\/localhost\/api\/races\/3","circuit":"http:\/\/localhost\/api\/circuits\/3","drivers":"http:\/\/localhost\/api\/drivers?race=3"}},{"id":4,"name":"2024 Belgian Grand Prix","race_date":"2024-07-28","season":"2024","created_at":"2025-10-29T17:21:39+00:00","updated_at":"2025-10-29T17:21:39+00:00","links":{"self":"http:\/\/localhost\/api\/races\/4","circuit":"http:\/\/localhost\/api\/circuits\/4","drivers":"http:\/\/localhost\/api\/drivers?race=4"}},{"id":5,"name":"2024 Japanese Grand Prix","race_date":"2024-04-07","season":"2024","created_at":"2025-10-29T17:21:40+00:00","updated_at":"2025-10-29T17:21:40+00:00","links":{"self":"http:\/\/localhost\/api\/races\/5","circuit":"http:\/\/localhost\/api\/circuits\/5","drivers":"http:\/\/localhost\/api\/drivers?race=5"}}],"meta":{"count":5}}'
+        content: '{"data":[],"meta":{"count":0}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -314,6 +341,101 @@ endpoints:
           content-type: application/json
           access-control-allow-origin: '*'
         description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/races
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Create a race'
+      description: 'Allows authenticated users to submit a new Race resource to the system.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: 'The name of the race.'
+        required: true
+        example: 'Monaco Grand Prix'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      circuit_id:
+        custom: []
+        name: circuit_id
+        description: 'The Unique Identifier for the circuit where the race will be held.'
+        required: true
+        example: 1234-1234-1234-1234
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      race_date:
+        custom: []
+        name: race_date
+        description: 'The date and time the race takes place, RFC 3339 in local timezone.'
+        required: true
+        example: '2024-05-26T14:53:59'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      season:
+        custom: []
+        name: season
+        description: 'The season year for this race.'
+        required: true
+        example: '2024'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      driver_ids:
+        custom: []
+        name: driver_ids
+        description: 'An array of Unique Identifiers for drivers participating in the race.'
+        required: false
+        example:
+          - 5678-5678-5678-5678
+          - 6789-6789-6789-6789
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: 'Monaco Grand Prix'
+      circuit_id: 1234-1234-1234-1234
+      race_date: '2024-05-26T14:53:59'
+      season: '2024'
+      driver_ids:
+        - 5678-5678-5678-5678
+        - 6789-6789-6789-6789
+    fileParameters: []
+    responses: []
     responseFields: []
     auth: []
     controller: null
