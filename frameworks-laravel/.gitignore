@@ -8,7 +8,6 @@
 /.fleet
 /.idea
 /.nova
-/.scribe
 /.phpunit.cache
 /.vscode
 /.zed
@@ -23,3 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Scribe
+.scribe
