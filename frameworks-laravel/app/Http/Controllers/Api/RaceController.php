@@ -7,8 +7,9 @@ use App\Http\Resources\RaceResource;
 use App\Http\Resources\RaceCollection;
 use App\Models\Race;
 use Illuminate\Http\Request;
-use Knuckles\Scribe\Attributes\{Authenticated, BodyParam, QueryParam};
+use Knuckles\Scribe\Attributes\{Authenticated, Group, BodyParam, QueryParam};
 
+#[Group(name: 'Races', description: 'A series of endpoints that allow programmatic access to managing F1 races.', authenticated: true)]
 class RaceController extends Controller
 {
     /**
