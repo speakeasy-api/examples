@@ -1,0 +1,129 @@
+lockVersion: 2.0.0
+id: ff0e8d69-7b63-41ac-a62d-6308b3b64b6c
+management:
+  docChecksum: c213754a91485b968716aada1011c873
+  docVersion: 1.0.0
+  speakeasyVersion: 1.639.3
+  generationVersion: 2.730.5
+  releaseVersion: 0.2.0
+  configChecksum: d792ca790690520ddd07aba61c8cfb17
+features:
+  python:
+    additionalDependencies: 1.0.0
+    core: 5.23.0
+    defaultEnabledRetries: 0.2.0
+    enumUnions: 0.1.0
+    envVarSecurityUsage: 0.3.2
+    globalSecurityCallbacks: 1.0.0
+    globalServerURLs: 3.1.1
+    inputOutputModels: 3.0.0
+    methodArguments: 1.0.2
+    responseFormat: 1.0.1
+    retries: 3.0.2
+    sdkHooks: 1.1.0
+    webhooks: 2.0.0
+generatedFiles:
+  - .gitattributes
+  - .vscode/settings.json
+  - USAGE.md
+  - docs/models/burgerschema.md
+  - docs/models/burgerschemaoutput.md
+  - docs/models/getburgerrequest.md
+  - docs/models/getorderrequest.md
+  - docs/models/orderschema.md
+  - docs/models/orderschemaoutput.md
+  - docs/models/orderschemaoutputstatus.md
+  - docs/models/status.md
+  - docs/models/utils/retryconfig.md
+  - docs/sdks/burgers/README.md
+  - docs/sdks/orders/README.md
+  - poetry.toml
+  - py.typed
+  - pylintrc
+  - pyproject.toml
+  - scripts/publish.sh
+  - src/openapi/__init__.py
+  - src/openapi/_hooks/__init__.py
+  - src/openapi/_hooks/sdkhooks.py
+  - src/openapi/_hooks/types.py
+  - src/openapi/_version.py
+  - src/openapi/basesdk.py
+  - src/openapi/burgers.py
+  - src/openapi/errors/__init__.py
+  - src/openapi/errors/no_response_error.py
+  - src/openapi/errors/responsevalidationerror.py
+  - src/openapi/errors/sdkbaseerror.py
+  - src/openapi/errors/sdkerror.py
+  - src/openapi/httpclient.py
+  - src/openapi/models/__init__.py
+  - src/openapi/models/burgerschema.py
+  - src/openapi/models/burgerschemaoutput.py
+  - src/openapi/models/getburgerop.py
+  - src/openapi/models/getorderop.py
+  - src/openapi/models/orderschema.py
+  - src/openapi/models/orderschemaoutput.py
+  - src/openapi/orders.py
+  - src/openapi/py.typed
+  - src/openapi/sdk.py
+  - src/openapi/sdkconfiguration.py
+  - src/openapi/types/__init__.py
+  - src/openapi/types/basemodel.py
+  - src/openapi/utils/__init__.py
+  - src/openapi/utils/annotations.py
+  - src/openapi/utils/datetimes.py
+  - src/openapi/utils/enums.py
+  - src/openapi/utils/eventstreaming.py
+  - src/openapi/utils/forms.py
+  - src/openapi/utils/headers.py
+  - src/openapi/utils/logger.py
+  - src/openapi/utils/metadata.py
+  - src/openapi/utils/queryparams.py
+  - src/openapi/utils/requestbodies.py
+  - src/openapi/utils/retries.py
+  - src/openapi/utils/security.py
+  - src/openapi/utils/serializers.py
+  - src/openapi/utils/unmarshal_json_response.py
+  - src/openapi/utils/url.py
+  - src/openapi/utils/values.py
+examples:
+  createBurger:
+    speakeasy-default-create-burger:
+      requestBody:
+        application/json: {"description": "A delicious bean burger with avocado.", "name": "Veggie Burger"}
+      responses:
+        "201":
+          application/json: {"description": "A delicious bean burger with avocado.", "id": 1, "name": "Veggie Burger"}
+  getBurger:
+    speakeasy-default-get-burger:
+      parameters:
+        path:
+          id: 1
+      responses:
+        "200":
+          application/json: {"description": "A delicious bean burger with avocado.", "id": 1, "name": "Veggie Burger"}
+  listBurgers:
+    speakeasy-default-list-burgers:
+      responses:
+        "200":
+          application/json: [{"description": "A delicious bean burger with avocado.", "id": 1, "name": "Veggie Burger"}]
+  createBurgerWebhook:
+    speakeasy-default-create-burger-webhook:
+      requestBody:
+        application/json: {"description": "A delicious bean burger with avocado.", "name": "Veggie Burger"}
+  createOrder:
+    speakeasy-default-create-order:
+      requestBody:
+        application/json: {"burger_ids": [1, 2], "note": "No onions.", "status": "pending", "table": 1, "time": "2021-01-01T00:00:00Z"}
+      responses:
+        "201":
+          application/json: {"burger_ids": [1, 2], "id": 1, "note": "No onions.", "status": "pending", "table": 1, "time": "2021-01-01T00:00:00Z"}
+  getOrder:
+    speakeasy-default-get-order:
+      parameters:
+        path:
+          id: 1
+      responses:
+        "200":
+          application/json: {"burger_ids": [1, 2], "id": 1, "note": "No onions.", "status": "pending", "table": 1, "time": "2021-01-01T00:00:00Z"}
+examplesVersion: 1.0.2
+generatedTests: {}
