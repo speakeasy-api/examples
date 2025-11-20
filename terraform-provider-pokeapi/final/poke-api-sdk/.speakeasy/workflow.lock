@@ -1,0 +1,37 @@
+speakeasyVersion: 1.636.3
+sources:
+    PokeAPISDK-OAS:
+        sourceNamespace: poke-apisdk-oas
+        sourceRevisionDigest: sha256:48a43b0c5e37a53c87604729ba1988828f594692bb53f431a76638d323da8cdc
+        sourceBlobDigest: sha256:56b51d9e58f395224df4d6a6e8beee5dd627064ec1f99f288c84cd18dd54bd97
+        tags:
+            - latest
+            - "20220523"
+targets:
+    poke-apisdk:
+        source: PokeAPISDK-OAS
+        sourceNamespace: poke-apisdk-oas
+        sourceRevisionDigest: sha256:48a43b0c5e37a53c87604729ba1988828f594692bb53f431a76638d323da8cdc
+        sourceBlobDigest: sha256:56b51d9e58f395224df4d6a6e8beee5dd627064ec1f99f288c84cd18dd54bd97
+        codeSamplesNamespace: poke-apisdk-oas-go-code-samples
+        codeSamplesRevisionDigest: sha256:81d6210d78e232edbcb6fd2c66653c5d1fafe0cdc24af323b83a22ea90869adc
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        PokeAPISDK-OAS:
+            inputs:
+                - location: ../openapi.yml
+            output: .speakeasy/out.openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/vedalok/test/poke-apisdk-oas
+    targets:
+        poke-apisdk:
+            target: go
+            source: PokeAPISDK-OAS
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/vedalok/test/poke-apisdk-oas-go-code-samples
+                labelOverride:
+                    fixedValue: Go (SDK)
+                blocking: false
