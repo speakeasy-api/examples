@@ -29,14 +29,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BurgerCreate"
+              $ref: "#/components/schemas/burgerSchema"
       responses:
         "201":
           description: The burger was created successfully.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/burgerSchema"
+                $ref: "#/components/schemas/burgerSchemaOutput"
     get:
       operationId: listBurgers
       summary: List burgers
@@ -51,7 +51,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/burgerSchema"
+                  $ref: "#/components/schemas/burgerSchemaOutput"
   /burgers/{id}:
     get:
       operationId: getBurger
@@ -62,17 +62,17 @@ paths:
       parameters:
         - in: path
           name: id
-          description: The unique identifier of the burger.
           schema:
-            $ref: "#/components/schemas/BurgerId"
+            $ref: "#/components/schemas/BurgerIdSchema"
           required: true
+          description: The unique identifier of the burger.
       responses:
         "200":
           description: The burger was retrieved successfully.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/burgerSchema"
+                $ref: "#/components/schemas/burgerSchemaOutput"
   /orders:
     post:
       operationId: createOrder
@@ -85,14 +85,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/OrderCreate"
+              $ref: "#/components/schemas/orderSchema"
       responses:
         "201":
           description: The order was created successfully.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
+                $ref: "#/components/schemas/orderSchemaOutput"
   /orders/{id}:
     get:
       operationId: getOrder
@@ -103,17 +103,17 @@ paths:
       parameters:
         - in: path
           name: id
-          description: The unique identifier of the order.
           schema:
-            $ref: "#/components/schemas/OrderId"
+            $ref: "#/components/schemas/OrderIdSchema"
           required: true
+          description: The unique identifier of the order.
       responses:
         "200":
           description: The order was retrieved successfully.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
+                $ref: "#/components/schemas/orderSchemaOutput"
 webhooks:
   /burgers:
     post:
@@ -134,128 +134,147 @@ webhooks:
 components:
   schemas:
     burgerSchema:
+      description: A burger served at the restaurant.
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/BurgerId"
+          $ref: "#/components/schemas/BurgerIdSchema"
         name:
+          description: The name of the burger.
+          example: Veggie Burger
           type: string
           minLength: 1
           maxLength: 50
-          description: The name of the burger.
-          example: Veggie Burger
         description:
-          type: string
-          maxLength: 255
           description: The description of the burger.
           example: A delicious bean burger with avocado.
+          type: string
+          maxLength: 255
       required:
         - id
         - name
-    BurgerCreate:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 50
-          description: The name of the burger.
-          example: Veggie Burger
-        description:
-          type: string
-          maxLength: 255
-          description: The description of the burger.
-          example: A delicious bean burger with avocado.
-      required:
-        - name
-      description: A burger to create.
-    BurgerId:
-      type: number
-      minimum: 1
+    BurgerIdSchema:
       description: The unique identifier of the burger.
       example: 1
-    Order:
+      readOnly: true
+      type: number
+      minimum: 1
+    orderSchema:
+      description: An order placed at the restaurant.
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/OrderId"
+          $ref: "#/components/schemas/OrderIdSchema"
         burger_ids:
-          type: array
-          items:
-            $ref: "#/components/schemas/BurgerId"
-          minItems: 1
           description: The burgers in the order.
-          example: &a1
+          example:
             - 1
             - 2
+          minItems: 1
+          type: array
+          items:
+            $ref: "#/components/schemas/BurgerIdSchema"
         time:
-          type: string
-          format: date-time
           description: The time the order was placed.
           example: 2021-01-01T00:00:00.000Z
+          type: string
+          format: date-time
+          pattern: ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))T(?:(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z))$
         table:
-          type: number
-          minimum: 1
           description: The table the order is for.
           example: 1
+          type: number
+          minimum: 1
         status:
+          description: The status of the order.
+          example: pending
           type: string
-          enum: &a2
+          enum:
             - pending
             - in_progress
             - ready
             - delivered
-          description: The status of the order.
-          example: pending
         note:
-          type: string
           description: A note for the order.
           example: No onions.
+          type: string
       required:
         - id
         - burger_ids
         - time
         - table
         - status
-      description: An order placed at the restaurant.
-    OrderCreate:
+    OrderIdSchema:
+      description: The unique identifier of the order.
+      example: 1
+      readOnly: true
+      type: number
+      minimum: 1
+    burgerSchemaOutput:
+      description: A burger served at the restaurant.
       type: object
       properties:
+        id:
+          $ref: "#/components/schemas/BurgerIdSchema"
+        name:
+          description: The name of the burger.
+          example: Veggie Burger
+          type: string
+          minLength: 1
+          maxLength: 50
+        description:
+          description: The description of the burger.
+          example: A delicious bean burger with avocado.
+          type: string
+          maxLength: 255
+      required:
+        - id
+        - name
+      additionalProperties: false
+    orderSchemaOutput:
+      description: An order placed at the restaurant.
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/OrderIdSchema"
         burger_ids:
+          description: The burgers in the order.
+          example:
+            - 1
+            - 2
+          minItems: 1
           type: array
           items:
-            $ref: "#/components/schemas/BurgerId"
-          minItems: 1
-          description: The burgers in the order.
-          example: *a1
+            $ref: "#/components/schemas/BurgerIdSchema"
         time:
-          type: string
-          format: date-time
           description: The time the order was placed.
           example: 2021-01-01T00:00:00.000Z
+          type: string
+          format: date-time
+          pattern: ^(?:(?:\d\d[2468][048]|\d\d[13579][26]|\d\d0[48]|[02468][048]00|[13579][26]00)-02-29|\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\d|30)|(?:02)-(?:0[1-9]|1\d|2[0-8])))T(?:(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z))$
         table:
-          type: number
-          minimum: 1
           description: The table the order is for.
           example: 1
+          type: number
+          minimum: 1
         status:
-          type: string
-          enum: *a2
           description: The status of the order.
           example: pending
-        note:
           type: string
+          enum:
+            - pending
+            - in_progress
+            - ready
+            - delivered
+        note:
           description: A note for the order.
           example: No onions.
+          type: string
       required:
+        - id
         - burger_ids
         - time
         - table
         - status
-      description: An order to create.
-    OrderId:
-      type: number
-      minimum: 1
-      description: The unique identifier of the order.
-      example: 1
+      additionalProperties: false
 

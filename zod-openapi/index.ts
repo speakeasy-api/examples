@@ -1,138 +1,78 @@
-// Following Zod v4 migration guide: https://github.com/colinhacks/zod/issues/4371
-// Using dual import strategy for incremental Zod v4 adoption
-
-// Import Zod v3 compatible instance for zod-openapi
-import { z as z3 } from "zod"; 
-// Import Zod v4 for new features and future migration
-import { z as z4 } from "zod/v4"; 
-
 import * as yaml from "yaml";
+import zod from "zod";
+import { ZodOpenApiOperationObject, createDocument } from "zod-openapi";
 
-import {
-  extendZodWithOpenApi,
-  ZodOpenApiOperationObject,
-  createDocument
-} from "zod-openapi";
+// Step 1: Burger ID Schema with path parameter metadata
+const BurgerIdSchema = zod.number().min(1).meta({
+  description: "The unique identifier of the burger.",
+  example: 1,
+  readOnly: true,
+});
 
-// Extend the Zod v3 compatible instance for zod-openapi
-extendZodWithOpenApi(z3);
-
-// Schemas defined with z3 for current zod-openapi compatibility
-
-
-// Step 10: Burger ID Schema with path parameter metadata
-const BurgerIdSchema = z3
-  .number()
-  .min(1)
-  .openapi({
-    ref: "BurgerId",
-    description: "The unique identifier of the burger.",
-    example: 1,
-    param: {
-      in: "path",
-      name: "id",
-    },
+// Step 2: Burger Schema with metadata
+const burgerSchema = zod
+  .object({
+    id: BurgerIdSchema,
+    name: zod.string().min(1).max(50).meta({
+      description: "The name of the burger.",
+      example: "Veggie Burger",
+    }),
+    description: zod.string().max(255).optional().meta({
+      description: "The description of the burger.",
+      example: "A delicious bean burger with avocado.",
+    }),
+  })
+  .meta({
+    description: "A burger served at the restaurant.",
   });
 
-// Step 6: Burger Schema with metadata
-const burgerSchema = z3.object({
-  id: BurgerIdSchema,
-  name: z3.string().min(1).max(50).openapi({
-    description: "The name of the burger.",
-    example: "Veggie Burger",
-  }),
-  description: z3.string().max(255).optional().openapi({
-    description: "The description of the burger.",
-    example: "A delicious bean burger with avocado.",
-  }),
+// Step 3: Adding Order schemas for a more complete example
+const OrderIdSchema = zod.number().min(1).meta({
+  description: "The unique identifier of the order.",
+  example: 1,
+  readOnly: true,
 });
 
-burgerSchema.openapi({
-  ref: "Burger",
-  description: "A burger served at the restaurant.",
-});
-
-// Step 12: Create Schema for new burgers
-const burgerCreateSchema = burgerSchema.omit({ id: true }).openapi({
-  ref: "BurgerCreate",
-  description: "A burger to create.",
-});
-
-// Adding Order schemas for a more complete example
-const OrderIdSchema = z3
-  .number()
-  .min(1)
-  .openapi({
-    ref: "OrderId",
-    description: "The unique identifier of the order.",
-    example: 1,
-    param: {
-      in: "path",
-      name: "id",
-    },
-  });
-
-const orderStatusEnum = z3.enum([
+const orderStatusEnum = zod.enum([
   "pending",
   "in_progress",
   "ready",
   "delivered",
 ]);
 
-const orderSchema = z3.object({
-  id: OrderIdSchema,
-  burger_ids: z3
-    .array(BurgerIdSchema)
-    .nonempty()
-    .openapi({
-      description: "The burgers in the order.",
-      example: [1, 2],
+const orderSchema = zod
+  .object({
+    id: OrderIdSchema,
+    burger_ids: zod
+      .array(BurgerIdSchema)
+      .nonempty()
+      .meta({
+        description: "The burgers in the order.",
+        example: [1, 2],
+      }),
+    time: zod.iso.datetime().meta({
+      description: "The time the order was placed.",
+      example: "2021-01-01T00:00:00.000Z",
     }),
-  time: z3.string().datetime().openapi({
-    description: "The time the order was placed.",
-    example: "2021-01-01T00:00:00.000Z",
-  }),
-  table: z3.number().min(1).openapi({
-    description: "The table the order is for.",
-    example: 1,
-  }),
-  status: orderStatusEnum.openapi({
-    description: "The status of the order.",
-    example: "pending",
-  }),
-  note: z3.string().optional().openapi({
-    description: "A note for the order.",
-    example: "No onions.",
-  }),
-}).openapi({
-  ref: "Order",
-  description: "An order placed at the restaurant.",
-});
-
-const orderCreateSchema = orderSchema.omit({ id: true }).openapi({
-  ref: "OrderCreate",
-  description: "An order to create.",
-});
-
-// Example: Demonstrating how z4 can be used for new features internally
-// These schemas are NOT processed by zod-openapi in this example
-const internalV4Schemas = {
-  userProfile: z4.object({
-    username: z4.string().min(3),
-    email: z4.string().email(), // Using Zod v4 .email()
-    preferences: z4.object({
-      darkMode: z4.boolean(),
-      notifications: z4.enum(["all", "mentions", "none"])
-    }).optional(),
-  }),
-  strictObjectExample: z4.strictObject({ // Using Zod v4 .strictObject()
-    id: z4.string().uuid(),
-    value: z4.number(),
+    table: zod.number().min(1).meta({
+      description: "The table the order is for.",
+      example: 1,
+    }),
+    status: orderStatusEnum.meta({
+      description: "The status of the order.",
+      example: "pending",
+    }),
+    note: zod.string().optional().meta({
+      description: "A note for the order.",
+      example: "No onions.",
+    }),
   })
-};
+  .meta({
+    description: "An order placed at the restaurant.",
+  });
 
-// API Operations defined with z3 objects for compatibility
-// Step 13: Define API Operations
+// API Operations defined with zod objects for compatibility
+// Step 4: Define API Operations
 const createBurger: ZodOpenApiOperationObject = {
   operationId: "createBurger",
   summary: "Create a new burger",
@@ -142,7 +82,7 @@ const createBurger: ZodOpenApiOperationObject = {
     description: "The burger to create.",
     content: {
       "application/json": {
-        schema: burgerCreateSchema,
+        schema: burgerSchema,
       },
     },
   },
@@ -164,7 +104,7 @@ const getBurger: ZodOpenApiOperationObject = {
   description: "Gets a burger from the database.",
   tags: ["burgers"],
   requestParams: {
-    path: z3.object({ id: BurgerIdSchema }),
+    path: zod.object({ id: BurgerIdSchema }),
   },
   responses: {
     "200": {
@@ -188,7 +128,7 @@ const listBurgers: ZodOpenApiOperationObject = {
       description: "The burgers were retrieved successfully.",
       content: {
         "application/json": {
-          schema: z3.array(burgerSchema),
+          schema: zod.array(burgerSchema),
         },
       },
     },
@@ -205,7 +145,7 @@ const createOrder: ZodOpenApiOperationObject = {
     description: "The order to create.",
     content: {
       "application/json": {
-        schema: orderCreateSchema,
+        schema: orderSchema,
       },
     },
   },
@@ -227,7 +167,7 @@ const getOrder: ZodOpenApiOperationObject = {
   description: "Gets an order from the database.",
   tags: ["orders"],
   requestParams: {
-    path: z3.object({ id: OrderIdSchema }),
+    path: zod.object({ id: OrderIdSchema }),
   },
   responses: {
     "200": {
@@ -241,7 +181,7 @@ const getOrder: ZodOpenApiOperationObject = {
   },
 };
 
-// Step 14: Webhook Definition
+// Step 5: Webhook Definition
 const createBurgerWebhook: ZodOpenApiOperationObject = {
   operationId: "createBurgerWebhook",
   summary: "New burger webhook",
@@ -262,7 +202,7 @@ const createBurgerWebhook: ZodOpenApiOperationObject = {
   },
 };
 
-// Step 8 & 15: Generate OpenAPI Document
+// Step 6: Generate OpenAPI Document
 const document = createDocument({
   openapi: "3.1.0",
   info: {
@@ -299,10 +239,8 @@ const document = createDocument({
   components: {
     schemas: {
       burgerSchema,
-      burgerCreateSchema,
       BurgerIdSchema,
       orderSchema,
-      orderCreateSchema,
       OrderIdSchema,
     },
   },
@@ -321,4 +259,3 @@ const document = createDocument({
 });
 
 console.log(yaml.stringify(document));
-

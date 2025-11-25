@@ -1,6 +1,6 @@
 {
   "name": "speakeasy-zod-openapi",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A Zod OpenAPI Example with Speakeasy Integration",
   "main": "index.js",
   "scripts": {
@@ -12,11 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "yaml": "^2.8.0",
-    "zod": "^3.25.28",
-    "zod-openapi": "^4.2.4"
+    "zod": "^4.1.0",
+    "zod-openapi": "^5.3.0"
   },
   "devDependencies": {
-    "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
   }
 }

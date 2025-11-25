@@ -20,7 +20,7 @@
 <h2>Speakeasy Zod OpenAPI Example</h2>
 
 
-This example Zod schema demonstrates Speakeasy-recommended practices for generating clear OpenAPI specifications optimised for creating production ready client libraries. For the associated tutorial please see our [docsite](https://speakeasyapi.dev/docs/api-frameworks/zod/).
+This example Zod schema demonstrates Speakeasy-recommended practices for generating clear OpenAPI specifications optimized for creating production ready client libraries. For the associated tutorial please see our [docsite](https://www.speakeasy.com/openapi/frameworks/zod).
 
 ## Requirements
 
@@ -33,16 +33,20 @@ To install and run this example, you'll need to clone the repository and install
 
 1.  Clone this repo:
     ```bash
-    git clone git@github.com:ritza-co/speakeasy-zod-openapi.git
+    git clone git@github.com:speakeasy-api/examples.git
     ```
-2.  Install Node modules. Run the following in the terminal:
+2. Change into the example directory:
+    ```bash
+    cd examples/zod-openapi
+    ```
+3.  Install Node modules. Run the following in the terminal:
     ```bash
     npm install
     ```
 
 ## Install Speakeasy CLI
 
-To save OpenAPI output to a file and regenerate the SDK with Speakeasy, first install Speakeasy by following the [Speakeasy Getting Started](https://speakeasyapi.dev/docs/product-reference/speakeasy-cli/getting-started/) guide.
+To save OpenAPI output to a file and regenerate the SDK with Speakeasy, first install Speakeasy by following the [Speakeasy Getting Started](https://www.speakeasy.com/docs/speakeasy-reference/cli/getting-started) guide.
 
 On macOS, you can install Speakeasy using Homebrew.
 
