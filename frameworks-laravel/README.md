@@ -93,7 +93,7 @@ php artisan scribe:generate
 
 ## OpenAPI
 
-The API description is exported by [Scribe](https://scribe.knuckles.wtf/laravel/) and can be found at `frameworks-laravel/storage/app/private/scribe/openapi.yaml`.
+The API description is exported by [Scribe](https://scribe.knuckles.wtf/laravel/) and can be found in `./storage/app/private/scribe/openapi.yaml`.
 
 ## License
 
