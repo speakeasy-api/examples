@@ -1,0 +1,15 @@
+{
+  "question": "Django 5.2 new features",
+  "rag": {
+    "tokens": 12405,
+    "cost": 0.039615000000000004,
+    "time": 7.637186050415039,
+    "answer": "Based on the Django 5.2 documentation, here are the key new features:\n\n## Major New Features\n\n**Composite Primary Keys**\n- New `django.db.models.CompositePrimaryKey` allows tables to have primary keys consisting of multiple fields\n- Example: `pk = models.CompositePrimaryKey(\"version\", \"name\")`\n\n**Automatic Model Imports in Shell**\n- The `shell` management command now automatically imports models from all installed apps\n- Use `--verbosity=2` to see what's imported\n\n**Simplified BoundField Override**\n- New attributes to customize form rendering:\n  - `BaseRenderer.bound_field_class` (project level)\n  - `Form.bound_field_class` (form level) \n  - `Field.bound_field_class` (field level)\n\n## Minor Features\n\n**New Form Widgets**\n- `"
+  },
+  "mcp": {
+    "tokens": 29604,
+    "cost": 0.091212,
+    "time": 33.28069305419922,
+    "answer": "Based on the Django documentation provided, this is Django version 5.2.8.dev20251017180519, which appears to be a development version from October 17, 2025. However, the documentation excerpt provided doesn't contain specific information about Django 5.2's new features.\n\nThe table of contents shows Django 5.2 includes standard Django components like:\n\n- **Composite primary keys** (mentioned in section 3.13)\n- Standard features like models, views, templates, forms\n- Authentication, caching, migrations\n- Admin interface, testing framework\n- Asynchronous support\n\nTo get specific information about Django 5.2's new features, you would need to check:\n- The release notes section (Chapter 9)\n- The \"What's new\" documentation \n- The official Django 5.2 release announcement\n\nThe documentation provided is mainly the table of contents and tutorial sections, which"
+  }
+}
