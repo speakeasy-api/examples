@@ -13,6 +13,9 @@ tags:
   -
     name: Endpoints
     description: ''
+  -
+    name: Races
+    description: 'A series of endpoints that allow programmatic access to managing F1 races.'
 paths:
   /api/health:
     get:
@@ -30,7 +33,7 @@ paths:
                 example:
                   status: healthy
                   version: unversioned
-                  timestamp: '2025-11-16T15:08:22+00:00'
+                  timestamp: '2025-12-12T12:43:23+00:00'
                 properties:
                   status:
                     type: string
@@ -40,15 +43,15 @@ paths:
                     example: unversioned
                   timestamp:
                     type: string
-                    example: '2025-11-16T15:08:22+00:00'
+                    example: '2025-12-12T12:43:23+00:00'
       tags:
         - Endpoints
       security: []
   /api/drivers:
     get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
-      description: ''
+      summary: 'Get drivers'
+      operationId: getDrivers
+      description: 'Returns a collection of driver resources, optionally filtered by race.'
       parameters: []
       responses:
         200:
@@ -265,9 +268,9 @@ paths:
           type: integer
   /api/circuits:
     get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
-      description: ''
+      summary: 'Get circuits'
+      operationId: getCircuits
+      description: 'Returns a collection of all race circuits.'
       parameters: []
       responses:
         200:
@@ -532,7 +535,7 @@ paths:
                         type: integer
                         example: 0
       tags:
-        - Endpoints
+        - Races
     post:
       summary: 'Create a race'
       operationId: createARace
@@ -540,7 +543,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - Races
       requestBody:
         required: true
         content:
@@ -581,7 +584,6 @@ paths:
                 - circuit_id
                 - race_date
                 - season
-      security: []
   '/api/races/{id}':
     get:
       summary: 'Display the specified resource.'
@@ -642,8 +644,7 @@ paths:
                             type: string
                             example: 'http://localhost/api/drivers?race=1'
       tags:
-        - Endpoints
-      security: []
+        - Races
     parameters:
       -
         in: path
