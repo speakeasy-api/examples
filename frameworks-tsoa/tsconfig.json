@@ -33,7 +33,9 @@
     // emitDecoratorMetadata is not needed by tsoa (unless you are using Custom Middlewares)
 
     /* Advanced Options */
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    // Avoid type checking 3rd-party libs (e.g., optional Hapi/Joi types)
+    "skipLibCheck": true
   },
   "exclude": [
     "./sdk",
