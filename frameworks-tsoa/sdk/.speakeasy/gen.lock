@@ -1,0 +1,107 @@
+lockVersion: 2.0.0
+id: 9d6fac97-7e24-424f-b262-5f1c395960ed
+management:
+  docChecksum: b7eded63ad2b48e1ef6ff02176dc9a56
+  docVersion: 1.0.0
+  speakeasyVersion: 1.639.3
+  generationVersion: 2.730.5
+  releaseVersion: 0.0.3
+  configChecksum: 834e8a6f42f614b9130b1054a7e84544
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    core: 3.24.1
+    defaultEnabledRetries: 0.1.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.5
+    methodArguments: 0.1.2
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.3.0
+generatedFiles:
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/operations/gettripsrequest.md
+  - docs/models/operations/liststationsrequest.md
+  - docs/models/station.md
+  - docs/models/trip.md
+  - docs/sdks/stations/README.md
+  - docs/sdks/trips/README.md
+  - eslint.config.mjs
+  - examples/.env.template
+  - examples/README.md
+  - examples/package.json
+  - examples/tripsGetTrips.example.ts
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/stationsListStations.ts
+  - src/funcs/tripsGetTrips.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/index.ts
+  - src/models/errors/responsevalidationerror.ts
+  - src/models/errors/sdkdefaulterror.ts
+  - src/models/errors/sdkerror.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/index.ts
+  - src/models/operations/gettrips.ts
+  - src/models/operations/index.ts
+  - src/models/operations/liststations.ts
+  - src/models/station.ts
+  - src/models/trip.ts
+  - src/sdk/index.ts
+  - src/sdk/sdk.ts
+  - src/sdk/stations.ts
+  - src/sdk/trips.ts
+  - src/types/async.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  ListStations:
+    speakeasy-default-list-stations:
+      responses:
+        "200":
+          application/json: [{"id": "<id>", "name": "<value>", "address": "94531 Pfannerstill Mission", "country_code": "SJ", "timezone": "Asia/Beirut"}]
+  GetTrips:
+    speakeasy-default-get-trips:
+      parameters:
+        query:
+          origin: "<value>"
+          destination: "<value>"
+          date: "2024-02-25"
+      responses:
+        "200":
+          application/json: [{"id": "<id>", "origin": "<value>", "destination": "<value>", "departure_time": "<value>", "arrival_time": "<value>", "operator": "<value>", "price": 256.37}]
+examplesVersion: 1.0.2
+generatedTests: {}

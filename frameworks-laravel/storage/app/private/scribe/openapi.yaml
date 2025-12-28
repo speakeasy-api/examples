@@ -1,0 +1,656 @@
+openapi: 3.0.3
+info:
+  title: 'F1 Race API'
+  description: ' API for managing Formula 1 races, drivers, and circuits'
+  version: 1.0.0
+  contact:
+    name: 'API Support'
+    email: support@f1races.com
+servers:
+  -
+    url: 'http://localhost'
+tags:
+  -
+    name: Endpoints
+    description: ''
+  -
+    name: Races
+    description: 'A series of endpoints that allow programmatic access to managing F1 races.'
+paths:
+  /api/health:
+    get:
+      summary: Healthcheck
+      operationId: healthcheck
+      description: "Check that the service is up. If everything is okay, you'll get a 200 OK response.\n\nOtherwise, the request will fail with a 400 error, and a response listing the failed services."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: healthy
+                  version: unversioned
+                  timestamp: '2025-12-12T12:43:23+00:00'
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  version:
+                    type: string
+                    example: unversioned
+                  timestamp:
+                    type: string
+                    example: '2025-12-12T12:43:23+00:00'
+      tags:
+        - Endpoints
+      security: []
+  /api/drivers:
+    get:
+      summary: 'Get drivers'
+      operationId: getDrivers
+      description: 'Returns a collection of driver resources, optionally filtered by race.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 1
+                      name: 'Max Verstappen'
+                      code: VER
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 2
+                      name: 'Sergio Perez'
+                      code: PER
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 3
+                      name: 'Lewis Hamilton'
+                      code: HAM
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 4
+                      name: 'George Russell'
+                      code: RUS
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 5
+                      name: 'Charles Leclerc'
+                      code: LEC
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 6
+                      name: 'Carlos Sainz'
+                      code: SAI
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 7
+                      name: 'Lando Norris'
+                      code: NOR
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 8
+                      name: 'Oscar Piastri'
+                      code: PIA
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 9
+                      name: 'Fernando Alonso'
+                      code: ALO
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 10
+                      name: 'Lance Stroll'
+                      code: STR
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                  meta:
+                    count: 10
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Max Verstappen'
+                        code: VER
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 2
+                        name: 'Sergio Perez'
+                        code: PER
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 3
+                        name: 'Lewis Hamilton'
+                        code: HAM
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 4
+                        name: 'George Russell'
+                        code: RUS
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 5
+                        name: 'Charles Leclerc'
+                        code: LEC
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 6
+                        name: 'Carlos Sainz'
+                        code: SAI
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 7
+                        name: 'Lando Norris'
+                        code: NOR
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 8
+                        name: 'Oscar Piastri'
+                        code: PIA
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 9
+                        name: 'Fernando Alonso'
+                        code: ALO
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 10
+                        name: 'Lance Stroll'
+                        code: STR
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Max Verstappen'
+                        code:
+                          type: string
+                          example: VER
+                        created_at:
+                          type: string
+                          example: '2025-10-29T17:21:39.000000Z'
+                        updated_at:
+                          type: string
+                          example: '2025-10-29T17:21:39.000000Z'
+                  meta:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        example: 10
+      tags:
+        - Endpoints
+      security: []
+  '/api/drivers/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 1
+                    name: 'Max Verstappen'
+                    code: VER
+                    created_at: '2025-10-29T17:21:39.000000Z'
+                    updated_at: '2025-10-29T17:21:39.000000Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Max Verstappen'
+                      code:
+                        type: string
+                        example: VER
+                      created_at:
+                        type: string
+                        example: '2025-10-29T17:21:39.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2025-10-29T17:21:39.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the driver.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/circuits:
+    get:
+      summary: 'Get circuits'
+      operationId: getCircuits
+      description: 'Returns a collection of all race circuits.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 1
+                      name: 'Monaco Grand Prix'
+                      location: 'Monte Carlo, Monaco'
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 2
+                      name: 'British Grand Prix'
+                      location: 'Silverstone, United Kingdom'
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 3
+                      name: 'Italian Grand Prix'
+                      location: 'Monza, Italy'
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 4
+                      name: 'Belgian Grand Prix'
+                      location: 'Spa-Francorchamps, Belgium'
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 5
+                      name: 'Japanese Grand Prix'
+                      location: 'Suzuka, Japan'
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 6
+                      name: 'Singapore Grand Prix'
+                      location: 'Marina Bay, Singapore'
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 7
+                      name: 'Abu Dhabi Grand Prix'
+                      location: 'Yas Marina, UAE'
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 8
+                      name: 'Brazilian Grand Prix'
+                      location: 'Interlagos, Brazil'
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 9
+                      name: 'Australian Grand Prix'
+                      location: 'Melbourne, Australia'
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                    -
+                      id: 10
+                      name: 'Spanish Grand Prix'
+                      location: 'Barcelona, Spain'
+                      created_at: '2025-10-29T17:21:39.000000Z'
+                      updated_at: '2025-10-29T17:21:39.000000Z'
+                  meta:
+                    count: 10
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: 'Monaco Grand Prix'
+                        location: 'Monte Carlo, Monaco'
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 2
+                        name: 'British Grand Prix'
+                        location: 'Silverstone, United Kingdom'
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 3
+                        name: 'Italian Grand Prix'
+                        location: 'Monza, Italy'
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 4
+                        name: 'Belgian Grand Prix'
+                        location: 'Spa-Francorchamps, Belgium'
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 5
+                        name: 'Japanese Grand Prix'
+                        location: 'Suzuka, Japan'
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 6
+                        name: 'Singapore Grand Prix'
+                        location: 'Marina Bay, Singapore'
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 7
+                        name: 'Abu Dhabi Grand Prix'
+                        location: 'Yas Marina, UAE'
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 8
+                        name: 'Brazilian Grand Prix'
+                        location: 'Interlagos, Brazil'
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 9
+                        name: 'Australian Grand Prix'
+                        location: 'Melbourne, Australia'
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                      -
+                        id: 10
+                        name: 'Spanish Grand Prix'
+                        location: 'Barcelona, Spain'
+                        created_at: '2025-10-29T17:21:39.000000Z'
+                        updated_at: '2025-10-29T17:21:39.000000Z'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Monaco Grand Prix'
+                        location:
+                          type: string
+                          example: 'Monte Carlo, Monaco'
+                        created_at:
+                          type: string
+                          example: '2025-10-29T17:21:39.000000Z'
+                        updated_at:
+                          type: string
+                          example: '2025-10-29T17:21:39.000000Z'
+                  meta:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        example: 10
+      tags:
+        - Endpoints
+      security: []
+  '/api/circuits/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 1
+                    name: 'Monaco Grand Prix'
+                    location: 'Monte Carlo, Monaco'
+                    created_at: '2025-10-29T17:21:39.000000Z'
+                    updated_at: '2025-10-29T17:21:39.000000Z'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Monaco Grand Prix'
+                      location:
+                        type: string
+                        example: 'Monte Carlo, Monaco'
+                      created_at:
+                        type: string
+                        example: '2025-10-29T17:21:39.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2025-10-29T17:21:39.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the circuit.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/races:
+    get:
+      summary: 'Get races'
+      operationId: getRaces
+      description: 'A collection of race resources, newest first, optionally filtered by circuit or season query parameters.'
+      parameters:
+        -
+          in: query
+          name: season
+          description: 'Filter the results by season year'
+          example: '2024'
+          required: false
+          schema:
+            type: string
+            description: 'Filter the results by season year'
+            example: '2024'
+            nullable: false
+        -
+          in: query
+          name: circuit
+          description: 'Filter the results by circuit name'
+          example: Monaco
+          required: false
+          schema:
+            type: string
+            description: 'Filter the results by circuit name'
+            example: Monaco
+            nullable: false
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data: []
+                  meta:
+                    count: 0
+                properties:
+                  data:
+                    type: array
+                    example: []
+                  meta:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        example: 0
+      tags:
+        - Races
+    post:
+      summary: 'Create a race'
+      operationId: createARace
+      description: 'Allows authenticated users to submit a new Race resource to the system.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Races
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the race.'
+                  example: 'Monaco Grand Prix'
+                  nullable: false
+                circuit_id:
+                  type: string
+                  description: 'The Unique Identifier for the circuit where the race will be held.'
+                  example: 1234-1234-1234-1234
+                  nullable: false
+                race_date:
+                  type: string
+                  description: 'The date and time the race takes place, RFC 3339 in local timezone.'
+                  example: '2024-05-26T14:53:59'
+                  nullable: false
+                season:
+                  type: string
+                  description: 'The season year for this race.'
+                  example: '2024'
+                  nullable: false
+                driver_ids:
+                  type: array
+                  description: 'An array of Unique Identifiers for drivers participating in the race.'
+                  example:
+                    - 5678-5678-5678-5678
+                    - 6789-6789-6789-6789
+                  items:
+                    type: string
+              required:
+                - name
+                - circuit_id
+                - race_date
+                - season
+  '/api/races/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 1
+                    name: '2024 Monaco Grand Prix'
+                    race_date: '2024-05-26'
+                    season: '2024'
+                    created_at: '2025-10-29T17:21:39+00:00'
+                    updated_at: '2025-10-29T17:21:39+00:00'
+                    links:
+                      self: 'http://localhost/api/races/1'
+                      circuit: 'http://localhost/api/circuits/1'
+                      drivers: 'http://localhost/api/drivers?race=1'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: '2024 Monaco Grand Prix'
+                      race_date:
+                        type: string
+                        example: '2024-05-26'
+                      season:
+                        type: string
+                        example: '2024'
+                      created_at:
+                        type: string
+                        example: '2025-10-29T17:21:39+00:00'
+                      updated_at:
+                        type: string
+                        example: '2025-10-29T17:21:39+00:00'
+                      links:
+                        type: object
+                        properties:
+                          self:
+                            type: string
+                            example: 'http://localhost/api/races/1'
+                          circuit:
+                            type: string
+                            example: 'http://localhost/api/circuits/1'
+                          drivers:
+                            type: string
+                            example: 'http://localhost/api/drivers?race=1'
+      tags:
+        - Races
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the race.'
+        example: 1
+        required: true
+        schema:
+          type: integer

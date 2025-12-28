@@ -75,25 +75,32 @@
                                 <a href="#endpoints-GETapi-health">Healthcheck</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-drivers">
-                                <a href="#endpoints-GETapi-drivers">Display a listing of the resource.</a>
+                                <a href="#endpoints-GETapi-drivers">Get drivers</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-drivers--id-">
                                 <a href="#endpoints-GETapi-drivers--id-">Display the specified resource.</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-circuits">
-                                <a href="#endpoints-GETapi-circuits">Display a listing of the resource.</a>
+                                <a href="#endpoints-GETapi-circuits">Get circuits</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-circuits--id-">
                                 <a href="#endpoints-GETapi-circuits--id-">Display the specified resource.</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-races">
-                                <a href="#endpoints-GETapi-races">Get races</a>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-races" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="races">
+                    <a href="#races">Races</a>
+                </li>
+                                    <ul id="tocify-subheader-races" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="races-GETapi-races">
+                                <a href="#races-GETapi-races">Get races</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-races--id-">
-                                <a href="#endpoints-GETapi-races--id-">Display the specified resource.</a>
+                                                                                <li class="tocify-item level-2" data-unique="races-GETapi-races--id-">
+                                <a href="#races-GETapi-races--id-">Display the specified resource.</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-races">
-                                <a href="#endpoints-POSTapi-races">Create a race</a>
+                                                                                <li class="tocify-item level-2" data-unique="races-POSTapi-races">
+                                <a href="#races-POSTapi-races">Create a race</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -106,7 +113,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: November 16, 2025</li>
+        <li>Last updated: December 12, 2025</li>
     </ul>
 </div>
 
@@ -180,7 +187,7 @@ access-control-allow-origin: *
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;healthy&quot;,
     &quot;version&quot;: &quot;unversioned&quot;,
-    &quot;timestamp&quot;: &quot;2025-11-16T15:08:22+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-12-12T12:43:23+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -257,12 +264,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-GETapi-drivers">Display a listing of the resource.</h2>
+                    <h2 id="endpoints-GETapi-drivers">Get drivers</h2>
 
 <p>
 </p>
 
-
+<p>Returns a collection of driver resources, optionally filtered by race.</p>
 
 <span id="example-requests-GETapi-drivers">
 <blockquote>Example request:</blockquote>
@@ -602,12 +609,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-GETapi-circuits">Display a listing of the resource.</h2>
+                    <h2 id="endpoints-GETapi-circuits">Get circuits</h2>
 
 <p>
 </p>
 
-
+<p>Returns a collection of all race circuits.</p>
 
 <span id="example-requests-GETapi-circuits">
 <blockquote>Example request:</blockquote>
@@ -947,7 +954,11 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-GETapi-races">Get races</h2>
+                <h1 id="races">Races</h1>
+
+    <p>A series of endpoints that allow programmatic access to managing F1 races.</p>
+
+                                <h2 id="races-GETapi-races">Get races</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
@@ -1109,9 +1120,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                 </form>
 
-                    <h2 id="endpoints-GETapi-races--id-">Display the specified resource.</h2>
+                    <h2 id="races-GETapi-races--id-">Display the specified resource.</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
 
@@ -1191,7 +1203,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-GETapi-races--id-" data-method="GET"
       data-path="api/races/{id}"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
@@ -1260,9 +1272,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="endpoints-POSTapi-races">Create a race</h2>
+                    <h2 id="races-POSTapi-races">Create a race</h2>
 
 <p>
+<small class="badge badge-darkred">requires authentication</small>
 </p>
 
 <p>Allows authenticated users to submit a new Race resource to the system.</p>
@@ -1337,7 +1350,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 </span>
 <form id="form-POSTapi-races" data-method="POST"
       data-path="api/races"
-      data-authed="0"
+      data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
