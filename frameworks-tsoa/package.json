@@ -1,28 +1,27 @@
 {
-  "name": "speakeasy-bar-tsoa",
-  "version": "1.0.0",
+  "name": "speakeasy-tsoa-example",
+  "version": "2.0.0",
+  "description": "Speakeasy Train Travel tsoa API",
+  "author": "Speakeasy Support <support@speakeasy.com>",
+  "license": "Apache-2.0",
   "main": "build/src/server.js",
   "scripts": {
-    "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\" \"nodemon -x tsoa spec --yaml\"",
-    "build": "tsoa spec-and-routes && tsoa spec --yaml && tsc",
+    "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\" \"nodemon -x tsoa spec\"",
+    "build": "tsoa spec-and-routes && tsc",
     "start": "node build/src/server.js",
-    "spec": "tsoa spec && tsoa spec --yaml",
-    "spec-and-sdk": "tsoa spec-and-routes tsoa spec --yaml && && tsc && speakeasy generate sdk --schema build/swagger.json --lang typescript --out ./sdk"
+    "spec-and-sdk": "tsoa spec-and-routes && tsc && speakeasy generate sdk --schema build/openapi.json --lang typescript --out ./sdk"
   },
-  "description": "Speakeasy Bar API",
-  "author": "Speakeasy Support <support@speakeasy.bar> (https://support.speakeasy.bar)",
-  "license": "Apache-2.0",
   "dependencies": {
-    "express": "^5.0.0",
-    "swagger-ui-express": "^5.0.0",
-    "tsoa": "^6.6.0"
+    "@scalar/express-api-reference": "^0.8.30",
+    "express": "^5.2.1",
+    "tsoa": "7.0.0-alpha.0"
   },
   "devDependencies": {
-    "@types/node": "^20.5.0",
-    "@types/swagger-ui-express": "^4.1.3",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.3",
     "concurrently": "^9.0.0",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.0"
+    "typescript": "^5.9.3"
   }
 }

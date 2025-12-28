@@ -6,7 +6,6 @@ import express, {
   NextFunction,
 } from "express";
 
-import { apiReference } from "@scalar/express-api-reference";
 import { ValidateError } from "tsoa";
 import { RegisterRoutes } from "../build/routes";
 
@@ -21,12 +20,16 @@ app.use(
 app.use(json());
 
 // Serve the OpenAPI spec
-app.use("openapi.json", (req: ExRequest, res: ExResponse) => {
+app.use("/openapi.json", (req: ExRequest, res: ExResponse) => {
+  void req;
   res.sendFile("openapi.json", { root: __dirname + "/../build" });
 });
 
-// Serve API reference documentation from that OpenAPI
-app.use("/docs", apiReference({ url: "openapi.json" }));
+// Serve API reference documentation using dynamic import (ESM-only package)
+(async () => {
+  const { apiReference } = await import("@scalar/express-api-reference");
+  app.use("/docs", apiReference({ url: "/openapi.json" }));
+})();
 
 RegisterRoutes(app);
 

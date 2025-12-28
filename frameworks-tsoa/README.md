@@ -18,6 +18,13 @@
 
 This example tsoa app demonstrates Speakeasy-recommended practices for generating clear OpenAPI specifications and SDKs.
 
+The sample domain is a Train Travel API (inspired by the public OpenAPI example). It exposes endpoints for listing stations and available trips:
+
+- `GET /stations` — filter and paginate train stations.
+- `GET /trips` — search trips by origin, destination, and date; optional filters for bicycles and dogs.
+- `GET /bookings` — list bookings with pagination.
+- `POST /bookings` — create a new booking.
+
 ## Prerequisites
 
 You need to have Node.js and Yarn installed on your system to run this project. If you don't have these installed, you can download them from [here](https://nodejs.org/) and [here](https://yarnpkg.com/).
@@ -30,12 +37,11 @@ To install the application on your local machine:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/ritza-co/speakeasy-bar-tsoa.git
-```
+git clone https://github.com/speakeasy-api/examples
 
-2. Navigate into the directory:
+2. Navigate to the project directory:
 ```bash
-cd speakeasy-bar-tsoa
+cd examples/frameworks-tsoa
 ```
 
 3. Install all dependencies for the application using Yarn:
