@@ -12,7 +12,7 @@ export class BookingsService {
   }
 
   public create(input: Omit<Booking, "id">): Booking {
-    const id = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}`;
+    const id = crypto.randomUUID();
     const booking: Booking = { id, ...input };
     bookings.push(booking);
     return booking;
