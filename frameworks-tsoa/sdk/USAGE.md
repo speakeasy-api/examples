@@ -1,16 +1,22 @@
-<!-- Start SDK Example Usage -->
-
-
+<!-- Start SDK Example Usage [usage] -->
 ```typescript
 import { SDK } from "openapi";
-import { ListDrinksResponse } from "openapi/dist/sdk/models/operations";
 
-const sdk = new SDK();
-
-sdk.listDrinks().then((res: ListDrinksResponse) => {
-  if (res.statusCode == 200) {
-    // handle response
-  }
+const sdk = new SDK({
+  serverURL: "https://api.example.com",
 });
+
+async function run() {
+  const result = await sdk.trips.getTrips({
+    origin: "<value>",
+    destination: "<value>",
+    date: "2024-02-25",
+  });
+
+  console.log(result);
+}
+
+run();
+
 ```
-<!-- End SDK Example Usage -->
+<!-- End SDK Example Usage [usage] -->
