@@ -1,0 +1,35 @@
+# CreateBookingPaymentResponseBody
+
+A payment for a booking.
+
+## Example Usage
+
+```typescript
+import { CreateBookingPaymentResponseBody } from "train-travel-sdk/models/operations";
+
+let value: CreateBookingPaymentResponseBody = {
+  amount: 49.99,
+  source: {
+    name: "Francis Bourgeois",
+    number: "4242424242424242",
+    expMonth: 12,
+    expYear: 2025,
+    addressCountry: "<value>",
+  },
+  links: {
+    booking:
+      "https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb",
+  },
+};
+```
+
+## Fields
+
+| Field                                                                                                                                                      | Type                                                                                                                                                       | Required                                                                                                                                                   | Description                                                                                                                                                | Example                                                                                                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                                                                                                                                                       | *string*                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                         | Unique identifier for the payment. This will be a unique identifier for the payment, and is used to reference the payment in other objects.                |                                                                                                                                                            |
+| `amount`                                                                                                                                                   | *number*                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                         | Amount intended to be collected by this payment. A positive decimal figure describing the amount to be collected.                                          | 49.99                                                                                                                                                      |
+| `currency`                                                                                                                                                 | [operations.Currency](../../models/operations/currency.md)                                                                                                 | :heavy_minus_sign:                                                                                                                                         | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase.                                                          |                                                                                                                                                            |
+| `source`                                                                                                                                                   | *operations.Source*                                                                                                                                        | :heavy_minus_sign:                                                                                                                                         | The payment source to take the payment from. This can be a card or a bank account. Some of these properties will be hidden on read to protect PII leaking. |                                                                                                                                                            |
+| `status`                                                                                                                                                   | [operations.Status](../../models/operations/status.md)                                                                                                     | :heavy_minus_sign:                                                                                                                                         | The status of the payment, one of `pending`, `succeeded`, or `failed`.                                                                                     |                                                                                                                                                            |
+| `links`                                                                                                                                                    | [models.LinksBooking](../../models/linksbooking.md)                                                                                                        | :heavy_minus_sign:                                                                                                                                         | The link to the booking resource.                                                                                                                          |                                                                                                                                                            |

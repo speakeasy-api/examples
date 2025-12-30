@@ -1,0 +1,19 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    TrainTravelSdk-OAS:
+        inputs:
+            - location: registry.speakeasyapi.dev/protectearth/protectearth/train-travel-api:main
+        output: .speakeasy/out.openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/protectearth/protectearth/train-travel-sdk-oas
+targets:
+    train-travel-sdk:
+        target: typescript
+        source: TrainTravelSdk-OAS
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/protectearth/protectearth/train-travel-sdk-oas-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false

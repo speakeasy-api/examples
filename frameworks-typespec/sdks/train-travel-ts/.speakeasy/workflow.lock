@@ -1,0 +1,36 @@
+speakeasyVersion: 1.680.5
+sources:
+    TrainTravelSdk-OAS:
+        sourceNamespace: train-travel-api
+        sourceRevisionDigest: sha256:3b11af249da40e9046fd03317c78d24b330c60c8539bc56123ca46ac9bc79b88
+        sourceBlobDigest: sha256:a6f38e30baa5bcb494d1c1f40678e3709b1f52b47eb608733b546e8506c706c1
+        tags:
+            - latest
+targets:
+    train-travel-sdk:
+        source: TrainTravelSdk-OAS
+        sourceNamespace: train-travel-api
+        sourceRevisionDigest: sha256:3b11af249da40e9046fd03317c78d24b330c60c8539bc56123ca46ac9bc79b88
+        sourceBlobDigest: sha256:a6f38e30baa5bcb494d1c1f40678e3709b1f52b47eb608733b546e8506c706c1
+        codeSamplesNamespace: train-travel-sdk-oas-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:168348d115aecadfec53cafb6534f8083d969d9621dafebecb39bfd06b0f29ec
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        TrainTravelSdk-OAS:
+            inputs:
+                - location: registry.speakeasyapi.dev/protectearth/protectearth/train-travel-api:main
+            output: .speakeasy/out.openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/protectearth/protectearth/train-travel-sdk-oas
+    targets:
+        train-travel-sdk:
+            target: typescript
+            source: TrainTravelSdk-OAS
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/protectearth/protectearth/train-travel-sdk-oas-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false
