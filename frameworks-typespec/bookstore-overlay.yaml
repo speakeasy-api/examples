@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: Add Examples to Book and Magazine Models
+  version: 1.0.0
+actions:
+  - target: $.components.schemas.Book
+    update:
+      example:
+        id: "1"
+        title: "The Great Gatsby"
+        publishDate: "2022-01-01T00:00:00Z"
+        price: 19.99
+  - target: $.components.schemas.Magazine
+    update:
+      example:
+        id: "2"
+        title: "National Geographic"
+        publishDate: "2022-01-01T00:00:00Z"
+        price: 5.99
