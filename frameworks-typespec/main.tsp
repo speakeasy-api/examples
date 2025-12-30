@@ -46,49 +46,64 @@ using OpenAPI;
     description: "Pay for bookings using a card or bank account, and view payment status and history. **Warning:** Bookings usually expire within 1 hour so you'll need to make your payment before the expiry date.",
   }
 )
-
 namespace TrainTravelAPI;
 
 /** A train station. */
 model Station {
   /** Unique identifier for the station. */
-  @format("uuid") id: string;
+  @format("uuid")
+  @example("efdbb9d1-02c2-4bc3-afb7-6788d8782b1e")
+  id: string;
 
   /** The name of the station */
+  @example("Berlin Hauptbahnhof")
   name: string;
 
   /** The address of the station. */
+  @example("Invalidenstraße 10557 Berlin, Germany")
   address: string;
 
   /** The country code of the station. */
-  @format("iso-country-code") country_code: string;
+  @format("iso-country-code")
+  @example("de")
+  @example("fr")
+  country_code: string;
 
   /** The timezone of the station in the [IANA Time Zone Database format](https://www.iana.org/time-zones). */
+  @example("Europe/Berlin")
   timezone?: string;
 }
 
-/** The link to the current resource. */
-model `Links-Self` {
-  self?: url;
+/** Hypermedia links for resources. */
+namespace Links {
+  /** The link to the current resource. */
+  model Self {
+    self?: url;
+  }
+
+  /** The link to the destination station resource. */
+  model Destination {
+    destination?: url;
+  }
+
+  /** The link to the origin station resource. */
+  model Origin {
+    origin?: url;
+  }
+
+  /** Links to the next and previous pages of a paginated response. */
+  model Pagination {
+    next?: url;
+    prev?: url;
+  }
+
+  /** The link to the booking resource. */
+  model Booking {
+    booking?: url;
+  }
 }
 
-/** The link to the destination station resource. */
-model `Links-Destination` {
-  destination?: url;
-}
-
-/** The link to the origin station resource. */
-model `Links-Origin` {
-  origin?: url;
-}
-
-/** Links to the next and previous pages of a paginated response. */
-model `Links-Pagination` {
-  next?: url;
-  prev?: url;
-}
-
-/** A problem detail object as defined in RFC 7807. */
+/** A problem detail object as defined in RFC 9457. */
 model Problem {
   /** A URI reference that identifies the problem type */
   type?: string;
@@ -109,12 +124,16 @@ model Problem {
 /** A train trip. */
 model Trip {
   /** Unique identifier for the trip */
-  @format("uuid") id?: string;
+  @format("uuid")
+  @example("4f4e4e1-c824-4d63-b37a-d8d698862f1d")
+  id?: string;
 
   /** The starting station of the trip */
+  @example("efdbb9d1-02c2-4bc3-afb7-6788d8782b1e")
   origin?: string;
 
   /** The destination station of the trip */
+  @example("b2e783e1-c824-4d63-b37a-d8d698862f1d")
   destination?: string;
 
   /** The date and time when the trip departs */
@@ -124,9 +143,11 @@ model Trip {
   arrival_time?: utcDateTime;
 
   /** The name of the operator of the trip */
+  @example("Deutsche Bahn")
   operator?: string;
 
   /** The cost of the trip */
+  @example(50)
   price?: numeric;
 
   /** Indicates whether bicycles are allowed on the trip */
@@ -139,12 +160,17 @@ model Trip {
 /** A booking for a train trip. */
 model Booking {
   /** Unique identifier for the booking */
-  @format("uuid") id?: string;
+  @format("uuid")
+  @example("3f3e3e1-c824-4d63-b37a-d8d698862f1d")
+  id?: string;
 
   /** Identifier of the booked trip */
-  @format("uuid") trip_id?: string;
+  @format("uuid")
+  @example("4f4e4e1-c824-4d63-b37a-d8d698862f1d")
+  trip_id?: string;
 
   /** Name of the passenger */
+  @example("John Doe")
   passenger_name?: string;
 
   /** Indicates whether the passenger has a bicycle. */
@@ -163,51 +189,96 @@ model `Wrapper-Collection` {
   links?: {};
 }
 
+/** Card payment source details. */
+model CardPaymentSource {
+  object?: "card";
+
+  @example("J. Doe")
+  name: string;
+
+  @example("4242424242424242")
+  number: string;
+
+  @minLength(3)
+  @maxLength(4)
+  @example("123")
+  cvc: string;
+
+  @example(12)
+  exp_month: int64;
+
+  @example(2025)
+  exp_year: int64;
+
+  @example("123 Fake Street")
+  address_line1?: string;
+
+  @example("4th Floor")
+  address_line2?: string;
+
+  @example("London")
+  address_city?: string;
+
+  @example("de")
+  @example("fr")
+  address_country: string;
+
+  @example("N12 9XX")
+  address_post_code?: string;
+}
+
+/** Bank account payment source details. */
+model BankAccountPaymentSource {
+  object?: "bank_account";
+
+  @example("J. Doe")
+  name: string;
+
+  @example("00012345")
+  number: string;
+
+  @example("000123")
+  sort_code?: string;
+
+  @example("individual")
+  account_type: "individual" | "company";
+
+  @example("Starling Bank")
+  bank_name: string;
+
+  @example("de")
+  @example("fr")
+  country: string;
+}
+
+/** A payment source used for booking payments. Can be either a card or a bank account. */
+@oneOf
+union BookingPaymentSource {
+  CardPaymentSource,
+  BankAccountPaymentSource,
+}
+
 /** A payment for a booking. */
 model BookingPayment {
   /** Unique identifier for the payment. This will be a unique identifier for the payment, and is used to reference the payment in other objects. */
-  @format("uuid") id?: string;
+  @format("uuid")
+  @example("2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a")
+  id?: string;
 
   /** Amount intended to be collected by this payment. A positive decimal figure describing the amount to be collected. */
+  @example(49.99)
   amount?: numeric;
 
   /** Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. */
+  @example("gbp")
   currency?: "bam" | "bgn" | "chf" | "eur" | "gbp" | "nok" | "sek" | "try";
 
   /** The payment source to take the payment from. This can be a card or a bank account. Some of these properties will be hidden on read to protect PII leaking. */
-  @oneOf source?: {
-    object?: "card";
-    name: string;
-    number: string;
-
-    @minLength(3)
-    @maxLength(4)
-    cvc: string;
-
-    exp_month: int64;
-    exp_year: int64;
-    address_line1?: string;
-    address_line2?: string;
-    address_city?: string;
-    address_country: string;
-    address_post_code?: string;
-  } | {
-    object?: "bank_account";
-    name: string;
-    number: string;
-    sort_code?: string;
-    account_type: "individual" | "company";
-    bank_name: string;
-    country: string;
-  };
+  source?: BookingPaymentSource;
 
   /** The status of the payment, one of `pending`, `succeeded`, or `failed`. */
+  @example("succeeded")
   status?: "pending" | "succeeded" | "failed";
-}
-
-/** The link to the booking resource. */
-model `Links-Booking` {
-  booking?: url;
 }
 
 /** Returns a paginated and searchable list of all train stations. */
@@ -215,6 +286,7 @@ model `Links-Booking` {
 @route("/stations")
 @get
 @summary("Get a list of train stations")
+@operationId("get-stations")
 op `get-stations`(
   ...Parameters.page,
   ...Parameters.limit,
@@ -223,114 +295,45 @@ op `get-stations`(
    * The latitude and longitude of the user's location, to narrow down the search results to sites within a proximity of this location.
    *
    */
-  @query(#{ explode: true }) coordinates?: string,
+  @query coordinates?: string,
 
   /**
    * A search term to filter the list of stations by name or address.
    *
    */
-  @query(#{ explode: true }) search?: string,
+  @query search?: string,
 
   /** Filter stations by country code */
-  @format("iso-country-code") @query(#{ explode: true }) country?: string,
+  @format("iso-country-code") @query country?: string,
 ):
   | {
-      /**
-       * The Cache-Control header communicates directives for caching mechanisms in both requests and responses.
-       * It is used to specify the caching directives in responses to prevent caches from storing sensitive information.
-       *
-       */
-      @header("Cache-Control") CacheControl?: string;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @body body: {
         data?: Station[];
-        links?: `Links-Self` & `Links-Pagination`;
+        links?: Links.Self & Links.Pagination;
       };
     }
   | {
       @statusCode statusCode: 400;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 401;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 403;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 429;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
-      /**
-       * The Retry-After header indicates how long the user agent should wait before making a follow-up request.
-       * The value is in seconds and can be an integer or a date in the future.
-       * If the value is an integer, it indicates the number of seconds to wait.
-       * If the value is a date, it indicates the time at which the user agent should make a follow-up request.
-       *
-       */
-      @header("Retry-After") RetryAfter?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 500;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     };
@@ -343,122 +346,54 @@ op `get-stations`(
 @route("/trips")
 @get
 @summary("Get available train trips")
+@operationId("get-trips")
 op `get-trips`(
   ...Parameters.page,
   ...Parameters.limit,
 
   /** The ID of the origin station */
-  @format("uuid") @query(#{ explode: true }) origin: string,
+  @format("uuid") @query origin: string,
 
   /** The ID of the destination station */
-  @format("uuid") @query(#{ explode: true }) destination: string,
+  @format("uuid") @query destination: string,
 
   /** The date and time of the trip in ISO 8601 format in origin station's timezone. */
-  @query(#{ explode: true }) date: utcDateTime,
+  @query date: utcDateTime,
 
   /** Only return trips where bicycles are known to be allowed */
-  @query(#{ explode: true }) bicycles?: boolean,
+  @query bicycles?: boolean,
 
   /** Only return trips where dogs are known to be allowed */
-  @query(#{ explode: true }) dogs?: boolean,
+  @query dogs?: boolean,
 ):
   | {
-      /**
-       * The Cache-Control header communicates directives for caching mechanisms in both requests and responses.
-       * It is used to specify the caching directives in responses to prevent caches from storing sensitive information.
-       *
-       */
-      @header("Cache-Control") CacheControl?: string;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @body body: {
         data?: Trip[];
-        links?: `Links-Self` & `Links-Pagination`;
+        links?: Links.Self & Links.Pagination;
       };
     }
   | {
       @statusCode statusCode: 400;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 401;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 403;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 429;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
-      /**
-       * The Retry-After header indicates how long the user agent should wait before making a follow-up request.
-       * The value is in seconds and can be an integer or a date in the future.
-       * If the value is an integer, it indicates the number of seconds to wait.
-       * If the value is a date, it indicates the time at which the user agent should make a follow-up request.
-       *
-       */
-      @header("Retry-After") RetryAfter?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 500;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     };
@@ -468,104 +403,36 @@ op `get-trips`(
 @route("/bookings")
 @get
 @summary("List existing bookings")
+@operationId("get-bookings")
 op `get-bookings`(...Parameters.page, ...Parameters.limit):
   | {
-      /**
-       * The Cache-Control header communicates directives for caching mechanisms in both requests and responses.
-       * It is used to specify the caching directives in responses to prevent caches from storing sensitive information.
-       *
-       */
-      @header("Cache-Control") CacheControl?: string;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @body body: {
         data?: Booking[];
-        links?: `Links-Self` & `Links-Pagination`;
+        links?: Links.Self & Links.Pagination;
       };
     }
   | {
       @statusCode statusCode: 400;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 401;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 403;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 429;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
-      /**
-       * The Retry-After header indicates how long the user agent should wait before making a follow-up request.
-       * The value is in seconds and can be an integer or a date in the future.
-       * If the value is an integer, it indicates the number of seconds to wait.
-       * If the value is a date, it indicates the time at which the user agent should make a follow-up request.
-       *
-       */
-      @header("Retry-After") RetryAfter?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 500;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     };
@@ -575,6 +442,7 @@ op `get-bookings`(...Parameters.page, ...Parameters.limit):
 @route("/bookings")
 @post
 @summary("Create a booking")
+@operationId("create-booking")
 op `create-booking`(
   /** Booking details */
   @body body: Booking,
@@ -582,122 +450,41 @@ op `create-booking`(
   | {
       @statusCode statusCode: 201;
       @body body: Booking & {
-        links?: `Links-Self`;
+        links?: Links.Self;
       };
     }
   | {
       @statusCode statusCode: 400;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 401;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 404;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 409;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 429;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
-      /**
-       * The Retry-After header indicates how long the user agent should wait before making a follow-up request.
-       * The value is in seconds and can be an integer or a date in the future.
-       * If the value is an integer, it indicates the number of seconds to wait.
-       * If the value is a date, it indicates the time at which the user agent should make a follow-up request.
-       *
-       */
-      @header("Retry-After") RetryAfter?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 429;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
-      /**
-       * The Retry-After header indicates how long the user agent should wait before making a follow-up request.
-       * The value is in seconds and can be an integer or a date in the future.
-       * If the value is an integer, it indicates the number of seconds to wait.
-       * If the value is a date, it indicates the time at which the user agent should make a follow-up request.
-       *
-       */
-      @header("Retry-After") RetryAfter?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 500;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     };
@@ -707,6 +494,7 @@ op `create-booking`(
 @route("/bookings/{bookingId}")
 @delete
 @summary("Delete a booking")
+@operationId("delete-booking")
 op `delete-booking`(
   /** The ID of the booking to retrieve. */
   @format("uuid") @path bookingId: string,
@@ -714,117 +502,36 @@ op `delete-booking`(
   | NoContentResponse
   | {
       @statusCode statusCode: 400;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 401;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 403;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 404;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 429;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
-      /**
-       * The Retry-After header indicates how long the user agent should wait before making a follow-up request.
-       * The value is in seconds and can be an integer or a date in the future.
-       * If the value is an integer, it indicates the number of seconds to wait.
-       * If the value is a date, it indicates the time at which the user agent should make a follow-up request.
-       *
-       */
-      @header("Retry-After") RetryAfter?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 429;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
-      /**
-       * The Retry-After header indicates how long the user agent should wait before making a follow-up request.
-       * The value is in seconds and can be an integer or a date in the future.
-       * If the value is an integer, it indicates the number of seconds to wait.
-       * If the value is a date, it indicates the time at which the user agent should make a follow-up request.
-       *
-       */
-      @header("Retry-After") RetryAfter?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 500;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     };
@@ -834,120 +541,43 @@ op `delete-booking`(
 @route("/bookings/{bookingId}")
 @get
 @summary("Get a booking")
+@operationId("get-booking")
 op `get-booking`(
   /** The ID of the booking to retrieve. */
   @format("uuid") @path bookingId: string,
 ):
   | {
-      /**
-       * The Cache-Control header communicates directives for caching mechanisms in both requests and responses.
-       * It is used to specify the caching directives in responses to prevent caches from storing sensitive information.
-       *
-       */
-      @header("Cache-Control") CacheControl?: string;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @body body: Booking & {
-        links?: `Links-Self`;
+        links?: Links.Self;
       };
     }
   | {
       @statusCode statusCode: 400;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 401;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 403;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 404;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 429;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
-      /**
-       * The Retry-After header indicates how long the user agent should wait before making a follow-up request.
-       * The value is in seconds and can be an integer or a date in the future.
-       * If the value is an integer, it indicates the number of seconds to wait.
-       * If the value is a date, it indicates the time at which the user agent should make a follow-up request.
-       *
-       */
-      @header("Retry-After") RetryAfter?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 500;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     };
@@ -957,6 +587,7 @@ op `get-booking`(
 @route("/bookings/{bookingId}/payment")
 @post
 @summary("Pay for a Booking")
+@operationId("create-booking-payment")
 op `create-booking-payment`(
   /** The ID of the booking to pay for. */
   @format("uuid") @path bookingId: string,
@@ -965,101 +596,32 @@ op `create-booking-payment`(
   @body body: BookingPayment,
 ):
   | {
-      /**
-       * The Cache-Control header communicates directives for caching mechanisms in both requests and responses.
-       * It is used to specify the caching directives in responses to prevent caches from storing sensitive information.
-       *
-       */
-      @header("Cache-Control") CacheControl?: string;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @body body: BookingPayment & {
-        links?: `Links-Booking`;
+        links?: Links.Booking;
       };
     }
   | {
       @statusCode statusCode: 400;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 401;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 403;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 429;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
-      /**
-       * The Retry-After header indicates how long the user agent should wait before making a follow-up request.
-       * The value is in seconds and can be an integer or a date in the future.
-       * If the value is an integer, it indicates the number of seconds to wait.
-       * If the value is a date, it indicates the time at which the user agent should make a follow-up request.
-       *
-       */
-      @header("Retry-After") RetryAfter?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     }
   | {
       @statusCode statusCode: 500;
-
-      /**
-       * The RateLimit header communicates quota policies. It contains a `limit` to
-       * convey the expiring limit, `remaining` to convey the remaining quota units,
-       * and `reset` to convey the time window reset time.
-       *
-       */
-      @header RateLimit?: string;
-
       @header contentType: "application/problem+json";
       @body body: Problem;
     };
@@ -1067,13 +629,13 @@ op `create-booking-payment`(
 namespace Parameters {
   model page {
     /** The page number to return */
-    @minValue(1) @query(#{ explode: true }) page?: integer = 1;
+    @minValue(1) @query page?: integer = 1;
   }
   model limit {
     /** The number of items to return per page */
     @minValue(1)
     @maxValue(100)
-    @query(#{ explode: true })
+    @query
     limit?: integer = 10;
   }
 }
