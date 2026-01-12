@@ -103,22 +103,119 @@ namespace Links {
   }
 }
 
-/** A problem detail object as defined in RFC 9457. */
-model Problem {
-  /** A URI reference that identifies the problem type */
-  type?: string;
+namespace Errors {
+  /** A problem detail object as defined in RFC 9457. */
+  model Base {
+    /** A URI reference that identifies the problem type */
+    type?: string;
 
-  /** A short, human-readable summary of the problem type */
-  title?: string;
+    /** A short, human-readable summary of the problem type */
+    title?: string;
 
-  /** A human-readable explanation specific to this occurrence of the problem */
-  detail?: string;
+    /** A human-readable explanation specific to this occurrence of the problem */
+    detail?: string;
 
-  /** A URI reference that identifies the specific occurrence of the problem */
-  instance?: string;
+    /** A URI reference that identifies the specific occurrence of the problem */
+    instance?: string;
 
-  /** The HTTP status code */
-  status?: integer;
+    /** The HTTP status code */
+    status?: integer;
+  }
+
+  /** Bad Request */
+  model BadRequest {
+    @statusCode statusCode: 400;
+    @header contentType: "application/problem+json";
+    @body error: Base | {
+      type: "https://example.com/errors/bad-request";
+      title: "Bad Request";
+      detail: "The request is invalid or missing required parameters.";
+      message: string;
+      status: 400,
+    };
+  }
+
+  /** Unauthorized */
+  model Unauthorized {
+    @statusCode statusCode: 401;
+    @header contentType: "application/problem+json";
+    @body error: Base | {
+      type: "https://example.com/errors/unauthorized";
+      title: "Unauthorized";
+      detail: "You do not have the necessary permissions.";
+      status: 401,
+    };
+  }
+
+  /** Forbidden */
+  model Forbidden {
+    @statusCode statusCode: 403;
+    @header contentType: "application/problem+json";
+    @body error: Base | {
+      type: "https://example.com/errors/forbidden";
+      title: "Forbidden";
+      detail: "Access is forbidden with the provided credentials.";
+      status: 403,
+    };
+  }
+
+  /** Not Found */
+  model NotFound {
+    @statusCode statusCode: 404;
+    @header contentType: "application/problem+json";
+    @body error: Base | {
+      type: "https://example.com/errors/not-found";
+      title: "Not Found";
+      detail: "The requested resource was not found.";
+      status: 404,
+    };
+  }
+
+  /** Conflict */
+  model Conflict {
+    @statusCode statusCode: 409;
+    @header contentType: "application/problem+json";
+    @body error: Base | {
+      type: "https://example.com/errors/conflict";
+      title: "Conflict";
+      detail: "There is a conflict with an existing resource.";
+      status: 409,
+    };
+  }
+
+  /** Too Many Requests */
+  model TooManyRequests {
+    @statusCode statusCode: 429;
+
+    /**
+     * The Retry-After header indicates how long the user agent should wait before making a follow-up request.
+     * The value is in seconds and can be an integer or a date in the future.
+     * If the value is an integer, it indicates the number of seconds to wait.
+     * If the value is a date, it indicates the time at which the user agent should make a follow-up request.
+     *
+     */
+    @header("Retry-After") RetryAfter?: string;
+
+    @header contentType: "application/problem+json";
+    @body body: Base | {
+      type: "https://example.com/errors/too-many-requests";
+      title: "Too Many Requests";
+      detail: "You have exceeded the rate limit.";
+      status: 429,
+    };
+  }
+
+  /** Internal Server Error */
+  model InternalServerError {
+    @statusCode statusCode: 500;
+    @header contentType: "application/problem+json";
+    @body body: Base | {
+      type: "https://example.com/errors/internal-server-error";
+      title: "Internal Server Error";
+      detail: "An unexpected error occurred.";
+      status: 500,
+    };
+  }
 }
 
 /** A train trip. */
@@ -312,31 +409,11 @@ op `get-stations`(
         links?: Links.Self & Links.Pagination;
       };
     }
-  | {
-      @statusCode statusCode: 400;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 401;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 403;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 429;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 500;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    };
+  | Errors.BadRequest
+  | Errors.Unauthorized
+  | Errors.Forbidden
+  | Errors.TooManyRequests
+  | Errors.InternalServerError;
 
 /**
  * Returns a list of available train trips between the specified origin and destination stations on the given date, and allows for filtering by bicycle and dog allowances.
@@ -372,31 +449,11 @@ op `get-trips`(
         links?: Links.Self & Links.Pagination;
       };
     }
-  | {
-      @statusCode statusCode: 400;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 401;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 403;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 429;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 500;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    };
+  | Errors.BadRequest
+  | Errors.Unauthorized
+  | Errors.Forbidden
+  | Errors.TooManyRequests
+  | Errors.InternalServerError;
 
 /** Returns a list of all trip bookings by the authenticated user. */
 @tag("Bookings")
@@ -411,31 +468,11 @@ op `get-bookings`(...Parameters.page, ...Parameters.limit):
         links?: Links.Self & Links.Pagination;
       };
     }
-  | {
-      @statusCode statusCode: 400;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 401;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 403;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 429;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 500;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    };
+  | Errors.BadRequest
+  | Errors.Unauthorized
+  | Errors.Forbidden
+  | Errors.TooManyRequests
+  | Errors.InternalServerError;
 
 /** A booking is a temporary hold on a trip. It is not confirmed until the payment is processed. */
 @tag("Bookings")
@@ -453,41 +490,12 @@ op `create-booking`(
         links?: Links.Self;
       };
     }
-  | {
-      @statusCode statusCode: 400;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 401;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 404;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 409;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 429;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 429;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 500;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    };
+  | Errors.BadRequest
+  | Errors.Unauthorized
+  | Errors.NotFound
+  | Errors.Conflict
+  | Errors.TooManyRequests
+  | Errors.InternalServerError;
 
 /** Deletes a booking, cancelling the hold on the trip. */
 @tag("Bookings")
@@ -500,41 +508,12 @@ op `delete-booking`(
   @format("uuid") @path bookingId: string,
 ):
   | NoContentResponse
-  | {
-      @statusCode statusCode: 400;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 401;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 403;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 404;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 429;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 429;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 500;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    };
+  | Errors.BadRequest
+  | Errors.Unauthorized
+  | Errors.Forbidden
+  | Errors.NotFound
+  | Errors.TooManyRequests
+  | Errors.InternalServerError;
 
 /** Returns the details of a specific booking. */
 @tag("Bookings")
@@ -551,36 +530,12 @@ op `get-booking`(
         links?: Links.Self;
       };
     }
-  | {
-      @statusCode statusCode: 400;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 401;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 403;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 404;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 429;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 500;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    };
+  | Errors.BadRequest
+  | Errors.Unauthorized
+  | Errors.Forbidden
+  | Errors.NotFound
+  | Errors.TooManyRequests
+  | Errors.InternalServerError;
 
 /** A payment is an attempt to pay for the booking, which will confirm the booking for the user and enable them to get their tickets. */
 @tag("Payments")
@@ -600,31 +555,11 @@ op `create-booking-payment`(
         links?: Links.Booking;
       };
     }
-  | {
-      @statusCode statusCode: 400;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 401;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 403;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 429;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    }
-  | {
-      @statusCode statusCode: 500;
-      @header contentType: "application/problem+json";
-      @body body: Problem;
-    };
+  | Errors.BadRequest
+  | Errors.Unauthorized
+  | Errors.Forbidden
+  | Errors.TooManyRequests
+  | Errors.InternalServerError;
 
 namespace Parameters {
   model page {
