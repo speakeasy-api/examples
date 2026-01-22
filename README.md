@@ -19,6 +19,14 @@ Each folder is a self contained example with a generation workflow described in 
 
 Several of these examples are used in the Examples section of the [Speakeasy docs](https://www.speakeasy.com/examples).
 
+## Multi-repo examples
+
+Some examples demonstrate workflows that span multiple repositories. See the [spec-repo](./spec-repo) folder for details.
+
+| Example | Description |
+|---------|-------------|
+| [spec-repo](./spec-repo) | Central spec repository that triggers SDK generation in downstream repos when the OpenAPI spec changes |
+
 ## Contributing
 
 Contributions are welcome! Please see the [CONTRIBUTING.md](./CONTRIBUTING.md) file for more information.
