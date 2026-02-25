@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - sqlite-data:/app/data
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=file:/app/data/taskmaster.db
+
+volumes:
+  sqlite-data:
