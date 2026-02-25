@@ -59,7 +59,6 @@ paths:
         content:
           application/json:
             schema:
-              type: string
               oneOf:
               - $ref: "#/components/schemas/Book"
               - $ref: "#/components/schemas/Magazine"
@@ -70,7 +69,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 oneOf:
                 - $ref: "#/components/schemas/Book"
                 - $ref: "#/components/schemas/Magazine"
@@ -100,7 +98,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 oneOf:
                 - $ref: "#/components/schemas/Book"
                 - $ref: "#/components/schemas/Magazine"
@@ -113,27 +110,8 @@ paths:
 components:
   schemas:
     Book:
-      type: object
       allOf:
       - $ref: "#/components/schemas/Publication"
-      - type: object
-        properties:
-          type:
-            type: string
-            default: Book
-            description: Type of the publication
-            enum:
-            - Book
-            example: Book
-            readOnly: true
-          author:
-            type: string
-            description: Author of the book
-            example: Craig Walls
-          isbn:
-            type: string
-            description: ISBN of the book
-            example: 978-1617292545
       description: Represents a book in the store
       required:
       - type
