@@ -46,6 +46,19 @@ using OpenAPI;
     description: "Pay for bookings using a card or bank account, and view payment status and history. **Warning:** Bookings usually expire within 1 hour so you'll need to make your payment before the expiry date.",
   }
 )
+
+@extension("x-speakeasy-retries", #{
+  strategy: "backoff",
+  backoff: #{
+    initialInterval: 500,
+    maxInterval: 60000,
+    maxElapsedTime: 3600000,
+    exponent: 1.5,
+  },
+  statusCodes: #["5XX"],
+  retryConnectionErrors: true
+})
+
 namespace TrainTravelAPI;
 
 /** A train station. */
