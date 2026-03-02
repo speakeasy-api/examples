@@ -1,4 +1,3 @@
-import type { Hono } from "hono";
 import { Scalar } from "@scalar/hono-api-reference";
 import { openAPIRouteHandler } from "hono-openapi";
 import packageJson from "../../package.json";
@@ -41,7 +40,7 @@ export const openAPIDocumentation = {
   ],
 };
 
-export default function configureOpenAPI(app: Hono) {
+export default function configureOpenAPI(app) {
   app.get(
     "/openapi",
     openAPIRouteHandler(app, {
@@ -51,7 +50,7 @@ export default function configureOpenAPI(app: Hono) {
   app.get(
     "/docs",
     Scalar({
-      url: "/openapi",
+      url: "/doc",
       pageTitle: "Users Management API",
     })
   );

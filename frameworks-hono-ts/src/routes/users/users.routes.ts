@@ -1,115 +1,87 @@
-import { createRoute, z } from '@hono/zod-openapi';
+import { resolver } from "hono-openapi";
+import { z } from "zod";
 
-import { createErrorSchema, createMessageObjectSchema, idParamsSchema, patchUserSchema, UserInsertSchema, UserSelectSchema } from '@/schemas';
+import { ErrorSchema, UserSelectSchema } from "@/schemas";
 
-export const list = createRoute({
-  operationId: 'getUsers',
-  path: '/users',
-  method: 'get',
-  'tags': ['Users'],
-  'x-speakeasy-retries': {
-    strategy: 'backoff',
+export const listRoute = {
+  operationId: "getUsers",
+  description: "Get all users",
+  tags: ["Users"],
+  "x-speakeasy-retries": {
+    strategy: "backoff",
     backoff: {
       initialInterval: 300,
       maxInterval: 40000,
       maxElapsedTime: 3000000,
       exponent: 1.2,
     },
-    statusCodes: ['5XX'],
+    statusCodes: ["5XX"],
     retryConnectionErrors: true,
   },
   responses: {
     200: {
       content: {
-        'application/json': {
-          schema: z.array(UserSelectSchema),
+        "application/json": {
+          schema: resolver(z.array(UserSelectSchema)),
         },
       },
-      description: 'The list of users',
+      description: "The list of users",
     },
   },
-});
+};
 
-export const create = createRoute({
-  operationId: 'createUser',
-  path: '/users',
-  method: 'post',
-  'tags': ['Users'],
-  request: {
-    body: {
-      content: {
-        'application/json': {
-          schema: UserInsertSchema,
-        },
-      },
-      description: 'The user to create',
-      required: true,
-    },
-  },
+export const createRoute = {
+  operationId: "createUser",
+  description: "Create a user",
+  tags: ["Users"],
   responses: {
     200: {
       content: {
-        'application/json': {
-          schema: UserSelectSchema,
+        "application/json": {
+          schema: resolver(UserSelectSchema),
         },
       },
-      description: 'The created user',
-    },
-    404: {
-      content: {
-        'application/json': {
-          schema: createMessageObjectSchema('Not Found'),
-        },
-      },
-      description: 'User not found',
+      description: "The created user",
     },
     422: {
       content: {
-        'application/json': {
-          schema: createErrorSchema(patchUserSchema),
+        "application/json": {
+          schema: resolver(ErrorSchema),
         },
       },
-      description: 'The validation error(s)',
+      description: "The validation error(s)",
     },
   },
-});
+};
 
-export const getOne = createRoute({
-  operationId: 'getUser',
-  path: '/users/{id}',
-  method: 'get',
-  'tags': ['Users'],
-  request: {
-    params: idParamsSchema,
-  },
+export const getOneRoute = {
+  operationId: "getUser",
+  description: "Get a user by ID",
+  tags: ["Users"],
   responses: {
     200: {
       content: {
-        'application/json': {
-          schema: UserSelectSchema,
+        "application/json": {
+          schema: resolver(UserSelectSchema),
         },
       },
-      description: 'The requested user',
+      description: "The requested user",
     },
     404: {
       content: {
-        'application/json': {
-          schema: createMessageObjectSchema('Not Found'),
+        "application/json": {
+          schema: resolver(ErrorSchema),
         },
       },
-      description: 'User not found',
+      description: "User not found",
     },
     422: {
       content: {
-        'application/json': {
-          schema: createErrorSchema(patchUserSchema),
+        "application/json": {
+          schema: resolver(ErrorSchema),
         },
       },
-      description: 'Invalid id error',
+      description: "Invalid id error",
     },
   },
-});
-
-export type ListRoute = typeof list;
-export type CreateRoute = typeof create;
-export type GetOneRoute = typeof getOne;
+};
