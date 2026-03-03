@@ -1,0 +1,637 @@
+openapi: 3.1.0
+info:
+  title: Taskmaster API
+  description: API for managing tasks, projects, and task relationships in the Taskmaster Kanban board.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /api/tasks:
+    get:
+      operationId: listTasks
+      summary: List all tasks
+      description: Retrieve all tasks, optionally filtered by project, status, or priority.
+      x-gram:
+        name: List Tasks
+        summary: Get all tasks from the board
+        description: Retrieve all tasks from the Kanban board. Can filter by project_id, status (backlog, todo, in_progress, done, canceled), and priority (low, medium, high).
+        responseFilterType: ai
+      parameters:
+        - name: project_id
+          in: query
+          required: false
+          description: Filter tasks by project UUID
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          required: false
+          description: Filter tasks by status
+          schema:
+            type: string
+            enum: [backlog, todo, in_progress, done, canceled]
+        - name: priority
+          in: query
+          required: false
+          description: Filter tasks by priority
+          schema:
+            type: string
+            enum: [low, medium, high]
+      responses:
+        "200":
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+
+    post:
+      operationId: createTask
+      summary: Create a new task
+      description: Create a new task on the Kanban board.
+      x-gram:
+        name: Create Task
+        summary: Create a new task on the board
+        description: Create a new task with a title, optional description, status, priority, assignee, and project assignment.
+        responseFilterType: ai
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTaskRequest"
+      responses:
+        "201":
+          description: Task created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+  /api/tasks/{id}:
+    get:
+      operationId: getTask
+      summary: Get a task by ID
+      description: Retrieve a single task by its UUID.
+      x-gram:
+        name: Get Task
+        summary: Get a specific task by ID
+        description: Retrieve the details of a single task including its title, description, status, priority, assignee, and project assignment.
+        responseFilterType: ai
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+      responses:
+        "200":
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+    put:
+      operationId: updateTask
+      summary: Update a task
+      description: Update one or more fields of an existing task.
+      x-gram:
+        name: Update Task
+        summary: Update an existing task
+        description: Update a task's title, description, status, priority, assignee, or project assignment. Only the fields provided will be updated.
+        responseFilterType: ai
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTaskRequest"
+      responses:
+        "200":
+          description: Task updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+    delete:
+      operationId: deleteTask
+      summary: Delete a task
+      description: Permanently delete a task by its UUID.
+      x-gram:
+        name: Delete Task
+        summary: Delete a task from the board
+        description: Permanently remove a task from the Kanban board. This also deletes any relationships associated with the task.
+        responseFilterType: none
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+      responses:
+        "204":
+          description: Task deleted successfully
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+  /api/tasks/{id}/relationships:
+    get:
+      operationId: listTaskRelationships
+      summary: List task relationships
+      description: Retrieve all relationships for a task (both as source and target).
+      x-gram:
+        name: List Task Relationships
+        summary: Get relationships for a task
+        description: Retrieve all relationships where the specified task is either the source or target. Relationships can be blocks, relates_to, or duplicates.
+        responseFilterType: ai
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+      responses:
+        "200":
+          description: List of relationships
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskRelationship"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+    post:
+      operationId: createTaskRelationship
+      summary: Create a task relationship
+      description: Create a relationship between two tasks.
+      x-gram:
+        name: Create Task Relationship
+        summary: Link two tasks together
+        description: Create a relationship between the source task (specified by path ID) and a target task. Relationship types are blocks, relates_to, or duplicates.
+        responseFilterType: ai
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRelationshipRequest"
+      responses:
+        "201":
+          description: Relationship created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskRelationship"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+  /api/tasks/{id}/relationships/{relationshipId}:
+    delete:
+      operationId: deleteTaskRelationship
+      summary: Delete a task relationship
+      description: Delete a specific relationship between tasks.
+      x-gram:
+        name: Delete Task Relationship
+        summary: Remove a relationship between tasks
+        description: Permanently remove a relationship between two tasks by its relationship ID.
+        responseFilterType: none
+      parameters:
+        - $ref: "#/components/parameters/TaskId"
+        - name: relationshipId
+          in: path
+          required: true
+          description: UUID of the relationship to delete
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Relationship deleted successfully
+        "404":
+          description: Relationship not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+  /api/projects:
+    get:
+      operationId: listProjects
+      summary: List all projects
+      description: Retrieve all projects.
+      x-gram:
+        name: List Projects
+        summary: Get all projects
+        description: Retrieve all projects in the system. Projects are used to group related tasks together.
+        responseFilterType: ai
+      responses:
+        "200":
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+    post:
+      operationId: createProject
+      summary: Create a new project
+      description: Create a new project to group tasks.
+      x-gram:
+        name: Create Project
+        summary: Create a new project
+        description: Create a new project with a name and optional description. Projects are used to group related tasks on the Kanban board.
+        responseFilterType: ai
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProjectRequest"
+      responses:
+        "201":
+          description: Project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+  /api/projects/{id}:
+    get:
+      operationId: getProject
+      summary: Get a project by ID
+      description: Retrieve a single project by its UUID.
+      x-gram:
+        name: Get Project
+        summary: Get a specific project by ID
+        description: Retrieve the details of a single project including its name and description.
+        responseFilterType: ai
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
+      responses:
+        "200":
+          description: Project details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+    put:
+      operationId: updateProject
+      summary: Update a project
+      description: Update one or more fields of an existing project.
+      x-gram:
+        name: Update Project
+        summary: Update an existing project
+        description: Update a project's name or description. Only the fields provided will be updated.
+        responseFilterType: ai
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProjectRequest"
+      responses:
+        "200":
+          description: Project updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "404":
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+    delete:
+      operationId: deleteProject
+      summary: Delete a project
+      description: Permanently delete a project by its UUID.
+      x-gram:
+        name: Delete Project
+        summary: Delete a project
+        description: Permanently remove a project. Tasks assigned to this project will have their project_id set to null.
+        responseFilterType: none
+      parameters:
+        - $ref: "#/components/parameters/ProjectId"
+      responses:
+        "204":
+          description: Project deleted successfully
+        "404":
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+
+components:
+  parameters:
+    TaskId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the task
+      schema:
+        type: string
+        format: uuid
+    ProjectId:
+      name: id
+      in: path
+      required: true
+      description: UUID of the project
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique task identifier
+        title:
+          type: string
+          description: Task title
+        description:
+          type: string
+          description: Task description
+        status:
+          type: string
+          enum: [backlog, todo, in_progress, done, canceled]
+          description: Current status of the task
+        priority:
+          type: string
+          enum: [low, medium, high]
+          description: Task priority level
+        assignee:
+          type: string
+          nullable: true
+          description: Name of the person assigned to the task
+        project_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: UUID of the project this task belongs to
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the task was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+      required:
+        - id
+        - title
+        - status
+        - priority
+        - created_at
+        - updated_at
+
+    CreateTaskRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          description: Task title (required)
+        description:
+          type: string
+          default: ""
+          description: Task description
+        status:
+          type: string
+          enum: [backlog, todo, in_progress, done, canceled]
+          default: todo
+          description: Initial status
+        priority:
+          type: string
+          enum: [low, medium, high]
+          default: medium
+          description: Task priority
+        assignee:
+          type: string
+          nullable: true
+          description: Name of the assignee
+        project_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: UUID of the project to assign the task to
+      required:
+        - title
+
+    UpdateTaskRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          description: Updated task title
+        description:
+          type: string
+          description: Updated task description
+        status:
+          type: string
+          enum: [backlog, todo, in_progress, done, canceled]
+          description: Updated status
+        priority:
+          type: string
+          enum: [low, medium, high]
+          description: Updated priority
+        assignee:
+          type: string
+          nullable: true
+          description: Updated assignee name
+        project_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: Updated project UUID
+
+    TaskRelationship:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique relationship identifier
+        source_task_id:
+          type: string
+          format: uuid
+          description: UUID of the source task
+        target_task_id:
+          type: string
+          format: uuid
+          description: UUID of the target task
+        relationship_type:
+          type: string
+          enum: [blocks, relates_to, duplicates]
+          description: Type of relationship between tasks
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the relationship was created
+      required:
+        - id
+        - source_task_id
+        - target_task_id
+        - relationship_type
+        - created_at
+
+    CreateRelationshipRequest:
+      type: object
+      properties:
+        target_task_id:
+          type: string
+          format: uuid
+          description: UUID of the target task to link to
+        relationship_type:
+          type: string
+          enum: [blocks, relates_to, duplicates]
+          description: Type of relationship
+      required:
+        - target_task_id
+        - relationship_type
+
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique project identifier
+        name:
+          type: string
+          description: Project name
+        description:
+          type: string
+          description: Project description
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the project was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the project was last updated
+      required:
+        - id
+        - name
+        - created_at
+        - updated_at
+
+    CreateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Project name (required)
+        description:
+          type: string
+          default: ""
+          description: Project description
+      required:
+        - name
+
+    UpdateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Updated project name
+        description:
+          type: string
+          description: Updated project description
+
+    ErrorMessage:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error description
+
+    ValidationError:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error description
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: Field-specific validation errors
