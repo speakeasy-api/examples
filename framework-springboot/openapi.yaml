@@ -18,24 +18,214 @@ servers:
 - url: http://localhost:8080
   description: Development server (uses test data)
 tags:
+- name: Orders
+  description: Order management and processing APIs
 - name: Publications
   description: Publications management APIs
 paths:
+  /publications/{id}:
+    get:
+      tags:
+      - Publications
+      summary: Get a publication by ID
+      description: Retrieves a publication's details by its unique identifier
+      operationId: getPublication
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier of the publication
+        required: true
+        schema:
+          type: string
+        example: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        "200":
+          description: Successfully retrieved publication
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/Book"
+                - $ref: "#/components/schemas/Magazine"
+              examples:
+                Book response:
+                  summary: Example book response
+                  description: Book response
+                  value:
+                    id: "123"
+                    title: Spring Boot in Action
+                    publishDate: 2015-10-01
+                    price: 39.99
+                    type: Book
+                    author: Craig Walls
+                    isbn: 978-1617292545
+        "404":
+          description: Publication not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+    put:
+      tags:
+      - Publications
+      summary: Update a publication
+      description: Update an existing publication's information. All fields except
+        ID can be modified.
+      operationId: updatePublication
+      parameters:
+      - name: id
+        in: path
+        description: ID of the publication to update
+        required: true
+        schema:
+          type: string
+        example: 123e4567-e89b-12d3-a456-426614174000
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: Updated publication data
+              oneOf:
+              - $ref: "#/components/schemas/Book"
+              - $ref: "#/components/schemas/Magazine"
+        required: true
+      responses:
+        "200":
+          description: Publication updated successfully
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/Book"
+                - $ref: "#/components/schemas/Magazine"
+        "404":
+          description: Publication not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "400":
+          description: Invalid input data
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+    delete:
+      tags:
+      - Publications
+      summary: Delete a publication
+      description: Remove a publication from the store inventory. This action cannot
+        be undone.
+      operationId: deletePublication
+      parameters:
+      - name: id
+        in: path
+        description: ID of the publication to delete
+        required: true
+        schema:
+          type: string
+        example: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        "204":
+          description: Publication deleted successfully
+          content:
+            '*/*':
+              schema:
+                type: object
+        "404":
+          description: Publication not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "409":
+          description: "Publication cannot be deleted (e.g., active orders exist)"
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+  /orders/{id}/status:
+    put:
+      tags:
+      - Orders
+      summary: Update order status
+      description: "Update the status of an existing order (e.g., mark as shipped\
+        \ or delivered)"
+      operationId: updateOrderStatus
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier of the order
+        required: true
+        schema:
+          type: string
+        example: ord-123456
+      - name: status
+        in: query
+        description: New status for the order
+        required: true
+        schema:
+          type: string
+          description: Possible statuses for an order
+          enum:
+          - PENDING
+          - SHIPPED
+          - DELIVERED
+          - CANCELLED
+        example: SHIPPED
+      responses:
+        "200":
+          description: Order status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "404":
+          description: Order not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+        "409":
+          description: Invalid status transition
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
   /publications:
     get:
       tags:
       - Publications
       summary: List all publications
-      description: Get a list of all publications in the store
+      description: Get a list of all publications in the store with optional filtering
       operationId: listPublications
+      parameters:
+      - name: type
+        in: query
+        description: Filter by publication type
+        required: false
+        schema:
+          type: string
+          enum:
+          - Book
+          - Magazine
+        example: Book
+      - name: search
+        in: query
+        description: Search query to filter publications by title
+        required: false
+        schema:
+          type: string
+        example: Spring Boot
       responses:
         "200":
-          description: OK
+          description: Successfully retrieved publications
           content:
-            '*/*':
+            application/json:
               schema:
                 type: array
                 items:
+                  type: object
                   oneOf:
                   - $ref: "#/components/schemas/Book"
                   - $ref: "#/components/schemas/Magazine"
@@ -59,107 +249,250 @@ paths:
         content:
           application/json:
             schema:
-              type: string
               oneOf:
               - $ref: "#/components/schemas/Book"
               - $ref: "#/components/schemas/Magazine"
+            examples:
+              Book example:
+                summary: Example of creating a book
+                description: Book example
+                value:
+                  title: Effective Java
+                  publishDate: 2018-01-06
+                  price: 45.99
+                  type: Book
+                  author: Joshua Bloch
+                  isbn: 978-0134685991
+              Magazine example:
+                summary: Example of creating a magazine
+                description: Magazine example
+                value:
+                  title: Wired
+                  publishDate: 2024-03-01
+                  price: 12.99
+                  type: Magazine
+                  issueNumber: 32
+                  publisher: Condé Nast
         required: true
       responses:
-        "200":
-          description: Successful operation
+        "201":
+          description: Publication created successfully
           content:
             application/json:
               schema:
-                type: object
                 oneOf:
                 - $ref: "#/components/schemas/Book"
                 - $ref: "#/components/schemas/Magazine"
         "400":
           description: Invalid input
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
-  /publications/{id}:
+                $ref: "#/components/schemas/ProblemDetail"
+  /orders:
     get:
       tags:
-      - Publications
-      summary: Get a publication by ID
-      description: Retrieves a publication's details by its unique identifier
-      operationId: getPublication
+      - Orders
+      summary: List all orders
+      description: Retrieve a paginated list of all orders with optional status filtering
+      operationId: listOrders
+      parameters:
+      - name: status
+        in: query
+        description: Filter orders by status
+        required: false
+        schema:
+          type: string
+          description: Possible statuses for an order
+          enum:
+          - PENDING
+          - SHIPPED
+          - DELIVERED
+          - CANCELLED
+        example: PENDING
+      - name: page
+        in: query
+        description: Page number for pagination (starts at 1)
+        required: false
+        schema:
+          type: integer
+          default: 1
+          minimum: 1
+        example: 1
+      - name: pageSize
+        in: query
+        description: Number of items per page
+        required: false
+        schema:
+          type: integer
+          default: 10
+          maximum: 100
+          minimum: 1
+        example: 10
+      responses:
+        "200":
+          description: Successfully retrieved orders
+          headers:
+            X-Page-Number:
+              description: Current page number
+              style: simple
+              schema:
+                type: integer
+                example: 1
+            X-Total-Count:
+              description: Total number of orders
+              style: simple
+              schema:
+                type: integer
+                example: 42
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid query parameters
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+    post:
+      tags:
+      - Orders
+      summary: Create a new order
+      description: Place a new order for one or more publications
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+        required: true
+      responses:
+        "201":
+          description: Order created successfully
+          headers:
+            Location:
+              description: URL of the newly created order
+              style: simple
+              schema:
+                type: string
+                example: /orders/ord-123456
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid order data
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+  /orders/{id}:
+    get:
+      tags:
+      - Orders
+      summary: Get an order by ID
+      description: Retrieve detailed information about a specific order using its
+        unique identifier
+      operationId: getOrder
       parameters:
       - name: id
         in: path
-        description: ID of the publication to retrieve
+        description: Unique identifier of the order
         required: true
         schema:
           type: string
+        example: ord-123456
+      - name: X-API-Key
+        in: header
+        description: Optional API key for authentication
+        required: false
+        schema:
+          type: string
+          example: sk_test_1234567890
       responses:
         "200":
-          description: Successful operation
+          description: Order found successfully
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+              examples:
+                Order example:
+                  description: Order example
+                  value:
+                    id: ord-123456
+                    customerId: cust-789012
+                    items:
+                    - id: pub-001
+                      title: Spring Boot in Action
+                      publishDate: 2015-10-01
+                      price: 39.99
+                      type: Book
+                      author: Craig Walls
+                      isbn: 978-1617292545
+                    totalPrice: 39.99
+                    status: PENDING
+        "404":
+          description: Order not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
+    delete:
+      tags:
+      - Orders
+      summary: Cancel an order
+      description: Cancel a pending or processing order. Orders that have already
+        shipped cannot be cancelled.
+      operationId: cancelOrder
+      parameters:
+      - name: id
+        in: path
+        description: Unique identifier of the order to cancel
+        required: true
+        schema:
+          type: string
+        example: ord-123456
+      - name: reason
+        in: query
+        description: Reason for cancellation
+        required: false
+        schema:
+          type: string
+        example: Customer requested cancellation
+      responses:
+        "204":
+          description: Order cancelled successfully
+          content:
+            '*/*':
               schema:
                 type: object
-                oneOf:
-                - $ref: "#/components/schemas/Book"
-                - $ref: "#/components/schemas/Magazine"
         "404":
-          description: Publication not found
+          description: Order not found
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/ProblemDetail"
+        "409":
+          description: Order cannot be cancelled in its current state
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetail"
 components:
   schemas:
     Book:
-      type: object
       allOf:
       - $ref: "#/components/schemas/Publication"
-      - type: object
-        properties:
-          type:
-            type: string
-            default: Book
-            description: Type of the publication
-            enum:
-            - Book
-            example: Book
-            readOnly: true
-          author:
-            type: string
-            description: Author of the book
-            example: Craig Walls
-          isbn:
-            type: string
-            description: ISBN of the book
-            example: 978-1617292545
       description: Represents a book in the store
       required:
       - type
     Magazine:
-      type: object
       allOf:
       - $ref: "#/components/schemas/Publication"
-      - type: object
-        properties:
-          type:
-            type: string
-            default: Magazine
-            description: Type of the publication
-            enum:
-            - Magazine
-            example: Magazine
-            readOnly: true
-          issueNumber:
-            type: integer
-            format: int32
-            description: Issue number of the magazine
-            example: 42
-          publisher:
-            type: string
-            description: Publisher of the magazine
-            example: National Geographic Society
       description: Represents a magazine in the store
       required:
       - type
@@ -196,16 +529,67 @@ components:
           - Book
           - Magazine
           example: Book
-    ErrorResponse:
+    ProblemDetail:
       type: object
-      description: Represents an error response
       properties:
-        code:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
           type: integer
           format: int32
-          description: Error code
-          example: 404
-        message:
+        detail:
           type: string
-          description: Error message
-          example: Publication not found
+        instance:
+          type: string
+          format: uri
+        properties:
+          type: object
+          additionalProperties: {}
+    PublicationListItem:
+      allOf:
+      - $ref: "#/components/schemas/Publication"
+      description: Represents an item in a list of publications
+      discriminator:
+        propertyName: type
+        mapping:
+          Book: "#/components/schemas/Book"
+          Magazine: "#/components/schemas/Magazine"
+      oneOf:
+      - $ref: "#/components/schemas/Book"
+      - $ref: "#/components/schemas/Magazine"
+    Order:
+      type: object
+      description: Represents an order for publications
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the order
+          example: ord-123456
+        customerId:
+          type: string
+          description: Customer who placed the order
+          example: cust-789012
+        items:
+          type: array
+          description: List of items in the order
+          items:
+            $ref: "#/components/schemas/PublicationListItem"
+            description: List of items in the order
+            minItems: 1
+          minItems: 1
+        totalPrice:
+          type: number
+          format: float
+          description: Total price of the order
+          example: 89.97
+        status:
+          type: string
+          description: Status of the order
+          enum:
+          - PENDING
+          - SHIPPED
+          - DELIVERED
+          - CANCELLED

@@ -181,26 +181,20 @@ public class Models {
         CANCELLED
     }
 
-    @Schema(description = "Represents an error response")
-    public static class ErrorResponse {
-        @Schema(description = "Error code", example = "404")
-        private int code;
-
-        @Schema(description = "Error message", example = "Publication not found")
-        private String message;
-
-        // Constructors
-        public ErrorResponse() {}
-
-        public ErrorResponse(int code, String message) {
-            this.code = code;
-            this.message = message;
-        }
-
-        // Getters and setters
-        public int getCode() { return code; }
-        public void setCode(int code) { this.code = code; }
-        public String getMessage() { return message; }
-        public void setMessage(String message) { this.message = message; }
-    }
+    @Schema(description = "Represents an RFC 7807 Problem Details error response")
+    public record ErrorResponse(
+        @Schema(description = "A URI reference that identifies the problem type", 
+                example = "https://api.bookstore.example.com/problems/resource-not-found")
+        String type,
+        @Schema(description = "A short, human-readable summary of the problem type", example = "Resource Not Found")
+        String title,
+        @Schema(description = "The HTTP status code", example = "404")
+        int status,
+        @Schema(description = "A human-readable explanation specific to this occurrence", 
+                example = "The publication with ID '123e4567-e89b-12d3-a456-426614174000' was not found")
+        String detail,
+        @Schema(description = "A URI reference that identifies the specific occurrence of the problem", 
+                example = "/publications/123e4567-e89b-12d3-a456-426614174000", nullable = true)
+        String instance
+    ) {}
 }

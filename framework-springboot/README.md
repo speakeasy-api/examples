@@ -29,12 +29,9 @@ Start the server:
 
 ### Working with the OpenAPI specification
 
-Spring Boot automatically generates an OpenAPI specification. You can view it at:
-- `/swagger-ui.html` - Swagger UI
-- `/api-docs` - Raw OpenAPI JSON
-- `/api-docs.yaml` - Raw OpenAPI YAML
+Spring Boot automatically generates an OpenAPI documentation when sprint boot is run, and will make it available on `http://localhost:8080/api-docs.yaml`. You can view the OpenAPI specification in your browser or use it to generate SDKs.
 
-To save the OpenAPI specification to a file run:
+To save the OpenAPI description to a file run:
 
 ```bash
 curl http://localhost:8080/api-docs.yaml -o openapi.yaml
