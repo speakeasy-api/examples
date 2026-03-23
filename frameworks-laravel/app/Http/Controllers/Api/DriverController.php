@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 class DriverController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get drivers
+     *
+     * Returns a collection of driver resources, optionally filtered by race.
      */
     public function index(Request $request): DriverCollection
     {

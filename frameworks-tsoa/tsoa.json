@@ -1,0 +1,35 @@
+{
+  "entryFile": "src/app.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": ["src/app/*Controller.ts"],
+  "spec": {
+    "outputDirectory": "build",
+    "specFileBaseName": "openapi",
+    "specVersion": 3.1,
+    "name": "Custom API Name",
+    "description": "Custom API Description",
+    "license": "MIT",
+    "version": "1.1.0",
+    "contact": {
+      "name": "API Contact",
+      "email": "help@example.com",
+      "url": "http://example.com"
+    },
+    "spec": {
+      "x-speakeasy-retries": {
+        "strategy": "backoff",
+        "backoff": {
+          "initialInterval": 500,
+          "maxInterval": 60000,
+          "maxElapsedTime": 3600000,
+          "exponent": 1.5
+        },
+        "statusCodes": ["5XX"],
+        "retryConnectionErrors": true
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "build"
+  }
+}

@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 class CircuitController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get circuits
+     *
+     * Returns a collection of all race circuits.
      */
     public function index(): CircuitCollection
     {
