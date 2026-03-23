@@ -1,4 +1,5 @@
 {
+  "exclude": ["node_modules", "dist", "sdk-typescript"],
   "compilerOptions": {
     "target": "ESNext",
     "jsx": "react-jsx",

@@ -49,6 +49,14 @@ You can use the provided script to run the application in development mode. It w
 npm run dev
 ```
 
+### Generate OpenAPI spec
+
+To generate the OpenAPI specification for this application, run the following command:
+
+```bash
+npm run create:openapi
+```
+
 ## License
 
 This project is licensed under the terms of the Apache 2.0 license.

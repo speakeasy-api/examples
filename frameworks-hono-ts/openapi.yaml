@@ -1,4 +1,8 @@
 openapi: 3.1.0
+info:
+  title: Users API
+  description: Development documentation
+  version: 1.0.0
 externalDocs:
   description: Find out more about Users API
   url: www.example.com
@@ -21,9 +25,93 @@ tags:
     externalDocs:
       description: Find more info here
       url: https://example.com
-info:
-  version: 1.0.0
-  title: Users API
+paths:
+  /users:
+    get:
+      operationId: getUsers
+      description: Get all users
+      tags:
+        - Users
+      x-speakeasy-retries:
+        strategy: backoff
+        backoff:
+          initialInterval: 300
+          maxInterval: 40000
+          maxElapsedTime: 3000000
+          exponent: 1.2
+        statusCodes:
+          - 5XX
+        retryConnectionErrors: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserSelect'
+          description: The list of users
+    post:
+      operationId: createUser
+      description: Create a user
+      tags:
+        - Users
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSelect'
+          description: The created user
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createMessageObject'
+          description: User not found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createError'
+          description: The validation error(s)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInsert'
+  /users/{id}:
+    get:
+      operationId: getUser
+      description: Get a user by ID
+      tags:
+        - Users
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSelect'
+          description: The requested user
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createMessageObject'
+          description: User not found
+        '422':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createError'
+          description: Invalid id error
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            minLength: 3
+          required: true
 components:
   schemas:
     UserSelect:
@@ -31,17 +119,15 @@ components:
       properties:
         id:
           type: string
-          example: '123'
         name:
           type: string
-          example: John Doe
         age:
           type: number
-          example: 42
       required:
         - id
         - name
         - age
+      description: User object
     createMessageObject:
       type: object
       properties:
@@ -49,14 +135,12 @@ components:
           type: string
       required:
         - message
-      example:
-        message: Not Found
+      description: Message response
     createError:
       type: object
       properties:
         success:
           type: boolean
-          example: false
         error:
           type: object
           properties:
@@ -83,116 +167,18 @@ components:
           required:
             - issues
             - name
-          example:
-            issues:
-              - code: invalid_type
-                path:
-                  - age
-                message: Expected number, received string
-            name: ZodError
       required:
         - success
         - error
+      description: Error response
     UserInsert:
       type: object
       properties:
         name:
           type: string
-          example: John Doe
         age:
           type: number
-          example: 42
       required:
         - name
         - age
-    idParams:
-      type: string
-      minLength: 3
-      example: '423'
-  parameters: {}
-paths:
-  /users:
-    get:
-      operationId: getUsers
-      tags:
-        - Users
-      x-speakeasy-retries:
-        strategy: backoff
-        backoff:
-          initialInterval: 300
-          maxInterval: 40000
-          maxElapsedTime: 3000000
-          exponent: 1.2
-        statusCodes:
-          - 5XX
-        retryConnectionErrors: true
-      responses:
-        '200':
-          description: The list of users
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/UserSelect'
-    post:
-      operationId: createUser
-      tags:
-        - Users
-      requestBody:
-        description: The user to create
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserInsert'
-      responses:
-        '200':
-          description: The created user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserSelect'
-        '404':
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/createMessageObject'
-        '422':
-          description: The validation error(s)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/createError'
-  /users/{id}:
-    get:
-      operationId: getUser
-      tags:
-        - Users
-      parameters:
-        - schema:
-            $ref: '#/components/schemas/idParams'
-          required: true
-          name: id
-          in: path
-      responses:
-        '200':
-          description: The requested user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserSelect'
-        '404':
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/createMessageObject'
-        '422':
-          description: Invalid id error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/createError'
-webhooks: {}
+      description: User creation data
