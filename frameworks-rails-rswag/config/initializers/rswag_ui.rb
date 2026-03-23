@@ -1,7 +1,8 @@
 Rswag::Ui.configure do |c|
 
-  # List the OpenAPI endpoints that you want to be documented through the swagger-ui
-  c.openapi_endpoint '/api-docs/v1/swagger.yaml', 'F1 Laps API V1'
+  # List the Swagger endpoints that you want to be documented through the swagger-ui.
+
+  c.swagger_endpoint '/api-docs/v1/openapi.yaml', 'F1 Laps API V1'
 
   # Configure Swagger UI to be more user-friendly
   c.config_object['defaultModelsExpandDepth'] = 2
