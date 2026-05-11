@@ -1,0 +1,920 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Train Travel API",
+    "description": "API for finding and booking train trips across Europe.",
+    "contact": {
+      "name": "Train Support",
+      "url": "https://example.com/support",
+      "email": "support@example.com"
+    },
+    "license": {
+      "name": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+    },
+    "version": "1.2.1"
+  },
+  "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth 2.0 authorization code flow.",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://example.com/oauth/authorize",
+            "tokenUrl": "https://example.com/oauth/token",
+            "scopes": {
+              "read": "Read access",
+              "write": "Write access"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Station": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "address",
+          "country_code"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the station."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the station"
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the station."
+          },
+          "country_code": {
+            "type": "string",
+            "description": "The country code of the station."
+          },
+          "timezone": {
+            "type": "string",
+            "description": "The timezone of the station in IANA format."
+          }
+        }
+      },
+      "Trip": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "origin": {
+            "type": "string",
+            "description": "The origin station id."
+          },
+          "destination": {
+            "type": "string",
+            "description": "The destination station id."
+          },
+          "departure_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrival_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "price": {
+            "type": "number"
+          },
+          "operator": {
+            "type": "string"
+          },
+          "bicycles_allowed": {
+            "type": "boolean"
+          },
+          "dogs_allowed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Booking": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "trip_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "passenger_name": {
+            "type": "string"
+          },
+          "has_bicycle": {
+            "type": "boolean"
+          },
+          "has_dog": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Links-Self": {
+        "type": "object",
+        "properties": {
+          "self": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "Links-Pagination": {
+        "type": "object",
+        "properties": {
+          "next": {
+            "type": "string",
+            "format": "uri"
+          },
+          "prev": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "TripResource": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Trip"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "links": {
+                "type": "object",
+                "properties": {
+                  "self": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "origin": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "destination": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "BookingResource": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Booking"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "links": {
+                "$ref": "#/components/schemas/Links-Self"
+              }
+            }
+          }
+        ]
+      },
+      "Wrapper-Collection": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "links": {
+            "type": "object"
+          }
+        }
+      },
+      "BookingPaymentSourceCard": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "card"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "cvc": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 4,
+            "writeOnly": true
+          },
+          "exp_month": {
+            "type": "integer"
+          },
+          "exp_year": {
+            "type": "integer"
+          },
+          "address_country": {
+            "type": "string"
+          },
+          "address_post_code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "object",
+          "name",
+          "number",
+          "cvc",
+          "exp_month",
+          "exp_year",
+          "address_country"
+        ]
+      },
+      "BookingPaymentSourceBankAccount": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "bank_account"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "sort_code": {
+            "type": "string"
+          },
+          "account_type": {
+            "type": "string",
+            "enum": [
+              "individual",
+              "company"
+            ]
+          },
+          "bank_name": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "object",
+          "name",
+          "number",
+          "account_type",
+          "bank_name",
+          "country"
+        ]
+      },
+      "BookingPayment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "bam",
+              "bgn",
+              "chf",
+              "eur",
+              "gbp",
+              "nok",
+              "sek",
+              "try"
+            ]
+          },
+          "source": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BookingPaymentSourceCard"
+              },
+              {
+                "$ref": "#/components/schemas/BookingPaymentSourceBankAccount"
+              }
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "succeeded",
+              "failed"
+            ],
+            "readOnly": true
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "booking": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        },
+        "required": [
+          "amount",
+          "currency",
+          "source"
+        ]
+      },
+      "Problem": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/bookings": {
+      "get": {
+        "operationId": "get-bookings",
+        "tags": [
+          "Bookings"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "in": "query",
+            "name": "page",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            },
+            "in": "query",
+            "name": "limit",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Wrapper-Collection"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Booking"
+                          }
+                        },
+                        "links": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Links-Self"
+                            },
+                            {
+                              "$ref": "#/components/schemas/Links-Pagination"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "create-booking",
+        "tags": [
+          "Bookings"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "trip_id",
+                  "passenger_name"
+                ],
+                "properties": {
+                  "trip_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "passenger_name": {
+                    "type": "string"
+                  },
+                  "has_bicycle": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "has_dog": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [
+              "write"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingResource"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookings/{bookingId}": {
+      "get": {
+        "operationId": "get-booking",
+        "tags": [
+          "Bookings"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "bookingId",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingResource"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete-booking",
+        "tags": [
+          "Bookings"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "bookingId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "OAuth2": [
+              "write"
+            ]
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/bookings/{bookingId}/payment": {
+      "post": {
+        "operationId": "create-booking-payment",
+        "tags": [
+          "Payments"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "amount",
+                  "currency",
+                  "source"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "bam",
+                      "bgn",
+                      "chf",
+                      "eur",
+                      "gbp",
+                      "nok",
+                      "sek",
+                      "try"
+                    ]
+                  },
+                  "source": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/BookingPaymentSourceCard"
+                      },
+                      {
+                        "$ref": "#/components/schemas/BookingPaymentSourceBankAccount"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "bookingId",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingPayment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "operationId": "get-health",
+        "tags": [
+          "Health"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "service": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stations": {
+      "get": {
+        "operationId": "get-stations",
+        "tags": [
+          "Stations"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "in": "query",
+            "name": "page",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            },
+            "in": "query",
+            "name": "limit",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "coordinates",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "search",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "country",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Wrapper-Collection"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Station"
+                          }
+                        },
+                        "links": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Links-Self"
+                            },
+                            {
+                              "$ref": "#/components/schemas/Links-Pagination"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trips": {
+      "get": {
+        "operationId": "get-trips",
+        "tags": [
+          "Trips"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "in": "query",
+            "name": "page",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            },
+            "in": "query",
+            "name": "limit",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "origin",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "destination",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "date",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "in": "query",
+            "name": "bicycles",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "in": "query",
+            "name": "dogs",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Wrapper-Collection"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/TripResource"
+                          }
+                        },
+                        "links": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/Links-Self"
+                            },
+                            {
+                              "$ref": "#/components/schemas/Links-Pagination"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://try.microcks.io/rest/Train+Travel+API/1.0.0",
+      "description": "Mock Server"
+    },
+    {
+      "url": "https://api.example.com",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "read"
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Stations",
+      "description": "Find and filter train stations across Europe."
+    },
+    {
+      "name": "Trips",
+      "description": "Timetables and routes for train trips between stations."
+    },
+    {
+      "name": "Bookings",
+      "description": "Create and manage bookings for train trips."
+    },
+    {
+      "name": "Payments",
+      "description": "Pay for bookings and view payment status."
+    },
+    {
+      "name": "Health",
+      "description": "Service health and diagnostics endpoints."
+    }
+  ],
+  "x-speakeasy-retries": {
+    "strategy": "backoff",
+    "backoff": {
+      "initialInterval": 500,
+      "maxInterval": 60000,
+      "maxElapsedTime": 3600000,
+      "exponent": 1.5
+    },
+    "statusCodes": [
+      "5XX"
+    ],
+    "retryConnectionErrors": true
+  }
+}
