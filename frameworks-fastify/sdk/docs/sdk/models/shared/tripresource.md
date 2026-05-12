@@ -1,0 +1,24 @@
+# TripResource
+
+## Example Usage
+
+```typescript
+import { TripResource } from "openapi/sdk/models/shared";
+
+let value: TripResource = {};
+```
+
+## Fields
+
+| Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `arrivalTime`                                                                                 | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `bicyclesAllowed`                                                                             | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `departureTime`                                                                               | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `destination`                                                                                 | *string*                                                                                      | :heavy_minus_sign:                                                                            | The destination station id.                                                                   |
+| `dogsAllowed`                                                                                 | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `id`                                                                                          | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `links`                                                                                       | [shared.TripResourceLinks](../../../sdk/models/shared/tripresourcelinks.md)                   | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `operator`                                                                                    | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `origin`                                                                                      | *string*                                                                                      | :heavy_minus_sign:                                                                            | The origin station id.                                                                        |
+| `price`                                                                                       | *number*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
