@@ -1,0 +1,427 @@
+openapi: 3.2.0
+paths:
+  /stations:
+    get:
+      operationId: getStations
+      parameters:
+        - name: search
+          required: false
+          in: query
+          schema:
+            type: string
+        - name: country
+          required: false
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Station'
+      security:
+        - OAuth2:
+            - bookings:read
+            - bookings:write
+        - BearerAuth: []
+      summary: Get a list of train stations
+      tags:
+        - Stations
+  /trips:
+    get:
+      operationId: getTrips
+      parameters:
+        - name: origin
+          required: true
+          in: query
+          description: Origin station ID.
+          schema:
+            format: uuid
+            example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            type: string
+        - name: destination
+          required: true
+          in: query
+          description: Destination station ID.
+          schema:
+            format: uuid
+            example: b2e783e1-c824-4d63-b37a-d8d698862f1d
+            type: string
+        - name: date
+          required: true
+          in: query
+          description: Desired departure date in ISO 8601.
+          schema:
+            example: '2026-05-21T09:00:00Z'
+            type: string
+        - name: bicycles
+          required: false
+          in: query
+          description: Only include trips that allow bicycles.
+          schema:
+            example: true
+            type: boolean
+        - name: dogs
+          required: false
+          in: query
+          description: Only include trips that allow dogs.
+          schema:
+            example: false
+            type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trip'
+      security:
+        - OAuth2:
+            - bookings:read
+            - bookings:write
+        - BearerAuth: []
+      summary: Get available train trips
+      tags:
+        - Trips
+  /bookings:
+    get:
+      operationId: listBookings
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+      security:
+        - OAuth2:
+            - bookings:read
+            - bookings:write
+        - BearerAuth: []
+      summary: List existing bookings
+      tags:
+        - Bookings
+    post:
+      operationId: createBooking
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+      security:
+        - OAuth2:
+            - bookings:read
+            - bookings:write
+        - BearerAuth: []
+      summary: Create a booking
+      tags:
+        - Bookings
+      x-speakeasy-retries:
+        strategy: backoff
+        backoff:
+          initialInterval: 1000
+          maxInterval: 80000
+          maxElapsedTime: 3600000
+          exponent: 1.5
+        statusCodes:
+          - 5XX
+        retryConnectionErrors: true
+  /bookings/{bookingId}:
+    get:
+      operationId: getBooking
+      parameters:
+        - name: bookingId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+      security:
+        - OAuth2:
+            - bookings:read
+            - bookings:write
+        - BearerAuth: []
+      summary: Get a booking
+      tags:
+        - Bookings
+    delete:
+      operationId: deleteBooking
+      parameters:
+        - name: bookingId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '204':
+          description: ''
+      security:
+        - OAuth2:
+            - bookings:read
+            - bookings:write
+        - BearerAuth: []
+      summary: Delete a booking
+      tags:
+        - Bookings
+  /bookings/{bookingId}/payment:
+    post:
+      operationId: createPayment
+      parameters:
+        - name: bookingId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingPayment'
+      security:
+        - OAuth2:
+            - bookings:read
+            - bookings:write
+        - BearerAuth: []
+      summary: Pay for a booking
+      tags:
+        - Bookings
+info:
+  title: Train Travel API
+  description: Find stations, discover trips, and create bookings across Europe.
+  version: 1.2.1
+  contact:
+    name: Train Support
+    url: https://example.com/support
+    email: support@example.com
+  license:
+    name: CC-BY-NC-SA-4.0
+    url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+tags:
+  - name: Resources
+    description: Top-level navigation tag for related resources
+    kind: nav
+  - name: Stations
+    description: Find and filter train stations
+    parent: Resources
+  - name: Trips
+    description: Timetables and routes for train trips
+    parent: Resources
+  - name: Bookings
+    description: Create and manage trip bookings
+    parent: Resources
+servers:
+  - url: https://api.example.com
+    description: Production server
+  - url: http://localhost:3000
+    description: Local development server
+components:
+  securitySchemes:
+    BearerAuth:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Bearer token authentication
+  schemas:
+    Station:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the station.
+          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+          format: uuid
+        name:
+          type: string
+          description: Human-readable station name.
+          example: Berlin Hauptbahnhof
+        address:
+          type: string
+          description: Full street address.
+          example: Invalidenstraße 10557 Berlin, Germany
+        country_code:
+          type: string
+          description: ISO country code.
+          example: DE
+        timezone:
+          type: string
+          description: IANA timezone.
+          example: Europe/Berlin
+      required:
+        - id
+        - name
+        - address
+        - country_code
+        - timezone
+    Trip:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique trip identifier.
+          example: ea399ba1-6d95-433f-92d1-83f67b775594
+          format: uuid
+        origin:
+          type: string
+          description: Origin station ID.
+          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+          format: uuid
+        destination:
+          type: string
+          description: Destination station ID.
+          example: b2e783e1-c824-4d63-b37a-d8d698862f1d
+          format: uuid
+        departure_time:
+          type: string
+          description: Departure time in ISO 8601.
+          example: '2026-05-21T10:00:00Z'
+        arrival_time:
+          type: string
+          description: Arrival time in ISO 8601.
+          example: '2026-05-21T16:00:00Z'
+        operator:
+          type: string
+          description: Train operator.
+          example: Deutsche Bahn
+        price:
+          type: number
+          description: Ticket price.
+          example: 50
+        bicycles_allowed:
+          type: boolean
+          description: Indicates if bicycles are allowed.
+          example: true
+        dogs_allowed:
+          type: boolean
+          description: Indicates if dogs are allowed.
+          example: true
+      required:
+        - id
+        - origin
+        - destination
+        - departure_time
+        - arrival_time
+        - operator
+        - price
+        - bicycles_allowed
+        - dogs_allowed
+    Booking:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Booking identifier.
+          example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+          format: uuid
+        trip_id:
+          type: string
+          description: Identifier of the booked trip.
+          example: ea399ba1-6d95-433f-92d1-83f67b775594
+          format: uuid
+        passenger_name:
+          type: string
+          description: Passenger full name.
+          example: John Doe
+        has_bicycle:
+          type: boolean
+          description: Whether the traveler has a bicycle.
+          example: true
+        has_dog:
+          type: boolean
+          description: Whether the traveler has a dog.
+          example: false
+      required:
+        - id
+        - trip_id
+        - passenger_name
+        - has_bicycle
+        - has_dog
+    CreateBookingDto:
+      type: object
+      properties:
+        trip_id:
+          type: string
+          description: Identifier of the trip to book.
+          example: ea399ba1-6d95-433f-92d1-83f67b775594
+          format: uuid
+        passenger_name:
+          type: string
+          description: Passenger full name.
+          example: John Doe
+        has_bicycle:
+          type: boolean
+          description: Whether the traveler has a bicycle.
+          example: true
+        has_dog:
+          type: boolean
+          description: Whether the traveler has a dog.
+          example: false
+      required:
+        - trip_id
+        - passenger_name
+        - has_bicycle
+        - has_dog
+    BookingPayment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Payment identifier.
+          example: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
+          format: uuid
+        amount:
+          type: number
+          description: Payment amount.
+          example: 49.99
+        currency:
+          type: string
+          description: Lowercase ISO currency code.
+          example: eur
+        status:
+          type: string
+          description: Payment status.
+          example: succeeded
+          enum:
+            - pending
+            - succeeded
+            - failed
+      required:
+        - id
+        - amount
+        - currency
+        - status
+x-speakeasy-retries:
+  strategy: backoff
+  backoff:
+    initialInterval: 500
+    maxInterval: 60000
+    maxElapsedTime: 3600000
+    exponent: 1.5
+  statusCodes:
+    - 5XX
+  retryConnectionErrors: true
