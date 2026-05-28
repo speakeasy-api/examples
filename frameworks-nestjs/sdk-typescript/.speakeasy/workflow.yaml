@@ -1,0 +1,11 @@
+workflowVersion: 1.0.0
+sources:
+    sdk -OAS:
+        inputs:
+            - location: ..\openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/ritza-rzx/ritza/sdk--oas
+targets:
+    sdk:
+        target: typescript
+        source: sdk -OAS

@@ -1,0 +1,26 @@
+speakeasyVersion: 1.405.6
+sources:
+    sdk -OAS:
+        sourceNamespace: sdk--oas
+        sourceRevisionDigest: sha256:e48888f31b5ae3586606dee20741535c180e66ca9c65620f851a3051d3f91095
+        sourceBlobDigest: sha256:9de7e874e1a86c0e7c430fc89d8b427943da4b3a62c60e1e7ca7dbee0ca377cc
+        tags:
+            - latest
+targets:
+    sdk:
+        source: sdk -OAS
+        sourceNamespace: sdk--oas
+        sourceRevisionDigest: sha256:e48888f31b5ae3586606dee20741535c180e66ca9c65620f851a3051d3f91095
+        sourceBlobDigest: sha256:9de7e874e1a86c0e7c430fc89d8b427943da4b3a62c60e1e7ca7dbee0ca377cc
+workflow:
+    workflowVersion: 1.0.0
+    sources:
+        sdk -OAS:
+            inputs:
+                - location: ..\openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/ritza-rzx/ritza/sdk--oas
+    targets:
+        sdk:
+            target: typescript
+            source: sdk -OAS
