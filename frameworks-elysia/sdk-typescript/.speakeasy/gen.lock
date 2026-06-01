@@ -1,0 +1,171 @@
+lockVersion: 2.0.0
+id: 710ea1be-a838-453b-adf7-b1cdc6925887
+management:
+  docChecksum: 773a73990a00ef4f9a491ed0dd795a89
+  docVersion: 1.0.50
+  speakeasyVersion: 1.453.0
+  generationVersion: 2.472.1
+  releaseVersion: 0.0.1
+  configChecksum: a476bb6ada5f4ed3b065316a0dfdd346
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    core: 3.18.8
+    defaultEnabledRetries: 0.1.0
+    devContainers: 2.90.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.4
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.2.0
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .eslintrc.cjs
+  - .gitattributes
+  - .npmignore
+  - CONTRIBUTING.md
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/components/id.md
+  - docs/models/components/successresponse.md
+  - docs/models/components/user.md
+  - docs/models/errors/errorresponse.md
+  - docs/models/operations/deleteusersbyidrequest.md
+  - docs/models/operations/getusersbyidrequest.md
+  - docs/models/operations/patchusersbyidrequest.md
+  - docs/models/operations/patchusersbyidrequestbody.md
+  - docs/models/operations/postusersrequestbody.md
+  - docs/sdks/sdk/README.md
+  - docs/sdks/users/README.md
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/usersDeleteUsersById.ts
+  - src/funcs/usersGetUsers.ts
+  - src/funcs/usersGetUsersById.ts
+  - src/funcs/usersPatchUsersById.ts
+  - src/funcs/usersPostUsers.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/env.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/models/components/id.ts
+  - src/models/components/index.ts
+  - src/models/components/successresponse.ts
+  - src/models/components/user.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/errorresponse.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/index.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/operations/deleteusersbyid.ts
+  - src/models/operations/getusersbyid.ts
+  - src/models/operations/index.ts
+  - src/models/operations/patchusersbyid.ts
+  - src/models/operations/postusers.ts
+  - src/sdk/index.ts
+  - src/sdk/sdk.ts
+  - src/sdk/users.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  getUsers:
+    basic:
+      responses:
+        "200":
+          application/json: [{"id": "1", "name": "Alice", "age": 20}, {"id": "2", "name": "Bob", "age": 25}]
+    Server error:
+      responses:
+        "500":
+          application/json: {"status": 500, "message": "There was an error"}
+  postUsers:
+    Created user:
+      requestBody:
+        application/json: {"name": "Alice", "age": 20}
+      responses:
+        "200":
+          application/json: {"id": "1"}
+    Server error:
+      requestBody:
+        application/json: {"name": "Alice", "age": 20}
+      responses:
+        "500":
+          application/json: {"status": 500, "message": "There was an error"}
+  getUsersById:
+    basic:
+      parameters:
+        path:
+          id: "1"
+      responses:
+        "200":
+          application/json: {"id": "1", "name": "Alice", "age": 20}
+    User not found:
+      parameters:
+        path:
+          id: "1"
+      responses:
+        "404":
+          application/json: {"status": 404, "message": "User not found :("}
+  deleteUsersById:
+    success:
+      parameters:
+        path:
+          id: "1"
+      responses:
+        "200":
+          application/json: {"success": true}
+    Invalid user:
+      parameters:
+        path:
+          id: "1"
+      responses:
+        "422":
+          application/json: {"status": 422, "message": "Invalid user"}
+  patchUsersById:
+    Success:
+      parameters:
+        path:
+          id: "1"
+      requestBody:
+        application/json: {"age": 21}
+      responses:
+        "200":
+          application/json: {"success": true}
+    Invalid user:
+      parameters:
+        path:
+          id: "1"
+      requestBody:
+        application/json: {"age": 21}
+      responses:
+        "422":
+          application/json: {"status": 422, "message": "Invalid user"}
+generatedTests: {}

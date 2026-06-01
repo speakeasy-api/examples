@@ -1,0 +1,895 @@
+openapi: 3.0.3
+info:
+  title: Train Travel API
+  description: API for finding and booking train trips across Europe.
+  version: 2.0.0
+  contact:
+    name: Train Support
+    url: https://example.com/support
+    email: support@example.com
+servers:
+  - url: https://api.example.com
+    description: Production
+  - url: http://localhost:3000
+    description: Development server
+security:
+  - OAuth2:
+      - read
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth 2.0 authorization code flow.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Read access
+            write: Write access
+  schemas: {}
+x-speakeasy-retries:
+  strategy: backoff
+  backoff:
+    initialInterval: 500
+    maxInterval: 60000
+    maxElapsedTime: 3600000
+    exponent: 1.5
+  statusCodes:
+    - 5XX
+  retryConnectionErrors: true
+tags:
+  - name: Stations
+    description: >-
+      Find and filter train stations across Europe, including their location and
+      local timezone.
+  - name: Trips
+    description: >-
+      Timetables and routes for train trips between stations, including pricing
+      and availability.
+  - name: Bookings
+    description: >-
+      Create and manage bookings for train trips, including passenger details
+      and optional extras.
+  - name: Payments
+    description: >-
+      Pay for bookings using a card or bank account, and view payment status and
+      history.
+paths:
+  /stations/:
+    get:
+      operationId: get-stations
+      summary: Get a list of train stations
+      description: Returns a paginated and searchable list of all train stations.
+      tags:
+        - Stations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      description: A train station.
+                      type: object
+                      properties:
+                        id:
+                          format: uuid
+                          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                          type: string
+                        name:
+                          example: Berlin Hauptbahnhof
+                          type: string
+                        address:
+                          example: Invalidenstrasse 10557 Berlin, Germany
+                          type: string
+                        country_code:
+                          example: DE
+                          type: string
+                        timezone:
+                          example: Europe/Berlin
+                          type: string
+                      required:
+                        - id
+                        - name
+                        - address
+                        - country_code
+                        - timezone
+                  links:
+                    type: object
+                    allOf:
+                      - type: object
+                        properties:
+                          self:
+                            format: uri
+                            example: >-
+                              https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                            type: string
+                        required:
+                          - self
+                      - type: object
+                        properties:
+                          next:
+                            format: uri
+                            example: https://api.example.com/bookings?page=2
+                            type: string
+                          prev:
+                            format: uri
+                            example: https://api.example.com/bookings?page=1
+                            type: string
+                required:
+                  - data
+                  - links
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    example: https://example.com/errors/not-found
+                    type: string
+                  title:
+                    example: Not Found
+                    type: string
+                  status:
+                    example: 404
+                    type: number
+                  detail:
+                    example: The requested resource was not found.
+                    type: string
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            minimum: 1
+            default: 1
+            type: number
+        - name: limit
+          in: query
+          required: false
+          schema:
+            minimum: 1
+            maximum: 100
+            default: 10
+            type: number
+        - name: coordinates
+          in: query
+          required: false
+          schema:
+            example: 52.5200,13.4050
+            type: string
+        - name: search
+          in: query
+          required: false
+          schema:
+            example: Milano Centrale
+            type: string
+        - name: country
+          in: query
+          required: false
+          schema:
+            minLength: 2
+            maxLength: 2
+            example: DE
+            type: string
+  /trips/:
+    get:
+      operationId: get-trips
+      summary: Get available train trips
+      description: >-
+        Returns a list of available train trips between the specified origin and
+        destination stations on the given date.
+      tags:
+        - Trips
+      responses:
+        '200':
+          description: A list of available train trips
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      description: A train trip.
+                      type: object
+                      properties:
+                        id:
+                          format: uuid
+                          example: ea399ba1-6d95-433f-92d1-83f67b775594
+                          type: string
+                        origin:
+                          format: uuid
+                          example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+                          type: string
+                        destination:
+                          format: uuid
+                          example: b2e783e1-c824-4d63-b37a-d8d698862f1d
+                          type: string
+                        departure_time:
+                          format: date-time
+                          example: '2024-02-01T10:00:00Z'
+                          type: string
+                        arrival_time:
+                          format: date-time
+                          example: '2024-02-01T16:00:00Z'
+                          type: string
+                        operator:
+                          example: Deutsche Bahn
+                          type: string
+                        price:
+                          example: 50
+                          type: number
+                        bicycles_allowed:
+                          example: true
+                          type: boolean
+                        dogs_allowed:
+                          example: true
+                          type: boolean
+                      required:
+                        - id
+                        - origin
+                        - destination
+                        - departure_time
+                        - arrival_time
+                        - operator
+                        - price
+                        - bicycles_allowed
+                        - dogs_allowed
+                  links:
+                    type: object
+                    allOf:
+                      - type: object
+                        properties:
+                          self:
+                            format: uri
+                            example: >-
+                              https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                            type: string
+                        required:
+                          - self
+                      - type: object
+                        properties:
+                          next:
+                            format: uri
+                            example: https://api.example.com/bookings?page=2
+                            type: string
+                          prev:
+                            format: uri
+                            example: https://api.example.com/bookings?page=1
+                            type: string
+                required:
+                  - data
+                  - links
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    example: https://example.com/errors/not-found
+                    type: string
+                  title:
+                    example: Not Found
+                    type: string
+                  status:
+                    example: 404
+                    type: number
+                  detail:
+                    example: The requested resource was not found.
+                    type: string
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            minimum: 1
+            default: 1
+            type: number
+        - name: limit
+          in: query
+          required: false
+          schema:
+            minimum: 1
+            maximum: 100
+            default: 10
+            type: number
+        - name: origin
+          in: query
+          required: true
+          schema:
+            format: uuid
+            example: efdbb9d1-02c2-4bc3-afb7-6788d8782b1e
+            type: string
+        - name: destination
+          in: query
+          required: true
+          schema:
+            format: uuid
+            example: b2e783e1-c824-4d63-b37a-d8d698862f1d
+            type: string
+        - name: date
+          in: query
+          required: true
+          schema:
+            format: date-time
+            example: '2024-02-01T09:00:00Z'
+            type: string
+        - name: bicycles
+          in: query
+          required: false
+          schema:
+            default: false
+            type: boolean
+        - name: dogs
+          in: query
+          required: false
+          schema:
+            default: false
+            type: boolean
+  /bookings/:
+    get:
+      operationId: get-bookings
+      summary: List existing bookings
+      description: Returns a list of all trip bookings by the authenticated user.
+      tags:
+        - Bookings
+      responses:
+        '200':
+          description: A list of bookings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      description: A booking for a train trip.
+                      type: object
+                      properties:
+                        id:
+                          format: uuid
+                          example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+                          type: string
+                        trip_id:
+                          format: uuid
+                          example: ea399ba1-6d95-433f-92d1-83f67b775594
+                          type: string
+                        passenger_name:
+                          example: John Doe
+                          type: string
+                        has_bicycle:
+                          example: true
+                          type: boolean
+                        has_dog:
+                          example: false
+                          type: boolean
+                      required:
+                        - id
+                        - trip_id
+                        - passenger_name
+                        - has_bicycle
+                        - has_dog
+                  links:
+                    type: object
+                    allOf:
+                      - type: object
+                        properties:
+                          self:
+                            format: uri
+                            example: >-
+                              https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                            type: string
+                        required:
+                          - self
+                      - type: object
+                        properties:
+                          next:
+                            format: uri
+                            example: https://api.example.com/bookings?page=2
+                            type: string
+                          prev:
+                            format: uri
+                            example: https://api.example.com/bookings?page=1
+                            type: string
+                required:
+                  - data
+                  - links
+        '401':
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    example: https://example.com/errors/not-found
+                    type: string
+                  title:
+                    example: Not Found
+                    type: string
+                  status:
+                    example: 404
+                    type: number
+                  detail:
+                    example: The requested resource was not found.
+                    type: string
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    example: https://example.com/errors/not-found
+                    type: string
+                  title:
+                    example: Not Found
+                    type: string
+                  status:
+                    example: 404
+                    type: number
+                  detail:
+                    example: The requested resource was not found.
+                    type: string
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            minimum: 1
+            default: 1
+            type: number
+        - name: limit
+          in: query
+          required: false
+          schema:
+            minimum: 1
+            maximum: 100
+            default: 10
+            type: number
+    post:
+      operationId: create-booking
+      summary: Create a booking
+      description: >-
+        A booking is a temporary hold on a trip. It is not confirmed until
+        payment is processed.
+      tags:
+        - Bookings
+      security:
+        - OAuth2:
+            - write
+      x-speakeasy-retries:
+        strategy: backoff
+        backoff:
+          initialInterval: 300
+          maxInterval: 40000
+          maxElapsedTime: 3000000
+          exponent: 1.2
+        statusCodes:
+          - 5XX
+        retryConnectionErrors: true
+      responses:
+        '201':
+          description: Booking successful
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - description: A booking for a train trip.
+                    type: object
+                    properties:
+                      id:
+                        format: uuid
+                        example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+                        type: string
+                      trip_id:
+                        format: uuid
+                        example: ea399ba1-6d95-433f-92d1-83f67b775594
+                        type: string
+                      passenger_name:
+                        example: John Doe
+                        type: string
+                      has_bicycle:
+                        example: true
+                        type: boolean
+                      has_dog:
+                        example: false
+                        type: boolean
+                    required:
+                      - id
+                      - trip_id
+                      - passenger_name
+                      - has_bicycle
+                      - has_dog
+                  - type: object
+                    properties:
+                      links:
+                        type: object
+                        properties:
+                          self:
+                            format: uri
+                            example: >-
+                              https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                            type: string
+                        required:
+                          - self
+                    required:
+                      - links
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    example: https://example.com/errors/not-found
+                    type: string
+                  title:
+                    example: Not Found
+                    type: string
+                  status:
+                    example: 404
+                    type: number
+                  detail:
+                    example: The requested resource was not found.
+                    type: string
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
+        '409':
+          description: Conflict
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    example: https://example.com/errors/not-found
+                    type: string
+                  title:
+                    example: Not Found
+                    type: string
+                  status:
+                    example: 404
+                    type: number
+                  detail:
+                    example: The requested resource was not found.
+                    type: string
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
+      requestBody:
+        description: Booking details.
+        content: {}
+        required: true
+  /bookings/{bookingId}:
+    get:
+      operationId: get-booking
+      summary: Get a booking
+      description: Returns the details of a specific booking.
+      tags:
+        - Bookings
+      responses:
+        '200':
+          description: The booking details
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - description: A booking for a train trip.
+                    type: object
+                    properties:
+                      id:
+                        format: uuid
+                        example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+                        type: string
+                      trip_id:
+                        format: uuid
+                        example: ea399ba1-6d95-433f-92d1-83f67b775594
+                        type: string
+                      passenger_name:
+                        example: John Doe
+                        type: string
+                      has_bicycle:
+                        example: true
+                        type: boolean
+                      has_dog:
+                        example: false
+                        type: boolean
+                    required:
+                      - id
+                      - trip_id
+                      - passenger_name
+                      - has_bicycle
+                      - has_dog
+                  - type: object
+                    properties:
+                      links:
+                        type: object
+                        properties:
+                          self:
+                            format: uri
+                            example: >-
+                              https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                            type: string
+                        required:
+                          - self
+                    required:
+                      - links
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    example: https://example.com/errors/not-found
+                    type: string
+                  title:
+                    example: Not Found
+                    type: string
+                  status:
+                    example: 404
+                    type: number
+                  detail:
+                    example: The requested resource was not found.
+                    type: string
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            format: uuid
+            example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+            type: string
+    delete:
+      operationId: delete-booking
+      summary: Delete a booking
+      description: Deletes a booking, cancelling the hold on the trip.
+      tags:
+        - Bookings
+      security:
+        - OAuth2:
+            - write
+      responses:
+        '204':
+          description: Booking deleted
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    example: https://example.com/errors/not-found
+                    type: string
+                  title:
+                    example: Not Found
+                    type: string
+                  status:
+                    example: 404
+                    type: number
+                  detail:
+                    example: The requested resource was not found.
+                    type: string
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            format: uuid
+            example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+            type: string
+  /bookings/{bookingId}/payment:
+    post:
+      operationId: create-booking-payment
+      summary: Pay for a booking
+      description: A payment attempt confirms the booking and enables ticket retrieval.
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: Payment successful
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        format: uuid
+                        example: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
+                        type: string
+                      amount:
+                        example: 49.99
+                        type: number
+                      currency:
+                        example: gbp
+                        type: string
+                      source:
+                        anyOf:
+                          - type: object
+                            properties:
+                              object:
+                                const: card
+                                type: string
+                              name:
+                                example: J. Doe
+                                type: string
+                              number:
+                                example: '4242424242424242'
+                                type: string
+                              cvc:
+                                minLength: 3
+                                maxLength: 4
+                                example: '123'
+                                type: string
+                              exp_month:
+                                example: 12
+                                type: number
+                              exp_year:
+                                example: 2025
+                                type: number
+                              address_country:
+                                example: gb
+                                type: string
+                              address_post_code:
+                                example: N12 9XX
+                                type: string
+                            required:
+                              - object
+                              - name
+                              - number
+                              - cvc
+                              - exp_month
+                              - exp_year
+                              - address_country
+                          - type: object
+                            properties:
+                              object:
+                                const: bank_account
+                                type: string
+                              name:
+                                example: J. Doe
+                                type: string
+                              number:
+                                example: '00012345'
+                                type: string
+                              sort_code:
+                                example: '000123'
+                                type: string
+                              account_type:
+                                anyOf:
+                                  - const: individual
+                                    type: string
+                                  - const: company
+                                    type: string
+                              bank_name:
+                                example: Starling Bank
+                                type: string
+                              country:
+                                example: gb
+                                type: string
+                            required:
+                              - object
+                              - name
+                              - number
+                              - account_type
+                              - bank_name
+                              - country
+                      status:
+                        anyOf:
+                          - const: pending
+                            type: string
+                          - const: succeeded
+                            type: string
+                          - const: failed
+                            type: string
+                    required:
+                      - id
+                      - amount
+                      - currency
+                      - source
+                      - status
+                  - type: object
+                    properties:
+                      links:
+                        type: object
+                        properties:
+                          booking:
+                            format: uri
+                            example: >-
+                              https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
+                            type: string
+                        required:
+                          - booking
+                    required:
+                      - links
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    example: https://example.com/errors/not-found
+                    type: string
+                  title:
+                    example: Not Found
+                    type: string
+                  status:
+                    example: 404
+                    type: number
+                  detail:
+                    example: The requested resource was not found.
+                    type: string
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            format: uuid
+            example: 1725ff48-ab45-4bb5-9d02-88745177dedb
+            type: string
+      requestBody:
+        content: {}
+        required: true

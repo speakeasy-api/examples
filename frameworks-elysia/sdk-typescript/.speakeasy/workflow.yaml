@@ -1,0 +1,16 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Users app documentation:
+        inputs:
+            - location: ../openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/ritza-rzx/ritza/users-app-documentation
+targets:
+    sdk:
+        target: typescript
+        source: Users app documentation
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/ritza-rzx/ritza/users-app-documentation-typescript-code-samples
+            blocking: false

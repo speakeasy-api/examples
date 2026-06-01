@@ -1,0 +1,21 @@
+{
+  "name": "speakeasy-elysia-openapi-example",
+  "version": "2.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts",
+    "generate:openapi": "bun run src/generateOpenAPIDocument.ts",
+    "postinstall": "cd node_modules/@elysia/openapi && bun install && bun run build"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.4.2",
+    "@elysia/openapi": "github:philsturgeon/elysia-openapi#feat/oas3-1",
+    "@types/js-yaml": "^4.0.9",
+    "elysia": "latest",
+    "js-yaml": "^4.2.0"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
+}
