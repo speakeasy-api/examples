@@ -1,4 +1,3 @@
-openapi: 3.0.3
 info:
   title: Train Travel API
   description: API for finding and booking train trips across Europe.
@@ -55,6 +54,7 @@ tags:
     description: >-
       Pay for bookings using a card or bank account, and view payment status and
       history.
+openapi: 3.1.2
 paths:
   /stations/:
     get:
@@ -70,12 +70,21 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: array
                     items:
                       description: A train station.
                       type: object
+                      required:
+                        - id
+                        - name
+                        - address
+                        - country_code
+                        - timezone
                       properties:
                         id:
                           format: uuid
@@ -93,24 +102,18 @@ paths:
                         timezone:
                           example: Europe/Berlin
                           type: string
-                      required:
-                        - id
-                        - name
-                        - address
-                        - country_code
-                        - timezone
                   links:
                     type: object
                     allOf:
                       - type: object
+                        required:
+                          - self
                         properties:
                           self:
                             format: uri
                             example: >-
                               https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
                             type: string
-                        required:
-                          - self
                       - type: object
                         properties:
                           next:
@@ -121,15 +124,17 @@ paths:
                             format: uri
                             example: https://api.example.com/bookings?page=1
                             type: string
-                required:
-                  - data
-                  - links
         '400':
           description: Bad Request
           content:
             application/problem+json:
               schema:
                 type: object
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
                 properties:
                   type:
                     example: https://example.com/errors/not-found
@@ -143,11 +148,6 @@ paths:
                   detail:
                     example: The requested resource was not found.
                     type: string
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
       parameters:
         - name: page
           in: query
@@ -200,12 +200,25 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: array
                     items:
                       description: A train trip.
                       type: object
+                      required:
+                        - id
+                        - origin
+                        - destination
+                        - departure_time
+                        - arrival_time
+                        - operator
+                        - price
+                        - bicycles_allowed
+                        - dogs_allowed
                       properties:
                         id:
                           format: uuid
@@ -239,28 +252,18 @@ paths:
                         dogs_allowed:
                           example: true
                           type: boolean
-                      required:
-                        - id
-                        - origin
-                        - destination
-                        - departure_time
-                        - arrival_time
-                        - operator
-                        - price
-                        - bicycles_allowed
-                        - dogs_allowed
                   links:
                     type: object
                     allOf:
                       - type: object
+                        required:
+                          - self
                         properties:
                           self:
                             format: uri
                             example: >-
                               https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
                             type: string
-                        required:
-                          - self
                       - type: object
                         properties:
                           next:
@@ -271,15 +274,17 @@ paths:
                             format: uri
                             example: https://api.example.com/bookings?page=1
                             type: string
-                required:
-                  - data
-                  - links
         '400':
           description: Bad Request
           content:
             application/problem+json:
               schema:
                 type: object
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
                 properties:
                   type:
                     example: https://example.com/errors/not-found
@@ -293,11 +298,6 @@ paths:
                   detail:
                     example: The requested resource was not found.
                     type: string
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
       parameters:
         - name: page
           in: query
@@ -361,12 +361,21 @@ paths:
             application/json:
               schema:
                 type: object
+                required:
+                  - data
+                  - links
                 properties:
                   data:
                     type: array
                     items:
                       description: A booking for a train trip.
                       type: object
+                      required:
+                        - id
+                        - trip_id
+                        - passenger_name
+                        - has_bicycle
+                        - has_dog
                       properties:
                         id:
                           format: uuid
@@ -385,24 +394,18 @@ paths:
                         has_dog:
                           example: false
                           type: boolean
-                      required:
-                        - id
-                        - trip_id
-                        - passenger_name
-                        - has_bicycle
-                        - has_dog
                   links:
                     type: object
                     allOf:
                       - type: object
+                        required:
+                          - self
                         properties:
                           self:
                             format: uri
                             example: >-
                               https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
                             type: string
-                        required:
-                          - self
                       - type: object
                         properties:
                           next:
@@ -413,15 +416,17 @@ paths:
                             format: uri
                             example: https://api.example.com/bookings?page=1
                             type: string
-                required:
-                  - data
-                  - links
         '401':
           description: Unauthorized
           content:
             application/problem+json:
               schema:
                 type: object
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
                 properties:
                   type:
                     example: https://example.com/errors/not-found
@@ -435,17 +440,17 @@ paths:
                   detail:
                     example: The requested resource was not found.
                     type: string
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
         '500':
           description: Internal Server Error
           content:
             application/problem+json:
               schema:
                 type: object
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
                 properties:
                   type:
                     example: https://example.com/errors/not-found
@@ -459,11 +464,6 @@ paths:
                   detail:
                     example: The requested resource was not found.
                     type: string
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
       parameters:
         - name: page
           in: query
@@ -511,6 +511,12 @@ paths:
                 allOf:
                   - description: A booking for a train trip.
                     type: object
+                    required:
+                      - id
+                      - trip_id
+                      - passenger_name
+                      - has_bicycle
+                      - has_dog
                     properties:
                       id:
                         format: uuid
@@ -529,32 +535,31 @@ paths:
                       has_dog:
                         example: false
                         type: boolean
-                    required:
-                      - id
-                      - trip_id
-                      - passenger_name
-                      - has_bicycle
-                      - has_dog
                   - type: object
+                    required:
+                      - links
                     properties:
                       links:
                         type: object
+                        required:
+                          - self
                         properties:
                           self:
                             format: uri
                             example: >-
                               https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
                             type: string
-                        required:
-                          - self
-                    required:
-                      - links
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 type: object
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
                 properties:
                   type:
                     example: https://example.com/errors/not-found
@@ -568,17 +573,17 @@ paths:
                   detail:
                     example: The requested resource was not found.
                     type: string
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
         '409':
           description: Conflict
           content:
             application/problem+json:
               schema:
                 type: object
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
                 properties:
                   type:
                     example: https://example.com/errors/not-found
@@ -592,15 +597,88 @@ paths:
                   detail:
                     example: The requested resource was not found.
                     type: string
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
       requestBody:
         description: Booking details.
-        content: {}
         required: true
+        content:
+          application/json:
+            schema:
+              description: Booking details.
+              example:
+                trip_id: ea399ba1-6d95-433f-92d1-83f67b775594
+                passenger_name: John Doe
+                has_bicycle: true
+                has_dog: false
+              type: object
+              required:
+                - trip_id
+                - passenger_name
+              properties:
+                trip_id:
+                  format: uuid
+                  example: ea399ba1-6d95-433f-92d1-83f67b775594
+                  type: string
+                passenger_name:
+                  example: John Doe
+                  type: string
+                has_bicycle:
+                  example: true
+                  type: boolean
+                has_dog:
+                  example: false
+                  type: boolean
+          application/x-www-form-urlencoded:
+            schema:
+              description: Booking details.
+              example:
+                trip_id: ea399ba1-6d95-433f-92d1-83f67b775594
+                passenger_name: John Doe
+                has_bicycle: true
+                has_dog: false
+              type: object
+              required:
+                - trip_id
+                - passenger_name
+              properties:
+                trip_id:
+                  format: uuid
+                  example: ea399ba1-6d95-433f-92d1-83f67b775594
+                  type: string
+                passenger_name:
+                  example: John Doe
+                  type: string
+                has_bicycle:
+                  example: true
+                  type: boolean
+                has_dog:
+                  example: false
+                  type: boolean
+          multipart/form-data:
+            schema:
+              description: Booking details.
+              example:
+                trip_id: ea399ba1-6d95-433f-92d1-83f67b775594
+                passenger_name: John Doe
+                has_bicycle: true
+                has_dog: false
+              type: object
+              required:
+                - trip_id
+                - passenger_name
+              properties:
+                trip_id:
+                  format: uuid
+                  example: ea399ba1-6d95-433f-92d1-83f67b775594
+                  type: string
+                passenger_name:
+                  example: John Doe
+                  type: string
+                has_bicycle:
+                  example: true
+                  type: boolean
+                has_dog:
+                  example: false
+                  type: boolean
   /bookings/{bookingId}:
     get:
       operationId: get-booking
@@ -618,6 +696,12 @@ paths:
                 allOf:
                   - description: A booking for a train trip.
                     type: object
+                    required:
+                      - id
+                      - trip_id
+                      - passenger_name
+                      - has_bicycle
+                      - has_dog
                     properties:
                       id:
                         format: uuid
@@ -636,32 +720,31 @@ paths:
                       has_dog:
                         example: false
                         type: boolean
-                    required:
-                      - id
-                      - trip_id
-                      - passenger_name
-                      - has_bicycle
-                      - has_dog
                   - type: object
+                    required:
+                      - links
                     properties:
                       links:
                         type: object
+                        required:
+                          - self
                         properties:
                           self:
                             format: uri
                             example: >-
                               https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
                             type: string
-                        required:
-                          - self
-                    required:
-                      - links
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 type: object
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
                 properties:
                   type:
                     example: https://example.com/errors/not-found
@@ -675,11 +758,6 @@ paths:
                   detail:
                     example: The requested resource was not found.
                     type: string
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
       parameters:
         - name: bookingId
           in: path
@@ -706,6 +784,11 @@ paths:
             application/problem+json:
               schema:
                 type: object
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
                 properties:
                   type:
                     example: https://example.com/errors/not-found
@@ -719,11 +802,6 @@ paths:
                   detail:
                     example: The requested resource was not found.
                     type: string
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
       parameters:
         - name: bookingId
           in: path
@@ -748,6 +826,12 @@ paths:
                 type: object
                 allOf:
                   - type: object
+                    required:
+                      - id
+                      - amount
+                      - currency
+                      - source
+                      - status
                     properties:
                       id:
                         format: uuid
@@ -762,6 +846,14 @@ paths:
                       source:
                         anyOf:
                           - type: object
+                            required:
+                              - object
+                              - name
+                              - number
+                              - cvc
+                              - exp_month
+                              - exp_year
+                              - address_country
                             properties:
                               object:
                                 const: card
@@ -789,15 +881,14 @@ paths:
                               address_post_code:
                                 example: N12 9XX
                                 type: string
+                          - type: object
                             required:
                               - object
                               - name
                               - number
-                              - cvc
-                              - exp_month
-                              - exp_year
-                              - address_country
-                          - type: object
+                              - account_type
+                              - bank_name
+                              - country
                             properties:
                               object:
                                 const: bank_account
@@ -823,13 +914,6 @@ paths:
                               country:
                                 example: gb
                                 type: string
-                            required:
-                              - object
-                              - name
-                              - number
-                              - account_type
-                              - bank_name
-                              - country
                       status:
                         anyOf:
                           - const: pending
@@ -838,32 +922,31 @@ paths:
                             type: string
                           - const: failed
                             type: string
-                    required:
-                      - id
-                      - amount
-                      - currency
-                      - source
-                      - status
                   - type: object
+                    required:
+                      - links
                     properties:
                       links:
                         type: object
+                        required:
+                          - booking
                         properties:
                           booking:
                             format: uri
                             example: >-
                               https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb
                             type: string
-                        required:
-                          - booking
-                    required:
-                      - links
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 type: object
+                required:
+                  - type
+                  - title
+                  - status
+                  - detail
                 properties:
                   type:
                     example: https://example.com/errors/not-found
@@ -877,11 +960,6 @@ paths:
                   detail:
                     example: The requested resource was not found.
                     type: string
-                required:
-                  - type
-                  - title
-                  - status
-                  - detail
       parameters:
         - name: bookingId
           in: path
@@ -891,5 +969,299 @@ paths:
             example: 1725ff48-ab45-4bb5-9d02-88745177dedb
             type: string
       requestBody:
-        content: {}
         required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - currency
+                - source
+              properties:
+                amount:
+                  exclusiveMinimum: 0
+                  example: 49.99
+                  type: number
+                currency:
+                  type: string
+                  enum:
+                    - bam
+                    - bgn
+                    - chf
+                    - eur
+                    - gbp
+                    - nok
+                    - sek
+                promo_code:
+                  anyOf:
+                    - example: SUMMER20
+                      type: string
+                    - type: 'null'
+                source:
+                  anyOf:
+                    - type: object
+                      required:
+                        - object
+                        - name
+                        - number
+                        - cvc
+                        - exp_month
+                        - exp_year
+                        - address_country
+                      properties:
+                        object:
+                          const: card
+                          type: string
+                        name:
+                          example: J. Doe
+                          type: string
+                        number:
+                          example: '4242424242424242'
+                          type: string
+                        cvc:
+                          minLength: 3
+                          maxLength: 4
+                          example: '123'
+                          type: string
+                        exp_month:
+                          example: 12
+                          type: number
+                        exp_year:
+                          example: 2025
+                          type: number
+                        address_country:
+                          example: gb
+                          type: string
+                        address_post_code:
+                          example: N12 9XX
+                          type: string
+                    - type: object
+                      required:
+                        - object
+                        - name
+                        - number
+                        - account_type
+                        - bank_name
+                        - country
+                      properties:
+                        object:
+                          const: bank_account
+                          type: string
+                        name:
+                          example: J. Doe
+                          type: string
+                        number:
+                          example: '00012345'
+                          type: string
+                        sort_code:
+                          example: '000123'
+                          type: string
+                        account_type:
+                          anyOf:
+                            - const: individual
+                              type: string
+                            - const: company
+                              type: string
+                        bank_name:
+                          example: Starling Bank
+                          type: string
+                        country:
+                          example: gb
+                          type: string
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - amount
+                - currency
+                - source
+              properties:
+                amount:
+                  exclusiveMinimum: 0
+                  example: 49.99
+                  type: number
+                currency:
+                  type: string
+                  enum:
+                    - bam
+                    - bgn
+                    - chf
+                    - eur
+                    - gbp
+                    - nok
+                    - sek
+                promo_code:
+                  anyOf:
+                    - example: SUMMER20
+                      type: string
+                    - type: 'null'
+                source:
+                  anyOf:
+                    - type: object
+                      required:
+                        - object
+                        - name
+                        - number
+                        - cvc
+                        - exp_month
+                        - exp_year
+                        - address_country
+                      properties:
+                        object:
+                          const: card
+                          type: string
+                        name:
+                          example: J. Doe
+                          type: string
+                        number:
+                          example: '4242424242424242'
+                          type: string
+                        cvc:
+                          minLength: 3
+                          maxLength: 4
+                          example: '123'
+                          type: string
+                        exp_month:
+                          example: 12
+                          type: number
+                        exp_year:
+                          example: 2025
+                          type: number
+                        address_country:
+                          example: gb
+                          type: string
+                        address_post_code:
+                          example: N12 9XX
+                          type: string
+                    - type: object
+                      required:
+                        - object
+                        - name
+                        - number
+                        - account_type
+                        - bank_name
+                        - country
+                      properties:
+                        object:
+                          const: bank_account
+                          type: string
+                        name:
+                          example: J. Doe
+                          type: string
+                        number:
+                          example: '00012345'
+                          type: string
+                        sort_code:
+                          example: '000123'
+                          type: string
+                        account_type:
+                          anyOf:
+                            - const: individual
+                              type: string
+                            - const: company
+                              type: string
+                        bank_name:
+                          example: Starling Bank
+                          type: string
+                        country:
+                          example: gb
+                          type: string
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - amount
+                - currency
+                - source
+              properties:
+                amount:
+                  exclusiveMinimum: 0
+                  example: 49.99
+                  type: number
+                currency:
+                  type: string
+                  enum:
+                    - bam
+                    - bgn
+                    - chf
+                    - eur
+                    - gbp
+                    - nok
+                    - sek
+                promo_code:
+                  anyOf:
+                    - example: SUMMER20
+                      type: string
+                    - type: 'null'
+                source:
+                  anyOf:
+                    - type: object
+                      required:
+                        - object
+                        - name
+                        - number
+                        - cvc
+                        - exp_month
+                        - exp_year
+                        - address_country
+                      properties:
+                        object:
+                          const: card
+                          type: string
+                        name:
+                          example: J. Doe
+                          type: string
+                        number:
+                          example: '4242424242424242'
+                          type: string
+                        cvc:
+                          minLength: 3
+                          maxLength: 4
+                          example: '123'
+                          type: string
+                        exp_month:
+                          example: 12
+                          type: number
+                        exp_year:
+                          example: 2025
+                          type: number
+                        address_country:
+                          example: gb
+                          type: string
+                        address_post_code:
+                          example: N12 9XX
+                          type: string
+                    - type: object
+                      required:
+                        - object
+                        - name
+                        - number
+                        - account_type
+                        - bank_name
+                        - country
+                      properties:
+                        object:
+                          const: bank_account
+                          type: string
+                        name:
+                          example: J. Doe
+                          type: string
+                        number:
+                          example: '00012345'
+                          type: string
+                        sort_code:
+                          example: '000123'
+                          type: string
+                        account_type:
+                          anyOf:
+                            - const: individual
+                              type: string
+                            - const: company
+                              type: string
+                        bank_name:
+                          example: Starling Bank
+                          type: string
+                        country:
+                          example: gb
+                          type: string

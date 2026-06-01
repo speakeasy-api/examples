@@ -10,8 +10,9 @@
   "dependencies": {
     "@elysiajs/cors": "^1.4.2",
     "@elysia/openapi": "github:philsturgeon/elysia-openapi#feat/oas3-1",
+    "@sinclair/typebox": "^0.34.0",
     "@types/js-yaml": "^4.0.9",
-    "elysia": "latest",
+    "elysia": "^1.4.19",
     "js-yaml": "^4.2.0"
   },
   "devDependencies": {
