@@ -3,6 +3,14 @@
  */
 
 export * from "./apierror.js";
-export * from "./errorresponse.js";
+export * from "./createbooking.js";
+export * from "./createbookingpayment.js";
+export * from "./deletebooking.js";
+export * from "./getbooking.js";
+export * from "./getbookings.js";
+export * from "./getstations.js";
+export * from "./gettrips.js";
 export * from "./httpclienterrors.js";
+export * from "./responsevalidationerror.js";
+export * from "./sdkerror.js";
 export * from "./sdkvalidationerror.js";

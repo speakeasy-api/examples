@@ -12,21 +12,31 @@ import { Params, pathToFunc } from "./url.js";
  */
 export const ServerList = [
   /**
+   * Production
+   */
+  "https://api.example.com",
+  /**
    * Development server
    */
-  "http://localhost:3000/",
+  "http://localhost:3000",
 ] as const;
 
 export type SDKOptions = {
+  oAuth2?: string | (() => Promise<string>) | undefined;
+
   httpClient?: HTTPClient;
   /**
    * Allows overriding the default server used by the SDK
    */
-  serverIdx?: number;
+  serverIdx?: number | undefined;
   /**
    * Allows overriding the default server URL used by the SDK
    */
-  serverURL?: string;
+  serverURL?: string | undefined;
+  /**
+   * Allows overriding the default user agent used by the SDK
+   */
+  userAgent?: string | undefined;
   /**
    * Allows overriding the default retry config used by the SDK
    */
@@ -54,8 +64,8 @@ export function serverURLFromOptions(options: SDKOptions): URL | null {
 
 export const SDK_METADATA = {
   language: "typescript",
-  openapiDocVersion: "1.0.50",
-  sdkVersion: "0.0.1",
-  genVersion: "2.472.1",
-  userAgent: "speakeasy-sdk/typescript 0.0.1 2.472.1 1.0.50 sdk",
+  openapiDocVersion: "2.0.0",
+  sdkVersion: "0.1.0",
+  genVersion: "2.893.0",
+  userAgent: "speakeasy-sdk/typescript 0.1.0 2.893.0 2.0.0 sdk",
 } as const;

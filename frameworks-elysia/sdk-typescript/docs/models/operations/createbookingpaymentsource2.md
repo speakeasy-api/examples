@@ -1,0 +1,29 @@
+# CreateBookingPaymentSource2
+
+## Example Usage
+
+```typescript
+import { CreateBookingPaymentSource2 } from "sdk/models/operations";
+
+let value: CreateBookingPaymentSource2 = {
+  object: "bank_account",
+  name: "J. Doe",
+  number: "00012345",
+  sortCode: "000123",
+  accountType: "company",
+  bankName: "Starling Bank",
+  country: "gb",
+};
+```
+
+## Fields
+
+| Field                                                                                                                | Type                                                                                                                 | Required                                                                                                             | Description                                                                                                          | Example                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `object`                                                                                                             | *"bank_account"*                                                                                                     | :heavy_check_mark:                                                                                                   | N/A                                                                                                                  |                                                                                                                      |
+| `name`                                                                                                               | *string*                                                                                                             | :heavy_check_mark:                                                                                                   | N/A                                                                                                                  | J. Doe                                                                                                               |
+| `number`                                                                                                             | *string*                                                                                                             | :heavy_check_mark:                                                                                                   | N/A                                                                                                                  | 00012345                                                                                                             |
+| `sortCode`                                                                                                           | *string*                                                                                                             | :heavy_minus_sign:                                                                                                   | N/A                                                                                                                  | 000123                                                                                                               |
+| `accountType`                                                                                                        | [operations.CreateBookingPaymentSourceAccountType](../../models/operations/createbookingpaymentsourceaccounttype.md) | :heavy_check_mark:                                                                                                   | N/A                                                                                                                  |                                                                                                                      |
+| `bankName`                                                                                                           | *string*                                                                                                             | :heavy_check_mark:                                                                                                   | N/A                                                                                                                  | Starling Bank                                                                                                        |
+| `country`                                                                                                            | *string*                                                                                                             | :heavy_check_mark:                                                                                                   | N/A                                                                                                                  | gb                                                                                                                   |

@@ -17,9 +17,7 @@ Developer-friendly & type-safe Typescript SDK specifically catered to leverage *
 <!-- Start Summary [summary] -->
 ## Summary
 
-Users app documentation: Development documentation
-
-For more information about the API: [Find out more about the Users API](www.example.com)
+Train Travel API: API for finding and booking train trips across Europe.
 <!-- End Summary [summary] -->
 
 <!-- Start Table of Contents [toc] -->
@@ -29,6 +27,7 @@ For more information about the API: [Find out more about the Users API](www.exam
   * [SDK Installation](#sdk-installation)
   * [Requirements](#requirements)
   * [SDK Example Usage](#sdk-example-usage)
+  * [Authentication](#authentication)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [Standalone functions](#standalone-functions)
   * [Retries](#retries)
@@ -44,6 +43,10 @@ For more information about the API: [Find out more about the Users API](www.exam
 
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
+
+> [!TIP]
+> To finish publishing your SDK to npm and others you must [run your first generation action](https://www.speakeasy.com/docs/github-setup#step-by-step-guide).
+
 
 The SDK can be installed with either [npm](https://www.npmjs.com/), [pnpm](https://pnpm.io/), [bun](https://bun.sh/) or [yarn](https://classic.yarnpkg.com/en/) package managers.
 
@@ -68,10 +71,7 @@ bun add <UNSET>
 ### Yarn
 
 ```bash
-yarn add <UNSET> zod
-
-# Note that Yarn does not install peer dependencies automatically. You will need
-# to install zod as shown above.
+yarn add <UNSET>
 ```
 <!-- End SDK Installation [installation] -->
 
@@ -89,12 +89,17 @@ For supported JavaScript runtimes, please consult [RUNTIMES.md](RUNTIMES.md).
 ```typescript
 import { SDK } from "sdk";
 
-const sdk = new SDK();
+const sdk = new SDK({
+  oAuth2: process.env["SDK_O_AUTH2"] ?? "",
+});
 
 async function run() {
-  const result = await sdk.users.getUsers();
+  const result = await sdk.stations.getStations({
+    coordinates: "52.5200,13.4050",
+    search: "Milano Centrale",
+    country: "DE",
+  });
 
-  // Handle the result
   console.log(result);
 }
 
@@ -103,20 +108,64 @@ run();
 ```
 <!-- End SDK Example Usage [usage] -->
 
+<!-- Start Authentication [security] -->
+## Authentication
+
+### Per-Client Security Schemes
+
+This SDK supports the following security scheme globally:
+
+| Name     | Type   | Scheme       | Environment Variable |
+| -------- | ------ | ------------ | -------------------- |
+| `oAuth2` | oauth2 | OAuth2 token | `SDK_O_AUTH2`        |
+
+To authenticate with the API the `oAuth2` parameter must be set when initializing the SDK client instance. For example:
+```typescript
+import { SDK } from "sdk";
+
+const sdk = new SDK({
+  oAuth2: process.env["SDK_O_AUTH2"] ?? "",
+});
+
+async function run() {
+  const result = await sdk.stations.getStations({
+    coordinates: "52.5200,13.4050",
+    search: "Milano Centrale",
+    country: "DE",
+  });
+
+  console.log(result);
+}
+
+run();
+
+```
+<!-- End Authentication [security] -->
+
 <!-- Start Available Resources and Operations [operations] -->
 ## Available Resources and Operations
 
 <details open>
 <summary>Available methods</summary>
 
+### [Bookings](docs/sdks/bookings/README.md)
 
-### [users](docs/sdks/users/README.md)
+* [getBookings](docs/sdks/bookings/README.md#getbookings) - List existing bookings
+* [createBooking](docs/sdks/bookings/README.md#createbooking) - Create a booking
+* [getBooking](docs/sdks/bookings/README.md#getbooking) - Get a booking
+* [deleteBooking](docs/sdks/bookings/README.md#deletebooking) - Delete a booking
 
-* [getUsers](docs/sdks/users/README.md#getusers) - Get all users
-* [postUsers](docs/sdks/users/README.md#postusers) - Create user
-* [getUsersById](docs/sdks/users/README.md#getusersbyid) - Get user
-* [deleteUsersById](docs/sdks/users/README.md#deleteusersbyid) - Delete user
-* [patchUsersById](docs/sdks/users/README.md#patchusersbyid) - Update user
+### [Payments](docs/sdks/payments/README.md)
+
+* [createBookingPayment](docs/sdks/payments/README.md#createbookingpayment) - Pay for a booking
+
+### [Stations](docs/sdks/stations/README.md)
+
+* [getStations](docs/sdks/stations/README.md#getstations) - Get a list of train stations
+
+### [Trips](docs/sdks/trips/README.md)
+
+* [getTrips](docs/sdks/trips/README.md#gettrips) - Get available train trips
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -136,11 +185,13 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 
 <summary>Available standalone functions</summary>
 
-- [`usersDeleteUsersById`](docs/sdks/users/README.md#deleteusersbyid) - Delete user
-- [`usersGetUsers`](docs/sdks/users/README.md#getusers) - Get all users
-- [`usersGetUsersById`](docs/sdks/users/README.md#getusersbyid) - Get user
-- [`usersPatchUsersById`](docs/sdks/users/README.md#patchusersbyid) - Update user
-- [`usersPostUsers`](docs/sdks/users/README.md#postusers) - Create user
+- [`bookingsCreateBooking`](docs/sdks/bookings/README.md#createbooking) - Create a booking
+- [`bookingsDeleteBooking`](docs/sdks/bookings/README.md#deletebooking) - Delete a booking
+- [`bookingsGetBooking`](docs/sdks/bookings/README.md#getbooking) - Get a booking
+- [`bookingsGetBookings`](docs/sdks/bookings/README.md#getbookings) - List existing bookings
+- [`paymentsCreateBookingPayment`](docs/sdks/payments/README.md#createbookingpayment) - Pay for a booking
+- [`stationsGetStations`](docs/sdks/stations/README.md#getstations) - Get a list of train stations
+- [`tripsGetTrips`](docs/sdks/trips/README.md#gettrips) - Get available train trips
 
 </details>
 <!-- End Standalone functions [standalone-funcs] -->
@@ -154,10 +205,16 @@ To change the default retry strategy for a single API call, simply provide a ret
 ```typescript
 import { SDK } from "sdk";
 
-const sdk = new SDK();
+const sdk = new SDK({
+  oAuth2: process.env["SDK_O_AUTH2"] ?? "",
+});
 
 async function run() {
-  const result = await sdk.users.getUsers({
+  const result = await sdk.stations.getStations({
+    coordinates: "52.5200,13.4050",
+    search: "Milano Centrale",
+    country: "DE",
+  }, {
     retries: {
       strategy: "backoff",
       backoff: {
@@ -170,7 +227,6 @@ async function run() {
     },
   });
 
-  // Handle the result
   console.log(result);
 }
 
@@ -193,12 +249,16 @@ const sdk = new SDK({
     },
     retryConnectionErrors: false,
   },
+  oAuth2: process.env["SDK_O_AUTH2"] ?? "",
 });
 
 async function run() {
-  const result = await sdk.users.getUsers();
+  const result = await sdk.stations.getStations({
+    coordinates: "52.5200,13.4050",
+    search: "Milano Centrale",
+    country: "DE",
+  });
 
-  // Handle the result
   console.log(result);
 }
 
@@ -210,54 +270,49 @@ run();
 <!-- Start Error Handling [errors] -->
 ## Error Handling
 
-All SDK methods return a response object or throw an error. By default, an API error will throw a `errors.APIError`.
+[`SDKError`](./src/models/errors/sdkerror.ts) is the base class for all HTTP error responses. It has the following properties:
 
-If a HTTP request fails, an operation my also throw an error from the `models/errors/httpclienterrors.ts` module:
+| Property            | Type       | Description                                                                             |
+| ------------------- | ---------- | --------------------------------------------------------------------------------------- |
+| `error.message`     | `string`   | Error message                                                                           |
+| `error.statusCode`  | `number`   | HTTP response status code eg `404`                                                      |
+| `error.headers`     | `Headers`  | HTTP response headers                                                                   |
+| `error.body`        | `string`   | HTTP body. Can be empty string if no body is returned.                                  |
+| `error.rawResponse` | `Response` | Raw HTTP response                                                                       |
+| `error.data$`       |            | Optional. Some errors may contain structured data. [See Error Classes](#error-classes). |
 
-| HTTP Client Error                                    | Description                                          |
-| ---------------------------------------------------- | ---------------------------------------------------- |
-| RequestAbortedError                                  | HTTP request was aborted by the client               |
-| RequestTimeoutError                                  | HTTP request timed out due to an AbortSignal signal  |
-| ConnectionError                                      | HTTP client was unable to make a request to a server |
-| InvalidRequestError                                  | Any input used to create a request is invalid        |
-| UnexpectedClientError                                | Unrecognised or unexpected error                     |
-
-In addition, when custom error responses are specified for an operation, the SDK may throw their associated Error type. You can refer to respective *Errors* tables in SDK docs for more details on possible error types for each operation. For example, the `getUsers` method may throw the following errors:
-
-| Error Type           | Status Code | Content Type     |
-| -------------------- | ----------- | ---------------- |
-| errors.ErrorResponse | 500         | application/json |
-| errors.APIError      | 4XX, 5XX    | \*/\*            |
-
+### Example
 ```typescript
 import { SDK } from "sdk";
-import { ErrorResponse, SDKValidationError } from "sdk/models/errors";
+import * as errors from "sdk/models/errors";
 
-const sdk = new SDK();
+const sdk = new SDK({
+  oAuth2: process.env["SDK_O_AUTH2"] ?? "",
+});
 
 async function run() {
-  let result;
   try {
-    result = await sdk.users.getUsers();
+    const result = await sdk.stations.getStations({
+      coordinates: "52.5200,13.4050",
+      search: "Milano Centrale",
+      country: "DE",
+    });
 
-    // Handle the result
     console.log(result);
-  } catch (err) {
-    switch (true) {
-      case (err instanceof SDKValidationError): {
-        // Validation errors can be pretty-printed
-        console.error(err.pretty());
-        // Raw value may also be inspected
-        console.error(err.rawValue);
-        return;
-      }
-      case (err instanceof ErrorResponse): {
-        // Handle err.data$: ErrorResponseData
-        console.error(err);
-        return;
-      }
-      default: {
-        throw err;
+  } catch (error) {
+    // The base class for HTTP error responses
+    if (error instanceof errors.SDKError) {
+      console.log(error.message);
+      console.log(error.statusCode);
+      console.log(error.body);
+      console.log(error.headers);
+
+      // Depending on the method different errors may be thrown
+      if (error instanceof errors.GetStationsResponseBody) {
+        console.log(error.data$.type); // string
+        console.log(error.data$.title); // string
+        console.log(error.data$.status); // number
+        console.log(error.data$.detail); // string
       }
     }
   }
@@ -267,11 +322,74 @@ run();
 
 ```
 
-Validation errors can also occur when either method arguments or data returned from the server do not match the expected format. The `SDKValidationError` that is thrown as a result will capture the raw value that failed validation in an attribute called `rawValue`. Additionally, a `pretty()` method is available on this error that can be used to log a nicely formatted string since validation errors can list many issues and the plain error string may be difficult read when debugging.
+### Error Classes
+**Primary error:**
+* [`SDKError`](./src/models/errors/sdkerror.ts): The base class for HTTP error responses.
+
+<details><summary>Less common errors (15)</summary>
+
+<br />
+
+**Network errors:**
+* [`ConnectionError`](./src/models/errors/httpclienterrors.ts): HTTP client was unable to make a request to a server.
+* [`RequestTimeoutError`](./src/models/errors/httpclienterrors.ts): HTTP request timed out due to an AbortSignal signal.
+* [`RequestAbortedError`](./src/models/errors/httpclienterrors.ts): HTTP request was aborted by the client.
+* [`InvalidRequestError`](./src/models/errors/httpclienterrors.ts): Any input used to create a request is invalid.
+* [`UnexpectedClientError`](./src/models/errors/httpclienterrors.ts): Unrecognised or unexpected error.
+
+
+**Inherit from [`SDKError`](./src/models/errors/sdkerror.ts)**:
+* [`GetStationsResponseBody`](./src/models/errors/getstationsresponsebody.ts): Bad Request. Status code `400`. Applicable to 1 of 7 methods.*
+* [`GetTripsResponseBody`](./src/models/errors/gettripsresponsebody.ts): Bad Request. Status code `400`. Applicable to 1 of 7 methods.*
+* [`GetBookingsResponseBody`](./src/models/errors/getbookingsresponsebody.ts): Unauthorized. Status code `401`. Applicable to 1 of 7 methods.*
+* [`CreateBookingResponseBody`](./src/models/errors/createbookingresponsebody.ts): Not Found. Status code `404`. Applicable to 1 of 7 methods.*
+* [`GetBookingResponseBody`](./src/models/errors/getbookingresponsebody.ts): Not Found. Status code `404`. Applicable to 1 of 7 methods.*
+* [`DeleteBookingResponseBody`](./src/models/errors/deletebookingresponsebody.ts): Not Found. Status code `404`. Applicable to 1 of 7 methods.*
+* [`CreateBookingPaymentResponseBody`](./src/models/errors/createbookingpaymentresponsebody.ts): Not Found. Status code `404`. Applicable to 1 of 7 methods.*
+* [`CreateBookingBookingsResponseBody`](./src/models/errors/createbookingbookingsresponsebody.ts): Conflict. Status code `409`. Applicable to 1 of 7 methods.*
+* [`GetBookingsBookingsResponseBody`](./src/models/errors/getbookingsbookingsresponsebody.ts): Internal Server Error. Status code `500`. Applicable to 1 of 7 methods.*
+* [`ResponseValidationError`](./src/models/errors/responsevalidationerror.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
+
+</details>
+
+\* Check [the method documentation](#available-resources-and-operations) to see if the error is applicable.
 <!-- End Error Handling [errors] -->
 
 <!-- Start Server Selection [server] -->
 ## Server Selection
+
+### Select Server by Index
+
+You can override the default server globally by passing a server index to the `serverIdx: number` optional parameter when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the indexes associated with the available servers:
+
+| #   | Server                    | Description        |
+| --- | ------------------------- | ------------------ |
+| 0   | `https://api.example.com` | Production         |
+| 1   | `http://localhost:3000`   | Development server |
+
+#### Example
+
+```typescript
+import { SDK } from "sdk";
+
+const sdk = new SDK({
+  serverIdx: 0,
+  oAuth2: process.env["SDK_O_AUTH2"] ?? "",
+});
+
+async function run() {
+  const result = await sdk.stations.getStations({
+    coordinates: "52.5200,13.4050",
+    search: "Milano Centrale",
+    country: "DE",
+  });
+
+  console.log(result);
+}
+
+run();
+
+```
 
 ### Override Server URL Per-Client
 
@@ -280,13 +398,17 @@ The default server can also be overridden globally by passing a URL to the `serv
 import { SDK } from "sdk";
 
 const sdk = new SDK({
-  serverURL: "http://localhost:3000/",
+  serverURL: "http://localhost:3000",
+  oAuth2: process.env["SDK_O_AUTH2"] ?? "",
 });
 
 async function run() {
-  const result = await sdk.users.getUsers();
+  const result = await sdk.stations.getStations({
+    coordinates: "52.5200,13.4050",
+    search: "Milano Centrale",
+    country: "DE",
+  });
 
-  // Handle the result
   console.log(result);
 }
 
@@ -308,19 +430,23 @@ The `HTTPClient` constructor takes an optional `fetcher` argument that can be
 used to integrate a third-party HTTP client or when writing tests to mock out
 the HTTP client and feed in fixtures.
 
-The following example shows how to use the `"beforeRequest"` hook to to add a
-custom header and a timeout to requests and how to use the `"requestError"` hook
-to log errors:
+The following example shows how to:
+- route requests through a proxy server using [undici](https://www.npmjs.com/package/undici)'s ProxyAgent
+- use the `"beforeRequest"` hook to add a custom header and a timeout to requests
+- use the `"requestError"` hook to log errors
 
 ```typescript
 import { SDK } from "sdk";
+import { ProxyAgent } from "undici";
 import { HTTPClient } from "sdk/lib/http";
 
+const dispatcher = new ProxyAgent("http://proxy.example.com:8080");
+
 const httpClient = new HTTPClient({
-  // fetcher takes a function that has the same signature as native `fetch`.
-  fetcher: (request) => {
-    return fetch(request);
-  }
+  // 'fetcher' takes a function that has the same signature as native 'fetch'.
+  fetcher: (input, init) =>
+    // 'dispatcher' is specific to undici and not part of the standard Fetch API.
+    fetch(input, { ...init, dispatcher } as RequestInit),
 });
 
 httpClient.addHook("beforeRequest", (request) => {
@@ -340,7 +466,7 @@ httpClient.addHook("requestError", (error, request) => {
   console.groupEnd();
 });
 
-const sdk = new SDK({ httpClient });
+const sdk = new SDK({ httpClient: httpClient });
 ```
 <!-- End Custom HTTP Client [http-client] -->
 
