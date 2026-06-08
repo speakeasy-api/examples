@@ -5,7 +5,7 @@ async function generateOpenAPI() {
   try {
     const app = createApp();
     const response = await app.handle(
-      new Request("http://localhost/openapi/json")
+      new Request("http://elysia/openapi/json")
     );
 
     if (!response.ok) {
@@ -22,7 +22,7 @@ async function generateOpenAPI() {
     // Save the YAML string to a file
     await Bun.write("openapi.yaml", yamlString);
 
-    console.log("OpenAPI spec saved to openapi.yaml");
+    console.log("OpenAPI document saved to openapi.yaml");
   } catch (error) {
     console.error("Error generating OpenAPI spec:", error);
   }

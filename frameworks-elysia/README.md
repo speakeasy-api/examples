@@ -35,7 +35,7 @@ Scalar UI is available at `http://localhost:3000/openapi`.
 
 ## Generate OpenAPI YAML
 
-Keep the server running, then run:
+Run:
 
 ```bash
 bun run generate:openapi

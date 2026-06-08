@@ -1,4 +1,4 @@
-import { Elysia, t } from 'elysia';
+import { Elysia, t } from "elysia";
 import {
   createBooking,
   createBookingPayment,
@@ -6,7 +6,7 @@ import {
   findBooking,
   hasTrip,
   listBookings,
-} from '../train/data';
+} from "../train/data";
 import {
   bookingPaymentRequestSchema,
   bookingPaymentSchema,
@@ -15,7 +15,7 @@ import {
   linksPaginationSchema,
   linksSelfSchema,
   problemSchema,
-} from '../train/schemas';
+} from "../train/schemas";
 
 const bookingWithLinksSchema = t.Intersect([
   bookingSchema,
@@ -34,16 +34,17 @@ const paymentWithLinkSchema = t.Intersect([
   t.Object({
     links: t.Object({
       booking: t.String({
-        format: 'uri',
-        example: 'https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb',
+        format: "uri",
+        example:
+          "https://api.example.com/bookings/1725ff48-ab45-4bb5-9d02-88745177dedb",
       }),
     }),
   }),
 ]);
 
-export const bookingsController = new Elysia({ prefix: '/bookings' })
+export const bookingsController = new Elysia({ prefix: "/bookings" })
   .get(
-    '/',
+    "/",
     ({ query }) => {
       const page = Number(query.page ?? 1);
       const limit = Number(query.limit ?? 10);
@@ -72,48 +73,49 @@ export const bookingsController = new Elysia({ prefix: '/bookings' })
         limit: t.Optional(t.Number({ minimum: 1, maximum: 100, default: 10 })),
       }),
       detail: {
-        operationId: 'get-bookings',
-        summary: 'List existing bookings',
-        description: 'Returns a list of all trip bookings by the authenticated user.',
-        tags: ['Bookings'],
+        operationId: "get-bookings",
+        summary: "List existing bookings",
+        description:
+          "Returns a list of all trip bookings by the authenticated user.",
+        tags: ["Bookings"],
         responses: {
           200: {
-            description: 'A list of bookings',
+            description: "A list of bookings",
             content: {
-              'application/json': {
+              "application/json": {
                 schema: bookingsCollectionSchema,
               },
             },
           },
           401: {
-            description: 'Unauthorized',
+            description: "Unauthorized",
             content: {
-              'application/problem+json': {
+              "application/problem+json": {
                 schema: problemSchema,
               },
             },
           },
           500: {
-            description: 'Internal Server Error',
+            description: "Internal Server Error",
             content: {
-              'application/problem+json': {
+              "application/problem+json": {
                 schema: problemSchema,
               },
             },
           },
         },
       },
-    },
+    }
   )
   .post(
-    '/',
+    "/",
     ({ body, set, error }) => {
       if (!hasTrip(body.trip_id)) {
         return error(404, {
-          type: 'https://example.com/errors/not-found',
-          title: 'Not Found',
+          type: "https://example.com/errors/not-found",
+          title: "Not Found",
           status: 404,
-          detail: 'Trip not found.',
+          detail: "Trip not found.",
         });
       }
 
@@ -129,70 +131,70 @@ export const bookingsController = new Elysia({ prefix: '/bookings' })
       };
     },
     {
-      type: 'json',
+      type: "json",
       body: createBookingRequestSchema,
       detail: {
-        operationId: 'create-booking',
-        summary: 'Create a booking',
+        operationId: "create-booking",
+        summary: "Create a booking",
         description:
-          'A booking is a temporary hold on a trip. It is not confirmed until payment is processed.',
-        tags: ['Bookings'],
+          "A booking is a temporary hold on a trip. It is not confirmed until payment is processed.",
+        tags: ["Bookings"],
         security: [
           {
-            OAuth2: ['write'],
+            OAuth2: ["write"],
           },
         ],
-        'x-speakeasy-retries': {
-          strategy: 'backoff',
+        "x-speakeasy-retries": {
+          strategy: "backoff",
           backoff: {
             initialInterval: 300,
             maxInterval: 40000,
             maxElapsedTime: 3000000,
             exponent: 1.2,
           },
-          statusCodes: ['5XX'],
+          statusCodes: ["5XX"],
           retryConnectionErrors: true,
         },
         responses: {
           201: {
-            description: 'Booking successful',
+            description: "Booking successful",
             content: {
-              'application/json': {
+              "application/json": {
                 schema: bookingWithLinksSchema,
               },
             },
           },
           404: {
-            description: 'Not Found',
+            description: "Not Found",
             content: {
-              'application/problem+json': {
+              "application/problem+json": {
                 schema: problemSchema,
               },
             },
           },
           409: {
-            description: 'Conflict',
+            description: "Conflict",
             content: {
-              'application/problem+json': {
+              "application/problem+json": {
                 schema: problemSchema,
               },
             },
           },
         },
       },
-    },
+    }
   )
   .get(
-    '/:bookingId',
+    "/:bookingId",
     ({ params, error }) => {
       const booking = findBooking(params.bookingId);
 
       if (!booking) {
         return error(404, {
-          type: 'https://example.com/errors/not-found',
-          title: 'Not Found',
+          type: "https://example.com/errors/not-found",
+          title: "Not Found",
           status: 404,
-          detail: 'The requested resource was not found.',
+          detail: "The requested resource was not found.",
         });
       }
 
@@ -205,92 +207,98 @@ export const bookingsController = new Elysia({ prefix: '/bookings' })
     },
     {
       params: t.Object({
-        bookingId: t.String({ format: 'uuid', example: '1725ff48-ab45-4bb5-9d02-88745177dedb' }),
+        bookingId: t.String({
+          format: "uuid",
+          example: "1725ff48-ab45-4bb5-9d02-88745177dedb",
+        }),
       }),
       detail: {
-        operationId: 'get-booking',
-        summary: 'Get a booking',
-        description: 'Returns the details of a specific booking.',
-        tags: ['Bookings'],
+        operationId: "get-booking",
+        summary: "Get a booking",
+        description: "Returns the details of a specific booking.",
+        tags: ["Bookings"],
         responses: {
           200: {
-            description: 'The booking details',
+            description: "The booking details",
             content: {
-              'application/json': {
+              "application/json": {
                 schema: bookingWithLinksSchema,
               },
             },
           },
           404: {
-            description: 'Not Found',
+            description: "Not Found",
             content: {
-              'application/problem+json': {
+              "application/problem+json": {
                 schema: problemSchema,
               },
             },
           },
         },
       },
-    },
+    }
   )
   .delete(
-    '/:bookingId',
+    "/:bookingId",
     ({ params, set, error }) => {
       const removed = deleteBooking(params.bookingId);
 
       if (!removed) {
         return error(404, {
-          type: 'https://example.com/errors/not-found',
-          title: 'Not Found',
+          type: "https://example.com/errors/not-found",
+          title: "Not Found",
           status: 404,
-          detail: 'The requested resource was not found.',
+          detail: "The requested resource was not found.",
         });
       }
 
       set.status = 204;
-      return '';
+      return "";
     },
     {
       params: t.Object({
-        bookingId: t.String({ format: 'uuid', example: '1725ff48-ab45-4bb5-9d02-88745177dedb' }),
+        bookingId: t.String({
+          format: "uuid",
+          example: "1725ff48-ab45-4bb5-9d02-88745177dedb",
+        }),
       }),
       detail: {
-        operationId: 'delete-booking',
-        summary: 'Delete a booking',
-        description: 'Deletes a booking, cancelling the hold on the trip.',
-        tags: ['Bookings'],
+        operationId: "delete-booking",
+        summary: "Delete a booking",
+        description: "Deletes a booking, cancelling the hold on the trip.",
+        tags: ["Bookings"],
         security: [
           {
-            OAuth2: ['write'],
+            OAuth2: ["write"],
           },
         ],
         responses: {
           204: {
-            description: 'Booking deleted',
+            description: "Booking deleted",
           },
           404: {
-            description: 'Not Found',
+            description: "Not Found",
             content: {
-              'application/problem+json': {
+              "application/problem+json": {
                 schema: problemSchema,
               },
             },
           },
         },
       },
-    },
+    }
   )
   .post(
-    '/:bookingId/payment',
+    "/:bookingId/payment",
     ({ params, body, error }) => {
       const booking = findBooking(params.bookingId);
 
       if (!booking) {
         return error(404, {
-          type: 'https://example.com/errors/not-found',
-          title: 'Not Found',
+          type: "https://example.com/errors/not-found",
+          title: "Not Found",
           status: 404,
-          detail: 'The requested resource was not found.',
+          detail: "The requested resource was not found.",
         });
       }
 
@@ -304,35 +312,38 @@ export const bookingsController = new Elysia({ prefix: '/bookings' })
       };
     },
     {
-      type: 'json',
+      type: "json",
       params: t.Object({
-        bookingId: t.String({ format: 'uuid', example: '1725ff48-ab45-4bb5-9d02-88745177dedb' }),
+        bookingId: t.String({
+          format: "uuid",
+          example: "1725ff48-ab45-4bb5-9d02-88745177dedb",
+        }),
       }),
       body: bookingPaymentRequestSchema,
       detail: {
-        operationId: 'create-booking-payment',
-        summary: 'Pay for a booking',
+        operationId: "create-booking-payment",
+        summary: "Pay for a booking",
         description:
-          'A payment attempt confirms the booking and enables ticket retrieval.',
-        tags: ['Payments'],
+          "A payment attempt confirms the booking and enables ticket retrieval.",
+        tags: ["Payments"],
         responses: {
           200: {
-            description: 'Payment successful',
+            description: "Payment successful",
             content: {
-              'application/json': {
+              "application/json": {
                 schema: paymentWithLinkSchema,
               },
             },
           },
           404: {
-            description: 'Not Found',
+            description: "Not Found",
             content: {
-              'application/problem+json': {
+              "application/problem+json": {
                 schema: problemSchema,
               },
             },
           },
         },
       },
-    },
+    }
   );
