@@ -30,7 +30,6 @@ export const createApp = () =>
     .use(bookingsController)
     .use(
       openapi({
-        openapiVersion: "3.1.2",
         documentation: {
           info: {
             title: "Train Travel API",
