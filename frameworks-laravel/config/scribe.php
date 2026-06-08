@@ -146,12 +146,15 @@ return [
         ],
     ],
 
-    // Generate an OpenAPI spec (v3.0.1) in addition to docs webpage.
+    // Generate an OpenAPI spec (v3.1.x) in addition to docs webpage.
     // For 'static' docs, the collection will be generated to public/docs/openapi.yaml.
     // For 'laravel' docs, it will be generated to storage/app/scribe/openapi.yaml.
     // Setting `laravel.add_routes` to true (above) will also add a route for the spec.
     'openapi' => [
         'enabled' => true,
+
+        // Set OpenAPI output version.
+        'version' => '3.1.0',
 
         'overrides' => [
             'info.contact' => [

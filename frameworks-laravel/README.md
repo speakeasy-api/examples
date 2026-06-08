@@ -86,14 +86,22 @@ All endpoints are prefixed with `/api`.
 
 ## Generating API Documentation
 
-Generate API documentation using Scribe:
+This example uses [Scribe v5](https://scribe.knuckles.wtf/laravel/). Generate API documentation with:
 ```bash
 php artisan scribe:generate
 ```
 
 ## OpenAPI
 
-The API description is exported by [Scribe](https://scribe.knuckles.wtf/laravel/) and can be found in `./storage/app/private/scribe/openapi.yaml`.
+The API description is exported by [Scribe](https://scribe.knuckles.wtf/laravel/) as OpenAPI v3.1 and can be found in `./storage/app/scribe/openapi.yaml`.
+
+OpenAPI version is configured in `config/scribe.php`:
+```php
+'openapi' => [
+	'enabled' => true,
+	'version' => '3.1.0',
+],
+```
 
 ## License
 
