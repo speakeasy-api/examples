@@ -1,0 +1,467 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "speakeasy",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/v1/stations": {
+      "get": {
+        "tags": [
+          "TrainTravelService"
+        ],
+        "summary": "Get a list of train stations",
+        "description": "Returns a paginated and searchable list of all train stations.",
+        "operationId": "TrainTravelService_ListStations",
+        "parameters": [
+          {
+            "name": "empty",
+            "in": "query",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/google.rpc.Status"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/speakeasy.ListStationsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/trips": {
+      "get": {
+        "tags": [
+          "TrainTravelService"
+        ],
+        "summary": "Get available train trips",
+        "description": "Returns a list of available train trips between the specified origin and\ndestination stations on the given date.",
+        "operationId": "TrainTravelService_GetTrips",
+        "parameters": [
+          {
+            "name": "origin",
+            "in": "query",
+            "description": "The ID of the origin station.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "destination",
+            "in": "query",
+            "description": "The ID of the destination station.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "The date and time of the trip in ISO 8601 format.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bicycles",
+            "in": "query",
+            "description": "Only return trips where bicycles are allowed.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "dogs",
+            "in": "query",
+            "description": "Only return trips where dogs are allowed.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/google.rpc.Status"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/speakeasy.GetTripsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/bookings": {
+      "get": {
+        "tags": [
+          "TrainTravelService"
+        ],
+        "summary": "List existing bookings",
+        "description": "Returns a list of all trip bookings by the authenticated user.",
+        "operationId": "TrainTravelService_ListBookings",
+        "parameters": [
+          {
+            "name": "empty",
+            "in": "query",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/google.rpc.Status"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/speakeasy.ListBookingsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TrainTravelService"
+        ],
+        "summary": "Create a booking",
+        "description": "A booking is a temporary hold on a trip. It is not confirmed until the\npayment is processed.",
+        "operationId": "TrainTravelService_CreateBooking",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/speakeasy.Booking"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/google.rpc.Status"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "A booking for a train trip.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/speakeasy.Booking"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/bookings/{booking_id}": {
+      "get": {
+        "tags": [
+          "TrainTravelService"
+        ],
+        "summary": "Get a booking",
+        "description": "Returns the details of a specific booking.",
+        "operationId": "TrainTravelService_GetBooking",
+        "parameters": [
+          {
+            "name": "booking_id",
+            "in": "path",
+            "description": "The ID of the booking to retrieve.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/google.rpc.Status"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "A booking for a train trip.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/speakeasy.Booking"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TrainTravelService"
+        ],
+        "summary": "Delete a booking",
+        "description": "Deletes a booking, cancelling the hold on the trip.",
+        "operationId": "TrainTravelService_DeleteBooking",
+        "parameters": [
+          {
+            "name": "booking_id",
+            "in": "path",
+            "description": "The ID of the booking to delete.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "An unexpected error response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/google.rpc.Status"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "A successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/speakeasy.DeleteBookingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "google.rpc.Status": {
+        "type": "object",
+        "description": "The Status type defines a logical error model suitable for different programming environments.",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The status code, which should be an enum value of google.rpc.Code."
+          },
+          "details": {
+            "type": "array",
+            "description": "A list of messages that carry the error details.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "@type": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "A developer-facing error message."
+          }
+        }
+      },
+      "speakeasy.Booking": {
+        "type": "object",
+        "description": "A booking for a train trip.",
+        "properties": {
+          "has_bicycle": {
+            "type": "boolean",
+            "description": "Indicates whether the passenger has a bicycle."
+          },
+          "has_dog": {
+            "type": "boolean",
+            "description": "Indicates whether the passenger has a dog."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the booking."
+          },
+          "passenger_name": {
+            "type": "string",
+            "description": "Name of the passenger."
+          },
+          "trip_id": {
+            "type": "string",
+            "description": "Identifier of the booked trip."
+          }
+        },
+        "required": [
+          "trip_id",
+          "passenger_name"
+        ]
+      },
+      "speakeasy.DeleteBookingResponse": {
+        "type": "object"
+      },
+      "speakeasy.GetTripsResponse": {
+        "type": "object",
+        "properties": {
+          "trips": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/speakeasy.Trip"
+            }
+          }
+        }
+      },
+      "speakeasy.ListBookingsResponse": {
+        "type": "object",
+        "properties": {
+          "bookings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/speakeasy.Booking"
+            }
+          }
+        }
+      },
+      "speakeasy.ListStationsResponse": {
+        "type": "object",
+        "properties": {
+          "stations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/speakeasy.Station"
+            }
+          }
+        }
+      },
+      "speakeasy.Station": {
+        "type": "object",
+        "description": "A train station.",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "The address of the station."
+          },
+          "country_code": {
+            "type": "string",
+            "description": "The country code of the station."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the station."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the station."
+          },
+          "timezone": {
+            "type": "string",
+            "description": "The timezone of the station in IANA format."
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "address",
+          "country_code"
+        ]
+      },
+      "speakeasy.Trip": {
+        "type": "object",
+        "description": "A train trip between two stations.",
+        "properties": {
+          "arrival_time": {
+            "type": "string",
+            "description": "The arrival time in ISO 8601 format."
+          },
+          "bicycles_allowed": {
+            "type": "boolean",
+            "description": "Indicates whether bicycles are allowed on the trip."
+          },
+          "departure_time": {
+            "type": "string",
+            "description": "The departure time in ISO 8601 format."
+          },
+          "destination": {
+            "type": "string",
+            "description": "The ID of the destination station."
+          },
+          "dogs_allowed": {
+            "type": "boolean",
+            "description": "Indicates whether dogs are allowed on the trip."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the trip."
+          },
+          "operator": {
+            "type": "string",
+            "description": "The name of the operator of the trip."
+          },
+          "origin": {
+            "type": "string",
+            "description": "The ID of the origin station."
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "description": "The cost of the trip."
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "TrainTravelService"
+    }
+  ]
+}

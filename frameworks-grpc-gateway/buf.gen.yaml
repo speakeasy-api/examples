@@ -1,0 +1,23 @@
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: github.com/speakeasy-api/speakeasy-grpc-gateway-example/proto
+plugins:
+  - local: ["go", "tool", "protoc-gen-go"]
+    out: proto
+    opt:
+      - paths=source_relative
+  - local: ["go", "tool", "protoc-gen-go-grpc"]
+    out: proto
+    opt:
+      - paths=source_relative
+      - require_unimplemented_servers=false
+  - local: ["go", "tool", "protoc-gen-grpc-gateway"]
+    out: proto
+    opt:
+      - paths=source_relative
+      - generate_unbound_methods=true
+  - local: protoc-gen-openapiv3
+    out: openapi

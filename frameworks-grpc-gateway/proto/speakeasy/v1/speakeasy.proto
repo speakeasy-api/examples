@@ -1,0 +1,203 @@
+syntax = "proto3";
+
+package speakeasy;
+
+import "google/protobuf/empty.proto";
+import "google/api/field_behavior.proto";
+import "google/api/annotations.proto";
+
+// A train station.
+message Station {
+  // Unique identifier for the station.
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The name of the station.
+  string name = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The address of the station.
+  string address = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // The country code of the station.
+  string country_code = 4 [
+    json_name = "country_code",
+    (google.api.field_behavior) = REQUIRED
+  ];
+
+  // The timezone of the station in IANA format.
+  string timezone = 5;
+}
+
+// A train trip between two stations.
+message Trip {
+  // Unique identifier for the trip.
+  string id = 1;
+
+  // The ID of the origin station.
+  string origin = 2;
+
+  // The ID of the destination station.
+  string destination = 3;
+
+  // The departure time in ISO 8601 format.
+  string departure_time = 4 [json_name = "departure_time"];
+
+  // The arrival time in ISO 8601 format.
+  string arrival_time = 5 [json_name = "arrival_time"];
+
+  // The cost of the trip.
+  double price = 6;
+
+  // The name of the operator of the trip.
+  string operator = 7;
+
+  // Indicates whether bicycles are allowed on the trip.
+  bool bicycles_allowed = 8 [json_name = "bicycles_allowed"];
+
+  // Indicates whether dogs are allowed on the trip.
+  bool dogs_allowed = 9 [json_name = "dogs_allowed"];
+}
+
+// A booking for a train trip.
+message Booking {
+  // Unique identifier for the booking.
+  string id = 1;
+
+  // Identifier of the booked trip.
+  string trip_id = 2 [
+    json_name = "trip_id",
+    (google.api.field_behavior) = REQUIRED
+  ];
+
+  // Name of the passenger.
+  string passenger_name = 3 [
+    json_name = "passenger_name",
+    (google.api.field_behavior) = REQUIRED
+  ];
+
+  // Indicates whether the passenger has a bicycle.
+  bool has_bicycle = 4 [json_name = "has_bicycle"];
+
+  // Indicates whether the passenger has a dog.
+  bool has_dog = 5 [json_name = "has_dog"];
+}
+
+message ListStationsRequest {
+  google.protobuf.Empty empty = 1;
+}
+
+message ListStationsResponse {
+  repeated Station stations = 1;
+}
+
+message GetTripsRequest {
+  // The ID of the origin station.
+  string origin = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The ID of the destination station.
+  string destination = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The date and time of the trip in ISO 8601 format.
+  string date = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // Only return trips where bicycles are allowed.
+  bool bicycles = 4;
+
+  // Only return trips where dogs are allowed.
+  bool dogs = 5;
+}
+
+message GetTripsResponse {
+  repeated Trip trips = 1;
+}
+
+message ListBookingsRequest {
+  google.protobuf.Empty empty = 1;
+}
+
+message ListBookingsResponse {
+  repeated Booking bookings = 1;
+}
+
+message CreateBookingRequest {
+  Booking booking = 1;
+}
+
+message GetBookingRequest {
+  // The ID of the booking to retrieve.
+  string booking_id = 1 [
+    json_name = "booking_id",
+    (google.api.field_behavior) = REQUIRED
+  ];
+}
+
+message DeleteBookingRequest {
+  // The ID of the booking to delete.
+  string booking_id = 1 [
+    json_name = "booking_id",
+    (google.api.field_behavior) = REQUIRED
+  ];
+}
+
+message DeleteBookingResponse {}
+
+service TrainTravelService {
+  // Get a list of train stations
+  //
+  // Returns a paginated and searchable list of all train stations.
+  rpc ListStations(ListStationsRequest) returns (ListStationsResponse) {
+    option (google.api.http) = {
+      get: "/v1/stations"
+      response_body: "stations"
+    };
+  }
+
+  // Get available train trips
+  //
+  // Returns a list of available train trips between the specified origin and
+  // destination stations on the given date.
+  rpc GetTrips(GetTripsRequest) returns (GetTripsResponse) {
+    option (google.api.http) = {
+      get: "/v1/trips"
+      response_body: "trips"
+    };
+  }
+
+  // List existing bookings
+  //
+  // Returns a list of all trip bookings by the authenticated user.
+  rpc ListBookings(ListBookingsRequest) returns (ListBookingsResponse) {
+    option (google.api.http) = {
+      get: "/v1/bookings"
+      response_body: "bookings"
+    };
+  }
+
+  // Create a booking
+  //
+  // A booking is a temporary hold on a trip. It is not confirmed until the
+  // payment is processed.
+  rpc CreateBooking(CreateBookingRequest) returns (Booking) {
+    option (google.api.http) = {
+      post: "/v1/bookings"
+      body: "booking"
+    };
+  }
+
+  // Get a booking
+  //
+  // Returns the details of a specific booking.
+  rpc GetBooking(GetBookingRequest) returns (Booking) {
+    option (google.api.http) = {
+      get: "/v1/bookings/{booking_id}"
+    };
+  }
+
+  // Delete a booking
+  //
+  // Deletes a booking, cancelling the hold on the trip.
+  rpc DeleteBooking(DeleteBookingRequest) returns (DeleteBookingResponse) {
+    option (google.api.http) = {
+      delete: "/v1/bookings/{booking_id}"
+    };
+  }
+}
